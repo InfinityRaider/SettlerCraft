@@ -1,0 +1,22 @@
+[
+{
+"modid": "SettlerCraft",
+"name": "SettlerCraft",
+"description": "Settle down and expand your village",
+"version": "${version}",
+"mcversion": "${mcversion}",
+"url": "http://minecraft.curseforge.com/projects/d-maneuver-gear",
+"updateUrl": "http://minecraft.curseforge.com/projects/d-maneuver-gear/files",
+"authorList": [
+"InfinityRaider"
+],
+"credits": "",
+"logoFile": "",
+"screenshots": [
+],
+"parent":"",
+"dependencies": [
+"Baubles"
+]
+}
+]

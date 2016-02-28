@@ -1,0 +1,40 @@
+//Items
+
+
+//Tooltip
+
+
+//Buildings
+SettlerCraft.building.town_hall1=Basic Town Hall
+
+
+//Dialogue
+settlercraft.dialogue.greetPlayer=Greetings fellow traveller
+settlercraft.dialogue.greetSettler=Good day
+settlercraft.dialogue.getSettlerName1=I'm known as
+settlercraft.dialogue.getSettlerName2=What is your name?
+settlercraft.dialogue.getSettlerName3=What was your name again?
+settlercraft.dialogue.goodbye=I have to get going, goodbye.
+settlercraft.dialogue.giveSettlerName=My name is
+settlercraft.dialogue.followMe=Travelling is more fun together, join me.
+settlercraft.dialogue.following=Okay, lead on.
+settlercraft.dialogue.followMeCitizen=Come with me, citizen.
+settlercraft.dialogue.stay=I'll scout ahead, stay here.
+settlercraft.dialogue.stayCitizen=Nevermind, you're dismissed.
+settlercraft.dialogue.backToWork=I'll get back to work.
+settlercraft.dialogue.stayingPut=I'll wait here for you.
+settlercraft.dialogue.createSettlement1=This looks like a good place to settle down.
+settlercraft.dialogue.createSettlement2=(create a new settlement here)
+settlercraft.dialogue.startSettlement=I agree, let's get to work.
+settlercraft.dialogue.helloName=Pleased to meet you,
+settlercraft.dialogue.forgetful=That's right, I'm so forgetful sometimes.
+settlercraft.dialogue.likewise=Likewise
+settlercraft.dialogue.noProblem1=No problem, as the mayor you
+settlercraft.dialogue.noProblem2=probably have a lot on your mind
+settlercraft.dialogue.greetMayor1=Good day mayor,
+settlercraft.dialogue.greetMayor2=may I assist you with anything?
+settlercraft.dialogue.requestInventory=I would like to see your inventory.
+settlercraft.dialogue.buildBuilding=Let's build a new building.
+settlercraft.dialogue.whatBuilding=Certainly, what building would you like to build?
+settlercraft.dialogue.buildNew=I want to build a new
+settlercraft.dialogue.buildWhere=Where should I start building
