@@ -24,7 +24,6 @@ public class SchematicWorld implements IBlockAccess {
     private final Map<BlockPos, IBlockState> blockMap;
     private final Map<BlockPos, TileEntity> tileMap;
 
-    private int rotation;
     private BlockPos origin;
 
 
@@ -34,7 +33,6 @@ public class SchematicWorld implements IBlockAccess {
         this.blockMap = schematic.getBlockStateMap();
         this.tileMap = schematic.getTileEntityMap(world);
         this.origin = origin;
-        this.rotation = rotation;
     }
 
     public void setOrigin(BlockPos pos) {
@@ -43,14 +41,6 @@ public class SchematicWorld implements IBlockAccess {
 
     public BlockPos getOrigin() {
         return origin;
-    }
-
-    public void setRotation(int rotation) {
-        this.rotation = rotation;
-    }
-
-    public int getRotation() {
-        return rotation;
     }
 
     public int sizeX() {

@@ -58,7 +58,6 @@ public class SchematicRenderer {
             return;
         }
         setCurrentSchematic(building);
-        setRotation(planner.getRotation(stack));
     }
 
     public void setCurrentSchematic(IBuilding building) {
@@ -76,13 +75,6 @@ public class SchematicRenderer {
     public SchematicRenderer setOrigin(BlockPos pos) {
         if(hasSchematic()) {
             currentSchematic.setOrigin(pos);
-        }
-        return this;
-    }
-
-    public SchematicRenderer setRotation(int rotation) {
-        if(hasSchematic()) {
-            currentSchematic.setRotation(rotation);
         }
         return this;
     }

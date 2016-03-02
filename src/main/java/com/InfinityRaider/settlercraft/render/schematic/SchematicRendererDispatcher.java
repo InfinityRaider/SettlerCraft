@@ -75,7 +75,6 @@ public class SchematicRendererDispatcher {
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
         renderer.setOrigin(pos);
-        renderer.setRotation(rotation);
         renderer.doRender(worldrenderer);
         tessellator.draw();
 
