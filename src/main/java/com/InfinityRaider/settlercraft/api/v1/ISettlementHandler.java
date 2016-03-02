@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
+import java.util.List;
+
 /**
  * Interface used to interact with the settlement handler,
  * the instance of this interface can be retrieved via api.getSettlementHandler()
@@ -33,6 +35,13 @@ public interface ISettlementHandler {
      * @return the settlement in the chunk, or null if there is none
      */
     ISettlement getSettlementForChunk(Chunk chunk);
+
+    /**
+     * Gets a list of all settlements in a world
+     * @param world the World object
+     * @return a list containing all the settlements for the given world, may be empty but should never be null
+     */
+    List<ISettlement> getSettlementsForWorld(World world);
 
     /**
      * Checks if all the requirements are met to create a new settlement with the player as mayor at his current position

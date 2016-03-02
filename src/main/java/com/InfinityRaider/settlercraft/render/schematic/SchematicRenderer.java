@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.client.Minecraft;
@@ -79,7 +80,15 @@ public class SchematicRenderer {
         return this;
     }
 
+    public SettlementBoundingBox getBoundingBox() {
+        if(hasSchematic()) {
+            return currentSchematic.getBoundingBox();
+        }
+        return null;
+    }
+
     public boolean hasSchematic() {
         return currentSchematic != null;
     }
+
 }

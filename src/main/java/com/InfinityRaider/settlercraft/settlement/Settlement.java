@@ -44,7 +44,7 @@ public class Settlement implements ISettlement {
         this.homeChunk = new ChunkCoordinates(world, center);
         this.player = player;
         this.name = name;
-        this.settlementBoundingBox = new SettlementBoundingBox(center);
+        this.settlementBoundingBox = new SettlementBoundingBox(center.add(0, -1, 0));
         this.resetBuildings();
         populationCount = 1;
     }

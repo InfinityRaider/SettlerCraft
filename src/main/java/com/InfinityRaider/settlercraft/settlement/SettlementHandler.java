@@ -15,6 +15,7 @@ import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SettlementHandler implements ISettlementHandler {
     private static final SettlementHandler INSTANCE = new SettlementHandler();
@@ -56,6 +57,11 @@ public class SettlementHandler implements ISettlementHandler {
     @Override
     public ISettlement getSettlementForChunk(Chunk chunk) {
         return settlementsByChunk.get(new ChunkCoordinates(chunk));
+    }
+
+    @Override
+    public List<ISettlement> getSettlementsForWorld(World world) {
+        return settlementsByChunk.entrySet().stream().filter(entry -> entry.getKey().dim() == world.provider.getDimensionId()).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     @Override

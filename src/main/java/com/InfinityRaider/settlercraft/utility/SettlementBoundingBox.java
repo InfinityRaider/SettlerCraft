@@ -2,7 +2,16 @@ package com.InfinityRaider.settlercraft.utility;
 
 import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.reference.Constants;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 public class SettlementBoundingBox implements IBoundingBox {
     private int minX;
@@ -12,13 +21,17 @@ public class SettlementBoundingBox implements IBoundingBox {
     private int maxY;
     private int maxZ;
 
+    public SettlementBoundingBox(IBoundingBox box) {
+        this(box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ());
+    }
+
     public SettlementBoundingBox(BlockPos center) {
         this(
                 center.getX() - (Constants.SETTLEMENT_DEFAULT_WIDTH)/2,
                 center.getY(),
                 center.getZ() - (Constants.SETTLEMENT_DEFAULT_WIDTH)/2,
                 center.getX() + (Constants.SETTLEMENT_DEFAULT_WIDTH)/2,
-                center.getY() + Constants.SETTLEMENT_DEFAULT_HEIGHT,
+                center.getY() + (Constants.SETTLEMENT_DEFAULT_HEIGHT),
                 center.getZ() + (Constants.SETTLEMENT_DEFAULT_WIDTH)/2
         );
     }
@@ -92,6 +105,11 @@ public class SettlementBoundingBox implements IBoundingBox {
     }
 
     @Override
+    public SettlementBoundingBox copy() {
+        return new SettlementBoundingBox(this);
+    }
+
+    @Override
     public SettlementBoundingBox expandToFit(IBoundingBox inner) {
         minX = minX < inner.minX() ? minX : inner.minX();
         minY = minY < inner.minY() ? minY : inner.minY();
@@ -123,16 +141,40 @@ public class SettlementBoundingBox implements IBoundingBox {
     }
 
     @Override
-    public SettlementBoundingBox offset(BlockPos offset) {
-        minX = minX + offset.getX();
-        minY = minY + offset.getY();
-        minZ = minZ + offset.getZ();
-        maxX = maxX + offset.getX();
-        maxY = maxY + offset.getY();
-        maxZ = maxZ + offset.getZ();
+    public SettlementBoundingBox offset(int x, int y, int z) {
+        minX = minX + x;
+        minY = minY + y;
+        minZ = minZ + z;
+        maxX = maxX + x;
+        maxY = maxY + y;
+        maxZ = maxZ + z;
         return this;
     }
 
+    @Override
+    public SettlementBoundingBox offset(BlockPos offset) {
+        return offset(offset.getX(), offset.getY(), offset.getZ());
+    }
+
+    @Override
+    public SettlementBoundingBox rotate(int amount) {
+        amount = amount % 4;
+        if(amount == 0) {
+            return this;
+        }
+        int newX1 = this.minX;
+        int newZ1 = this.minZ;
+        this.offset(-newX1, 0, -newZ1);
+        int newX2 = amount == 1 ? this.maxZ : amount == 2 ? - this.maxX : - this.maxZ;
+        int newZ2 = amount == 1 ? - this.maxX : amount == 2 ? - this.maxZ : this.maxX;
+        this.minX = Math.min(0, newX2);
+        this.minZ = Math.min(0, newZ2);
+        this.maxX = Math.max(0, newX2);
+        this.maxZ = Math.max(0, newZ2);
+        int dx = amount == 2 || amount == 3 ? 1 : 0;
+        int dz = amount == 1 || amount == 2 ? 1 : 0;
+        return this.offset(newX1 + dx, 0, newZ1 + dz);
+    }
 
     @Override
     public boolean isWithinBounds(BlockPos pos) {
@@ -148,7 +190,95 @@ public class SettlementBoundingBox implements IBoundingBox {
 
     @Override
     public boolean intersects(IBoundingBox other) {
-        return !(other.maxX() < this.minX() || other.maxY() < this.minY() || other.maxZ() < this.minZ())
-                && !(this.maxX() < other.minX() || this.maxY() < other.minY() || this.maxZ() < other.minZ());
+        return !(other.maxX() <= this.minX() || other.maxY() <= this.minY() || other.maxZ() <= this.minZ())
+                && !(this.maxX() <= other.minX() || this.maxY() <= other.minY() || this.maxZ() <= other.minZ());
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void renderWireFrame(Tessellator tessellator, Color color) {
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableLighting();
+        GL11.glTranslatef(minX(), minY(), minZ());
+
+        int x = xSize();
+        int y = ySize();
+        int z = zSize();
+
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        int alpha = color.getAlpha();
+
+        //x edges
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= x; i++) {
+            worldrenderer.pos(i, 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= x; i++) {
+            worldrenderer.pos(i, y - 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= x; i++) {
+            worldrenderer.pos(i, y - 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= x; i++) {
+            worldrenderer.pos(i, 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+
+        //y edges
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= y; i++) {
+            worldrenderer.pos(0.001F, i,  0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= y; i++) {
+            worldrenderer.pos(x - 0.001F, i, 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= y; i++) {
+            worldrenderer.pos(x - 0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= y; i++) {
+            worldrenderer.pos(0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+
+        //z edges
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= z; i++) {
+            worldrenderer.pos(0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= z; i++) {
+            worldrenderer.pos(x - 0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= z; i++) {
+            worldrenderer.pos(x - 0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        for(int i = 0; i <= z; i++) {
+            worldrenderer.pos(0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
+        }
+        tessellator.draw();
+
+        GL11.glTranslatef(-minX(), -minY(), -minZ());
+        GlStateManager.enableLighting();
+        GlStateManager.enableTexture2D();
     }
 }

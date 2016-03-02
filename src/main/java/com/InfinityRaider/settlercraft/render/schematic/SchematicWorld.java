@@ -55,6 +55,10 @@ public class SchematicWorld implements IBlockAccess {
         return box.zSize();
     }
 
+    public SettlementBoundingBox getBoundingBox() {
+        return box;
+    }
+
     @Override
     public TileEntity getTileEntity(BlockPos pos) {
         return tileMap.get(pos);
