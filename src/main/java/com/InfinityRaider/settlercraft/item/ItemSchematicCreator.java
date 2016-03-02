@@ -27,10 +27,12 @@ public class ItemSchematicCreator extends ItemBase {
         return false;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L1"));
         tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L2"));
         tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L3"));
+        tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L4"));
     }
 }

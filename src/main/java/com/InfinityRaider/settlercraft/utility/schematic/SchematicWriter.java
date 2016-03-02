@@ -94,7 +94,7 @@ public class SchematicWriter {
     }
 
     private boolean needsSupportBlock(Block block) {
-        return block.isBlockNormalCube();
+        return SchematicRotationTransformer.getInstance().needsSupportBlock(block);
     }
 
     private void serialize(List<Schematic.BlockPosition> list) throws IOException {

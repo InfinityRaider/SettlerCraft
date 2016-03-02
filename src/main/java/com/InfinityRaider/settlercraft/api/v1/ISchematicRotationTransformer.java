@@ -40,6 +40,13 @@ public interface ISchematicRotationTransformer {
     void registerMetaTransforms(Block block, int[] meta);
 
     /**
+     * Registers a block to need a support block, this means that the block cannot be placed without having a support block next to it.
+     * An example of this are minecraft torches.
+     * @param block the block to be registered as a block which needs a support block
+     */
+    void registerBlockWithSupport(Block block);
+
+    /**
      * This method performs the metadata transformation
      * @param block the block which should have its metadata transformed
      * @param meta the metadata to be transformed
@@ -58,6 +65,14 @@ public interface ISchematicRotationTransformer {
      */
     @Nullable
     int[] getRotationData(Block block, int meta);
+
+    /**
+     * This method checks if a block needs a support block, this means that the block cannot be placed without having a support block next to it.
+     * An example of this are minecraft torches.
+     * @param block the block to check
+     * @return true if the block needs a support block
+     */
+    boolean needsSupportBlock(Block block);
 
     /**
      * Sets a TileEntity's NBT tag entry for the correct rotation.

@@ -2,10 +2,12 @@ package com.InfinityRaider.settlercraft.proxy;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
+import com.InfinityRaider.settlercraft.render.schematic.SchematicRendererDispatcher;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -45,6 +47,8 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerEventHandlers() {
         super.registerEventHandlers();
+
+        MinecraftForge.EVENT_BUS.register(SchematicRendererDispatcher.getInstance());
     }
 
     @Override

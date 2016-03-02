@@ -1,7 +1,21 @@
 //Items
+item.settlercraft:schematicCreator.name=Schematic Creator
+item.settlercraft:debugger.name=Debugger
+item.settlercraft:buildingPlanner.name=Building Planner
+
+
+//Creative Tab
+itemGroup:settlercraft.creativeTab=SettlerCraft
 
 
 //Tooltip
+settlercraft.tooltip_schematicCreator_L1=Converts in world structures to json schematic files (creative only)
+settlercraft.tooltip_schematicCreator_L2=Right click a first block to define the start of the structure
+settlercraft.tooltip_schematicCreator_L3=Right click a second block to define the end of the structure
+settlercraft.tooltip_schematicCreator_L4=Everything within the space spanned by those two locations will be exported
+
+settlercraft.tooltip_planner.invalidMayor=You are not the mayor of this settlement
+settlercraft.tooltip_planner.building=Planning construction of
 
 
 //Buildings
@@ -37,4 +51,4 @@ settlercraft.dialogue.requestInventory=I would like to see your inventory.
 settlercraft.dialogue.buildBuilding=Let's build a new building.
 settlercraft.dialogue.whatBuilding=Certainly, what building would you like to build?
 settlercraft.dialogue.buildNew=I want to build a new
-settlercraft.dialogue.buildWhere=Where should I start building
+settlercraft.dialogue.planBuild=Here, use this to plan where and how you want the building

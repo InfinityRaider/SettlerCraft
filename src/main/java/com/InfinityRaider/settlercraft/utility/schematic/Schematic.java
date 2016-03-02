@@ -3,14 +3,20 @@ package com.InfinityRaider.settlercraft.utility.schematic;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Schematic {
     public int groundLevel;
@@ -30,6 +36,42 @@ public class Schematic {
         BlockPosition position = blocks.get(index);
         Block block = Block.blockRegistry.getObject(new ResourceLocation(position.block));
         return new ItemStack(block, 1, position.stackMeta);
+    }
+
+    public Map<BlockPos, IBlockState> getBlockStateMap() {
+        Map<BlockPos, IBlockState> map = new HashMap<>();
+        for(BlockPosition position : blocks) {
+            Block block = position.getBlock();
+            if(block == null) {
+                continue;
+            }
+            map.put(position.getBlockPos(), block.getStateFromMeta(position.worldMeta));
+        }
+        return map;
+    }
+
+    public Map<BlockPos, TileEntity> getTileEntityMap(World world) {
+        Map<BlockPos, TileEntity> map = new HashMap<>();
+        for(BlockPosition position : blocks) {
+            Block block = position.getBlock();
+            if(block == null) {
+                continue;
+            }
+            if(block instanceof ITileEntityProvider) {
+                TileEntity tile = ((ITileEntityProvider) block).createNewTileEntity(world, position.worldMeta);
+                NBTTagCompound tag = position.getTag();
+                if(tag == null) {
+                    tag = new NBTTagCompound();
+                }
+                tag.setInteger("x", position.x);
+                tag.setInteger("y", position.y);
+                tag.setInteger("z", position.z);
+                tile.readFromNBT(tag);
+                map.put(position.getBlockPos(), tile);
+            }
+        }
+
+        return map;
     }
 
     public SettlementBoundingBox getBoundingBox(BlockPos start, int rotation) {
@@ -92,6 +134,14 @@ public class Schematic {
                 }
             }
             return this.worldMeta;
+        }
+
+        public Block getBlock() {
+            return Block.blockRegistry.getObject(new ResourceLocation(this.block));
+        }
+
+        public BlockPos getBlockPos() {
+            return new BlockPos(x, y, z);
         }
 
         public NBTTagCompound getTag() {

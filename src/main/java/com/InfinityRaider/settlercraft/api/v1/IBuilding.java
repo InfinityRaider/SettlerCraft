@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -75,6 +76,15 @@ public interface IBuilding {
     boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler);
 
     ITask getTaskForVillager(ISettlementBuilding building, ISettler settler);
+
+    /**
+     * This method is called right after this building has been built somewhere.
+     * It can be used to perform final sets on TileEntities, spawn something, or do any operation you need.
+     * @param world the World object where this building has been built in
+     * @param settlement the settlement where this building has been built in
+     * @param building the ISettlementBuilding object which has bee built
+     */
+    void onBuildingBuilt(World world, ISettlement settlement, ISettlementBuilding building);
 
     /**
      * @return if this building needs to receive ticks

@@ -1,6 +1,8 @@
 package com.InfinityRaider.settlercraft.registry;
 
+import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
+import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.item.ItemDebugger;
 import com.InfinityRaider.settlercraft.item.ItemSchematicCreator;
 import com.InfinityRaider.settlercraft.reference.Reference;
@@ -26,12 +28,14 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
 
     public final CreativeTabs settlerCraftTab;
 
-    public Item itemSchematicCreator;
-    public Item itemDebugger;
+    public ItemSchematicCreator itemSchematicCreator;
+    public ItemDebugger itemDebugger;
+    public ItemBuildingPlanner itemBuildingPlanner;
 
     public void init() {
         itemSchematicCreator = new ItemSchematicCreator();
         itemDebugger = new ItemDebugger();
+        itemBuildingPlanner = new ItemBuildingPlanner();
     }
 
     @Override
@@ -47,5 +51,15 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     @Override
     public Item itemDebugger() {
         return itemDebugger;
+    }
+
+    @Override
+    public Item itemBuildingPlanner() {
+        return itemBuildingPlanner;
+    }
+
+    @Override
+    public IItemBuildingPlanner getBuildingPlanner() {
+        return itemBuildingPlanner;
     }
 }

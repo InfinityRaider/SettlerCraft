@@ -22,9 +22,11 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
     }
 
     private final Map<Block, List<int[]>> metaTransforms;
+    private final List<Block> supportedBlocks;
 
     private SchematicRotationTransformer() {
         metaTransforms = new HashMap<>();
+        supportedBlocks = new ArrayList<>();
     }
 
     @Override
@@ -51,6 +53,13 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
     }
 
     @Override
+    public void registerBlockWithSupport(Block block) {
+        if(!supportedBlocks.contains(block)) {
+            supportedBlocks.add(block);
+        }
+    }
+
+    @Override
     public int transformMeta(Block block, int meta, int rotation) {
         if(!metaTransforms.containsKey(block)) {
             return meta;
@@ -67,7 +76,13 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
 
     @Override
     public int[] getRotationData(Block block, int meta) {
+        if(!metaTransforms.containsKey(block)) {
+            return null;
+        }
         for(int[] transforms : metaTransforms.get(block)) {
+            if(transforms == null) {
+                continue;
+            }
             for (int transform : transforms) {
                 if (transform == meta) {
                     return transforms;
@@ -75,6 +90,11 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean needsSupportBlock(Block block) {
+        return supportedBlocks.contains(block);
     }
 
     public NBTTagCompound rotateTileTag(TileEntity tile, NBTTagCompound tag, int rotation) {
@@ -89,6 +109,41 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
     }
 
     static {
+        //support blocks
+        INSTANCE.registerBlockWithSupport(Blocks.torch);
+        INSTANCE.registerBlockWithSupport(Blocks.redstone_torch);
+        INSTANCE.registerBlockWithSupport(Blocks.lever);
+        INSTANCE.registerBlockWithSupport(Blocks.stone_button);
+        INSTANCE.registerBlockWithSupport(Blocks.wooden_button);
+        INSTANCE.registerBlockWithSupport(Blocks.tripwire_hook);
+        INSTANCE.registerBlockWithSupport(Blocks.powered_comparator);
+        INSTANCE.registerBlockWithSupport(Blocks.unpowered_comparator);
+        INSTANCE.registerBlockWithSupport(Blocks.powered_repeater);
+        INSTANCE.registerBlockWithSupport(Blocks.unpowered_repeater);
+        INSTANCE.registerBlockWithSupport(Blocks.trapdoor);
+        INSTANCE.registerBlockWithSupport(Blocks.iron_trapdoor);
+        INSTANCE.registerBlockWithSupport(Blocks.stone_pressure_plate);
+        INSTANCE.registerBlockWithSupport(Blocks.wooden_pressure_plate);
+        INSTANCE.registerBlockWithSupport(Blocks.heavy_weighted_pressure_plate);
+        INSTANCE.registerBlockWithSupport(Blocks.light_weighted_pressure_plate);
+        INSTANCE.registerBlockWithSupport(Blocks.oak_door);
+        INSTANCE.registerBlockWithSupport(Blocks.acacia_door);
+        INSTANCE.registerBlockWithSupport(Blocks.birch_door);
+        INSTANCE.registerBlockWithSupport(Blocks.dark_oak_door);
+        INSTANCE.registerBlockWithSupport(Blocks.iron_door);
+        INSTANCE.registerBlockWithSupport(Blocks.jungle_door);
+        INSTANCE.registerBlockWithSupport(Blocks.iron_trapdoor);
+        INSTANCE.registerBlockWithSupport(Blocks.ladder);
+        INSTANCE.registerBlockWithSupport(Blocks.vine);
+
+        //logs
+        INSTANCE.registerMetaTransforms(Blocks.log, new int[]{4, 8, 4, 8});
+        INSTANCE.registerMetaTransforms(Blocks.log, new int[]{5, 9, 5, 9});
+        INSTANCE.registerMetaTransforms(Blocks.log, new int[]{6, 10, 6, 10});
+        INSTANCE.registerMetaTransforms(Blocks.log, new int[]{7, 11, 7, 11});
+        INSTANCE.registerMetaTransforms(Blocks.log2, new int[]{4, 8, 4, 8});
+        INSTANCE.registerMetaTransforms(Blocks.log2, new int[]{5, 9, 5, 9});
+
         //torches, buttons & levers
         int[] torch = new int[] {3, 2, 4, 1};
         INSTANCE.registerMetaTransforms(Blocks.torch, torch);
