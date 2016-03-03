@@ -1,13 +1,14 @@
 package com.InfinityRaider.settlercraft.item;
 
-import com.InfinityRaider.settlercraft.api.v1.IBuilding;
-import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
-import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
-import com.InfinityRaider.settlercraft.api.v1.ISettlement;
+import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import com.InfinityRaider.settlercraft.settlement.SettlementBuildingIncomplete;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
+import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanner, IItemRenderSettlementBoxes {
@@ -29,8 +31,34 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        return !playerIn.isSneaking();
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if(player.isSneaking()) {
+            return false;
+        }
+        if(!world.isRemote && side == EnumFacing.UP && isValidStack(stack)) {
+            BlockPos origin = pos.offset(side);
+            ISettlement settlement = SettlementHandler.getInstance().getNearestSettlement(world, origin);
+            if(settlement != null) {
+                buildStructure(stack, player, settlement, origin);
+            }
+        }
+        return true;
+    }
+
+    private void buildStructure(ItemStack stack, EntityPlayer player, ISettlement settlement, BlockPos pos) {
+        IBuilding building = getBuilding(stack);
+        int rotation = getRotation(stack);
+        Schematic schematic;
+        try {
+            schematic = SchematicReader.getInstance().deserialize(building.schematicLocation());
+        } catch (IOException e) {
+            LogHelper.printStackTrace(e);
+            return;
+        }
+        IBoundingBox box = schematic.getBoundingBox(pos, rotation);
+        if(isValidBoundingBoxForBuilding(stack, player, settlement, building, box)) {
+            settlement.addBuilding(new SettlementBuildingIncomplete(settlement, pos, building, schematic, rotation));
+        }
     }
 
     @Override
@@ -146,8 +174,30 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
         return this;
     }
 
-    private boolean isValidStack(ItemStack stack) {
-        return stack != null && stack.getItem() == this;
+    @Override
+    public boolean isValidBoundingBoxForBuilding(ItemStack stack, EntityPlayer player, ISettlement settlement, IBuilding building, IBoundingBox buildingBox) {
+        if(!isValidStack(stack)) {
+            return false;
+        }
+        ISettlement planned = this.getSettlement(stack);
+        if(planned != settlement) {
+            return false;
+        }
+        if(!settlement.canBuildNewBuilding(building)) {
+            return false;
+        }
+        if(!building.canBuild(player, settlement)) {
+            return false;
+        }
+        if(!settlement.getBoundingBox().intersects(buildingBox)) {
+            return false;
+        }
+        for(ISettlementBuilding built : settlement.getBuildings()) {
+            if(built.getBoundingBox().intersects(buildingBox)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -158,5 +208,9 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
         }
         ISettlement planned = this.getSettlement(stack);
         return settlement == planned && planned.isMayor(player);
+    }
+
+    private boolean isValidStack(ItemStack stack) {
+        return stack != null && stack.getItem() == this;
     }
 }

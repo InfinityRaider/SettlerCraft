@@ -35,6 +35,7 @@ public final class Names {
         public static final String BLOCKS = "SC_Blocks";
         public static final String RESOURCES = "SC_Resources";
         public static final String HOME = "SC_Home";
+        public static final String COUNT = "SC_Count";
     }
 
     public static class Mods {

@@ -5,9 +5,6 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class BuildingTownHall extends BuildingBase {
     public BuildingTownHall() {
@@ -25,12 +22,7 @@ public class BuildingTownHall extends BuildingBase {
     }
 
     @Override
-    public boolean canBeUpgradedFromBuilding(ISettlementBuilding building) {
-        return false;
-    }
-
-    @Override
-    public IInventory getStartingInventory(@Nullable ISettlementBuilding previousBuilding) {
+    public IInventory getStartingInventory() {
         return null;
     }
 

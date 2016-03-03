@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
-import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
@@ -34,8 +33,8 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
         super();
     }
 
-    public SettlementBuildingIncomplete(ISettlement settlement, BlockPos pos, IBuilding building, Schematic schematic, ISettlementBuilding previousBuilding, int rotation) throws IOException {
-        super(settlement, schematic.getBoundingBox(pos, rotation), building, rotation, building.getStartingInventory(previousBuilding));
+    public SettlementBuildingIncomplete(ISettlement settlement, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
+        super(settlement, schematic.getBoundingBox(pos, rotation), building, rotation, building.getStartingInventory());
         this.schematic = schematic;
         initBlocksToClear();
         initNeededResources();

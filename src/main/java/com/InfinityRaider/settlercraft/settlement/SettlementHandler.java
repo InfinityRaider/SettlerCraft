@@ -89,6 +89,24 @@ public class SettlementHandler implements ISettlementHandler {
         return settlementsByChunk.get(new ChunkCoordinates(chunk));
     }
 
+    public ISettlement getNearestSettlement(World world, BlockPos pos) {
+        double minDist = Double.MAX_VALUE;
+        ISettlement nearest = null;
+        for(ISettlement settlement : getSettlementsForWorld(world)) {
+            if(nearest == null) {
+                nearest = settlement;
+                minDist = settlement.calculateDistanceSquaredToSettlement(pos);
+            } else {
+                double distance = settlement.calculateDistanceSquaredToSettlement(pos);
+                if(distance < minDist) {
+                    minDist = distance;
+                    nearest = settlement;
+                }
+            }
+        }
+        return nearest;
+    }
+
     @Override
     public List<ISettlement> getSettlementsForWorld(World world) {
         return settlementsByChunk.entrySet().stream().filter(entry -> entry.getKey().dim() == world.provider.getDimensionId()).map(Map.Entry::getValue).collect(Collectors.toList());
@@ -136,6 +154,9 @@ public class SettlementHandler implements ISettlementHandler {
     public void processInhabitantBuffer(ISettlement settlement) {}
 
     private int getNextId() {
+        if(!settlementsById.containsKey(settlementsById.size())) {
+            return settlementsById.size();
+        }
         for(int i = 0; i < settlementsById.size(); i++) {
             if(!settlementsById.containsKey(i)) {
                 return i;

@@ -82,9 +82,9 @@ public class SchematicInWorldPlannerRenderer {
 
         GL11.glTranslated(-posX, -posY, -posZ);
 
-        IBoundingBox settlementBox = settlement.getBoundingBox();
         IBoundingBox buildingBox = renderer.getBoundingBox().copy().offset(pos).rotate(rotation);
-        buildingBox.renderWireFrame(tessellator, settlementBox.intersects(buildingBox) ? BUILDING_VALID_COLOR : BUILDING_INVALID_COLOR);
+        Color color = planner.isValidBoundingBoxForBuilding(stack, player, settlement, building, buildingBox) ? BUILDING_VALID_COLOR : BUILDING_INVALID_COLOR;
+        buildingBox.renderWireFrame(tessellator, color);
 
         GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
         applyRotation(rotation, false);

@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,6 +38,13 @@ public class SettlementHandlerClient extends SettlementHandler {
     @Override
      public ISettlement getSettlementForChunk(Chunk chunk) {
         ISettlement settlement = super.getSettlementForChunk(chunk);
+        processInhabitantBuffer(settlement);
+        return settlement;
+    }
+
+    @Override
+    public ISettlement getNearestSettlement(World world, BlockPos pos) {
+        ISettlement settlement = super.getNearestSettlement(world, pos);
         processInhabitantBuffer(settlement);
         return settlement;
     }

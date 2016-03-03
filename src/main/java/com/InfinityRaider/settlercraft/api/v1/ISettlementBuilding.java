@@ -13,6 +13,13 @@ import java.util.List;
  * it can be used to interact with a building in a settlement
  */
 public interface ISettlementBuilding {
+
+    /**
+     * This method returns the id of this building in its settlement. Id's are final and will not change within a settlement.
+     * @return this building's id in the settlement
+     */
+    int id();
+
     /**
      * @return the building built here
      */
@@ -112,6 +119,13 @@ public interface ISettlementBuilding {
      * @return the absolute position
      */
     BlockPos getActualPosition(BlockPos pos);
+
+    /**
+     * This method sets the id of the building, it will only accept it the first time it is created and should only be assigned from within the settlement code,
+     * Don't call this if you don't know what you are doing, it won't work anyway.
+     * @param id the id
+     */
+    void setId(int id);
 
     NBTTagCompound writeToNBT();
 

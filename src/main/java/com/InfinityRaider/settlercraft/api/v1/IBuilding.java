@@ -5,8 +5,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 /**
  * This interface is used to construct buildings, only one instance per building is created and registered
  *
@@ -36,20 +34,12 @@ public interface IBuilding {
     boolean canBuild(EntityPlayer player, ISettlement settlement);
 
     /**
-     * Some buildings can be upgraded
-     * @param building
-     * @return
-     */
-    boolean canBeUpgradedFromBuilding(ISettlementBuilding building);
-
-    /**
      * Every building has an inventory, this is the default starting inventory of a newly created building and will be used further.
      * It is important that a new IInventory object is returned from this method, or all buildings of this instance will share the same inventory.
      *
-     * @param previousBuilding if this building is built as an upgrade from a previous stage, it is passed as an argument, can be null
      * @return a new IInventory instance for the starting inventory of the new building
      */
-    IInventory getStartingInventory(@Nullable ISettlementBuilding previousBuilding);
+    IInventory getStartingInventory();
 
     /**
      * This method is used to read json schematics for the buildings, example:

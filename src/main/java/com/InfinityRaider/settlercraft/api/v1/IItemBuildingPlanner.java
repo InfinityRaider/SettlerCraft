@@ -1,8 +1,14 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+/**
+ * This interface is implemented in the building planner Item,
+ * it is not meant for you to interact with and not to implement yourself.
+ * You can get the IItemBuildingPlanner from the SettlerCraftItemRegistry.
+ */
 public interface IItemBuildingPlanner {
     /**
      * The implementation of this method is simply 'return this;'
@@ -79,4 +85,16 @@ public interface IItemBuildingPlanner {
      * @return this, allows for chaining method calls
      */
     IItemBuildingPlanner setRotation(ItemStack stack, int rotation);
+
+    /**
+     * Checks if the bounding box for a new building is valid for a settlement
+     *
+     * @param stack the stack holding the planner
+     * @param player the player using the planner
+     * @param settlement the settlement being planned for
+     * @param building the building trying to be built in the bounding box
+     * @param buildingBox the bounding box for the new building
+     * @return true if the building can be built here, false if not
+     */
+    boolean isValidBoundingBoxForBuilding(ItemStack stack, EntityPlayer player, ISettlement settlement, IBuilding building, IBoundingBox buildingBox);
 }

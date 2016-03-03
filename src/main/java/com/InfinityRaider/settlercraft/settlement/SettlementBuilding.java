@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 
 public abstract class SettlementBuilding implements ISettlementBuilding {
+    private int id;
     private ISettlement settlement;
     private SettlementBoundingBox boundingBox;
     private IBuilding building;
@@ -22,11 +23,24 @@ public abstract class SettlementBuilding implements ISettlementBuilding {
     protected SettlementBuilding() {}
 
     public SettlementBuilding(ISettlement settlement, SettlementBoundingBox box, IBuilding building, int rotation, IInventory inventory) {
+        this.id = -1;
         this.settlement = settlement;
         this.boundingBox = box;
         this.building = building;
         this.rotation = rotation;
         this.inventory = inventory;
+    }
+
+    @Override
+    public void setId(int id) {
+        if(this.id < 0 && id >= 0) {
+            this.id = id;
+        }
+    }
+
+    @Override
+    public int id() {
+        return id;
     }
 
     @Override

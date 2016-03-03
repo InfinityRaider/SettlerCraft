@@ -50,6 +50,8 @@ public interface ISettlement extends ITickable {
      */
     void rename(String name);
 
+    ISettlementBuilding getBuildingFromId(int id);
+
     /**
      * @return a list of all buildings currently built in this settlement
      */
@@ -74,35 +76,11 @@ public interface ISettlement extends ITickable {
     List<IBuilding> getBuildableBuildings();
 
     /**
-     * Checks if a new building can be built in this settlement on the given position
-     * @param pos the position to start building from
+     * Checks if all the requirements are met for a building to be built in this settlement
      * @param building the building to be built
-     * @param rotation the rotation to build the structure for
      * @return if the building can be built
      */
-    boolean canBuildNewBuilding(BlockPos pos, IBuilding building, int rotation);
-
-    /**
-     * Checks if a new building can be built by upgrading an old building
-     * @param oldBuilding the old building to be upgraded
-     * @param newBuilding the new building to be built
-     * @return if the building can be built
-     */
-    boolean canUpgradeOldBuilding(ISettlementBuilding oldBuilding, IBuilding newBuilding);
-
-    /**
-     * Starts the building of a new building on the given position
-     * @param pos the position to start building from
-     * @param building the building to be built
-     */
-    void buildNewBuilding(BlockPos pos, IBuilding building);
-
-    /**
-     * Starts the building of a new building by upgrading an old building
-     * @param oldBuilding the old building to be upgraded
-     * @param newBuilding the new building to be built
-     */
-    void upgradeOldBuilding(ISettlementBuilding oldBuilding, IBuilding newBuilding);
+    boolean canBuildNewBuilding(IBuilding building);
 
     /**
      * Adds a new building to this settlement
@@ -156,6 +134,13 @@ public interface ISettlement extends ITickable {
      * @return the bounding box encompassing this settlement
      */
     IBoundingBox getBoundingBox();
+
+    /**
+     * Calculates the squared distance between this settlement's starting point and a position
+     * @param pos the position
+     * @return the squared distance
+     */
+    double calculateDistanceSquaredToSettlement(BlockPos pos);
 
     NBTTagCompound writeSettlementToNBT(NBTTagCompound tag);
 

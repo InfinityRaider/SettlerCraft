@@ -6,8 +6,6 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
-import javax.annotation.Nullable;
-
 public class BuildingHouse extends BuildingBase {
     public BuildingHouse() {
         super("house1");
@@ -24,12 +22,7 @@ public class BuildingHouse extends BuildingBase {
     }
 
     @Override
-    public boolean canBeUpgradedFromBuilding(ISettlementBuilding building) {
-        return false;
-    }
-
-    @Override
-    public IInventory getStartingInventory(@Nullable ISettlementBuilding previousBuilding) {
+    public IInventory getStartingInventory() {
         return null;
     }
 
