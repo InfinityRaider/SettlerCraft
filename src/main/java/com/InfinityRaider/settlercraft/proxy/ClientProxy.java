@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.render.RenderSettlement;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.render.schematic.SchematicInWorldPlannerRenderer;
+import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,10 +47,27 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
+    public SettlementHandler getSettlementHandler() {
+        return getEffectiveSide() == Side.CLIENT ? SettlementHandler.getClientInstance() : SettlementHandler.getServerInstance();
+    }
+
+    @Override
+    public Side getPhysicalSide() {
+        return Side.CLIENT;
+    }
+
+    @Override
+    public Side getEffectiveSide() {
+        return FMLCommonHandler.instance().getEffectiveSide();
+    }
+
+    @Override
     public void registerEventHandlers() {
         super.registerEventHandlers();
         MinecraftForge.EVENT_BUS.register(SchematicInWorldPlannerRenderer.getInstance());
         MinecraftForge.EVENT_BUS.register(RenderSettlement.getInstance());
+        MinecraftForge.EVENT_BUS.register(SettlementHandler.getClientInstance());
+        MinecraftForge.EVENT_BUS.register(SettlementHandler.getServerInstance());
     }
 
     @Override

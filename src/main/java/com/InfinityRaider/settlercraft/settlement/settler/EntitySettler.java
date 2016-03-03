@@ -17,12 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     private static final SettlerRandomizer randomizer = SettlerRandomizer.getInstance();
 
     private ISettlement settlement;
+    private int settlementId;
     private IProfession profession;
     private ISettlementBuilding home;
     private ISettlementBuilding workplace;
@@ -37,12 +39,13 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer conversationPartner;
 
     public EntitySettler(ISettlement settlement) {
-        this(settlement, randomizer.getRandomSurname());
+        this(settlement.world());
     }
+
 
     public EntitySettler(ISettlement settlement, String surname) {
         this(settlement.world());
-        this.settlement = settlement;
+        this.setSettlement(settlement);
         this.surname = surname;
     }
 
@@ -58,6 +61,81 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.surname = randomizer.getRandomSurname();
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().BUILDER;
+        this.settlementId = -1;
+    }
+
+    @Override
+    public void writeSpawnData(ByteBuf data) {
+        ByteBufUtils.writeUTF8String(data, firstName);
+        ByteBufUtils.writeUTF8String(data, surname);
+        data.writeBoolean(male);
+        data.writeInt(settlementId);
+        boolean hasTitle = title != null;
+        data.writeBoolean(hasTitle);
+        if(hasTitle) {
+            ByteBufUtils.writeUTF8String(data, title);
+        }
+        ByteBufUtils.writeUTF8String(data, profession.getName());
+        //TODO: write home and workplace
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf data) {
+        this.firstName = ByteBufUtils.readUTF8String(data);
+        this.surname = ByteBufUtils.readUTF8String(data);
+        this.male = data.readBoolean();
+        this.settlementId = data.readInt();
+        this.settlement();
+        boolean hasTitle = data.readBoolean();
+        if(hasTitle) {
+            this.title = ByteBufUtils.readUTF8String(data);
+        }
+        this.profession = ProfessionRegistry.getInstance().getProfession(ByteBufUtils.readUTF8String(data));
+        //TODO: read home and workplace
+    }
+
+    public void writeEntityToNBT(NBTTagCompound tag) {
+        super.writeEntityToNBT(tag);
+        tag.setTag(Names.NBT.INVENTORY, inventory.writeToNBT());
+        if(settlement != null) {
+            tag.setInteger(Names.NBT.SETTLEMENT, settlement.id());
+        }
+        if(profession != null) {
+            tag.setString(Names.NBT.PROFESSION, profession.getName());
+        }
+        if(title != null) {
+            tag.setString(Names.NBT.TITLE, title);
+        }
+        tag.setString(Names.NBT.FIRST_NAME, firstName);
+        tag.setString(Names.NBT.SURNAME, surname);
+        tag.setBoolean(Names.NBT.GENDER, male);
+        //TODO: write home and workplace
+    }
+
+    public void readEntityFromNBT(NBTTagCompound tag) {
+        super.readEntityFromNBT(tag);
+        this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
+        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
+            this.settlementId = tag.getInteger(Names.NBT.SETTLEMENT);
+            this.settlement = SettlementHandler.getInstance().getSettlement(settlementId);
+        } else {
+            this.settlementId = -1;
+            this.settlement = null;
+        }
+        if(tag.hasKey(Names.NBT.PROFESSION)) {
+            this.profession = ProfessionRegistry.getInstance().getProfession(tag.getString(Names.NBT.PROFESSION));
+        } else {
+            this.profession = null;
+        }
+        if(tag.hasKey(Names.NBT.TITLE)) {
+            this.title = tag.getString(Names.NBT.TITLE);
+        } else {
+            this.title = null;
+        }
+        this.firstName = tag.getString(Names.NBT.FIRST_NAME);
+        this.surname = tag.getString(Names.NBT.SURNAME);
+        this.male = tag.getBoolean(Names.NBT.GENDER);
+        //TODO: read home and workplace
     }
 
     @SuppressWarnings("unchecked")
@@ -108,38 +186,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         return true;
     }
 
-    public void writeEntityToNBT(NBTTagCompound tag) {
-        super.writeEntityToNBT(tag);
-        tag.setTag(Names.NBT.INVENTORY, inventory.writeToNBT());
-        if(settlement != null) {
-            tag.setInteger(Names.NBT.SETTLEMENT, settlement.id());
-        }
-        if(profession != null) {
-            tag.setString(Names.NBT.PROFESSION, profession.getName());
-        }
-        if(title != null) {
-            tag.setString(Names.NBT.TITLE, title);
-        }
-        tag.setString(Names.NBT.FIRST_NAME, firstName);
-        tag.setString(Names.NBT.SURNAME, surname);
-        tag.setBoolean(Names.NBT.GENDER, male);
-    }
-
-    public void readEntityFromNBT(NBTTagCompound tag) {
-        super.readEntityFromNBT(tag);
-        this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
-        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
-            this.settlement = SettlementHandler.getInstance().getSettlement(tag.getInteger(Names.NBT.SETTLEMENT));
-        } else {
-            this.settlement = null;
-        }
-        if(tag.hasKey(Names.NBT.PROFESSION)) {
-            this.profession = ProfessionRegistry.getInstance().getProfession(tag.getString(Names.NBT.PROFESSION));
-        } else {
-            this.profession = null;
-        }
-    }
-
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingData) {
         livingData = super.onInitialSpawn(difficulty, livingData);
@@ -186,10 +232,17 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void setSettlement(ISettlement settlement) {
         this.settlement = settlement;
+        this.settlementId = settlement.id();
     }
 
     @Override
     public ISettlement settlement() {
+        if(settlementId < 0) {
+            return null;
+        }
+        if(settlement == null) {
+            settlement = SettlementHandler.getInstance().getSettlement(settlementId);
+        }
         return settlement;
     }
 
@@ -200,9 +253,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setHome(ISettlementBuilding building) {
+        ISettlement homeTown = settlement();
         if(building.settlement() == this.settlement()) {
             this.home = building;
-            this.setHomePosAndDistance(home.homePosition(), Math.max(settlement.xSize(), settlement.ySize()));
+            this.setHomePosAndDistance(home.homePosition(), Math.max(homeTown.xSize(), homeTown.ySize()));
         }
     }
 
@@ -300,15 +354,5 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void writeSpawnData(ByteBuf buffer) {
-
-    }
-
-    @Override
-    public void readSpawnData(ByteBuf additionalData) {
-
     }
 }

@@ -25,6 +25,7 @@ public class NetworkWrapperSettlerCraft {
 
     public void init() {
         registerMessage(MessageDialogueOptionSelected.MessageHandler.class, MessageDialogueOptionSelected.class);
+        registerMessage(MessageAddInhabitant.MessageHandler.class, MessageAddInhabitant.class);
     }
 
     public void sendToAll(MessageBase message) {

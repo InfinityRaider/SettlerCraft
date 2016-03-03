@@ -83,8 +83,8 @@ public class Schematic {
             maxY = Math.max(maxY, blockPosition.y);
             maxZ = Math.max(maxZ, blockPosition.z);
         }
-        BlockPos max = SchematicRotationTransformer.getInstance().applyRotation(start, maxX, maxY, maxZ, rotation);
-        return new SettlementBoundingBox(start, max);
+        BlockPos max = new BlockPos(maxX, maxY, maxZ);
+        return (new SettlementBoundingBox(start, max)).rotate(rotation);
     }
 
     public static class BlockPosition {

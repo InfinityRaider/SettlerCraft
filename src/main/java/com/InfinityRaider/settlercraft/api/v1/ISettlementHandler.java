@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.List;
 
@@ -11,6 +12,11 @@ import java.util.List;
  * the instance of this interface can be retrieved via api.getSettlementHandler()
  */
 public interface ISettlementHandler {
+    /**
+     * @return The effective side of the handler
+     */
+    Side getEffectiveSide();
+
     /**
      * Gets a settlement by its id
      * @param id the id of the settlement
@@ -52,15 +58,13 @@ public interface ISettlementHandler {
 
     /**
      * Tries to start a new settlement at the player's current position, the player will be the mayor of the new settlement
-     * and the settler will be the first builder who will help to build the town hall.
-     * This method can fail if the location is too close to an existing settlement, either of the arguments is null
+     * This method can fail if the location is too close to an existing settlement, the player's world object is remote, the argument is null
      * or the player does not meet the requirements to create a new settlement here.
      * If the method fails, it will return null instead of the newly created settlement.
      * This method internally calls onCreateSettlementAtCurrentPosition(player)
      *
      * @param player The player creating the settlement with the settler, this will also be the mayor
-     * @param settler The first settler creating a new settlement with the player
      * @return the newly created ISettlement object, or null if the player can't make a settlement here.
      */
-    ISettlement startNewSettlement(EntityPlayer player, ISettler settler);
+    ISettlement startNewSettlement(EntityPlayer player);
 }

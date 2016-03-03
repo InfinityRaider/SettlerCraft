@@ -1,11 +1,17 @@
 package com.InfinityRaider.settlercraft.proxy;
 
+import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 public interface IProxy {
+    Side getPhysicalSide();
+
+    Side getEffectiveSide();
+
     void registerEventHandlers();
 
     void registerRenderers();
@@ -26,4 +32,6 @@ public interface IProxy {
 
     /** Returns the entity in that World object with that id */
     Entity getEntityById(World world, int id);
+
+    SettlementHandler getSettlementHandler();
 }

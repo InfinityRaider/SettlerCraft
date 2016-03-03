@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
@@ -21,7 +22,10 @@ public class DialogueOptionCreateSettlement extends DialogueOptionBase {
 
     @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        SettlementHandler.getInstance().startNewSettlement(player, settler);
+        if(!player.worldObj.isRemote) {
+            ISettlement settlement = SettlementHandler.getInstance().startNewSettlement(player);
+            settlement.addInhabitant(settler);
+        }
     }
 
     @Override

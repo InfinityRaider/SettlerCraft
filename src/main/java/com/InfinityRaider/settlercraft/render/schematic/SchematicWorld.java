@@ -26,7 +26,6 @@ public class SchematicWorld implements IBlockAccess {
 
     private BlockPos origin;
 
-
     protected SchematicWorld(World world, BlockPos origin, Schematic schematic, int rotation) {
         this.world = world;
         this.box = schematic.getBoundingBox(new BlockPos(0, 0, 0), rotation);

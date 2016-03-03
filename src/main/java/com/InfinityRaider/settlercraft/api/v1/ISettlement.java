@@ -157,7 +157,7 @@ public interface ISettlement extends ITickable {
      */
     IBoundingBox getBoundingBox();
 
-    NBTTagCompound writeToNBT();
+    NBTTagCompound writeSettlementToNBT(NBTTagCompound tag);
 
-    void readFromNBT(NBTTagCompound tag);
+    NBTTagCompound readSettlementFromNBT(NBTTagCompound tag);
 }

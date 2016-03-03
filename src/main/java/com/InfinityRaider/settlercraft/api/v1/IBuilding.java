@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  *
  * If you are creating a whole new building type, the IBuilding objects for that type will be automatically registered (assuming your implementation is correct)
  * If you want to add a new building to an existing building type, retrieve that building type from the IBuildingTypeRegistry (which can be retrieved via the APIv1)
- * and call iBuildingType.registerBuilding(IBuilding building)
+ * and call IBuildingType.registerBuilding(IBuilding building)
  */
 public interface IBuilding {
     /**
@@ -82,7 +82,7 @@ public interface IBuilding {
      * It can be used to perform final sets on TileEntities, spawn something, or do any operation you need.
      * @param world the World object where this building has been built in
      * @param settlement the settlement where this building has been built in
-     * @param building the ISettlementBuilding object which has bee built
+     * @param building the ISettlementBuilding object which has been built
      */
     void onBuildingBuilt(World world, ISettlement settlement, ISettlementBuilding building);
 

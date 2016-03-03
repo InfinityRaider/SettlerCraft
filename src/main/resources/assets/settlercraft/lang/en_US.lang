@@ -4,8 +4,12 @@ item.settlercraft:debugger.name=Debugger
 item.settlercraft:buildingPlanner.name=Building Planner
 
 
+//Entities
+entity.SettlerCraft.entity.settler.name
+
+
 //Creative Tab
-itemGroup:settlercraft.creativeTab=SettlerCraft
+itemGroup.settlercraft.creativeTab=SettlerCraft
 
 
 //Tooltip
@@ -52,3 +56,5 @@ settlercraft.dialogue.buildBuilding=Let's build a new building.
 settlercraft.dialogue.whatBuilding=Certainly, what building would you like to build?
 settlercraft.dialogue.buildNew=I want to build a new
 settlercraft.dialogue.planBuild=Here, use this to plan where and how you want the building
+settlercraft.dialogue.joinSettlement=This is my settlement, whould you like to live here
+settlercraft.dialogue.aNewHome=Certainly, it looks lovely

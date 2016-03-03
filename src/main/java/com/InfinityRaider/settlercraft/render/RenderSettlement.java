@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.List;
 
 public class RenderSettlement {
     private static final RenderSettlement INSTANCE = new RenderSettlement();
@@ -46,6 +47,8 @@ public class RenderSettlement {
 
         GL11.glTranslated(-posX, -posY, -posZ);
 
+        SettlementHandler handler = SettlementHandler.getInstance();
+        List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().theWorld);
         for(ISettlement settlement : SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld)) {
             renderSettlementBoundingBoxes(tessellator, settlement);
         }

@@ -33,7 +33,7 @@ public class ConfigurationHandler {
         if(config == null) {
             config = new Configuration(event.getSuggestedConfigurationFile());
         }
-        loadConfiguration(event);
+        loadConfiguration();
         if(config.hasChanged()) {
             config.save();
         }
@@ -52,7 +52,7 @@ public class ConfigurationHandler {
         LogHelper.debug("Client configuration Loaded");
     }
 
-    private void loadConfiguration(FMLPreInitializationEvent event) {
+    private void loadConfiguration() {
         //settlers
         settlerSpawnBiomes = config.getStringList("settler spawn biomes", Categories.SETTLERS.getName(), BiomeHelper.getInstance().getBiomeList(), "Biomes where settlers can spawn");
         settlerSpawnWeight = config.getInt("settler spawn weight", Categories.SETTLERS.getName(), 1, 1, 20, "The spawn weight for spawning settlers in the world");
@@ -62,7 +62,7 @@ public class ConfigurationHandler {
 
     @SideOnly(Side.CLIENT)
     private void loadClientConfiguration(FMLPreInitializationEvent event) {
-        schematicOutput = config.getString("Schematic output file", Categories.CLIENT.getName(), event.getModConfigurationDirectory().getAbsolutePath() + "\\schematics\\schematic.json", "The location to the file where shcematics will be saved");
+        schematicOutput = config.getString("Schematic output file", Categories.CLIENT.getName(), event.getModConfigurationDirectory().getAbsolutePath() + "\\schematics\\schematic.json", "The location to the file where schematics will be saved");
     }
 
     public enum Categories {

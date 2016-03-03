@@ -5,6 +5,7 @@ import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import com.InfinityRaider.settlercraft.settlement.Settlement;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.utility.BiomeHelper;
 import net.minecraft.entity.EnumCreatureType;
@@ -21,6 +22,7 @@ public class EntityRegistry {
     private EntityRegistry() {}
 
     public final int ID_SETTLER = 0;
+    public final int ID_SETTLEMENT = 1;
 
     public void init() {
         //Settler
@@ -36,5 +38,11 @@ public class EntityRegistry {
                 ConfigurationHandler.getInstance().settlerSpawnWeight, 1, 1,
                 EnumCreatureType.CREATURE,
                 BiomeHelper.getInstance().convertBiomeNamesList(ConfigurationHandler.getInstance().settlerSpawnBiomes));
+
+        //Settlement
+        net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(
+                Settlement.class,
+                Names.Entities.SETTLEMENT, ID_SETTLEMENT,
+                SettlerCraft.instance, 64, 200, false);
     }
 }

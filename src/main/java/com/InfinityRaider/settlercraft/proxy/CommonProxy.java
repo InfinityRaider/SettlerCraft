@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.proxy;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.SettlerTargettingHandler;
-import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +27,6 @@ public abstract class CommonProxy implements IProxy {
     @Override
     public void registerEventHandlers() {
         MinecraftForge.EVENT_BUS.register(SettlerTargettingHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstance());
     }
 
     @Override

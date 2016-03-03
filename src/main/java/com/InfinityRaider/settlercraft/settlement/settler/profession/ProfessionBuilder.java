@@ -21,14 +21,14 @@ public class ProfessionBuilder extends ProfessionBase {
         List<IDialogueOption> list = new ArrayList<>();
         ISettlement home = settler.settlement();
         EntityLiving e = settler.getEntityImplementation();
-        ISettlement settlement = SettlementHandler.getInstance().getSettlementForPosition(e.worldObj, e.posX, e.posY, e.posZ);
+        ISettlement settlement = SettlementHandler.getInstance().getSettlementForPosition(e.worldObj, e.posX, e.posY+1, e.posZ);
 
         if(home == null) {
             if(settlement != null) {
                 if(settlement.isMayor(player)) {
                     list.add(new DialogueOptionJoinSettlement(player, settler, settlement));
                 }
-            } else {
+            } else if(SettlementHandler.getInstance().canCreateSettlementAtCurrentPosition(player)) {
                 list.add(new DialogueOptionCreateSettlement(player, settler));
             }
         } else {

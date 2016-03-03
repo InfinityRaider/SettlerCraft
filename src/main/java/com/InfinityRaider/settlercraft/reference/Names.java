@@ -7,6 +7,7 @@ public final class Names {
 
     public static class Entities {
         public static final String SETTLER = "entity.settler";
+        public static final String SETTLEMENT = "settlement";
     }
 
     public static class NBT {

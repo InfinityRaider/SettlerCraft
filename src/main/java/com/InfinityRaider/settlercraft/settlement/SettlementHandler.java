@@ -1,37 +1,68 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
-import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.event.world.ChunkDataEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SettlementHandler implements ISettlementHandler {
-    private static final SettlementHandler INSTANCE = new SettlementHandler();
+    private static SettlementHandler INSTANCE_SERVER;
+    @SideOnly(Side.CLIENT)
+    private static SettlementHandler INSTANCE_CLIENT;
 
     public static SettlementHandler getInstance() {
-        return INSTANCE;
+        return SettlerCraft.proxy.getSettlementHandler();
     }
 
-    private final Map<Integer, ISettlement> settlementsById;
-    private final Map<ChunkCoordinates, ISettlement> settlementsByChunk;
-    private final Map<UUID, ISettler> interacts;
+    @SideOnly(Side.CLIENT)
+    public static SettlementHandler getClientInstance() {
+        if(INSTANCE_CLIENT == null) {
+            INSTANCE_CLIENT = new SettlementHandler(true);
+        }
+        return INSTANCE_CLIENT;
+    }
 
-    private SettlementHandler() {
+    public static SettlementHandler getServerInstance() {
+        if(INSTANCE_SERVER == null) {
+            INSTANCE_SERVER = new SettlementHandler(false);
+        }
+        return INSTANCE_SERVER;
+    }
+
+    private Map<Integer, ISettlement> settlementsById;
+    private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
+    private Map<UUID, ISettler> interacts;
+
+    private final boolean client;
+
+    private SettlementHandler(boolean client) {
+        this.client = client;
+        this.reset();
+    }
+
+    private void reset() {
         settlementsById = new HashMap<>();
         settlementsByChunk = new HashMap<>();
         interacts = new HashMap<>();
+    }
+
+    @Override
+    public Side getEffectiveSide() {
+        return client ? Side.CLIENT : Side.SERVER;
     }
 
     @Override
@@ -66,11 +97,24 @@ public class SettlementHandler implements ISettlementHandler {
 
     @Override
     public boolean canCreateSettlementAtCurrentPosition(EntityPlayer player) {
+        BlockPos pos = new BlockPos((int) player.posX, (int) player.posY, (int) player.posZ);
+        Chunk chunk = player.getEntityWorld().getChunkFromBlockCoords(pos);
+        for(int x = -8; x <= 8; x++) {
+            for(int z = -8; z <= 8; z++) {
+                Chunk chunkAt = player.getEntityWorld().getChunkFromChunkCoords(chunk.xPosition + x, chunk.zPosition + z);
+                if(getSettlementForChunk(chunkAt) != null) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
     @Override
-    public ISettlement startNewSettlement(EntityPlayer player, ISettler settler) {
+    public ISettlement startNewSettlement(EntityPlayer player) {
+        if(player.getEntityWorld().isRemote) {
+            return null;
+        }
         if(!canCreateSettlementAtCurrentPosition(player)) {
             return null;
         }
@@ -79,10 +123,13 @@ public class SettlementHandler implements ISettlementHandler {
         int y = (int) player.posY;
         int z = (int) player.posZ;
         Settlement settlement = new Settlement(getNextId(), world, player, new BlockPos(x, y, z), "");
+        world.spawnEntityInWorld(settlement);
+        return settlement;
+    }
+
+    public void onSettlementLoaded(ISettlement settlement) {
         settlementsByChunk.put(new ChunkCoordinates(settlement.homeChunk()), settlement);
         settlementsById.put(settlement.id(), settlement);
-        settlement.addInhabitant(settler);
-        return settlement;
     }
 
     private int getNextId() {
@@ -111,24 +158,18 @@ public class SettlementHandler implements ISettlementHandler {
 
     @SubscribeEvent
     @SuppressWarnings("unused")
-    public void onChunkSave(ChunkDataEvent.Save event) {
-        ISettlement settlement = getSettlementForChunk(event.getChunk());
-        if(settlement != null) {
-            event.getData().setTag(Names.NBT.SETTLEMENT, settlement.writeToNBT());
-            boolean test = true;
-        }
+    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        getInstance().reset();
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
-    public void onChunkLoad(ChunkDataEvent.Load event) {
-        if(event.getData().hasKey(Names.NBT.SETTLEMENT)) {
-            NBTTagCompound settlementTag = event.getData().getCompoundTag(Names.NBT.SETTLEMENT);
-            ISettlement settlement = getSettlementForChunk(event.getChunk());
-            if(settlement == null) {
-                settlement = new Settlement(event.world);
-            }
-            settlement.readFromNBT(settlementTag);
+    public void onChunkUnloadEvent(ChunkEvent.Unload event) {
+        ISettlement settlement = getSettlementForChunk(event.getChunk());
+        if(settlement != null) {
+            ChunkCoordinates coords = new ChunkCoordinates(event.getChunk());
+            settlementsById.remove(settlement.id());
+            settlementsByChunk.remove(coords);
         }
     }
 }
