@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageAddInhabitant;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
@@ -125,6 +126,9 @@ public class Settlement extends Entity implements ISettlement, IEntityAdditional
         int maxZ = data.readInt();
         this.settlementBoundingBox = new SettlementBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         SettlementHandler.getInstance().onSettlementLoaded(this);
+        if(SettlerCraft.proxy.getEffectiveSide() == Side.CLIENT) {
+            SettlementHandler.getInstance().processInhabitantBuffer(this);
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.item;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
+import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanner {
+public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanner, IItemRenderSettlementBoxes {
     public ItemBuildingPlanner() {
         super("buildingPlanner");
         this.setMaxStackSize(1);
@@ -50,9 +51,12 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
             IBuilding building = getBuilding(stack);
             if(building != null) {
                 tooltip.add(StatCollector.translateToLocal(
-                        Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building") +
-                        ": " +
+                        Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L1") +
                         StatCollector.translateToLocal(building.name()));
+                tooltip.add(StatCollector.translateToLocal(
+                        Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L2"));
+                tooltip.add(StatCollector.translateToLocal(
+                        Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L3"));
             }
         }
     }
@@ -144,5 +148,15 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
 
     private boolean isValidStack(ItemStack stack) {
         return stack != null && stack.getItem() == this;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldRenderSettlementBoxes(ISettlement settlement, EntityPlayer player, ItemStack stack) {
+        if(!isValidStack(stack)) {
+            return false;
+        }
+        ISettlement planned = this.getSettlement(stack);
+        return settlement == planned && planned.isMayor(player);
     }
 }

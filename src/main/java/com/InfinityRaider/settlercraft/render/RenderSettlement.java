@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.render;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
-import com.InfinityRaider.settlercraft.item.ItemDebugger;
+import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -34,9 +34,10 @@ public class RenderSettlement {
             return;
         }
         ItemStack stack = player.getCurrentEquippedItem();
-        if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemDebugger)) {
+        if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof IItemRenderSettlementBoxes)) {
             return;
         }
+        IItemRenderSettlementBoxes item = (IItemRenderSettlementBoxes) stack.getItem();
 
         Tessellator tessellator = Tessellator.getInstance();
         GL11.glPushMatrix();
@@ -49,10 +50,9 @@ public class RenderSettlement {
 
         SettlementHandler handler = SettlementHandler.getInstance();
         List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().theWorld);
-        for(ISettlement settlement : SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld)) {
-            renderSettlementBoundingBoxes(tessellator, settlement);
-        }
-
+        SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld).stream().filter(
+                settlement -> item.shouldRenderSettlementBoxes(settlement, player, stack)).forEach(
+                settlement -> renderSettlementBoundingBoxes(tessellator, settlement));
         GL11.glTranslated(posX, posY, posZ);
 
         GL11.glPopMatrix();

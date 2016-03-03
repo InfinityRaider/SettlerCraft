@@ -31,7 +31,7 @@ public class SettlementHandler implements ISettlementHandler {
     @SideOnly(Side.CLIENT)
     public static SettlementHandler getClientInstance() {
         if(INSTANCE_CLIENT == null) {
-            INSTANCE_CLIENT = new SettlementHandler(true);
+            INSTANCE_CLIENT = new SettlementHandlerClient();
         }
         return INSTANCE_CLIENT;
     }
@@ -46,10 +46,9 @@ public class SettlementHandler implements ISettlementHandler {
     private Map<Integer, ISettlement> settlementsById;
     private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
     private Map<UUID, ISettler> interacts;
-
     private final boolean client;
 
-    private SettlementHandler(boolean client) {
+    protected SettlementHandler(boolean client) {
         this.client = client;
         this.reset();
     }
@@ -132,6 +131,10 @@ public class SettlementHandler implements ISettlementHandler {
         settlementsById.put(settlement.id(), settlement);
     }
 
+    public void addSettlerToInhabitantBuffer(int settlementId, ISettler settler) {}
+
+    public void processInhabitantBuffer(ISettlement settlement) {}
+
     private int getNextId() {
         for(int i = 0; i < settlementsById.size(); i++) {
             if(!settlementsById.containsKey(i)) {
@@ -156,10 +159,20 @@ public class SettlementHandler implements ISettlementHandler {
         interacts.remove(player.getUniqueID());
     }
 
+    protected void onClientDisconnected() {
+        reset();
+    }
+
+    protected void onChunkUnloaded(Chunk chunk, ISettlement settlement) {
+        ChunkCoordinates coords = new ChunkCoordinates(chunk);
+        settlementsById.remove(settlement.id());
+        settlementsByChunk.remove(coords);
+    }
+
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-        getInstance().reset();
+        onClientDisconnected();
     }
 
     @SubscribeEvent
@@ -167,9 +180,7 @@ public class SettlementHandler implements ISettlementHandler {
     public void onChunkUnloadEvent(ChunkEvent.Unload event) {
         ISettlement settlement = getSettlementForChunk(event.getChunk());
         if(settlement != null) {
-            ChunkCoordinates coords = new ChunkCoordinates(event.getChunk());
-            settlementsById.remove(settlement.id());
-            settlementsByChunk.remove(coords);
+            onChunkUnloaded(event.getChunk(), settlement);
         }
     }
 }

@@ -46,6 +46,8 @@ public class MessageAddInhabitant extends MessageBase {
                 ISettlement settlement = SettlementHandler.getInstance().getSettlement(message.settlement_id);
                 if(settlement != null) {
                     settlement.addInhabitant((ISettler) message.settler);
+                } else {
+                    SettlementHandler.getInstance().addSettlerToInhabitantBuffer(message.settlement_id, (ISettler) message.settler);
                 }
             }
             return null;

@@ -19,7 +19,9 @@ settlercraft.tooltip_schematicCreator_L3=Right click a second block to define th
 settlercraft.tooltip_schematicCreator_L4=Everything within the space spanned by those two locations will be exported
 
 settlercraft.tooltip_planner.invalidMayor=You are not the mayor of this settlement
-settlercraft.tooltip_planner.building=Planning construction of
+settlercraft.tooltip_planner.building_L1=Planning construction of
+settlercraft.tooltip_planner.building_L2=Right click to plan building, shift right click to rotate structure
+settlercraft.tooltip_planner.building_L3=Outline will turn green when a building can be built here
 
 
 //Buildings

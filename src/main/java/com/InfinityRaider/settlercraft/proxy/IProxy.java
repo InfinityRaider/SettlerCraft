@@ -8,30 +8,64 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 public interface IProxy {
+    /**
+     * @return The physical side, is always Side.SERVER on the server and Side.CLIENT on the client
+     */
     Side getPhysicalSide();
 
+    /**
+     * @return The effective side, on the server, this is always Side.SERVER, on the client it is dependent on the thread
+     */
     Side getEffectiveSide();
 
+    /**
+     * Registers the relevant event handlers for each side
+     */
     void registerEventHandlers();
 
+    /**
+     * Registers the renderers on the client, does nothing on the server
+     */
     void registerRenderers();
 
+    /**
+     * Initializes the configuration options relevant to the specific side
+     * @param event the FMLPreInitialization event passed to SettlerCraft
+     */
     void initConfiguration(FMLPreInitializationEvent event);
 
-    /** Returns the instance of the EntityPlayer on the client, null on the server */
+    /**
+     * @return the instance of the EntityPlayer on the client, null on the server
+     */
     EntityPlayer getClientPlayer();
 
-    /** Returns the client World object on the client, null on the server */
+    /**
+     * @return the client World object on the client, null on the server
+     */
     World getClientWorld();
 
-    /** Returns the World object corresponding to the dimension id */
+    /**
+     * Returns the World object corresponding to the dimension id
+     * @param dimension dimension id
+     * @return world object
+     */
     World getWorldByDimensionId(int dimension);
 
-    /** Returns the entity in that dimension with that id */
+    /**
+     * Returns the entity in that dimension with that id
+     * @param dimension dimension id
+     * @param id entity id
+     * @return the entity
+     */
     Entity getEntityById(int dimension, int id);
 
-    /** Returns the entity in that World object with that id */
+    /**
+     *  @return  the entity in that World object with that id
+     */
     Entity getEntityById(World world, int id);
 
+    /**
+     * @return The settlement handler relevant to the effective side
+     */
     SettlementHandler getSettlementHandler();
 }

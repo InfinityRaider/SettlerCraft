@@ -1,5 +1,7 @@
 package com.InfinityRaider.settlercraft.item;
 
+import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
+import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.utility.DebugHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,8 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDebugger extends ItemBase {
+public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes {
     public ItemDebugger() {
         super("debugger");
         this.setMaxStackSize(1);
@@ -40,5 +44,11 @@ public class ItemDebugger extends ItemBase {
             }
         }
         return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldRenderSettlementBoxes(ISettlement settlement, EntityPlayer player, ItemStack stack) {
+        return true;
     }
 }
