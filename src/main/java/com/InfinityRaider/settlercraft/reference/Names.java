@@ -1,15 +1,6 @@
 package com.InfinityRaider.settlercraft.reference;
 
 public final class Names {
-    public static class Objects {
-
-    }
-
-    public static class Entities {
-        public static final String SETTLER = "entity.settler";
-        public static final String SETTLEMENT = "settlement";
-    }
-
     public static class NBT {
         public static final String INVENTORY = "SC_inv";
         public static final String ITEM = "SC_item";
@@ -36,6 +27,7 @@ public final class Names {
         public static final String RESOURCES = "SC_Resources";
         public static final String HOME = "SC_Home";
         public static final String COUNT = "SC_Count";
+        public static final String ROTATION = "SC_Rot";
     }
 
     public static class Mods {

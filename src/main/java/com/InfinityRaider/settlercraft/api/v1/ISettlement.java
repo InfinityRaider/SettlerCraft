@@ -142,6 +142,13 @@ public interface ISettlement extends ITickable {
      */
     double calculateDistanceSquaredToSettlement(BlockPos pos);
 
+    /**
+     * This is called from the argument, it is called when the building is updated and synced from the client.
+     * This way the settlement knows this building has updated.
+     * @param building the building which has been updated
+     */
+    void onBuildingUpdated(ISettlementBuilding building);
+
     NBTTagCompound writeSettlementToNBT(NBTTagCompound tag);
 
     NBTTagCompound readSettlementFromNBT(NBTTagCompound tag);

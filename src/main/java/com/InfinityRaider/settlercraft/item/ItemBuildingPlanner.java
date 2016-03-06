@@ -39,13 +39,15 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
             BlockPos origin = pos.offset(side);
             ISettlement settlement = SettlementHandler.getInstance().getNearestSettlement(world, origin);
             if(settlement != null) {
-                buildStructure(stack, player, settlement, origin);
+                if(buildStructure(stack, player, settlement, origin)) {
+                    player.inventory.getCurrentItem().stackSize = player.inventory.getCurrentItem().stackSize - 1;
+                }
             }
         }
-        return true;
+        return false;
     }
 
-    private void buildStructure(ItemStack stack, EntityPlayer player, ISettlement settlement, BlockPos pos) {
+    private boolean buildStructure(ItemStack stack, EntityPlayer player, ISettlement settlement, BlockPos pos) {
         IBuilding building = getBuilding(stack);
         int rotation = getRotation(stack);
         Schematic schematic;
@@ -53,12 +55,14 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
             schematic = SchematicReader.getInstance().deserialize(building.schematicLocation());
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
-            return;
+            return false;
         }
         IBoundingBox box = schematic.getBoundingBox(pos, rotation);
         if(isValidBoundingBoxForBuilding(stack, player, settlement, building, box)) {
             settlement.addBuilding(new SettlementBuildingIncomplete(settlement, pos, building, schematic, rotation));
+            return true;
         }
+        return false;
     }
 
     @Override

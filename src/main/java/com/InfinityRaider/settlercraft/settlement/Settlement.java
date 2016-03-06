@@ -11,7 +11,6 @@ import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -22,6 +21,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class Settlement extends AbstractEntityFrozen implements ISettlement {
+    private static final int BUILDING_CLEARANCE = 5;
+
     private int id;
     private ChunkCoordinates homeChunk;
     private EntityPlayer player;
@@ -63,7 +64,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         tag.setInteger(Names.NBT.SLOT, id);
         tag.setString(Names.NBT.FIRST_NAME, name);
         tag.setString(Names.NBT.SURNAME, playerUUID);
-        tag.setIntArray(Names.NBT.HOME, new int[] {homeChunk.x(), homeChunk.z(), homeChunk.dim()});
+        tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.x(), homeChunk.z(), homeChunk.dim()});
         BlockPos pos = settlementBoundingBox.getMinimumPosition();
         tag.setInteger(Names.NBT.X, pos.getX());
         tag.setInteger(Names.NBT.Y, pos.getY());
@@ -72,21 +73,23 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         tag.setInteger(Names.NBT.Y_SIZE, ySize());
         tag.setInteger(Names.NBT.Z_SIZE, zSize());
         tag.setInteger(Names.NBT.COUNT, nextBuildingId);
-        tag.setTag(Names.NBT.BUILDINGS, getBuildingTagList());
+        //tag.setTag(Names.NBT.BUILDINGS, getBuildingTagList());
         return tag;
     }
 
+    /*
     private NBTTagList getBuildingTagList() {
         NBTTagList buildings = new NBTTagList();
         for(List<ISettlementBuilding> buildingForType : this.buildingsPerType.values()) {
             for (ISettlementBuilding building : buildingForType) {
-                NBTTagCompound buildingTag = building.writeToNBT();
+                NBTTagCompound buildingTag = building.writeBuildingToNBT(new NBTTagCompound());
                 buildingTag.setBoolean(Names.NBT.COMPLETED, building.isComplete());
                 buildings.appendTag(buildingTag);
             }
         }
         return buildings;
     }
+    */
 
     @Override
     public NBTTagCompound readSettlementFromNBT(NBTTagCompound tag) {
@@ -103,20 +106,23 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE);
         this.settlementBoundingBox = new SettlementBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.nextBuildingId = tag.getInteger(Names.NBT.COUNT);
-        this.readBuildingsFromTagList(tag.getTagList(Names.NBT.BUILDINGS, 10));
+        //this.readBuildingsFromTagList(tag.getTagList(Names.NBT.BUILDINGS, 10));
         return tag;
     }
 
+    /*
     private void readBuildingsFromTagList(NBTTagList list) {
         this.resetBuildings();
         for(int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound tagAt = list.getCompoundTagAt(i);
-            ISettlementBuilding building = tagAt.getBoolean(Names.NBT.COMPLETED) ? new SettlementBuildingComplete() : new SettlementBuildingIncomplete();
-            building.readFromNBT(tagAt);
+            ISettlementBuilding building = tagAt.getBoolean(Names.NBT.COMPLETED)
+                    ? new SettlementBuildingComplete(this.world())
+                    : new SettlementBuildingIncomplete(this.world());
+            building.readBuildingFromNBT(tagAt);
             this.addBuilding(building);
         }
-
     }
+    */
 
     @Override
     public int id() {
@@ -200,11 +206,21 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     @Override
     public List<IBuilding> getBuildableBuildings() {
         List<IBuilding> list = new ArrayList<>();
-        if(this.hasBuilding(BuildingRegistry.getInstance().TOWN_HALL_1)) {
-
-        } else {
+        List<ISettlementBuilding> townHalls = this.getBuildings(BuildingTypeRegistry.getInstance().buildingTypeTownHall());
+        if(list.size() <= 0) {
             list.add(BuildingRegistry.getInstance().TOWN_HALL_1);
         }
+        boolean complete = false;
+        for(ISettlementBuilding townHall : townHalls) {
+            if(townHall.isComplete()) {
+                complete = true;
+                break;
+            }
+        }
+        if(!complete) {
+            return list;
+        }
+        list.add(BuildingRegistry.getInstance().HOUSE_1);
         return list;
     }
 
@@ -216,15 +232,10 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
 
     @Override
     public void addBuilding(ISettlementBuilding building) {
-        building.setId(nextBuildingId);
+        int id = nextBuildingId;
         nextBuildingId = nextBuildingId + 1;
-        buildings.put(building.id(), building);
-        if(building.building().needsUpdateTicks()) {
-            tickingBuildings.add(building);
-        }
-        buildingsPerType.get(building.building().buildingType()).add(building);
         if(!world().isRemote) {
-
+            building.assignIdAndAddToWorld(id);
         }
     }
 
@@ -289,6 +300,23 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     @Override
     public double calculateDistanceSquaredToSettlement(BlockPos pos) {
         return this.getDistanceSqToCenter(pos);
+    }
+
+    @Override
+    public void onBuildingUpdated(ISettlementBuilding building) {
+        this.buildings.put(building.id(), building);
+        IBuildingType type = building.building().buildingType();
+        if(!buildingsPerType.containsKey(type)) {
+            this.buildingsPerType.put(type, new ArrayList<>());
+        }
+        this.buildingsPerType.get(type).add(building);
+        if(building.building().needsUpdateTicks()) {
+            tickingBuildings.add(building);
+        }
+        IBoundingBox buildingBox = building.getBoundingBox().copy();
+        buildingBox.expandToFit(buildingBox.getMaximumPosition().add(BUILDING_CLEARANCE, BUILDING_CLEARANCE, BUILDING_CLEARANCE));
+        buildingBox.expandToFit(buildingBox.getMinimumPosition().add(-BUILDING_CLEARANCE, -BUILDING_CLEARANCE, -BUILDING_CLEARANCE));
+        this.settlementBoundingBox.expandToFit(buildingBox);
     }
 
     private void resetBuildings() {

@@ -402,4 +402,13 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
         writeDataToNBT(tag);
     }
 
+    @Override
+    public final void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+    }
+
+    @Override
+    public final void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+    }
 }

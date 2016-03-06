@@ -43,7 +43,7 @@ public interface ISettlementBuilding {
     List<? extends ISettler> inhabitants();
 
     /**
-     * @return the settlement where this is built
+     * @return the settlement where this is built, this can be null if the chunk with this building is loaded, but the settlement's home chunk isn't.
      */
     ISettlement settlement();
 
@@ -121,13 +121,11 @@ public interface ISettlementBuilding {
     BlockPos getActualPosition(BlockPos pos);
 
     /**
-     * This method sets the id of the building, it will only accept it the first time it is created and should only be assigned from within the settlement code,
-     * Don't call this if you don't know what you are doing, it won't work anyway.
-     * @param id the id
-     */
-    void setId(int id);
+     * This method is called from within the ISettlement code to assign the building its correct id and add it to the world.
+    */
+    void assignIdAndAddToWorld(int id);
 
-    NBTTagCompound writeToNBT();
+    NBTTagCompound writeBuildingToNBT(NBTTagCompound tag);
 
-    void readFromNBT(NBTTagCompound tag);
+    NBTTagCompound readBuildingFromNBT(NBTTagCompound tag);
 }

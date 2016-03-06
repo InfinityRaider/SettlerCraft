@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
+import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
@@ -45,6 +46,7 @@ public class SettlementHandler implements ISettlementHandler {
 
     private Map<Integer, ISettlement> settlementsById;
     private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
+    private Map<Integer, List<ISettlementBuilding>> buildingBuffer;
     private Map<UUID, ISettler> interacts;
     private final boolean client;
 
@@ -53,9 +55,10 @@ public class SettlementHandler implements ISettlementHandler {
         this.reset();
     }
 
-    private void reset() {
+    protected void reset() {
         settlementsById = new HashMap<>();
         settlementsByChunk = new HashMap<>();
+        buildingBuffer = new HashMap<>();
         interacts = new HashMap<>();
     }
 
@@ -66,27 +69,39 @@ public class SettlementHandler implements ISettlementHandler {
 
     @Override
     public ISettlement getSettlement(int id) {
-        return settlementsById.get(id);
+        ISettlement settlement = settlementsById.get(id);
+        if(settlement != null) {
+            this.processBuffers(settlement);
+        }
+        return settlement;
     }
 
     @Override
     public ISettlement getSettlementForPosition(World world, double x, double y, double z) {
         int dim = world.provider.getDimensionId();
+        ISettlement settlement = null;
         for(Map.Entry<ChunkCoordinates, ISettlement> entry : settlementsByChunk.entrySet()) {
             if(entry.getKey().dim() != dim) {
                 continue;
             }
-            ISettlement settlement = entry.getValue();
+            settlement = entry.getValue();
             if(settlement.isWithinSettlementBounds(x, y, z)) {
-                return settlement;
+                break;
             }
         }
-        return null;
+        if(settlement != null) {
+            processBuffers(settlement);
+        }
+        return settlement;
     }
 
     @Override
     public ISettlement getSettlementForChunk(Chunk chunk) {
-        return settlementsByChunk.get(new ChunkCoordinates(chunk));
+        ISettlement settlement = settlementsByChunk.get(new ChunkCoordinates(chunk));
+        if(settlement != null) {
+            processBuffers(settlement);
+        }
+        return settlement;
     }
 
     public ISettlement getNearestSettlement(World world, BlockPos pos) {
@@ -103,6 +118,9 @@ public class SettlementHandler implements ISettlementHandler {
                     nearest = settlement;
                 }
             }
+        }
+        if(nearest != null) {
+            processBuffers(nearest);
         }
         return nearest;
     }
@@ -149,12 +167,29 @@ public class SettlementHandler implements ISettlementHandler {
     public void onSettlementLoaded(ISettlement settlement) {
         settlementsByChunk.put(new ChunkCoordinates(settlement.homeChunk()), settlement);
         settlementsById.put(settlement.id(), settlement);
-        processInhabitantBuffer(settlement);
+        processBuffers(settlement);
     }
 
-    public void addSettlerToInhabitantBuffer(int settlementId, ISettler settler) {}
+    public void addBuildingToBuffer(int settlementId, ISettlementBuilding building) {
+        if(!buildingBuffer.containsKey(settlementId)) {
+            buildingBuffer.put(settlementId, new ArrayList<>());
+        }
+        buildingBuffer.get(settlementId).add(building);
+    }
 
-    public void processInhabitantBuffer(ISettlement settlement) {}
+    public void addSettlerToBuffer(int settlementId, ISettler settler) {}
+
+    public void processBuffers(ISettlement settlement) {
+        if(settlement == null || buildingBuffer == null) {
+            return;
+        }
+        List<ISettlementBuilding> buildings = buildingBuffer.get(settlement.id());
+        if(buildings == null) {
+            return;
+        }
+        buildings.forEach(settlement::onBuildingUpdated);
+        buildingBuffer.put(settlement.id(), null);
+    }
 
     private int getNextId() {
         if(!settlementsById.containsKey(settlementsById.size())) {
@@ -188,6 +223,7 @@ public class SettlementHandler implements ISettlementHandler {
     }
 
     protected void onChunkUnloaded(Chunk chunk, ISettlement settlement) {
+        processBuffers(settlement);
         ChunkCoordinates coords = new ChunkCoordinates(chunk);
         settlementsById.remove(settlement.id());
         settlementsByChunk.remove(coords);

@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 
 import java.io.IOException;
@@ -29,8 +30,8 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
     private List<BlockPos> blocksToClear;
     private List<ItemStack> neededResources;
 
-    public SettlementBuildingIncomplete() {
-        super();
+    public SettlementBuildingIncomplete(World world) {
+        super(world);
     }
 
     public SettlementBuildingIncomplete(ISettlement settlement, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
@@ -110,8 +111,7 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
 
 
     @Override
-    public NBTTagCompound writeToNBT() {
-        NBTTagCompound tag = super.writeToNBT();
+    public void writeAdditionalDataToNBT(NBTTagCompound tag) {
         //blocks to clear
         NBTTagList blocksList = new NBTTagList();
         for(BlockPos pos : blocksToClear) {
@@ -124,12 +124,10 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
             stackList.appendTag(resource.writeToNBT(new NBTTagCompound()));
         }
         tag.setTag(Names.NBT.RESOURCES, stackList);
-        return tag;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void readAdditionalDataFromNBT(NBTTagCompound tag) {
         //blocks to clear
         blocksToClear = new ArrayList<>();
         NBTTagList blockList = tag.getTagList(Names.NBT.BLOCKS, 11);

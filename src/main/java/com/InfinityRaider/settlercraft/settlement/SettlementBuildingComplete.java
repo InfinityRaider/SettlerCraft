@@ -7,6 +7,7 @@ import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ public class SettlementBuildingComplete extends SettlementBuilding {
     private List<EntitySettler> inhabitants;
     private BlockPos home;
 
-    public SettlementBuildingComplete() {
-        super();
+    public SettlementBuildingComplete(World world) {
+        super(world);
         this.inhabitants = new ArrayList<>();
     }
 
@@ -47,8 +48,7 @@ public class SettlementBuildingComplete extends SettlementBuilding {
     }
 
     @Override
-    public NBTTagCompound writeToNBT() {
-        NBTTagCompound tag = super.writeToNBT();
+    public void writeAdditionalDataToNBT(NBTTagCompound tag) {
         tag.setInteger(Names.NBT.X2, home.getX());
         tag.setInteger(Names.NBT.Y2, home.getY());
         tag.setInteger(Names.NBT.Z2, home.getZ());
@@ -57,12 +57,10 @@ public class SettlementBuildingComplete extends SettlementBuilding {
             settlers[i] = inhabitants.get(i).getEntityId();
         }
         tag.setIntArray(Names.NBT.SETTLERS, settlers);
-        return tag;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void readAdditionalDataFromNBT(NBTTagCompound tag) {
         this.home = new BlockPos(tag.getInteger(Names.NBT.X2), tag.getInteger(Names.NBT.Y2), tag.getInteger(Names.NBT.Z2));
         int[] ids = tag.getIntArray(Names.NBT.SETTLERS);
         for(int id : ids) {

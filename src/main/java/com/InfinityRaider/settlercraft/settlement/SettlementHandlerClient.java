@@ -2,9 +2,6 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,35 +19,8 @@ public class SettlementHandlerClient extends SettlementHandler {
         inhabitantBuffer = new HashMap<>();
     }
 
-    public ISettlement getSettlement(int id) {
-        ISettlement settlement = super.getSettlement(id);
-        processInhabitantBuffer(settlement);
-        return settlement;
-    }
-
     @Override
-    public ISettlement getSettlementForPosition(World world, double x, double y, double z) {
-        ISettlement settlement = super.getSettlementForPosition(world, x, y, z);
-        processInhabitantBuffer(settlement);
-        return settlement;
-    }
-
-    @Override
-     public ISettlement getSettlementForChunk(Chunk chunk) {
-        ISettlement settlement = super.getSettlementForChunk(chunk);
-        processInhabitantBuffer(settlement);
-        return settlement;
-    }
-
-    @Override
-    public ISettlement getNearestSettlement(World world, BlockPos pos) {
-        ISettlement settlement = super.getNearestSettlement(world, pos);
-        processInhabitantBuffer(settlement);
-        return settlement;
-    }
-
-    @Override
-    public void addSettlerToInhabitantBuffer(int settlementId, ISettler settler) {
+    public void addSettlerToBuffer(int settlementId, ISettler settler) {
         if(this.inhabitantBuffer == null) {
             this.inhabitantBuffer = new HashMap<>();
         }
@@ -61,7 +31,7 @@ public class SettlementHandlerClient extends SettlementHandler {
     }
 
     @Override
-    public void processInhabitantBuffer(ISettlement settlement) {
+    public void processBuffers(ISettlement settlement) {
         if(settlement == null ||inhabitantBuffer == null) {
             return;
         }
@@ -69,19 +39,14 @@ public class SettlementHandlerClient extends SettlementHandler {
         if(settlers == null) {
             return;
         }
+        super.processBuffers(settlement);
         settlers.forEach(settlement::addInhabitant);
         inhabitantBuffer.put(settlement.id(), null);
     }
 
     @Override
-    protected void onClientDisconnected() {
+    protected void reset() {
+        super.reset();
         this.inhabitantBuffer = new HashMap<>();
-        super.onClientDisconnected();
-    }
-
-    @Override
-    protected void onChunkUnloaded(Chunk chunk, ISettlement settlement) {
-        processInhabitantBuffer(settlement);
-        super.onChunkUnloaded(chunk, settlement);
     }
 }
