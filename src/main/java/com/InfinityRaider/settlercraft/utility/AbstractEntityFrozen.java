@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement;
+package com.InfinityRaider.settlercraft.utility;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -40,6 +40,8 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
 
     protected abstract void update();
 
+    protected abstract void onEntitySpawned();
+
     protected abstract void onChunkLoaded();
 
     protected abstract void readDataFromNBT(NBTTagCompound tag);
@@ -51,12 +53,14 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
         NBTTagCompound tag = new NBTTagCompound();
         this.writeDataToNBT(tag);
         ByteBufUtils.writeTag(data, tag);
+        this.onEntitySpawned();
     }
 
     @Override
     public final void readSpawnData(ByteBuf data) {
         NBTTagCompound tag = ByteBufUtils.readTag(data);
         this.readDataFromNBT(tag);
+        this.onEntitySpawned();
     }
 
     @Override

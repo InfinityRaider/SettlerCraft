@@ -42,8 +42,8 @@ public class SettlementBoundingBox implements IBoundingBox {
 
     public SettlementBoundingBox(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         this.minX = Math.min(minX, maxX);
-        this.minY = Math.min(minY, maxX);
-        this.minZ = Math.min(minZ, maxX);
+        this.minY = Math.min(minY, maxY);
+        this.minZ = Math.min(minZ, maxZ);
         this.maxX = Math.max(minX, maxX);
         this.maxY = Math.max(minY, maxY);
         this.maxZ = Math.max(minZ, maxZ);

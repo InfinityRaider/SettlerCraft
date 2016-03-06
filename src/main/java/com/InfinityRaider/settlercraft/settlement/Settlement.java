@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.entity.player.EntityPlayer;
@@ -306,6 +307,11 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         for(ISettlementBuilding building : tickingBuildings) {
             building.building().onUpdateTick(building);
         }
+    }
+
+    @Override
+    protected void onEntitySpawned() {
+        SettlementHandler.getInstance().onSettlementLoaded(this);
     }
 
     @Override

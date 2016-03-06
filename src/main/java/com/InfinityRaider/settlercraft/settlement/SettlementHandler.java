@@ -141,12 +141,15 @@ public class SettlementHandler implements ISettlementHandler {
         int z = (int) player.posZ;
         Settlement settlement = new Settlement(getNextId(), world, player, new BlockPos(x, y, z), "");
         world.spawnEntityInWorld(settlement);
+        settlementsById.put(settlement.id(), settlement);
+        settlementsByChunk.put(new ChunkCoordinates(settlement.homeChunk()), settlement);
         return settlement;
     }
 
     public void onSettlementLoaded(ISettlement settlement) {
         settlementsByChunk.put(new ChunkCoordinates(settlement.homeChunk()), settlement);
         settlementsById.put(settlement.id(), settlement);
+        processInhabitantBuffer(settlement);
     }
 
     public void addSettlerToInhabitantBuffer(int settlementId, ISettler settler) {}
