@@ -105,7 +105,7 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
 
     @Override
     protected void onChunkLoaded() {
-
+        onEntitySpawned();
     }
 
     @Override

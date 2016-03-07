@@ -32,7 +32,6 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     private int nextBuildingId;
     private HashMap<Integer, ISettlementBuilding> buildings;
     private HashMap<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
-    private List<ISettlementBuilding> tickingBuildings;
 
     private int populationCount;
     private String playerUUID;
@@ -241,9 +240,6 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
 
     @Override
     public void removeBuilding(ISettlementBuilding building) {
-        if(building.building().needsUpdateTicks()) {
-            tickingBuildings.remove(building);
-        }
         buildingsPerType.get(building.building().buildingType()).remove(building);
     }
 
@@ -310,9 +306,6 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
             this.buildingsPerType.put(type, new ArrayList<>());
         }
         this.buildingsPerType.get(type).add(building);
-        if(building.building().needsUpdateTicks()) {
-            tickingBuildings.add(building);
-        }
         IBoundingBox buildingBox = building.getBoundingBox().copy();
         buildingBox.expandToFit(buildingBox.getMaximumPosition().add(BUILDING_CLEARANCE, BUILDING_CLEARANCE, BUILDING_CLEARANCE));
         buildingBox.expandToFit(buildingBox.getMinimumPosition().add(-BUILDING_CLEARANCE, -BUILDING_CLEARANCE, -BUILDING_CLEARANCE));
@@ -326,15 +319,11 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         for(IBuildingType type : BuildingTypeRegistry.getInstance().allBuildingTypes()) {
             buildingsPerType.put(type, new ArrayList<>());
         }
-        tickingBuildings = new ArrayList<>();
-
     }
 
     @Override
     public void update() {
-        for(ISettlementBuilding building : tickingBuildings) {
-            building.building().onUpdateTick(building);
-        }
+
     }
 
     @Override

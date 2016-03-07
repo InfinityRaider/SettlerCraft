@@ -32,14 +32,14 @@ public class SettlementHandlerClient extends SettlementHandler {
 
     @Override
     public void processBuffers(ISettlement settlement) {
-        if(settlement == null ||inhabitantBuffer == null) {
+        super.processBuffers(settlement);
+        if(settlement == null || inhabitantBuffer == null) {
             return;
         }
         List<ISettler> settlers = inhabitantBuffer.get(settlement.id());
         if(settlers == null) {
             return;
         }
-        super.processBuffers(settlement);
         settlers.forEach(settlement::addInhabitant);
         inhabitantBuffer.put(settlement.id(), null);
     }
