@@ -12,7 +12,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 public class InventorySettler implements IInventorySettler {
-    private ItemStack[] mainInventory = new ItemStack[27];
+    private ItemStack[] mainInventory = new ItemStack[36];
     private ItemStack[] armorInventory = new ItemStack[4];
     private ItemStack active;
 

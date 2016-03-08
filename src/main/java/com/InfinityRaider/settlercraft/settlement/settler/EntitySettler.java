@@ -66,6 +66,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void writeSpawnData(ByteBuf data) {
+        /*
         ByteBufUtils.writeUTF8String(data, firstName);
         ByteBufUtils.writeUTF8String(data, surname);
         data.writeBoolean(male);
@@ -76,11 +77,15 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             ByteBufUtils.writeUTF8String(data, title);
         }
         ByteBufUtils.writeUTF8String(data, profession.getName());
-        //TODO: write home and workplace
+        */
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeEntityToNBT(tag);
+        ByteBufUtils.writeTag(data, tag);
     }
 
     @Override
     public void readSpawnData(ByteBuf data) {
+        /*
         this.firstName = ByteBufUtils.readUTF8String(data);
         this.surname = ByteBufUtils.readUTF8String(data);
         this.male = data.readBoolean();
@@ -91,7 +96,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             this.title = ByteBufUtils.readUTF8String(data);
         }
         this.profession = ProfessionRegistry.getInstance().getProfession(ByteBufUtils.readUTF8String(data));
-        //TODO: read home and workplace
+        */
+        NBTTagCompound tag = ByteBufUtils.readTag(data);
+        this.readEntityFromNBT(tag);
     }
 
     public void writeEntityToNBT(NBTTagCompound tag) {
