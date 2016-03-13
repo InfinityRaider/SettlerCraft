@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import com.InfinityRaider.settlercraft.api.APIBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 /**
@@ -47,6 +48,13 @@ public interface APIv1 extends APIBase {
      * @return the ISettlementHandler instance
      */
     ISettlementHandler getSettlementHandler();
+
+    /**
+     * Gets the settler a player is currently interacting with
+     * @param player the player currently interacting with a settler
+     * @return the settler the player is interacting with, or null if the player is not interacting with a settler
+     */
+    ISettler getSettlerInteractingWithPlayer(EntityPlayer player);
 
     /**
      * Gets a profession from a name

@@ -40,6 +40,15 @@ public interface IDialogueOption {
     void onContainerClosed(EntityPlayer player, ISettler settler);
 
     /**
+     * Called last when this dialogue option is selected and the container has been closed.
+     * When returning false, the interaction between the settler and the player continues,
+     * when returning true, the interaction between the settler and the player ends.
+     * An example for when you want the interaction to continue is when you want to open a new container with this settler
+     * @return true to end the interaction, false to continue the interaction
+     */
+    boolean shouldEndInteraction();
+
+    /**
      * @return a list of localized strings for the answer to this dialogue option (this is what the settler replies to the player selecting this option)
      * every entry in the list is a separate line
      */

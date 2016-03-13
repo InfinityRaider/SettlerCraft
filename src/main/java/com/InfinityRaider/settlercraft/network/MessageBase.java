@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -60,5 +61,13 @@ public abstract class MessageBase implements IMessage {
 
     protected void writeItemStackToByteBuf(ByteBuf buf, ItemStack stack) {
         ByteBufUtils.writeItemStack(buf, stack);
+    }
+
+    protected NBTTagCompound readNBTFromByteBuf(ByteBuf buf) {
+        return ByteBufUtils.readTag(buf);
+    }
+
+    protected  void writeNBTToByteBuf(ByteBuf buf, NBTTagCompound tag) {
+        ByteBufUtils.writeTag(buf, tag);
     }
 }

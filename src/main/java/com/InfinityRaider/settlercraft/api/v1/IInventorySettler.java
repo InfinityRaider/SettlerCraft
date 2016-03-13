@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface IInventorySettler extends IInventory {
+    ISettler getSettler();
+
     ItemStack getEquippedItem();
 
     void setEquippedItem(ItemStack stack);

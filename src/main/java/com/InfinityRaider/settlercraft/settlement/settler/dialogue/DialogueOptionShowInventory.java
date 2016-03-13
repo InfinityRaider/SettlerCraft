@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
-import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 
@@ -26,8 +25,12 @@ public class DialogueOptionShowInventory extends DialogueOptionBase {
     }
 
     @Override
+    public boolean shouldEndInteraction() {
+        return false;
+    }
+
+    @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        SettlementHandler.getInstance().interact(player, settler);
         if(!player.worldObj.isRemote) {
             GuiHandler.getInstance().openSettlerInventoryContainer(player);
         }

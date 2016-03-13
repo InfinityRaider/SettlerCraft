@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
+import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -20,6 +21,11 @@ public class InventorySettler implements IInventorySettler {
 
     protected InventorySettler(EntitySettler settler) {
         this.settler = settler;
+    }
+
+    @Override
+    public ISettler getSettler() {
+        return settler;
     }
 
     @Override
@@ -84,7 +90,7 @@ public class InventorySettler implements IInventorySettler {
         if(index == 0) {
             return active;
         }
-        index = index -1;
+        index = index - 1;
         if(index < armorInventory.length) {
             return armorInventory[index];
         }
@@ -130,7 +136,7 @@ public class InventorySettler implements IInventorySettler {
             active = stack;
             return;
         }
-        index = index -1;
+        index = index - 1;
         if(index < armorInventory.length) {
             armorInventory[index] = stack;
             return;

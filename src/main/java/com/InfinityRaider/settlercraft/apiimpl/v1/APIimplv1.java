@@ -14,6 +14,7 @@ import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 import java.io.IOException;
@@ -69,6 +70,11 @@ public class APIimplv1  implements APIv1 {
     @Override
     public ISettlementHandler getSettlementHandler() {
         return SettlementHandler.getInstance();
+    }
+
+    @Override
+    public ISettler getSettlerInteractingWithPlayer(EntityPlayer player) {
+        return SettlementHandler.getInstance().getSettlerInteractingWith(player);
     }
 
     @Override

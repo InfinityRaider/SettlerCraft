@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.container;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
+import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionDefault;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -36,13 +37,13 @@ public class ContainerSettlerDialogue extends ContainerSettler {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player) {
-        super.onContainerClosed(player);
-        player.openContainer = player.inventoryContainer;
-        if(current != null) {
-            current.onContainerClosed(player, getSettler());
-        }
-        getSettler().setConversationPartner(null);
+    public void onContainerClosed(EntityPlayer player, ISettler settler) {
+        current.onContainerClosed(player, settler);
+    }
+
+    @Override
+    protected boolean stopInteracting() {
+        return current.shouldEndInteraction();
     }
 
     private void initDialogueOptions() {

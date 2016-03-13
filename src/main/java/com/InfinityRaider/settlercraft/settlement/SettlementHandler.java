@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.handler.GuiHandler;
+import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettler;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,6 +49,7 @@ public class SettlementHandler implements ISettlementHandler {
     private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
     private Map<Integer, List<ISettlementBuilding>> buildingBuffer;
     private Map<UUID, ISettler> interacts;
+    private Map<UUID, ContainerSettler> closedContainers;
     private final boolean client;
 
     protected SettlementHandler(boolean client) {
@@ -60,6 +62,7 @@ public class SettlementHandler implements ISettlementHandler {
         settlementsByChunk = new HashMap<>();
         buildingBuffer = new HashMap<>();
         interacts = new HashMap<>();
+        this.closedContainers = new HashMap<>();
     }
 
     @Override
@@ -205,9 +208,6 @@ public class SettlementHandler implements ISettlementHandler {
 
     public void interact(EntityPlayer player, ISettler settler) {
         interacts.put(player.getUniqueID(), settler);
-        if(!player.worldObj.isRemote) {
-            GuiHandler.getInstance().openSettlerDialogueContainer(player);
-        }
     }
 
     public ISettler getSettlerInteractingWith(EntityPlayer player) {
@@ -215,6 +215,10 @@ public class SettlementHandler implements ISettlementHandler {
     }
 
     public void stopInteractingWithSettler(EntityPlayer player) {
+        ISettler settler = interacts.get(player.getUniqueID());
+        if(settler != null) {
+            settler.setConversationPartner(null);
+        }
         interacts.remove(player.getUniqueID());
     }
 
@@ -227,6 +231,19 @@ public class SettlementHandler implements ISettlementHandler {
         ChunkCoordinates coords = new ChunkCoordinates(chunk);
         settlementsById.remove(settlement.id());
         settlementsByChunk.remove(coords);
+    }
+
+    public void onContainerClosed(ContainerSettler closedContainer) {
+        this.closedContainers.put(closedContainer.getPlayer().getUniqueID(), closedContainer);
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onTickEvent(TickEvent.PlayerTickEvent event) {
+        if(closedContainers.containsKey(event.player.getUniqueID())) {
+            closedContainers.get(event.player.getUniqueID()).afterContainerClosed();
+            closedContainers.remove(event.player.getUniqueID());
+        }
     }
 
     @SubscribeEvent

@@ -53,6 +53,11 @@ public abstract class DialogueOptionBase implements IDialogueOption {
         return list;
     }
 
+    @Override
+    public boolean shouldEndInteraction() {
+        return true;
+    }
+
     protected EntityPlayer getPlayer() {
         return player;
     }

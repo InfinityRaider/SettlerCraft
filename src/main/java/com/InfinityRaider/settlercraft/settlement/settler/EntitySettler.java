@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.handler.GuiHandler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
@@ -65,19 +66,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void writeSpawnData(ByteBuf data) {
-        /*
-        ByteBufUtils.writeUTF8String(data, firstName);
-        ByteBufUtils.writeUTF8String(data, surname);
-        data.writeBoolean(male);
-        data.writeInt(settlementId);
-        boolean hasTitle = title != null;
-        data.writeBoolean(hasTitle);
-        if(hasTitle) {
-            ByteBufUtils.writeUTF8String(data, title);
+    public void onUpdate() {
+        super.onUpdate();
+        if(settlementId >= 0 && settlement == null) {
+            this.settlement();
         }
-        ByteBufUtils.writeUTF8String(data, profession.getName());
-        */
+
+    }
+
+    @Override
+    public void writeSpawnData(ByteBuf data) {
         NBTTagCompound tag = new NBTTagCompound();
         this.writeEntityToNBT(tag);
         ByteBufUtils.writeTag(data, tag);
@@ -85,18 +83,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void readSpawnData(ByteBuf data) {
-        /*
-        this.firstName = ByteBufUtils.readUTF8String(data);
-        this.surname = ByteBufUtils.readUTF8String(data);
-        this.male = data.readBoolean();
-        this.settlementId = data.readInt();
-        this.settlement();
-        boolean hasTitle = data.readBoolean();
-        if(hasTitle) {
-            this.title = ByteBufUtils.readUTF8String(data);
-        }
-        this.profession = ProfessionRegistry.getInstance().getProfession(ByteBufUtils.readUTF8String(data));
-        */
         NBTTagCompound tag = ByteBufUtils.readTag(data);
         this.readEntityFromNBT(tag);
     }
@@ -189,6 +175,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     public boolean interact(EntityPlayer player) {
         if(this.conversationPartner == null) {
             SettlementHandler.getInstance().interact(player, this);
+        }
+        if(!player.worldObj.isRemote) {
+            GuiHandler.getInstance().openSettlerDialogueContainer(player);
         }
         return true;
     }
