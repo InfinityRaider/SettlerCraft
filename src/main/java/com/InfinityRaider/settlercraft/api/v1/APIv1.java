@@ -50,6 +50,11 @@ public interface APIv1 extends APIBase {
     ISettlementHandler getSettlementHandler();
 
     /**
+     * @return the IDialogueOptionCreator instance to create default dialogue options
+     */
+    IDialogueOptionCreator getDialogueOptionCreator();
+
+    /**
      * Gets the settler a player is currently interacting with
      * @param player the player currently interacting with a settler
      * @return the settler the player is interacting with, or null if the player is not interacting with a settler

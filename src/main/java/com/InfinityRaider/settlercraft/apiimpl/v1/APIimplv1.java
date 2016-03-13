@@ -8,16 +8,12 @@ import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionCreator;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
-import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
-import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-
-import java.io.IOException;
 
 public class APIimplv1  implements APIv1 {
     private final int version;
@@ -70,6 +66,11 @@ public class APIimplv1  implements APIv1 {
     @Override
     public ISettlementHandler getSettlementHandler() {
         return SettlementHandler.getInstance();
+    }
+
+    @Override
+    public IDialogueOptionCreator getDialogueOptionCreator() {
+        return DialogueOptionCreator.getInstance();
     }
 
     @Override
