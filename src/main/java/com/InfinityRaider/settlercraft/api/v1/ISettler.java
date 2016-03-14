@@ -46,4 +46,16 @@ public interface ISettler extends INpc {
     EntityPlayer getCurrentlyFollowingPlayer();
 
     boolean followPlayer(EntityPlayer player);
+
+    ITask getCurrentTask();
+
+    SettlerStatus getSettlerStatus();
+
+    enum SettlerStatus {
+        IDLE,
+        FOLLOWING_PLAYER,
+        GETTING_FOOD,
+        GOING_TO_BED,
+        PERFORMING_TASK;
+    }
 }

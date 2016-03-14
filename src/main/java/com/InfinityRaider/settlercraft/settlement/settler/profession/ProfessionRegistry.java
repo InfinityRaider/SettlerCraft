@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession;
 
 import com.InfinityRaider.settlercraft.api.v1.IProfession;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.ProfessionBuilder;
 
 import java.util.HashMap;
 import java.util.Map;

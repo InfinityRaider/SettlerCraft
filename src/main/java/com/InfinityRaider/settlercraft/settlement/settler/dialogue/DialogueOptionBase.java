@@ -29,8 +29,9 @@ public abstract class DialogueOptionBase implements IDialogueOption {
             }
         }
 
-        //inventory
+        //mayor specific
         if(isMayor()) {
+            list.add(new DialogueOptionDescribeTask(player, settler, this));
             list.add(new DialogueOptionShowInventory(player, settler));
         }
         list.add(new DialogueOptionRequestName(player, settler, this));

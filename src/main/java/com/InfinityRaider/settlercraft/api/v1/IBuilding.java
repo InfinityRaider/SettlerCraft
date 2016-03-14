@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 /**
  * This interface is used to construct buildings, only one instance per building is created and registered
  *
@@ -64,7 +66,15 @@ public interface IBuilding {
      */
     boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler);
 
-    ITask getTaskForVillager(ISettlementBuilding building, ISettler settler);
+    /**
+     * If the settler can do work for this building ( true returned from canDoWorkHere(settler) ),
+     * this method will be called to get a list of task for the settler to fulfill.
+     *
+     * @param building the ISettlementBuilding object where this is built
+     * @param settler the settler needing work
+     * @return a List holding tasks for the settler, can be empty but should never be null
+     */
+    List<ITask> getTasksForVillager(ISettlementBuilding building, ISettler settler);
 
     /**
      * This method is called right after this building has been built somewhere.

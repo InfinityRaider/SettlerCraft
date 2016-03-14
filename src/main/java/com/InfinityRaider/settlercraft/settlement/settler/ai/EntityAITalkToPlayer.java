@@ -1,51 +1,54 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
-import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EntityAITalkToPlayer extends EntityAIBase {
-    private EntitySettler settler;
-
+public class EntityAITalkToPlayer extends EntityAISettler {
     public EntityAITalkToPlayer(EntitySettler settler) {
-        this.settler = settler;
+        super(settler);
         this.setMutexBits(5);
+    }
+
+    @Override
+    public ISettler.SettlerStatus getStatusForRoutine() {
+        return getSettler().getSettlerStatus();
     }
 
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
-    public boolean shouldExecute() {
-        if (!this.settler.isEntityAlive())  {
+    public boolean shouldExecuteRoutine() {
+        if (!this.getSettler().isEntityAlive())  {
             return false;
         }
-        else if (this.settler.isInWater()) {
+        else if (this.getSettler().isInWater()) {
             return false;
         }
-        else if (!this.settler.onGround) {
+        else if (!this.getSettler().onGround) {
             return false;
         }
-        else if (this.settler.velocityChanged) {
+        else if (this.getSettler().velocityChanged) {
             return false;
         }
         else {
-            EntityPlayer player = this.settler.getConversationPartner();
-            return player != null && (this.settler.getDistanceSqToEntity(player) <= 16.0D && player.openContainer != null);
+            EntityPlayer player = this.getSettler().getConversationPartner();
+            return player != null && (this.getSettler().getDistanceSqToEntity(player) <= 16.0D && player.openContainer != null);
         }
     }
 
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting() {
-        this.settler.getNavigator().clearPathEntity();
+    public void startExecutingRoutine() {
+        this.getSettler().getNavigator().clearPathEntity();
     }
 
     /**
      * Resets the task
      */
     public void resetTask() {
-        EntityPlayer player = this.settler.getConversationPartner();
+        EntityPlayer player = this.getSettler().getConversationPartner();
         //Can be null if the container was closed from within the conversation
         if(player != null) {
             player.closeScreen();

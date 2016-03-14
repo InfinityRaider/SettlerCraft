@@ -4,6 +4,8 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.List;
+
 public class BuildingFarm extends BuildingBase {
     public BuildingFarm() {
         super("farm1");
@@ -35,7 +37,7 @@ public class BuildingFarm extends BuildingBase {
     }
 
     @Override
-    public ITask getTaskForVillager(ISettlementBuilding building, ISettler settler) {
+    public List<ITask> getTasksForVillager(ISettlementBuilding building, ISettler settler) {
         return null;
     }
 

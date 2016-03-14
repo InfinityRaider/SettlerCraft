@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.Entity;
@@ -30,6 +31,11 @@ public class SettlementBuildingComplete extends SettlementBuilding {
     @Override
     public boolean canDoWorkHere(ISettler settler) {
         return building().canSettlerWorkHere(this, settler);
+    }
+
+    @Override
+    public List<ITask> getTasksForSettler(ISettler settler) {
+        return building().getTasksForVillager(this, settler);
     }
 
     @Override

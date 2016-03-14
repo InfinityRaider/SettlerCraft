@@ -9,13 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DialogueOptionReplyName extends DialogueOptionBase {
-    public DialogueOptionReplyName(EntityPlayer player, ISettler settler) {
+    private final IDialogueOption fallback;
+
+    public DialogueOptionReplyName(EntityPlayer player, ISettler settler, IDialogueOption fallback) {
         super(player, settler);
+        this.fallback = fallback;
     }
 
     @Override
      public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
-        List<IDialogueOption> list = super.getDialogueOptions(player, settler);
+        List<IDialogueOption> list = fallback.getDialogueOptions(player, settler);
         int index = -1;
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof DialogueOptionRequestName) {

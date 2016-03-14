@@ -3,7 +3,10 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.reference.Names;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskBuildBuilding;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
@@ -43,7 +46,17 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
 
     @Override
     public boolean canDoWorkHere(ISettler settler) {
-        return settler.profession() == null && (blocksToClear.size() > 0 || neededResources.size() > 0);
+        return settlement() != null
+                && settler != null
+                && settler.profession() == ProfessionRegistry.getInstance().BUILDER
+                && (blocksToClear.size() > 0 || neededResources.size() > 0);
+    }
+
+    @Override
+    public List<ITask> getTasksForSettler(ISettler settler) {
+        List<ITask> tasks = new ArrayList<>();
+        tasks.add(new TaskBuildBuilding(this.settlement(), settler, this));
+        return tasks;
     }
 
     @Override
@@ -107,6 +120,14 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
                 stack = schematic.getItemStack(index);
             }
         }
+    }
+
+    public List<BlockPos> getBlocksToClear() {
+        return blocksToClear;
+    }
+
+    public List<ItemStack> getNeededResources() {
+        return neededResources;
     }
 
 

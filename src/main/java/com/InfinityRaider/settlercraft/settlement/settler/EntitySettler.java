@@ -39,6 +39,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
 
+    private EntityAIPerformTasks taskAI;
+    private SettlerStatus status;
+
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
     }
@@ -63,6 +66,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().BUILDER;
         this.settlementId = -1;
+        this.status = SettlerStatus.IDLE;
     }
 
     @Override
@@ -143,9 +147,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
         this.tasks.addTask(5, new EntityAIFollowPlayer(this, 1, 8, 3));
-        this.tasks.addTask(6, new EntityAIGoToBed());
-        this.tasks.addTask(7, new EntityAIGetFood());
-        this.tasks.addTask(8, new EntityAIPerformJob());
+        this.tasks.addTask(6, new EntityAIGoToBed(this));
+        this.tasks.addTask(7, new EntityAIGetFood(this));
+        taskAI = new EntityAIPerformTasks(this);
+        this.tasks.addTask(8, taskAI);
         this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
         this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));}
@@ -202,7 +207,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         if(slot == 0) {
             return inventory.getEquippedItem();
         }
-        return inventory.getArmorItemInSlot( 3 - (slot - 1));
+        return inventory.getArmorItemInSlot(3 - (slot - 1));
     }
 
     @Override
@@ -350,5 +355,19 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         } else {
             return false;
         }
+    }
+
+    @Override
+    public ITask getCurrentTask() {
+        return taskAI.currentTask();
+    }
+
+    public void setSettlerStatus(SettlerStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public SettlerStatus getSettlerStatus() {
+        return status;
     }
 }

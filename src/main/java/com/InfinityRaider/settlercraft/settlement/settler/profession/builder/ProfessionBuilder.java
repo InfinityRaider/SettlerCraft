@@ -1,10 +1,11 @@
-package com.InfinityRaider.settlercraft.settlement.settler.profession;
+package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder.*;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionBase;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessionBuilder extends ProfessionBase {
-    protected ProfessionBuilder() {
+    public ProfessionBuilder() {
         super("builder");
     }
 

@@ -37,6 +37,17 @@ public interface ISettlementBuilding {
     boolean canDoWorkHere(ISettler settler);
 
     /**
+     * If the settler can do work for this building ( true returned from canDoWorkHere(settler) ),
+     * this method will be called to get a list of task for the settler to fulfill.
+     * For incomplete buildings this call will assign the settler to build the building,
+     * for completed buildings the call will be forwarded to the IBuilding object.
+     *
+     * @param settler the settler needing work
+     * @return a List holding tasks for the settler, can be empty but should never be null
+     */
+    List<ITask> getTasksForSettler(ISettler settler);
+
+    /**
      * @return a list of settlers living in this building (may be empty, but will never be null)
      */
     List<? extends ISettler> inhabitants();

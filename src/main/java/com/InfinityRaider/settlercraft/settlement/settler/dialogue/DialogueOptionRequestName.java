@@ -19,7 +19,7 @@ public class DialogueOptionRequestName extends DialogueOptionBase {
     @Override
     public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
         List<IDialogueOption> list = previous.getDialogueOptions(player, settler);
-        list.add(0, new DialogueOptionReplyName(player, settler));
+        list.add(0, new DialogueOptionReplyName(player, settler, previous));
         int index = -1;
         for(int i = 0; i < list.size(); i++) {
             if(list.get(i) instanceof DialogueOptionRequestName) {

@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 /**
  * This interface is implemented in the building planner Item,
- * it is not meant for you to interact with and not to implement yourself.
+ * it is meant for you to interact with and not to implement yourself.
  * You can get the IItemBuildingPlanner from the SettlerCraftItemRegistry.
  */
 public interface IItemBuildingPlanner {

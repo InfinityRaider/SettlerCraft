@@ -28,4 +28,9 @@ public class DialogueOptionCreator implements IDialogueOptionCreator {
     public IDialogueOption dialogueOptionShowInventory(EntityPlayer player, ISettler settler) {
         return new DialogueOptionShowInventory(player, settler);
     }
+
+    @Override
+    public IDialogueOption dialogueOptionDescribeTask(EntityPlayer player, ISettler settler, IDialogueOption previous) {
+        return new DialogueOptionDescribeTask(player, settler, previous);
+    }
 }

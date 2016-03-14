@@ -31,4 +31,13 @@ public interface IDialogueOptionCreator {
      * @return the dialogue option
      */
     IDialogueOption dialogueOptionShowInventory(EntityPlayer player, ISettler settler);
+
+    /**
+     * Gets a default dialogue option to describe the settler's current task and its status
+     * @param player the player
+     * @param settler the settler
+     * @param previous the current dialogue option (the conversation returns to this after asking the name)
+     * @return the dialogue option
+     */
+    IDialogueOption dialogueOptionDescribeTask(EntityPlayer player, ISettler settler, IDialogueOption previous);
 }
