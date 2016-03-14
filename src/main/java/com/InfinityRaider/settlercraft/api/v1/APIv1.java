@@ -12,9 +12,6 @@ import net.minecraft.util.BlockPos;
  * </p>
  *
  * <ul>
- * <li>version 2 is backwards compatible with version 1,
- * methods from version 1 are overridden here to clarify that they still work as before,
- * methods not overridden here no longer work and should not be used.
  * <li>The methods of this API will never modify the parameter objects unless
  * explicitly stated.
  * <li>All parameters are required and may not be null unless stated otherwise.
@@ -28,6 +25,11 @@ public interface APIv1 extends APIBase {
      * @return the SettlerCraft Item registry
      */
     ISettlerCraftItemRegistry getItemRegistry();
+
+    /**
+     * @return the SettlerCraft Entity regsitry
+     */
+    ISettlerCraftEntityRegistry getEntityRegistry();
 
     /**
      * @return the ISchematicMetaTransformer instance

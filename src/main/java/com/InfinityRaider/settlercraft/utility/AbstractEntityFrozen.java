@@ -21,6 +21,10 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * An invulnerable, invisible, stationary entity which can be used to store data to a point in the world
+ * This does not take up a Block or a TileEntity space in the world, and can be placed inside blocks
+ */
 public abstract class AbstractEntityFrozen extends Entity implements IEntityAdditionalSpawnData {
     public AbstractEntityFrozen(World world) {
         super(world);

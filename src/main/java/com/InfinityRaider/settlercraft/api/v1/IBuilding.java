@@ -1,7 +1,6 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -39,7 +38,7 @@ public interface IBuilding {
      *
      * @return a new IInventory instance for the starting inventory of the new building
      */
-    IInventory getStartingInventory();
+    IInventorySerializable getStartingInventory();
 
     /**
      * This method is used to read json schematics for the buildings, example:

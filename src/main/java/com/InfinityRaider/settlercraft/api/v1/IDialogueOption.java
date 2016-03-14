@@ -33,7 +33,8 @@ public interface IDialogueOption {
     boolean onDialogueOptionSelected(EntityPlayer player, ISettler settler);
 
     /**
-     * Called when the container for this dialogue is closed
+     * Called when the container for this dialogue is closed, this is called when the previous Container is fully closed,
+     * so it is safe to open a new Container from within this method.
      * @param player the player having the dialogue with the settler
      * @param settler the settler having the dialogue with the player
      */

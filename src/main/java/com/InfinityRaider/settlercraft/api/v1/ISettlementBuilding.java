@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 
@@ -62,7 +61,7 @@ public interface ISettlementBuilding {
     /**
      * @return the items currently stored in this building
      */
-    IInventory inventory();
+    IInventorySerializable inventory();
 
     /**
      * This always returns the lowest coordinates

@@ -202,7 +202,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         if(slot == 0) {
             return inventory.getEquippedItem();
         }
-        return inventory.getArmorItemInSlot(slot - 1);
+        return inventory.getArmorItemInSlot( 3 - (slot - 1));
     }
 
     @Override
@@ -222,7 +222,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ItemStack[] getInventory() {
-        return new ItemStack[0];
+        return inventory.toArray();
     }
 
     @Override

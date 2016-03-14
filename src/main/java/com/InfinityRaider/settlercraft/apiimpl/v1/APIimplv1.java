@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.API;
 import com.InfinityRaider.settlercraft.api.APIBase;
 import com.InfinityRaider.settlercraft.api.APIStatus;
 import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
@@ -46,6 +47,11 @@ public class APIimplv1  implements APIv1 {
     @Override
     public ISettlerCraftItemRegistry getItemRegistry() {
         return ItemRegistry.getInstance();
+    }
+
+    @Override
+    public ISettlerCraftEntityRegistry getEntityRegistry() {
+        return EntityRegistry.getInstance();
     }
 
     @Override

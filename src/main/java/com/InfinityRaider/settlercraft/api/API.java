@@ -20,7 +20,7 @@ import com.InfinityRaider.settlercraft.api.v0.NoAPI;
  * <pre>
  * APIBase api = API.getAPI(1);
  * if (api.getStatus().isOk() &amp;&amp; api.getVersion == 1) {
- * 	settlerCrapftApi = (APIv1) api;
+ * 	settlerCraftApi = (APIv1) api;
  * }
  * </pre>
  *
@@ -37,6 +37,8 @@ public class API {
      * This will never return null, so it is important that you check the
      * APIBase.getStatus() and APIBase.getVersion() before typecasting the
      * result to any specific interface.
+     *
+     * The API is initialized in SettlerCraft's pre-init phase, don't try to retrieve an API object before this, it will be unusable.
      *
      * @param maxVersion The maximum version allowed to be returned, effectively returned version might be lower
      * @return an APIBase object which interfaces with SettlerCraft

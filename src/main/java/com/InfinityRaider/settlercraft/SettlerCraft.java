@@ -53,6 +53,7 @@ public class SettlerCraft {
     @SuppressWarnings("unused")
     public static void postInit(FMLPostInitializationEvent event) {
         LogHelper.debug("Starting Post-Initialization");
+        ItemRegistry.getInstance().initRecipes();
         BuildingTypeRegistry.getInstance().postInit();
         LogHelper.debug("Post-Initialization Complete");
     }
@@ -61,5 +62,4 @@ public class SettlerCraft {
     @SuppressWarnings("unused")
     public static void onServerStart(FMLServerStartingEvent event) {
     }
-
 }

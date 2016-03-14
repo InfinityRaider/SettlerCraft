@@ -49,6 +49,35 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
+    public int getSlotForStack(ItemStack stack) {
+        int slot = -1;
+        if(stack == null || stack.getItem() == null) {
+            return slot;
+        }
+        if(isSameItem(stack, active)) {
+            slot = 0;
+        } else {
+            for (int i = 0; i < mainInventory.length; i++) {
+                ItemStack inSlot = this.getStackInSlot(i + 1 + armorInventory.length);
+                if(isSameItem(stack, inSlot)) {
+                    slot = i + 1 + armorInventory.length;
+                    break;
+                }
+            }
+        }
+        return slot;
+    }
+
+    @Override
+    public ItemStack[] toArray() {
+        ItemStack[] inv = new ItemStack[1 + armorInventory.length + mainInventory.length];
+        inv[0] = active;
+        System.arraycopy(armorInventory, 0, inv, 1, armorInventory.length);
+        System.arraycopy(mainInventory, 0, inv, 1 + armorInventory.length, mainInventory.length);
+        return inv;
+    }
+
+    @Override
     public NBTTagCompound writeToNBT() {
         NBTTagCompound tag = new NBTTagCompound();
         NBTTagList list = new NBTTagList();
@@ -218,5 +247,9 @@ public class InventorySettler implements IInventorySettler {
     @Override
     public IChatComponent getDisplayName() {
         return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+    }
+
+    private boolean isSameItem(ItemStack a, ItemStack b) {
+        return ItemStack.areItemsEqual(a, b) && ItemStack.areItemStackTagsEqual(a, b);
     }
 }

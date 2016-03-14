@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 
 public class BuildingHouse extends BuildingBase {
     public BuildingHouse() {
@@ -22,7 +21,7 @@ public class BuildingHouse extends BuildingBase {
     }
 
     @Override
-    public IInventory getStartingInventory() {
+    public IInventorySerializable getStartingInventory() {
         return null;
     }
 

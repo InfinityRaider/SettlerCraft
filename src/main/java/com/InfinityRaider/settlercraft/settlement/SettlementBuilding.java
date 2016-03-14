@@ -1,15 +1,11 @@
 package com.InfinityRaider.settlercraft.settlement;
 
-import com.InfinityRaider.settlercraft.api.v1.IBuilding;
-import com.InfinityRaider.settlercraft.api.v1.ISettlement;
-import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -21,13 +17,13 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     private SettlementBoundingBox boundingBox;
     private IBuilding building;
     private int rotation;
-    private IInventory inventory;
+    private IInventorySerializable inventory;
 
     public SettlementBuilding(World world) {
         super(world);
     }
 
-    public SettlementBuilding(ISettlement settlement, SettlementBoundingBox box, IBuilding building, int rotation, IInventory inventory) {
+    public SettlementBuilding(ISettlement settlement, SettlementBoundingBox box, IBuilding building, int rotation, IInventorySerializable inventory) {
         this(settlement.world());
         this.posX = box.minX() + 0.5;
         this.posY = box.minY() + 0.5;
@@ -142,7 +138,7 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     }
 
     @Override
-    public IInventory inventory() {
+    public IInventorySerializable inventory() {
         return inventory;
     }
 
@@ -195,11 +191,14 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     }
 
     private void writeInventoryToNBT(NBTTagCompound tag) {
-
+        tag.setTag(Names.NBT.INVENTORY, this.inventory.writeToNBT());
     }
 
     private void readInventoryFromNBT(NBTTagCompound tag) {
-
+        if(this.inventory == null) {
+            this.inventory = this.building.getStartingInventory();
+        }
+        this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
     }
 
     protected abstract void writeAdditionalDataToNBT(NBTTagCompound tag);

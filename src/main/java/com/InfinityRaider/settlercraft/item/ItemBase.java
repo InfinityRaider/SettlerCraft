@@ -9,5 +9,6 @@ public abstract class ItemBase extends Item {
         super();
         this.setCreativeTab(ItemRegistry.getInstance().settlerCraftTab);
         RegisterHelper.registerItem(this, name);
+        ItemRegistry.getInstance().settlerCraftItems.add(this);
     }
 }

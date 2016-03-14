@@ -1,10 +1,8 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-public interface IInventorySettler extends IInventory {
+public interface IInventorySettler extends IInventorySerializable {
     ISettler getSettler();
 
     ItemStack getEquippedItem();
@@ -15,7 +13,7 @@ public interface IInventorySettler extends IInventory {
 
     void setArmorItemInSlot(ItemStack stack, int slot);
 
-    NBTTagCompound writeToNBT();
+    int getSlotForStack(ItemStack stack);
 
-    void readFromNBT(NBTTagCompound tag);
+    ItemStack[] toArray();
 }
