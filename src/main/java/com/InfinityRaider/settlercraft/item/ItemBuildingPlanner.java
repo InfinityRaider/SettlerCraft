@@ -13,9 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,9 +34,9 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(player.isSneaking()) {
-            return false;
+            return EnumActionResult.PASS;
         }
         if(!world.isRemote && side == EnumFacing.UP && isValidStack(stack)) {
             BlockPos origin = pos.offset(side);
@@ -44,7 +47,7 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
                 }
             }
         }
-        return false;
+        return EnumActionResult.PASS;
     }
 
     private boolean buildStructure(ItemStack stack, EntityPlayer player, ISettlement settlement, BlockPos pos) {
@@ -66,11 +69,11 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         if(player.isSneaking()) {
             rotate(stack);
         }
-        return stack;
+        return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     @Override
@@ -78,16 +81,16 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         ISettlement settlement = getSettlement(stack);
         if(settlement == null || !settlement.isMayor(player)) {
-            tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_planner.invalidMayor"));
+            tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_planner.invalidMayor"));
         } else {
             IBuilding building = getBuilding(stack);
             if(building != null) {
-                tooltip.add(StatCollector.translateToLocal(
+                tooltip.add(I18n.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L1") +
-                        StatCollector.translateToLocal(building.name()));
-                tooltip.add(StatCollector.translateToLocal(
+                        I18n.translateToLocal(building.name()));
+                tooltip.add(I18n.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L2"));
-                tooltip.add(StatCollector.translateToLocal(
+                tooltip.add(I18n.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L3"));
             }
         }

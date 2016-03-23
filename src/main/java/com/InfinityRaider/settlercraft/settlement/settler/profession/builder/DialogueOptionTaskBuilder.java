@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionEndConversation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,11 @@ public class DialogueOptionTaskBuilder extends DialogueOptionBase {
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
         if(task.getBuilding().getBlocksToClear().size() > 0) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "builder.clearingBlocks"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "builder.clearingBlocks"));
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "builder.buildingStructure"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "builder.buildingStructure"));
             if(task.hasMissingResources()) {
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "builder.missingResources"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "builder.missingResources"));
                 list.addAll(task.getMissingResources().stream().map(
                         stack -> " - " + stack.stackSize + "x " + stack.getDisplayName()).collect(Collectors.toList()));
             }
@@ -53,7 +53,7 @@ public class DialogueOptionTaskBuilder extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "builder.task"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "builder.task"));
         return list;
     }
 }

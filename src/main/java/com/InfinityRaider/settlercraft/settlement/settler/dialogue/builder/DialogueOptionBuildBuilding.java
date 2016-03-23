@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionEndConversation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +35,14 @@ public class DialogueOptionBuildBuilding extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "whatBuilding"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "whatBuilding"));
         return list;
     }
 
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "buildBuilding"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "buildBuilding"));
         return list;
     }
 }

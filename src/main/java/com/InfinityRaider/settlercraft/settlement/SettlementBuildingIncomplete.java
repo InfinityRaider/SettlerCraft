@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 
@@ -98,7 +98,7 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
                             //don't clean up liquids
                             continue;
                         }
-                        if(block.getBlockHardness(settlement().world(), pos) < 0) {
+                        if(block.getBlockHardness(state, settlement().world(), pos) < 0) {
                             //block is unbreakable
                             continue;
                         }

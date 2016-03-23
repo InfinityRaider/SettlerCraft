@@ -4,15 +4,17 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.DataWatcher;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -30,7 +32,7 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
         super(world);
         this.isImmuneToFire = true;
         this.firstUpdate = false;
-        this.dataWatcher = new DataWatcher(this);
+        this.dataWatcher = new EntityDataManager(this);
         this.motionX = 0;
         this.motionY = 0;
         this.motionZ = 0;
@@ -99,7 +101,7 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
     protected final void playStepSound(BlockPos pos, Block blockIn) {}
 
     @Override
-    public final void playSound(String name, float volume, float pitch) {}
+    public final void playSound(SoundEvent soundIn, float volume, float pitch) {}
 
     @Override
     public final boolean isSilent() {
@@ -115,7 +117,7 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
     }
 
     @Override
-    protected final void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {}
+    protected final void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {}
 
     @Override
     protected final void dealFireDamage(int amount) {}
@@ -201,10 +203,7 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
     public final void updateRidden() {}
 
     @Override
-    public final void updateRiderPosition() {}
-
-    @Override
-    public final void mountEntity(Entity entity) {}
+    public final void updatePassenger(Entity entity) {}
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -268,15 +267,6 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
     public final void setInvisible(boolean invisible) {}
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public final boolean isEating() {
-        return false;
-    }
-
-    @Override
-    public final void setEating(boolean eating) {}
-
-    @Override
     protected final boolean getFlag(int flag) {
         return false;
     }
@@ -327,7 +317,9 @@ public abstract class AbstractEntityFrozen extends Entity implements IEntityAddi
     public final void copyLocationAndAnglesFrom(Entity entity) {}
 
     @Override
-    public final void travelToDimension(int dimension) {}
+    public final Entity changeDimension(int dimension) {
+        return this;
+    }
 
     @Override
     public final boolean verifyExplosion(Explosion explosion, World world, BlockPos pos, IBlockState blockState, float f) {

@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ public class DialogueOptionStay extends DialogueOptionBase {
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "backToWork"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "backToWork"));
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "stayingPut"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "stayingPut"));
 
         }
         return list;
@@ -42,9 +42,9 @@ public class DialogueOptionStay extends DialogueOptionBase {
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "stayCitizen"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "stayCitizen"));
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "stay"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "stay"));
         }
         return list;
     }

@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 
 import com.InfinityRaider.settlercraft.api.APIBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * <h1>This is the SettlerCraft API, version 1.</h1>

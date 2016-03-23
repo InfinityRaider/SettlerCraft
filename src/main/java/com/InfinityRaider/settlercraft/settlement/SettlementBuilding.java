@@ -7,7 +7,7 @@ import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class SettlementBuilding extends AbstractEntityFrozen implements ISettlementBuilding {

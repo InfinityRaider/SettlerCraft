@@ -4,23 +4,33 @@ import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InventorySettler implements IInventorySettler {
-    private ItemStack[] mainInventory = new ItemStack[36];
-    private ItemStack[] armorInventory = new ItemStack[4];
+    private ItemStack[] mainInventory;
+    private ItemStack[] armorInventory;
     private ItemStack active;
+    private ItemStack offhand;
 
     private EntitySettler settler;
 
     protected InventorySettler(EntitySettler settler) {
         this.settler = settler;
+        this.mainInventory = new ItemStack[36];
+        this.armorInventory = new ItemStack[4];
     }
 
     @Override
@@ -29,23 +39,87 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
-    public ItemStack getEquippedItem() {
-        return active;
+    public ItemStack getEquippedItem(EnumHand hand) {
+        switch(hand) {
+            case MAIN_HAND: return active;
+            case OFF_HAND: return offhand;
+            default: return null;
+        }
     }
 
     @Override
-    public void setEquippedItem(ItemStack stack) {
-        this.active = stack;
+    public void setEquippedItem(EnumHand hand, ItemStack stack) {
+        switch(hand) {
+            case MAIN_HAND: active = stack; break;
+            case OFF_HAND: offhand = stack; break;
+        }
     }
 
     @Override
-    public ItemStack getArmorItemInSlot(int slot) {
-        return armorInventory[slot % armorInventory.length];
+    public ItemStack getEquipmentInSlot(EntityEquipmentSlot slot) {
+        switch(slot) {
+            case MAINHAND: return active;
+            case OFFHAND: return offhand;
+            case FEET: return armorInventory[3];
+            case LEGS: return armorInventory[2];
+            case CHEST: return armorInventory[1];
+            case HEAD: return armorInventory[0];
+            default: return null;
+        }
     }
 
     @Override
-    public void setArmorItemInSlot(ItemStack stack, int slot) {
-        armorInventory[slot % armorInventory.length] = stack;
+    public void setEquipmentInSlot(EntityEquipmentSlot slot, ItemStack stack) {
+        switch(slot) {
+            case MAINHAND: active = stack; break;
+            case OFFHAND: offhand = stack; break;
+            case FEET:
+                if(isItemValidForSlot(2, stack)) {
+                    armorInventory[0] = stack;
+                }
+                break;
+            case LEGS:
+                if(isItemValidForSlot(3, stack)) {
+                    armorInventory[1] = stack;
+                }
+                break;
+            case CHEST:
+                if(isItemValidForSlot(4, stack)) {
+                    armorInventory[2] = stack;
+                }
+                break;
+            case HEAD:
+                if(isItemValidForSlot(5, stack)) {
+                    armorInventory[3] = stack;
+                }
+                break;
+        }
+    }
+
+    @Override
+    public Map<EntityEquipmentSlot, ItemStack> getEquipmentMap() {
+        Map<EntityEquipmentSlot, ItemStack> map = new HashMap<>();
+        for(EntityEquipmentSlot slot: EntityEquipmentSlot.values()) {
+            map.put(slot, getEquipmentInSlot(slot));
+        }
+        return map;
+    }
+
+    @Override
+    public List<ItemStack> getEquipmentList() {
+        List<ItemStack> list = new ArrayList<>();
+        if(active != null) {
+            list.add(active);
+        }
+        if(offhand != null) {
+            list.add(offhand);
+        }
+        for(ItemStack stack : armorInventory) {
+            if(stack != null) {
+                list.add(stack);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -56,11 +130,13 @@ public class InventorySettler implements IInventorySettler {
         }
         if(isSameItem(stack, active)) {
             slot = 0;
+        } else if(isSameItem(stack, offhand)) {
+            slot = 1;
         } else {
             for (int i = 0; i < mainInventory.length; i++) {
                 ItemStack inSlot = this.getStackInSlot(i + 1 + armorInventory.length);
                 if(isSameItem(stack, inSlot)) {
-                    slot = i + 1 + armorInventory.length;
+                    slot = i + 2 + armorInventory.length;
                     break;
                 }
             }
@@ -70,10 +146,11 @@ public class InventorySettler implements IInventorySettler {
 
     @Override
     public ItemStack[] toArray() {
-        ItemStack[] inv = new ItemStack[1 + armorInventory.length + mainInventory.length];
+        ItemStack[] inv = new ItemStack[2 + armorInventory.length + mainInventory.length];
         inv[0] = active;
-        System.arraycopy(armorInventory, 0, inv, 1, armorInventory.length);
-        System.arraycopy(mainInventory, 0, inv, 1 + armorInventory.length, mainInventory.length);
+        inv[1] = offhand;
+        System.arraycopy(armorInventory, 0, inv, 2, armorInventory.length);
+        System.arraycopy(mainInventory, 0, inv, 2 + armorInventory.length, mainInventory.length);
         return inv;
     }
 
@@ -108,7 +185,7 @@ public class InventorySettler implements IInventorySettler {
 
     @Override
     public int getSizeInventory() {
-        return 1 + armorInventory.length + mainInventory.length;
+        return 2 + armorInventory.length + mainInventory.length;
     }
 
     @Override
@@ -119,7 +196,10 @@ public class InventorySettler implements IInventorySettler {
         if(index == 0) {
             return active;
         }
-        index = index - 1;
+        if(index == 1) {
+            return offhand;
+        }
+        index = index - 2;
         if(index < armorInventory.length) {
             return armorInventory[index];
         }
@@ -165,7 +245,11 @@ public class InventorySettler implements IInventorySettler {
             active = stack;
             return;
         }
-        index = index - 1;
+        if(index == 1) {
+            offhand = stack;
+            return;
+        }
+        index = index - 2;
         if(index < armorInventory.length) {
             armorInventory[index] = stack;
             return;
@@ -200,12 +284,12 @@ public class InventorySettler implements IInventorySettler {
         if(stack == null) {
             return true;
         }
-        if(index == 0 || index >= 1 + armorInventory.length) {
+        if(index == 0 || index == 1 || index >= 2 + armorInventory.length) {
             return true;
         }
         if(stack.getItem() instanceof ItemArmor) {
             ItemArmor item = (ItemArmor) stack.getItem();
-            return item.armorType == index - 1;
+            return item.armorType.ordinal() - 2 == 3 - (index - 2);
         }
         return false;
     }
@@ -226,6 +310,7 @@ public class InventorySettler implements IInventorySettler {
     @Override
     public void clear() {
         this.active = null;
+        this.offhand = null;
         for(int i = 0; i < mainInventory.length; i++) {
             mainInventory[i] = null;
         }
@@ -245,8 +330,8 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
-    public IChatComponent getDisplayName() {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+    public ITextComponent getDisplayName() {
+        return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
     }
 
     private boolean isSameItem(ItemStack a, ItemStack b) {

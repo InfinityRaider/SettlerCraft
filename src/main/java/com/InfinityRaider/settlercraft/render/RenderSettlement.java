@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
@@ -33,11 +34,16 @@ public class RenderSettlement {
         if(player == null) {
             return;
         }
-        ItemStack stack = player.getCurrentEquippedItem();
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+        if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof IItemRenderSettlementBoxes)) {
+            stack = player.getHeldItem(EnumHand.OFF_HAND);
+        }
         if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof IItemRenderSettlementBoxes)) {
             return;
         }
-        IItemRenderSettlementBoxes item = (IItemRenderSettlementBoxes) stack.getItem();
+
+        final ItemStack finalStack = stack;
+        IItemRenderSettlementBoxes item = (IItemRenderSettlementBoxes) finalStack.getItem();
 
         Tessellator tessellator = Tessellator.getInstance();
         GL11.glPushMatrix();
@@ -51,7 +57,7 @@ public class RenderSettlement {
         SettlementHandler handler = SettlementHandler.getInstance();
         List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().theWorld);
         SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld).stream().filter(
-                settlement -> item.shouldRenderSettlementBoxes(settlement, player, stack)).forEach(
+                settlement -> item.shouldRenderSettlementBoxes(settlement, player, finalStack)).forEach(
                 settlement -> renderSettlementBoundingBoxes(tessellator, settlement));
         GL11.glTranslated(posX, posY, posZ);
 

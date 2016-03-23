@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.utility;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -11,11 +11,11 @@ public class ChunkCoordinates {
     private int dim;
 
     public ChunkCoordinates(Chunk chunk) {
-        this(chunk.xPosition, chunk.zPosition, chunk.getWorld().provider.getDimensionId());
+        this(chunk.xPosition, chunk.zPosition, chunk.getWorld().provider.getDimension());
     }
 
     public ChunkCoordinates(World world, BlockPos pos) {
-        this(pos.getX() >> 4, pos.getZ() >> 4, world.provider.getDimensionId());
+        this(pos.getX() >> 4, pos.getZ() >> 4, world.provider.getDimension());
     }
 
     public ChunkCoordinates(int x, int z, int dim) {

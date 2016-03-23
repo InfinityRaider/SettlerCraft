@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +31,15 @@ public class DialogueOptionCreateSettlement extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "startSettlement"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "startSettlement"));
         return list;
     }
 
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "createSettlement1"));
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "createSettlement2"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "createSettlement1"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "createSettlement2"));
         return list;
     }
 }

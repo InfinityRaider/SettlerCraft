@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 public abstract class TaskBase implements ITask {
     private final String name;
@@ -30,6 +30,6 @@ public abstract class TaskBase implements ITask {
 
     @Override
     public String getTaskDescription() {
-        return StatCollector.translateToLocal("settlercraft.task."+name);
+        return I18n.translateToLocal("settlercraft.task." + name);
     }
 }

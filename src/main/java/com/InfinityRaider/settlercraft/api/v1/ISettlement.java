@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;

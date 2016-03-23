@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class DialogueOptionFollow extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "following"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "following"));
         return list;
     }
 
@@ -36,9 +36,9 @@ public class DialogueOptionFollow extends DialogueOptionBase {
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "followMeCitizen"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "followMeCitizen"));
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "followMe"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "followMe"));
         }
         return list;
     }

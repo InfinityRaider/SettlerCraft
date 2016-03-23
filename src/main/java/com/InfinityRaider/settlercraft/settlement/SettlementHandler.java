@@ -8,7 +8,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettler;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -81,7 +81,7 @@ public class SettlementHandler implements ISettlementHandler {
 
     @Override
     public ISettlement getSettlementForPosition(World world, double x, double y, double z) {
-        int dim = world.provider.getDimensionId();
+        int dim = world.provider.getDimension();
         ISettlement settlement = null;
         for(Map.Entry<ChunkCoordinates, ISettlement> entry : settlementsByChunk.entrySet()) {
             if(entry.getKey().dim() != dim) {
@@ -130,7 +130,7 @@ public class SettlementHandler implements ISettlementHandler {
 
     @Override
     public List<ISettlement> getSettlementsForWorld(World world) {
-        return settlementsByChunk.entrySet().stream().filter(entry -> entry.getKey().dim() == world.provider.getDimensionId()).map(Map.Entry::getValue).collect(Collectors.toList());
+        return settlementsByChunk.entrySet().stream().filter(entry -> entry.getKey().dim() == world.provider.getDimension()).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     @Override

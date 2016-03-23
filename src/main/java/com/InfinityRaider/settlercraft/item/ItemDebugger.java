@@ -6,7 +6,9 @@ import com.InfinityRaider.settlercraft.utility.DebugHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +21,7 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if(world.isRemote) {
             if (!player.isSneaking()) {
                 DebugHelper.getInstance().debug(player, world, pos);
@@ -43,7 +45,7 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
                 SchematicReader.getInstance().buildStoredSchematic(world, pos.add(side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ()), rotation);
             }
         }
-        return false;
+        return EnumActionResult.PASS;
     }
 
     @Override

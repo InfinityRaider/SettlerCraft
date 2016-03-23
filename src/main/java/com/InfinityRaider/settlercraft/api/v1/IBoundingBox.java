@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

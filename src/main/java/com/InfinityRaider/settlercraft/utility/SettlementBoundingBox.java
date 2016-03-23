@@ -4,9 +4,9 @@ import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.reference.Constants;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -197,7 +197,7 @@ public class SettlementBoundingBox implements IBoundingBox {
     @Override
     @SideOnly(Side.CLIENT)
     public void renderWireFrame(Tessellator tessellator, Color color) {
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer buffer = tessellator.getBuffer();
         GlStateManager.disableTexture2D();
         GlStateManager.disableLighting();
         GL11.glTranslatef(minX(), minY(), minZ());
@@ -212,68 +212,68 @@ public class SettlementBoundingBox implements IBoundingBox {
         int alpha = color.getAlpha();
 
         //x edges
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= x; i++) {
-            worldrenderer.pos(i, 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(i, 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= x; i++) {
-            worldrenderer.pos(i, y - 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(i, y - 0.001F, 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= x; i++) {
-            worldrenderer.pos(i, y - 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(i, y - 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= x; i++) {
-            worldrenderer.pos(i, 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(i, 0.001F, z - 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
 
         //y edges
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= y; i++) {
-            worldrenderer.pos(0.001F, i,  0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(0.001F, i, 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= y; i++) {
-            worldrenderer.pos(x - 0.001F, i, 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(x - 0.001F, i, 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= y; i++) {
-            worldrenderer.pos(x - 0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(x - 0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= y; i++) {
-            worldrenderer.pos(0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
+            buffer.pos(0.001F, i, z - 0.001F).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
 
         //z edges
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= z; i++) {
-            worldrenderer.pos(0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
+            buffer.pos(0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= z; i++) {
-            worldrenderer.pos(x - 0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
+            buffer.pos(x - 0.001F, 0.001F, i).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= z; i++) {
-            worldrenderer.pos(x - 0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
+            buffer.pos(x - 0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
-        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
         for(int i = 0; i <= z; i++) {
-            worldrenderer.pos(0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
+            buffer.pos(0.001F, y - 0.001F, i).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
 

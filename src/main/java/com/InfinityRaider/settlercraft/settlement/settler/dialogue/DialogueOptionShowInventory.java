@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +39,14 @@ public class DialogueOptionShowInventory extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "showInventory"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "showInventory"));
         return list;
     }
 
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "requestInventory"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "requestInventory"));
         return list;
     }
 }

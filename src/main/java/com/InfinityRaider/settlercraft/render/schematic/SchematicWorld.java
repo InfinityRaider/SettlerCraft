@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -80,7 +80,8 @@ public class SchematicWorld implements IBlockAccess {
 
     @Override
     public boolean isAirBlock(BlockPos pos) {
-        return !blockMap.containsKey(pos) || blockMap.get(pos).getBlock().getMaterial() == Material.air;
+        IBlockState state = getBlockState(pos);
+        return !blockMap.containsKey(pos) || blockMap.get(pos).getBlock().getMaterial(state) == Material.air;
     }
 
     @Override
@@ -110,7 +111,8 @@ public class SchematicWorld implements IBlockAccess {
         if (!this.isValid(pos)) {
             return defaultValue;
         }
-        return getBlockState(pos).getBlock().isSideSolid(this, pos, side);
+        IBlockState state = getBlockState(pos);
+        return state.getBlock().isSideSolid(state, this, pos, side);
     }
 
     private boolean isValid(BlockPos pos) {

@@ -31,21 +31,22 @@ public class ContainerSettlerInventory extends ContainerSettler {
         int yOffset = INVENTORY_SETTLER_Y;
         //add settlers equipped item to the container
         this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 8, 82));
+        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 26, 82));
         //add settlers armor to the container
         for(int i = 0; i < 4; i++) {
-            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 1, 8, 8 + i * 18));
+            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 2, 8, 8 + i * 18));
         }
         //add settler inventory to the container
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; j++) {
                 //new Slot(inventory, slot index, x coordinate, y coordinate)
-                this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, j + i*9 + 5 + 9, xOffset + j*18, yOffset + i*18));
+                this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, j + i*9 + 6 + 9, xOffset + j*18, yOffset + i*18));
             }
         }
         //add settler hot bar to the container
         for(int i = 0; i < 9; i++) {
             //new Slot(inventory, slot index, x coordinate, y coordinate)
-            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 5, xOffset + i*18, 58 + yOffset));
+            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 6, xOffset + i*18, 58 + yOffset));
         }
 
         //add player's armor to the container
@@ -93,15 +94,15 @@ public class ContainerSettlerInventory extends ContainerSettler {
         if(stack == null || stack.getItem() == null) {
             return null;
         }
-        if(index < 5 || index >= 36 + 5) {
-            if(this.mergeItemStack(stack, 5, 36 + 5, false)) {
+        if(index < 6 || index >= 36 + 6) {
+            if(this.mergeItemStack(stack, 6, 36 + 6, false)) {
                 slot.putStack(null);
                 return null;
             } else {
                 return stack;
             }
         } else {
-           if(this.mergeItemStack(stack, 36 + 5 + 4, 36 + 5 + 4 + 36, false)) {
+           if(this.mergeItemStack(stack, 36 + 6 + 4, 36 + 6 + 4 + 36, false)) {
                 slot.putStack(null);
                 return null;
             } else {
@@ -131,7 +132,7 @@ public class ContainerSettlerInventory extends ContainerSettler {
                 return true;
             }
             if(this.inventory instanceof InventoryPlayer && this.getSlotIndex()  >= 36) {
-                return (stack.getItem() instanceof ItemArmor) && ((ItemArmor) stack.getItem()).armorType ==  3 - (this.getSlotIndex() - 36);
+                return (stack.getItem() instanceof ItemArmor) && ((ItemArmor) stack.getItem()).armorType.ordinal() - 2 ==  3 - (this.getSlotIndex() - 36);
             }
             return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
         }

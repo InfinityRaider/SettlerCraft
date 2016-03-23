@@ -11,7 +11,7 @@ import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 

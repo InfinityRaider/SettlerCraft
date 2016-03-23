@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +30,14 @@ public class DialogueOptionJoinSettlement extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "aNewHome"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "aNewHome"));
         return list;
     }
 
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "joinSettlement"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "joinSettlement"));
         return list;
     }
 }

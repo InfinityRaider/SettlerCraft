@@ -7,7 +7,7 @@ import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;

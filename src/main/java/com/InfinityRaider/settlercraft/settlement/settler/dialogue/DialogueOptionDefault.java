@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,13 @@ public class DialogueOptionDefault extends DialogueOptionBase {
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
         if(getSettler().settlement() == null) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "greetPlayer"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "greetPlayer"));
         } else {
             if(isMayor()) {
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "greetMayor1"));
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "greetMayor2"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor1"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor2"));
             } else {
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "greetOtherPlayer"));                
+                list.add(I18n.translateToLocal(getDiscriminator() + "greetOtherPlayer"));
             }
         }
         return list;
@@ -41,7 +41,7 @@ public class DialogueOptionDefault extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "greetSettler"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "greetSettler"));
         return list;
     }
 }

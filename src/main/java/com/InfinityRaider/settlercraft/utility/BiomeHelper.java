@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.utility;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 
 import java.util.ArrayList;
@@ -16,14 +17,14 @@ public class BiomeHelper {
     private BiomeHelper() {}
 
     public String[] getBiomeList() {
-        List<String> list = BiomeGenBase.explorationBiomesList.stream().map(biome -> biome.biomeName).collect(Collectors.toList());
+        List<String> list = BiomeGenBase.explorationBiomesList.stream().map(BiomeGenBase::getBiomeName).collect(Collectors.toList());
         return list.toArray(new String[list.size()]);
     }
 
     public BiomeGenBase[] convertBiomeNamesList(String[] names) {
         List<BiomeGenBase> list = new ArrayList<>();
         for(String name : names) {
-            BiomeGenBase biome = BiomeGenBase.BIOME_ID_MAP.get(name);
+            BiomeGenBase biome = BiomeGenBase.biomeRegistry.getObject(new ResourceLocation(name));
             if(biome != null) {
                 list.add(biome);
             }

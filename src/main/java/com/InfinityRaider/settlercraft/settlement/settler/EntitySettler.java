@@ -13,13 +13,19 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+
+import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     private static final SettlerRandomizer randomizer = SettlerRandomizer.getInstance();
@@ -138,7 +144,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @SuppressWarnings("unchecked")
     private void initTasks() {
         ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
-        ((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
         this.tasks.addTask(1, new EntityAITalkToPlayer(this));
@@ -177,14 +182,14 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public boolean interact(EntityPlayer player) {
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
         if(this.conversationPartner == null) {
             SettlementHandler.getInstance().interact(player, this);
         }
         if(!player.worldObj.isRemote) {
             GuiHandler.getInstance().openSettlerDialogueContainer(player);
         }
-        return true;
+        return EnumActionResult.SUCCESS;
     }
 
     @Override
@@ -195,39 +200,23 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public ItemStack getHeldItem() {
-        return inventory.getEquippedItem();
+    public ItemStack getHeldItem(EnumHand hand) {
+        return inventory.getEquippedItem(hand);
     }
 
     @Override
-    public ItemStack getEquipmentInSlot(int slot) {
-        if(slot < 0) {
-            return null;
-        }
-        if(slot == 0) {
-            return inventory.getEquippedItem();
-        }
-        return inventory.getArmorItemInSlot(3 - (slot - 1));
+    public List<ItemStack> getArmorInventoryList() {
+        return inventory.getEquipmentList();
     }
 
     @Override
-    public ItemStack getCurrentArmor(int slot) {
-        return inventory.getArmorItemInSlot(slot);
+    public ItemStack getItemStackFromSlot(EntityEquipmentSlot slot) {
+        return inventory.getEquipmentInSlot(slot);
     }
 
     @Override
-    public void setCurrentItemOrArmor(int slot, ItemStack stack) {
-        if(slot == 0) {
-            this.inventory.setEquippedItem(stack);
-        }
-        if(slot > 0 && slot <= 4) {
-            this.inventory.setArmorItemInSlot(stack, slot-1);
-        }
-    }
-
-    @Override
-    public ItemStack[] getInventory() {
-        return inventory.toArray();
+    public void setItemStackToSlot(EntityEquipmentSlot slot, ItemStack stack) {
+        this.inventory.setEquipmentInSlot(slot, stack);
     }
 
     @Override

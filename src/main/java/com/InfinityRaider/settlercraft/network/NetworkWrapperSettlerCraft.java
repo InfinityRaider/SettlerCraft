@@ -37,7 +37,7 @@ public class NetworkWrapperSettlerCraft {
     }
 
     public void sendToAllAround(MessageBase message, World world, double x, double y, double z, double range) {
-        sendToAllAround(message, new NetworkRegistry.TargetPoint(world.provider.getDimensionId(), x, y, z, range));
+        sendToAllAround(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), x, y, z, range));
     }
 
     public void sendToAllAround(MessageBase message, int dimension, double x, double y, double z, double range) {
@@ -49,7 +49,7 @@ public class NetworkWrapperSettlerCraft {
     }
 
     public void sendToDimension(MessageBase messageBase, World world) {
-        sendToDimension(messageBase, world.provider.getDimensionId());
+        sendToDimension(messageBase, world.provider.getDimension());
     }
 
     public void sendToDimension(MessageBase message, int dimensionId) {

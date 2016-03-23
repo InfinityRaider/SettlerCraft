@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nullable;
 

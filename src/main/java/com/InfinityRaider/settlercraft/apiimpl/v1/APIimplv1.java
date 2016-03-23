@@ -14,7 +14,7 @@ import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionR
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class APIimplv1  implements APIv1 {
     private final int version;

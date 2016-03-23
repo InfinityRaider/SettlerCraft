@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +44,10 @@ public class DialogueOptionReplyName extends DialogueOptionBase {
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "noProblem1") + ".");
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "noProblem2") + ".");
+            list.add(I18n.translateToLocal(getDiscriminator() + "noProblem1") + ".");
+            list.add(I18n.translateToLocal(getDiscriminator() + "noProblem2") + ".");
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "likewise") + ".");
+            list.add(I18n.translateToLocal(getDiscriminator() + "likewise") + ".");
         }
         return list;
     }
@@ -56,9 +56,9 @@ public class DialogueOptionReplyName extends DialogueOptionBase {
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "forgetful")+".");
+            list.add(I18n.translateToLocal(getDiscriminator() + "forgetful")+".");
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "helloName") + " " + getSettler().getFirstName() + " " + getSettler().getSurname() + ".");
+            list.add(I18n.translateToLocal(getDiscriminator() + "helloName") + " " + getSettler().getFirstName() + " " + getSettler().getSurname() + ".");
         }
         return list;
     }

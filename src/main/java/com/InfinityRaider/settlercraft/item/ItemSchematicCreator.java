@@ -4,9 +4,11 @@ import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicWriter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,19 +22,19 @@ public class ItemSchematicCreator extends ItemBase {
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if(!world.isRemote) {
             SchematicWriter.getInstance().onBlockClicked(world, pos);
         }
-        return false;
+        return EnumActionResult.PASS;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L1"));
-        tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L2"));
-        tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L3"));
-        tooltip.add(StatCollector.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L4"));
+        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_schematicCreator_L1"));
+        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L2"));
+        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L3"));
+        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L4"));
     }
 }

@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class DialogueOptionRequestName extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "giveSettlerName")+" "+getSettler().getFirstName() + " " + getSettler().getSurname()+".");
+        list.add(I18n.translateToLocal(getDiscriminator() + "giveSettlerName")+" "+getSettler().getFirstName() + " " + getSettler().getSurname()+".");
         return list;
     }
 
@@ -52,10 +52,10 @@ public class DialogueOptionRequestName extends DialogueOptionBase {
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "getSettlerName3"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName3"));
         } else {
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "getSettlerName1") + " " + getPlayer().getDisplayName().getUnformattedText() + ",");
-            list.add(StatCollector.translateToLocal(getDiscriminator() + "getSettlerName2"));
+            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName1") + " " + getPlayer().getDisplayName().getUnformattedText() + ",");
+            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName2"));
         }
         return list;
     }

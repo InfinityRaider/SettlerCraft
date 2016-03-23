@@ -8,9 +8,9 @@ import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,13 +29,13 @@ public class SchematicRenderer {
 
     private SchematicRenderer() {}
 
-    public void doRender(WorldRenderer renderer) {
+    public void doRender(VertexBuffer buffer) {
         if(this.hasSchematic()) {
             for(int x = 0; x < currentSchematic.sizeX(); x++) {
                 for(int y = 0; y < currentSchematic.sizeY(); y++) {
                     for(int z = 0; z < currentSchematic.sizeZ(); z++) {
                         BlockPos pos = new BlockPos(x, y, z);
-                        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(currentSchematic.getBlockState(pos), pos, currentSchematic, renderer);
+                        Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlock(currentSchematic.getBlockState(pos), pos, currentSchematic, buffer);
                     }
                 }
             }

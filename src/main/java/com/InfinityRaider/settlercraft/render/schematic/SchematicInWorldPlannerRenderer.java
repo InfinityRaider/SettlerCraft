@@ -12,12 +12,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -50,7 +51,10 @@ public class SchematicInWorldPlannerRenderer {
         if(player == null) {
             return;
         }
-        ItemStack stack = player.getCurrentEquippedItem();
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+        if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemBuildingPlanner)) {
+            stack = player.getHeldItem(EnumHand.OFF_HAND);
+        }
         if(stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemBuildingPlanner)) {
             return;
         }
@@ -60,19 +64,19 @@ public class SchematicInWorldPlannerRenderer {
         if(building == null || settlement == null) {
             return;
         }
-        MovingObjectPosition raytraced = player.rayTrace(5, event.partialTicks);
+        RayTraceResult raytraced = player.rayTrace(5, event.partialTicks);
         if(raytraced == null || raytraced.getBlockPos() == null || raytraced.sideHit != EnumFacing.UP) {
             return;
         }
         BlockPos pos = raytraced.getBlockPos().offset(raytraced.sideHit);
         IBlockState state = SettlerCraft.proxy.getClientWorld().getBlockState(raytraced.getBlockPos());
-        if(state.getBlock().getMaterial() == Material.air) {
+        if(state.getBlock().getMaterial(state) == Material.air) {
             return;
         }
         renderer.setSchematicFromStack(stack, planner);
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        VertexBuffer buffer = tessellator.getBuffer();
         GL11.glPushMatrix();
 
         int rotation = planner.getRotation(stack);
@@ -91,9 +95,9 @@ public class SchematicInWorldPlannerRenderer {
 
         renderDebug();
 
-        worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
+        buffer.begin(7, DefaultVertexFormats.BLOCK);
         renderer.setOrigin(pos);
-        renderer.doRender(worldrenderer);
+        renderer.doRender(buffer);
         tessellator.draw();
 
 
@@ -119,25 +123,25 @@ public class SchematicInWorldPlannerRenderer {
     private void renderDebug() {
         if(ConfigurationHandler.getInstance().debug) {
             Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            VertexBuffer buffer = tessellator.getBuffer();
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();
 
-            worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
             for(int i = 0; i <= 16; i++) {
-                worldrenderer.pos(((float) i) / 16.0F, 0, 0).color(255, 0, 0, 255).endVertex();
+                buffer.pos(((float) i) / 16.0F, 0, 0).color(255, 0, 0, 255).endVertex();
             }
             tessellator.draw();
 
-            worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
             for(int i = 0; i <= 16; i++) {
-                worldrenderer.pos(0, ((float) i) / 16.0F, 0).color(0, 255, 0, 255).endVertex();
+                buffer.pos(0, ((float) i) / 16.0F, 0).color(0, 255, 0, 255).endVertex();
             }
             tessellator.draw();
 
-            worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
             for(int i = 0; i <= 16; i++) {
-                worldrenderer.pos(0, 0, ((float) i) / 16.0F).color(0, 0, 255, 255).endVertex();
+                buffer.pos(0, 0, ((float) i) / 16.0F).color(0, 0, 255, 255).endVertex();
             }
             tessellator.draw();
 

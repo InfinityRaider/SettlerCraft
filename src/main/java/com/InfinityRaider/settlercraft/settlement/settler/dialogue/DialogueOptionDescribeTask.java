@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,23 +51,23 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
         List<String> list = new ArrayList<>();
         switch (getSettler().getSettlerStatus()) {
             case IDLE:
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "task.noTask"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
                 break;
             case FOLLOWING_PLAYER:
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
+                list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
                         + getSettler().getCurrentlyFollowingPlayer().getDisplayName().getFormattedText() + ".");
                 break;
             case GETTING_FOOD:
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "task.gettingFood"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
                 break;
             case GOING_TO_BED:
-                list.add(StatCollector.translateToLocal(getDiscriminator() + "task.goingToBed"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "task.goingToBed"));
                 break;
             case PERFORMING_TASK:
                 if(task != null) {
                     list.add(task.getTaskDescription());
                 } else {
-                    list.add(StatCollector.translateToLocal(getDiscriminator() + "task.noTask"));
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
                 }
                 break;
         }
@@ -77,7 +77,7 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(StatCollector.translateToLocal(getDiscriminator() + "describeTask"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "describeTask"));
         return list;
     }
 }
