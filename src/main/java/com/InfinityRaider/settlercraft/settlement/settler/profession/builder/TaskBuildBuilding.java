@@ -51,10 +51,12 @@ public class TaskBuildBuilding extends TaskBase {
         return list;
     }
 
+    //TODO
     public boolean hasMissingResources() {
         return true;
     }
 
+    //TODO
     public List<ItemStack> getMissingResources() {
         List<ItemStack> resources = new ArrayList<>();
         resources.addAll(getBuilding().getNeededResources());
