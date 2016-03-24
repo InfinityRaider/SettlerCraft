@@ -31,6 +31,7 @@ SettlerCraft.building.town_hall1=Basic Town Hall
 //Dialogue
 settlercraft.dialogue.greetPlayer=Greetings fellow traveller
 settlercraft.dialogue.greetSettler=Good day
+settlercraft.dialogue.greetOtherPlayer=Good day, I am from the Settlement known as
 settlercraft.dialogue.getSettlerName1=I'm known as
 settlercraft.dialogue.getSettlerName2=What is your name?
 settlercraft.dialogue.getSettlerName3=What was your name again?

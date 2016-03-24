@@ -32,7 +32,7 @@ public class DialogueOptionDefault extends DialogueOptionBase {
                 list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor1"));
                 list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor2"));
             } else {
-                list.add(I18n.translateToLocal(getDiscriminator() + "greetOtherPlayer"));
+                list.add(I18n.translateToLocal(getDiscriminator() + "greetOtherPlayer") + getSettler().settlement().name());
             }
         }
         return list;

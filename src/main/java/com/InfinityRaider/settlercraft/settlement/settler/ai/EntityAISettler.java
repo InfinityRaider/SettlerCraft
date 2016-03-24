@@ -1,61 +1,95 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public abstract class EntityAISettler extends EntityAIBase {
-    private final EntitySettler settler;
+public class EntityAISettler extends EntityAIBase {
+    public final SettlerAIRoutine routineIdle;
+    public final SettlerAIRoutine routineFollowPlayer;
+    public final SettlerAIRoutine routinePerformTasks;
+    public final SettlerAIRoutine routineGetFood;
+    public final SettlerAIRoutine routineGoToBed;
+
+    private final SettlerAIRoutine[] routines;
+    private int activeRoutine;
 
     public EntityAISettler(EntitySettler settler) {
-        super();
-        this.settler = settler;
+        this.routineIdle = new SettlerAIRoutineIdle(settler);
+        this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 8, 3);
+        this.routinePerformTasks = new SettlerAIRoutinePerformTask(settler);
+        this.routineGetFood = new SettlerAIRoutineGetFood(settler);
+        this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
+        this.routines = new SettlerAIRoutine[] {
+                routineFollowPlayer,
+                routineGoToBed,
+                routineGetFood,
+                routinePerformTasks,
+                routineIdle
+        };
+        this.activeRoutine = routines.length - 1;
+        this.setMutexBits(3);
     }
 
     public EntitySettler getSettler() {
-        return settler;
+        return getActiveRoutine().getSettler();
     }
 
+    public SettlerAIRoutine getActiveRoutine() {
+        return routines[activeRoutine];
+    }
+
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     @Override
-    public final boolean continueExecuting() {
-        boolean result = this.continueExecutingRoutine();
-        if(result) {
-            getSettler().setSettlerStatus(getStatusForRoutine());
+    public boolean shouldExecute() {
+        for(int i = 0; i < routines.length; i++) {
+            if(routines[i].shouldExecuteRoutine()) {
+                activeRoutine = i;
+                break;
+            }
         }
-        return result;
+        return true;
     }
 
     /**
-     * sub-delegated method to enforce correct method call chain
+     * Returns whether an in-progress EntityAIBase should continue executing
      */
-    public boolean continueExecutingRoutine() {
-        return super.continueExecuting();
+    public boolean continueExecuting() {
+        SettlerAIRoutine activeRoutine = getActiveRoutine();
+        return activeRoutine.continueExecutingRoutine();
     }
 
+    /**
+     * Determine if this AI Task is interruptible by a higher (= lower value) priority task. All vanilla AITask have
+     * this value set to true.
+     */
     @Override
-    public final void startExecuting() {
-        getSettler().setSettlerStatus(getStatusForRoutine());
-        startExecutingRoutine();
+    public boolean isInterruptible() {
+        return true;
     }
 
     /**
-     * sub-delegated method to enforce correct method call chain
+     * Execute a one shot task or start executing a continuous task
      */
-    public abstract void startExecutingRoutine();
-
     @Override
-    public final boolean shouldExecute() {
-        boolean result = this.shouldExecuteRoutine();
-        if(result) {
-            getSettler().setSettlerStatus(getStatusForRoutine());
-        }
-        return result;
+    public void startExecuting() {
+        getActiveRoutine().startExecutingRoutine();
     }
 
     /**
-     * sub-delegated method to enforce correct method call chain
+     * Resets the task
      */
-    public abstract boolean shouldExecuteRoutine();
+    @Override
+    public void resetTask() {
+        getActiveRoutine().resetRoutine();
+    }
 
-    public abstract ISettler.SettlerStatus getStatusForRoutine();
+    /**
+     * Updates the task
+     */
+    @Override
+    public void updateTask() {
+        getActiveRoutine().updateRoutine();
+    }
 }

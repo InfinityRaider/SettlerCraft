@@ -1,24 +1,26 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class EntityAITalkToPlayer extends EntityAISettler {
+public class EntityAITalkToPlayer extends EntityAIBase {
+    private final EntitySettler settler;
+
     public EntityAITalkToPlayer(EntitySettler settler) {
-        super(settler);
+        this.settler = settler;
         this.setMutexBits(5);
     }
 
-    @Override
-    public ISettler.SettlerStatus getStatusForRoutine() {
-        return getSettler().getSettlerStatus();
+    public EntitySettler getSettler() {
+        return settler;
     }
 
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
-    public boolean shouldExecuteRoutine() {
+    @Override
+    public boolean shouldExecute() {
         if (!this.getSettler().isEntityAlive())  {
             return false;
         }
@@ -40,13 +42,15 @@ public class EntityAITalkToPlayer extends EntityAISettler {
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecutingRoutine() {
+    @Override
+    public void startExecuting() {
         this.getSettler().getNavigator().clearPathEntity();
     }
 
     /**
      * Resets the task
      */
+    @Override
     public void resetTask() {
         EntityPlayer player = this.getSettler().getConversationPartner();
         //Can be null if the container was closed from within the conversation
