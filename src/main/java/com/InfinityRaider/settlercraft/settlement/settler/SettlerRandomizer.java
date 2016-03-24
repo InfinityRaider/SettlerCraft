@@ -82,6 +82,7 @@ public class SettlerRandomizer {
             "Watson",
             "Wolfson",
             "Woodhouse",
+            "Woundwort"
     };
 
     public final String[] FIRST_NAMES_MALE = new String[] {
@@ -92,10 +93,12 @@ public class SettlerRandomizer {
             "Barney",
             "Bart",
             "Benjamin",
+            "Bigwig",
             "Billy",
             "Brian",
             "Bruce",
             "Bobby",
+            "Campion",
             "Carl",
             "Chandler",
             "Clint",
@@ -109,8 +112,11 @@ public class SettlerRandomizer {
             "Eric",
             "Erwin",
             "Finn",
+            "Fiver",
+            "Gideon",
             "Gordon",
             "Harry",
+            "Hazel",
             "Ian",
             "Isaac",
             "Jack",
@@ -136,6 +142,7 @@ public class SettlerRandomizer {
             "Patrick",
             "Paul",
             "Peter",
+            "Pipkin",
             "Randy",
             "Richard",
             "Rick",
@@ -204,6 +211,7 @@ public class SettlerRandomizer {
             "Pepper",
             "Phoebe",
             "Polly",
+            "Primrose",
             "Rachel",
             "Rey",
             "Robyn",
