@@ -4,13 +4,12 @@ import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
-import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
+import com.InfinityRaider.settlercraft.render.RenderBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -28,7 +27,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
-public class SchematicInWorldPlannerRenderer {
+public class SchematicInWorldPlannerRenderer extends RenderBase {
     private static final SchematicInWorldPlannerRenderer INSTANCE = new SchematicInWorldPlannerRenderer();
 
     public static SchematicInWorldPlannerRenderer getInstance() {
@@ -41,6 +40,7 @@ public class SchematicInWorldPlannerRenderer {
     private final SchematicRenderer renderer;
 
     private SchematicInWorldPlannerRenderer() {
+        super();
         renderer = SchematicRenderer.getInstance();
     }
 
@@ -81,9 +81,15 @@ public class SchematicInWorldPlannerRenderer {
 
         int rotation = planner.getRotation(stack);
         double posX = player.prevPosX + (player.posX - player.prevPosX)*event.partialTicks;
-        double posY = player.prevPosY + (player.posY - player.prevPosY)*event.partialTicks;
+        double posY = player.prevPosY + (player.posY - player.prevPosY)*event.partialTicks + player.getEyeHeight();
         double posZ = player.prevPosZ + (player.posZ - player.prevPosZ)*event.partialTicks;
+        double yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw)*event.partialTicks;
+        double pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch)*event.partialTicks;
 
+        this.correctViewBobbing(player, event.partialTicks, false);
+        GL11.glRotated(pitch, 1, 0, 0);
+        GL11.glRotated(yaw, 0, 1, 0);
+        GL11.glRotated(-180, 0, 1, 0);
         GL11.glTranslated(-posX, -posY, -posZ);
 
         IBoundingBox buildingBox = renderer.getBoundingBox().copy().offset(pos).rotate(rotation);
@@ -100,10 +106,13 @@ public class SchematicInWorldPlannerRenderer {
         renderer.doRender(buffer);
         tessellator.draw();
 
-
         applyRotation(rotation, true);
         GL11.glTranslated(-pos.getX(), -pos.getY(), -pos.getZ());
         GL11.glTranslated(posX, posY, posZ);
+        GL11.glRotated(180, 0, 1, 0);
+        GL11.glRotated(-yaw, 0, 1, 0);
+        GL11.glRotated(-pitch, 1, 0, 0);
+        this.correctViewBobbing(player, event.partialTicks, true);
 
         GL11.glPopMatrix();
     }
@@ -117,36 +126,6 @@ public class SchematicInWorldPlannerRenderer {
         } else {
             GL11.glRotatef(90*rotation, 0, 1, 0);
             GL11.glTranslatef(dx, 0, dz);
-        }
-    }
-
-    private void renderDebug() {
-        if(ConfigurationHandler.getInstance().debug) {
-            Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer buffer = tessellator.getBuffer();
-            GlStateManager.disableTexture2D();
-            GlStateManager.disableLighting();
-
-            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            for(int i = 0; i <= 16; i++) {
-                buffer.pos(((float) i) / 16.0F, 0, 0).color(255, 0, 0, 255).endVertex();
-            }
-            tessellator.draw();
-
-            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            for(int i = 0; i <= 16; i++) {
-                buffer.pos(0, ((float) i) / 16.0F, 0).color(0, 255, 0, 255).endVertex();
-            }
-            tessellator.draw();
-
-            buffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
-            for(int i = 0; i <= 16; i++) {
-                buffer.pos(0, 0, ((float) i) / 16.0F).color(0, 0, 255, 255).endVertex();
-            }
-            tessellator.draw();
-
-            GlStateManager.enableLighting();
-            GlStateManager.enableTexture2D();
         }
     }
 }
