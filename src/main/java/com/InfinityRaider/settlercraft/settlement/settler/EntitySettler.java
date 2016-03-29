@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
 import com.InfinityRaider.settlercraft.reference.Names;
@@ -24,6 +25,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -46,6 +49,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer conversationPartner;
 
     private EntityAISettler ai;
+
+    //TODO: sync this from the server to the client
+    @SideOnly(Side.CLIENT)
+    private SettlerStatus status;
 
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
@@ -72,6 +79,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().BUILDER;
         this.settlementId = -1;
+        this.status = SettlerStatus.IDLE;
     }
 
     @Override
@@ -345,8 +353,17 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         return ai.getActiveRoutine().getActiveTask();
     }
 
+    @SideOnly(Side.CLIENT)
+    public void setSettlerStatus(SettlerStatus status) {
+        this.status = status;
+    }
+
     @Override
     public SettlerStatus getSettlerStatus() {
-        return ai.getActiveRoutine().getStatus();
+        if(SettlerCraft.proxy.getEffectiveSide() == Side.SERVER) {
+            return ai.getActiveRoutine().getStatus();
+        } else {
+            return status;
+        }
     }
 }

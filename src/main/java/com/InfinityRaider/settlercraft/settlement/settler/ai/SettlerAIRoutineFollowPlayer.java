@@ -62,6 +62,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     @Override
     public boolean continueExecutingRoutine() {
         return !this.petPathfinder.noPath()
+                && this.theOwner != null
                 && this.getSettler().getDistanceSqToEntity(this.theOwner) > (double) (this.maxDist * this.maxDist);
     }
 
@@ -92,10 +93,13 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     }
 
     /**
-     * Updates the task
+     * Updates the task, copied from vanilla
      */
     @Override
     public void updateRoutine() {
+        if(this.theOwner == null) {
+            return;
+        }
         this.getSettler().getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float) this.getSettler().getVerticalFaceSpeed());
         if (--this.field_75343_h <= 0) {
             this.field_75343_h = 10;
