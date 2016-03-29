@@ -18,8 +18,11 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class handles all the rendering of settlement bounding boxes based upon the item in the player's hand
+ */
 @SideOnly(Side.CLIENT)
-public class RenderSettlement extends RenderBase {
+public class RenderSettlement extends RenderUtilBase {
     private static final RenderSettlement INSTANCE = new RenderSettlement();
 
     public static RenderSettlement getInstance() {

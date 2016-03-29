@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
-import com.InfinityRaider.settlercraft.render.RenderBase;
+import com.InfinityRaider.settlercraft.render.RenderUtilBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -26,8 +26,11 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+/**
+ * This class renders a schematic structure when the player is holding the planner and aiming it at a block
+ */
 @SideOnly(Side.CLIENT)
-public class SchematicInWorldPlannerRenderer extends RenderBase {
+public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
     private static final SchematicInWorldPlannerRenderer INSTANCE = new SchematicInWorldPlannerRenderer();
 
     public static SchematicInWorldPlannerRenderer getInstance() {

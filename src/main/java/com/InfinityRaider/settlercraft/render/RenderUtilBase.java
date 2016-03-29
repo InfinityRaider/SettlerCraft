@@ -11,10 +11,20 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Utility base class for rendering event handlers
+ */
 @SideOnly(Side.CLIENT)
-public abstract class RenderBase {
-    protected RenderBase() {}
+public abstract class RenderUtilBase {
+    protected RenderUtilBase() {}
 
+    /**
+     * Method to cancel out view bobbing when rendering from RenderHandEvent
+     * @param player player
+     * @param partialTicks partial tick
+     * @param inverse inverse or not
+     */
+    @SuppressWarnings("unused")
     protected void correctViewBobbing(EntityPlayer player, float partialTicks, boolean inverse) {
         if (!Minecraft.getMinecraft().gameSettings.viewBobbing) {
             return;
@@ -36,6 +46,12 @@ public abstract class RenderBase {
         }
     }
 
+    /**
+     * Method to render the coordinate system for the current matrix.
+     * Renders three lines with length 1 starting from (0, 0, 0):
+     * red line along x axis, green line along y axis and blue line along z axis.
+     */
+    @SuppressWarnings("unused")
     protected void renderCoordinateSystemDebug() {
         if(ConfigurationHandler.getInstance().debug) {
             Tessellator tessellator = Tessellator.getInstance();
