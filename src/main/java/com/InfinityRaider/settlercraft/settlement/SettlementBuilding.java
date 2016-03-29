@@ -191,12 +191,18 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     }
 
     private void writeInventoryToNBT(NBTTagCompound tag) {
-        tag.setTag(Names.NBT.INVENTORY, this.inventory.writeToNBT());
+        if(this.inventory != null) {
+            tag.setTag(Names.NBT.INVENTORY, this.inventory.writeToNBT());
+        }
     }
 
     private void readInventoryFromNBT(NBTTagCompound tag) {
+        if(!tag.hasKey(Names.NBT.INVENTORY)) {
+            this.inventory = null;
+            return;
+        }
         if(this.inventory == null) {
-            this.inventory = this.building.getStartingInventory();
+            this.inventory = this.building.getDefaultInventory();
         }
         this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
     }

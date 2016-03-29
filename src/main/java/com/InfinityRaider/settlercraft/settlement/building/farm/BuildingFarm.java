@@ -22,7 +22,7 @@ public class BuildingFarm extends BuildingBase {
     }
 
     @Override
-    public IInventorySerializable getStartingInventory() {
+    public IInventorySerializable getDefaultInventory() {
         return null;
     }
 

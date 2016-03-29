@@ -23,7 +23,7 @@ public class BuildingTownHall extends BuildingBase {
     }
 
     @Override
-    public IInventorySerializable getStartingInventory() {
+    public IInventorySerializable getDefaultInventory() {
         return null;
     }
 

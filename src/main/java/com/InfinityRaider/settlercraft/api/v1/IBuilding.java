@@ -40,7 +40,7 @@ public interface IBuilding {
      *
      * @return a new IInventory instance for the starting inventory of the new building
      */
-    IInventorySerializable getStartingInventory();
+    IInventorySerializable getDefaultInventory();
 
     /**
      * This method is used to read json schematics for the buildings, example:

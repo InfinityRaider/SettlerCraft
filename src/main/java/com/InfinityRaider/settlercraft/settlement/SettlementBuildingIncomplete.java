@@ -38,7 +38,7 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
     }
 
     public SettlementBuildingIncomplete(ISettlement settlement, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
-        super(settlement, schematic.getBoundingBox(pos, rotation), building, rotation, building.getStartingInventory());
+        super(settlement, schematic.getBoundingBox(pos, rotation), building, rotation, building.getDefaultInventory());
         this.schematic = schematic;
         initBlocksToClear();
         initNeededResources();
