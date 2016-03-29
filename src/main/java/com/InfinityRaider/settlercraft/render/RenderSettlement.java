@@ -57,7 +57,7 @@ public class RenderSettlement extends RenderUtilBase {
 
         GL11.glPushMatrix();
 
-        float partialTick = event.partialTicks;
+        float partialTick = event.getPartialTicks();
         Tessellator tessellator = Tessellator.getInstance();
 
         double posX = player.prevPosX + (player.posX - player.prevPosX)*partialTick;

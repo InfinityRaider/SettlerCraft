@@ -2,15 +2,17 @@ package com.InfinityRaider.settlercraft.registry;
 
 import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
-import com.InfinityRaider.settlercraft.item.IItemWithRecipe;
-import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
-import com.InfinityRaider.settlercraft.item.ItemDebugger;
-import com.InfinityRaider.settlercraft.item.ItemSchematicCreator;
+import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.util.Tuple;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,15 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     public void initRecipes() {
         settlerCraftItems.stream().filter(item -> item instanceof IItemWithRecipe).forEach(item ->
             ((IItemWithRecipe) item).getRecipes().forEach(GameRegistry::addRecipe));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerModels() {
+        settlerCraftItems.stream().filter(item -> item instanceof IItemWithModel).forEach(item -> {
+            for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
+                ModelLoader.setCustomModelResourceLocation(item, entry.getFirst(), entry.getSecond());
+            }
+        });
     }
 
     @Override

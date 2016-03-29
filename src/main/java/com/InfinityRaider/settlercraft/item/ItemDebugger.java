@@ -22,21 +22,21 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
 
     @Override
     public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if(world.isRemote) {
+        if (world.isRemote) {
             if (!player.isSneaking()) {
                 DebugHelper.getInstance().debug(player, world, pos);
             }
         } else {
-            if(player.isSneaking()) {
+            if (player.isSneaking()) {
                 int rotation;
-                if(player.posX < hitX + pos.getX()) {
-                    if(player.posZ < hitZ + pos.getZ()) {
+                if (player.posX < hitX + pos.getX()) {
+                    if (player.posZ < hitZ + pos.getZ()) {
                         rotation = 0;
                     } else {
                         rotation = 3;
                     }
                 } else {
-                    if(player.posZ < hitZ + pos.getZ()) {
+                    if (player.posZ < hitZ + pos.getZ()) {
                         rotation = 1;
                     } else {
                         rotation = 2;

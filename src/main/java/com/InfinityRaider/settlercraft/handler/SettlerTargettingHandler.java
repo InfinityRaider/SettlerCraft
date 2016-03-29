@@ -20,10 +20,10 @@ public class SettlerTargettingHandler {
     @SubscribeEvent
     @SuppressWarnings({"unused", "unchecked"})
     public void onZombieSpawn(LivingSpawnEvent event) {
-        if(!(event.entity instanceof EntityCreature)) {
+        if(!(event.getEntity() instanceof EntityCreature)) {
             return;
         }
-        EntityCreature entity = (EntityCreature) event.entity;
+        EntityCreature entity = (EntityCreature) event.getEntity();
         if(entity instanceof EntityZombie) {
             entity.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entity, EntitySettler.class, true));
         }

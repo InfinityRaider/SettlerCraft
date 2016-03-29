@@ -67,7 +67,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
         if(building == null || settlement == null) {
             return;
         }
-        float partialTick = event.partialTicks;
+        float partialTick = event.getPartialTicks();
         RayTraceResult raytraced = player.rayTrace(5, partialTick);
         if(raytraced == null || raytraced.getBlockPos() == null || raytraced.sideHit != EnumFacing.UP) {
             return;

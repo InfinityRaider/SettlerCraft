@@ -23,6 +23,6 @@ public class IconRegistry {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void initializeIcons(TextureStitchEvent event) {
-        icon_mainHandBackground = event.map.registerSprite(new ResourceLocation(Reference.MOD_ID, "gui/mainSlot_backGround"));
+        icon_mainHandBackground = event.getMap().registerSprite(new ResourceLocation(Reference.MOD_ID, "gui/mainSlot_backGround"));
     }
 }

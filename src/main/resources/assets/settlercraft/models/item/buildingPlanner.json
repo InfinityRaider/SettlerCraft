@@ -1,0 +1,6 @@
+{
+  "parent": "settlercraft:item/base",
+  "textures": {
+    "layer0": "settlercraft:items/buildingPlanner"
+  }
+}
