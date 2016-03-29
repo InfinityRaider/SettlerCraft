@@ -75,22 +75,22 @@ public class InventorySettler implements IInventorySettler {
             case OFFHAND: offhand = stack; break;
             case FEET:
                 if(isItemValidForSlot(2, stack)) {
-                    armorInventory[0] = stack;
+                    armorInventory[3] = stack;
                 }
                 break;
             case LEGS:
                 if(isItemValidForSlot(3, stack)) {
-                    armorInventory[1] = stack;
+                    armorInventory[2] = stack;
                 }
                 break;
             case CHEST:
                 if(isItemValidForSlot(4, stack)) {
-                    armorInventory[2] = stack;
+                    armorInventory[1] = stack;
                 }
                 break;
             case HEAD:
                 if(isItemValidForSlot(5, stack)) {
-                    armorInventory[3] = stack;
+                    armorInventory[0] = stack;
                 }
                 break;
         }

@@ -9,12 +9,15 @@ import com.InfinityRaider.settlercraft.utility.GuiComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
     private static final ResourceLocation TEXTURE_TEXT_BALLOON = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/TextBalloon.png");
     private static final int TEXT_BALLOON_X = 50;

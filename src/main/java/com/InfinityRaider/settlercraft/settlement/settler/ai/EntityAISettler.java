@@ -61,7 +61,7 @@ public class EntityAISettler extends EntityAIBase {
     }
 
     /**
-     * Determine if this AI Task is interruptible by a higher (= lower value) priority task. All vanilla AITask have
+     * Determine if this AI Task is interruptable by a higher (= lower value) priority task. All vanilla AITask have
      * this value set to true.
      */
     @Override

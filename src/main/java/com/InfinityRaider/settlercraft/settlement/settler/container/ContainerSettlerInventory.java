@@ -2,12 +2,16 @@ package com.InfinityRaider.settlercraft.settlement.settler.container;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.registry.IconRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerSettlerInventory extends ContainerSettler {
     public static final int INVENTORY_SETTLER_X = 84;
@@ -30,11 +34,11 @@ public class ContainerSettlerInventory extends ContainerSettler {
         int xOffset = INVENTORY_SETTLER_X;
         int yOffset = INVENTORY_SETTLER_Y;
         //add settlers equipped item to the container
-        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 8, 82));
-        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 26, 82));
+        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 8, 82, EntityEquipmentSlot.MAINHAND));
+        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 1, 26, 82, EntityEquipmentSlot.OFFHAND));
         //add settlers armor to the container
         for(int i = 0; i < 4; i++) {
-            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 2, 8, 8 + i * 18));
+            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 2, 8, 8 + i * 18, EntityEquipmentSlot.values()[(3-i)+2]));
         }
         //add settler inventory to the container
         for(int i = 0; i < 3; i++) {
@@ -51,8 +55,10 @@ public class ContainerSettlerInventory extends ContainerSettler {
 
         //add player's armor to the container
         for(int i = 0; i < 4; i++) {
-            this.addSlotToContainer(new SettlerInventorySlot(playerInventory, 3 - i + 36, 8, 102 + i * 18));
+            this.addSlotToContainer(new SettlerInventorySlot(playerInventory, 3 - i + 36, 8, 102 + i * 18, EntityEquipmentSlot.values()[(3-i)+2]));
         }
+        //add player's off hand to the container
+        this.addSlotToContainer(new SettlerInventorySlot(playerInventory, 40, 62, 82, EntityEquipmentSlot.OFFHAND));
         //add player's inventory to the container
         xOffset = INVENTORY_PLAYER_X;
         yOffset = INVENTORY_PLAYER_Y;
@@ -112,8 +118,15 @@ public class ContainerSettlerInventory extends ContainerSettler {
     }
 
     public static class SettlerInventorySlot extends Slot {
+        private final EntityEquipmentSlot slotType;
+
         public SettlerInventorySlot(IInventory inv, int index, int xPosition, int yPosition) {
+            this(inv, index, xPosition, yPosition, null);
+        }
+
+        public SettlerInventorySlot(IInventory inv, int index, int xPosition, int yPosition, EntityEquipmentSlot slotType) {
             super(inv, index, xPosition, yPosition);
+            this.slotType = slotType;
         }
 
         @Override
@@ -131,10 +144,27 @@ public class ContainerSettlerInventory extends ContainerSettler {
             if(stack == null || stack.getItem() == null) {
                 return true;
             }
-            if(this.inventory instanceof InventoryPlayer && this.getSlotIndex()  >= 36) {
-                return (stack.getItem() instanceof ItemArmor) && ((ItemArmor) stack.getItem()).armorType.ordinal() - 2 ==  3 - (this.getSlotIndex() - 36);
+            if(this.inventory instanceof InventoryPlayer && this.getSlotIndex()  >= 36 && this.getSlotIndex() < 40) {
+                return (stack.getItem() instanceof ItemArmor) && ((ItemArmor) stack.getItem()).armorType.ordinal() - 2 ==  (this.getSlotIndex() - 36);
             }
             return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
+        }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public String getSlotTexture() {
+            if(slotType == null) {
+                return null;
+            }
+            switch(this.slotType) {
+                case MAINHAND: return IconRegistry.getInstance().icon_mainHandBackground.getIconName();
+                case OFFHAND: return "minecraft:items/empty_armor_slot_shield";
+                case FEET: return "minecraft:items/empty_armor_slot_boots";
+                case LEGS: return "minecraft:items/empty_armor_slot_leggings";
+                case CHEST: return "minecraft:items/empty_armor_slot_chestplate";
+                case HEAD: return "minecraft:items/empty_armor_slot_helmet";
+                default: return null;
+            }
         }
     }
 }

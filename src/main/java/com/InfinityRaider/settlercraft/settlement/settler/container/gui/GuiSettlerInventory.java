@@ -6,7 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class GuiSettlerInventory extends GuiSettler<ContainerSettlerInventory> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID.toLowerCase(), "textures/gui/settlerInventory.png");
 
