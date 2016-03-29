@@ -36,7 +36,7 @@ public abstract class RenderBase {
         }
     }
 
-    protected void renderDebug() {
+    protected void renderCoordinateSystemDebug() {
         if(ConfigurationHandler.getInstance().debug) {
             Tessellator tessellator = Tessellator.getInstance();
             VertexBuffer buffer = tessellator.getBuffer();

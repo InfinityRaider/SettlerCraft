@@ -14,7 +14,7 @@ import java.util.List;
 public interface ISettlementBuilding {
 
     /**
-     * This method returns the id of this building in its settlement. Id's are final and will not change within a settlement.
+     * This method returns the id of this building in its settlement. An id is final and will not change within a settlement.
      * @return this building's id in the settlement
      */
     int id();

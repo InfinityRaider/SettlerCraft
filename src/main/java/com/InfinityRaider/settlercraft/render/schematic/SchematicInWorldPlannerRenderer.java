@@ -18,7 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +46,7 @@ public class SchematicInWorldPlannerRenderer extends RenderBase {
 
     @SubscribeEvent
     @SuppressWarnings("unused")
-    public void renderSchematicOverlay(RenderHandEvent event) {
+    public void renderSchematicOverlay(RenderWorldLastEvent event) {
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         if(player == null) {
             return;
@@ -64,7 +64,8 @@ public class SchematicInWorldPlannerRenderer extends RenderBase {
         if(building == null || settlement == null) {
             return;
         }
-        RayTraceResult raytraced = player.rayTrace(5, event.partialTicks);
+        float partialTick = event.partialTicks;
+        RayTraceResult raytraced = player.rayTrace(5, partialTick);
         if(raytraced == null || raytraced.getBlockPos() == null || raytraced.sideHit != EnumFacing.UP) {
             return;
         }
@@ -80,26 +81,19 @@ public class SchematicInWorldPlannerRenderer extends RenderBase {
         GL11.glPushMatrix();
 
         int rotation = planner.getRotation(stack);
-        double posX = player.prevPosX + (player.posX - player.prevPosX)*event.partialTicks;
-        double posY = player.prevPosY + (player.posY - player.prevPosY)*event.partialTicks + player.getEyeHeight();
-        double posZ = player.prevPosZ + (player.posZ - player.prevPosZ)*event.partialTicks;
-        double yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw)*event.partialTicks;
-        double pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch)*event.partialTicks;
+        double posX = player.prevPosX + (player.posX - player.prevPosX)*partialTick;
+        double posY = player.prevPosY + (player.posY - player.prevPosY)*partialTick;
+        double posZ = player.prevPosZ + (player.posZ - player.prevPosZ)*partialTick;
 
-        this.correctViewBobbing(player, event.partialTicks, false);
-        GL11.glRotated(pitch, 1, 0, 0);
-        GL11.glRotated(yaw, 0, 1, 0);
-        GL11.glRotated(-180, 0, 1, 0);
         GL11.glTranslated(-posX, -posY, -posZ);
 
+        renderCoordinateSystemDebug();
         IBoundingBox buildingBox = renderer.getBoundingBox().copy().offset(pos).rotate(rotation);
         Color color = planner.isValidBoundingBoxForBuilding(stack, player, settlement, building, buildingBox) ? BUILDING_VALID_COLOR : BUILDING_INVALID_COLOR;
         buildingBox.renderWireFrame(tessellator, color);
 
         GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
         applyRotation(rotation, false);
-
-        renderDebug();
 
         buffer.begin(7, DefaultVertexFormats.BLOCK);
         renderer.setOrigin(pos);
@@ -109,10 +103,6 @@ public class SchematicInWorldPlannerRenderer extends RenderBase {
         applyRotation(rotation, true);
         GL11.glTranslated(-pos.getX(), -pos.getY(), -pos.getZ());
         GL11.glTranslated(posX, posY, posZ);
-        GL11.glRotated(180, 0, 1, 0);
-        GL11.glRotated(-yaw, 0, 1, 0);
-        GL11.glRotated(-pitch, 1, 0, 0);
-        this.correctViewBobbing(player, event.partialTicks, true);
 
         GL11.glPopMatrix();
     }
