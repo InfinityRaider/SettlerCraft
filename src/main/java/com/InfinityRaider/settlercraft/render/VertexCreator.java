@@ -66,6 +66,7 @@ public class VertexCreator {
         this.drawMode = DRAW_MODE_NOT_DRAWING;
         this.matrices = new ArrayDeque<>();
         this.matrices.add(new TransformationMatrix());
+        this.tintIndex = -1;
         this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
     }
 
@@ -103,7 +104,7 @@ public class VertexCreator {
             vertexData.clear();
             this.drawMode = DRAW_MODE_NOT_DRAWING;
             this.format = null;
-            this.tintIndex = 0;
+            this.tintIndex = -1;
             this.face = null;
             this.applyDiffuseLighting = false;
             this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
