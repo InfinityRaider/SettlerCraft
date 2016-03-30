@@ -1,17 +1,16 @@
 package com.InfinityRaider.settlercraft.render.block;
 
+import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.block.blockstate.IBlockStateSpecial;
 import com.InfinityRaider.settlercraft.render.tessellation.CustomTessellator;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
 import com.InfinityRaider.settlercraft.render.tessellation.VertexCreator;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ItemOverrideList;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -20,16 +19,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRenderer<TileEntity> implements IBakedModel {
+public final class RenderBlock<T extends TileEntity> extends TileEntitySpecialRenderer<TileEntity> implements IBakedModel {
     private final IBlockRenderingHandler<T> renderer;
     private final Block block;
     private final boolean inventory;
 
-    public RenderBlockBase(IBlockRenderingHandler<T> renderer) {
+    public RenderBlock(IBlockRenderingHandler<T> renderer) {
+        super();
         this.renderer = renderer;
         this.block = renderer.getBlock();
         this.inventory = renderer.doInventoryRendering();
@@ -38,12 +38,24 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
             ClientRegistry.bindTileEntitySpecialRenderer(tile.getClass(), this);
         }
         if(renderer.hasStaticRendering()) {
-
+            ModelLoader.getInstance().registerCustomBlockRenderer(this);
         }
     }
 
     public Block getBlock() {
         return block;
+    }
+
+    public IBlockRenderingHandler<T> getRenderer() {
+        return renderer;
+    }
+
+    public ICustomRenderedBlock<T> getCustomRenderedBlock() {
+        return getRenderer().getCustomRenderedBlock();
+    }
+
+    public ModelResourceLocation getModelResourceLocation() {
+        return getCustomRenderedBlock().getBlockModelResourceLocation();
     }
 
     @Override
@@ -55,13 +67,15 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
 
+        GL11.glPushMatrix();
+        GL11.glTranslated(x, y, z);
+
         tessellator.startDrawingQuads(DefaultVertexFormats.BLOCK);
-        tessellator.translate(x, y, z);
-
         this.renderer.renderWorldBlock(tessellator, world, pos, x, y, z, state, block, (T) te, true, partialTicks, destroyStage);
-
-        tessellator.translate(-x, -y, -z);
         tessellator.draw();
+
+        GL11.glTranslated(-x, -y, -z);
+        GL11.glPopMatrix();
     }
 
     @Override
@@ -83,7 +97,7 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
             list = tessellator.getQuads();
             tessellator.draw();
         } else {
-            list = new ArrayList<>();
+            list = ImmutableList.of();
         }
         return list;
     }

@@ -1,9 +1,11 @@
 package com.InfinityRaider.settlercraft.render.block;
 
+import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,7 +14,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
-public interface IBlockRenderingHandler<T> {
+public interface IBlockRenderingHandler<T extends TileEntity> {
+    /**
+     * Gets the ICustomRenderedBlock implementation tied to this block, used for registering this reference.
+     * Should always return the same object as getBlock().
+     *
+     * @return the block for this renderer
+     */
+    ICustomRenderedBlock<T> getCustomRenderedBlock();
+
     /**
      * Gets the block tied to this renderer, used for registering this renderer.
      * A pointer to the Block is saved and referenced.
@@ -62,14 +72,6 @@ public interface IBlockRenderingHandler<T> {
      * @return true to have 3D inventory rendering
      */
     boolean doInventoryRendering();
-
-    /**
-     * Checks if ambient occlusion should be applied to the quads for this renderer,
-     * this is only called for static rendering.
-     *
-     * @return true if ambient occlusion should be applied
-     */
-    boolean hasAmbientOcclusion();
 
     /**
      * Return true from here to have this renderer have dynamic behaviour,

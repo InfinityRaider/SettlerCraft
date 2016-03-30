@@ -1,11 +1,13 @@
 package com.InfinityRaider.settlercraft.block;
 
+import com.InfinityRaider.settlercraft.render.block.BlockRenderingHandlerTest;
 import com.InfinityRaider.settlercraft.render.block.IBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -15,8 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTest extends BlockBase<TileEntity> {
-    public BlockTest(String name, Material blockMaterial, MapColor blockMapColor) {
-        super(name, blockMaterial, blockMapColor);
+    public BlockTest() {
+        super("testBlock", Material.ground, MapColor.adobeColor);
     }
 
     @Override
@@ -47,6 +49,6 @@ public class BlockTest extends BlockBase<TileEntity> {
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler<TileEntity> getRenderer() {
-        return null;
+        return new BlockRenderingHandlerTest(this);
     }
 }
