@@ -138,6 +138,9 @@ public class VertexCreator {
      * @param color color modifier
      */
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
+        if(drawMode == DRAW_MODE_NOT_DRAWING) {
+            throw new RuntimeException("NOT CONSTRUCTING VERTICES");
+        }
         double[] coords = this.matrices.getFirst().transform(x, y, z);
         vertexData.add(vertexToIntArray(x, y, z, color, icon, u, v));
         if(vertexData.size() == drawMode) {
