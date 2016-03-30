@@ -1,22 +1,22 @@
-package com.InfinityRaider.settlercraft.render;
+package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.InfinityRaider.settlercraft.utility.ForgeDirection;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
-public class CustomTessellator {
+@SuppressWarnings("unused")
+public class CustomTessellator implements ITessellator {
     private static final TransformationMatrix MATRIX_BLOCK_CENTER = new TransformationMatrix(.5, .5, .5);
     private static final TransformationMatrix MATRIX_BLOCK_ORIGIN = new TransformationMatrix(-.5, -.5, -.5);
 
@@ -77,19 +77,33 @@ public class CustomTessellator {
         return buffer;
     }
 
+    /**
+     * Sets draw mode in the buffer to draw quads.
+     */
+    public void startDrawingQuads() {
+        this.startDrawingQuads(DefaultVertexFormats.BLOCK);
+    }
+
+    /**
+     * Sets draw mode in the buffer to draw quads.
+     */
+    @Override
+    public void startDrawingQuads(VertexFormat format) {
+        buffer.begin(GL11.GL_QUADS, format);
+    }
+
+    @Override
+    public List<BakedQuad> getQuads() {
+        return new ArrayList<>();
+    }
+
+    @Override
     public void draw() {
         if (tessellator != null) {
             tessellator.draw();
         } else {
             buffer.finishDrawing();
         }
-    }
-
-    /**
-     * Sets draw mode in the buffer to draw quads.
-     */
-    public void startDrawingQuads() {
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
     }
 
     /**
@@ -107,33 +121,43 @@ public class CustomTessellator {
     /**
      * Sets the translation relative to the absolute coordinates
      */
-    public void setTranslation(double x, double y, double z) {
+    @Override
+    public CustomTessellator setTranslation(double x, double y, double z) {
         this.matrices.getFirst().setTranslation(x, y, z);
+        return this;
     }
 
     /**
      * Sets the rotation relative to the absolute coordinates
      */
-    public void setRotation(double angle, double x, double y, double z) {
+    @Override
+    public CustomTessellator setRotation(double angle, double x, double y, double z) {
         this.matrices.getFirst().setRotation(angle, x, y, z);
+        return this;
     }
 
     /**
      * Adds a translation to the current coordinate system
      */
-    public void translate(BlockPos pos) {
+    @Override
+    public CustomTessellator translate(BlockPos pos) {
         this.translate(pos.getX(), pos.getY(), pos.getZ());
+        return this;
     }
 
-    public void translate(double x, double y, double z) {
+    @Override
+    public CustomTessellator translate(double x, double y, double z) {
         this.matrices.getFirst().multiplyRightWith(new TransformationMatrix(x, y, z));
+        return this;
     }
 
     /**
      * Rotates around the current coordinate system
      */
-    public void rotate(double angle, double x, double y, double z) {
+    @Override
+    public CustomTessellator rotate(double angle, double x, double y, double z) {
         this.matrices.getFirst().multiplyRightWith(new TransformationMatrix(angle, x, y, z));
+        return this;
     }
 
     /*
@@ -169,8 +193,10 @@ public class CustomTessellator {
         }
     }
 
-    public void scale(double x, double y, double z) {
+    @Override
+    public CustomTessellator scale(double x, double y, double z) {
         this.matrices.getFirst().scale(x, y, z);
+        return this;
     }
 
     /**

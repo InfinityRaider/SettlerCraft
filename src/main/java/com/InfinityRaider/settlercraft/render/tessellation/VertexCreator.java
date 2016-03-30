@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.render;
+package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.InfinityRaider.settlercraft.reference.Constants;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")
-public class VertexCreator {
+public class VertexCreator implements ITessellator {
     /** Draw mode when no vertices are being constructed */
     public static final int DRAW_MODE_NOT_DRAWING = -1;
     /** Draw mode when vertices are being constructed for quads */
@@ -65,7 +65,7 @@ public class VertexCreator {
         this.vertexData = new ArrayList<>();
         this.drawMode = DRAW_MODE_NOT_DRAWING;
         this.matrices = new ArrayDeque<>();
-        this.matrices.add(new TransformationMatrix());
+        this.resetMatrix();
         this.tintIndex = -1;
         this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
     }
@@ -74,6 +74,7 @@ public class VertexCreator {
      * Method to start constructing quads
      * @param vertexFormat vertex format
      */
+    @Override
     public void startDrawingQuads(VertexFormat vertexFormat) {
         this.startDrawing(DRAW_MODE_QUADS, vertexFormat);
     }
@@ -93,15 +94,25 @@ public class VertexCreator {
     }
 
     /**
-     * Method to finalize drawing and return all constructed quads
-     * @return constructed quads
+     * Method to get all quads constructed
+     * @return list of quads, may be emtpy but never null
      */
-    public List<BakedQuad> draw() {
+    @Override
+    public List<BakedQuad> getQuads() {
         List<BakedQuad> list = new ArrayList<>();
+        list.addAll(this.quads);
+        return list;
+    }
+
+    /**
+     * Method to finalize drawing
+     */
+    @Override
+    public void draw() {
         if(drawMode != DRAW_MODE_NOT_DRAWING) {
-            list.addAll(quads);
             quads.clear();
             vertexData.clear();
+            this.resetMatrix();
             this.drawMode = DRAW_MODE_NOT_DRAWING;
             this.format = null;
             this.tintIndex = -1;
@@ -111,7 +122,6 @@ public class VertexCreator {
         } else {
             throw new RuntimeException("NOT CONSTRUCTING VERTICES");
         }
-        return list;
     }
 
     /**
