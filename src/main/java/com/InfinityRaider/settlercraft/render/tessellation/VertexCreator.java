@@ -54,8 +54,6 @@ public class VertexCreator implements ITessellator {
     private int colorMultiplier;
     /** Current tint index for the quad */
     private int tintIndex;
-    /** Current face for the quad */
-    private EnumFacing face;
     /** Current diffuse lighting setting for the quad */
     private boolean applyDiffuseLighting;
 
@@ -116,7 +114,6 @@ public class VertexCreator implements ITessellator {
             this.drawMode = DRAW_MODE_NOT_DRAWING;
             this.format = null;
             this.tintIndex = -1;
-            this.face = null;
             this.applyDiffuseLighting = false;
             this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
         } else {
@@ -159,7 +156,7 @@ public class VertexCreator implements ITessellator {
                     vertexData.get(1),
                     vertexData.get(2),
                     vertexData.get(3)
-            ), this.tintIndex, this.face, icon, this.applyDiffuseLighting, this.format));
+            ), this.tintIndex, EnumFacing.UP, icon, this.applyDiffuseLighting, this.format));
             vertexData.clear();
         }
     }
@@ -273,7 +270,6 @@ public class VertexCreator implements ITessellator {
             }
             default: return;
         }
-        this.setFace(face);
         addScaledVertexWithUV(x1, y1, z1, icon, 16, 16, color);
         addScaledVertexWithUV(x2, y2, z2, icon, 16, 0, color);
         addScaledVertexWithUV(x3, y3, z3, icon, 0, 0, color);
@@ -492,24 +488,6 @@ public class VertexCreator implements ITessellator {
      */
     public int getTintIndex() {
         return this.tintIndex;
-    }
-
-    /**
-     * Sets the current face being used for the quads
-     * @param face the current face
-     * @return this
-     */
-    public VertexCreator setFace(EnumFacing face) {
-        this.face = face;
-        return this;
-    }
-
-    /**
-     * Gets the current face being used for the quads
-     * @return the current face
-     */
-    public EnumFacing getFace() {
-        return this.face;
     }
 
     /**

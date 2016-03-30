@@ -8,14 +8,14 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class SettlerTargettingHandler {
-    private static final SettlerTargettingHandler INSTANCE = new SettlerTargettingHandler();
+public class SettlerTargetingHandler {
+    private static final SettlerTargetingHandler INSTANCE = new SettlerTargetingHandler();
 
-    public static SettlerTargettingHandler getInstance() {
+    public static SettlerTargetingHandler getInstance() {
         return INSTANCE;
     }
 
-    private SettlerTargettingHandler() {}
+    private SettlerTargetingHandler() {}
 
     @SubscribeEvent
     @SuppressWarnings({"unused", "unchecked"})

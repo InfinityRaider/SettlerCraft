@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.render.block;
 
-import com.InfinityRaider.settlercraft.block.BlockBase;
 import com.InfinityRaider.settlercraft.block.blockstate.IBlockStateSpecial;
 import com.InfinityRaider.settlercraft.render.tessellation.CustomTessellator;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
@@ -22,22 +21,30 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRenderer<TileEntity> implements IBakedModel {
-    protected RenderBlockBase(BlockBase<T> block, T tile) {
-        if(this.hasDynamicRendering() && tile != null) {
+public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRenderer<TileEntity> implements IBakedModel {
+    private final IBlockRenderingHandler<T> renderer;
+    private final Block block;
+    private final boolean inventory;
+
+    public RenderBlockBase(IBlockRenderingHandler<T> renderer) {
+        this.renderer = renderer;
+        this.block = renderer.getBlock();
+        this.inventory = renderer.doInventoryRendering();
+        T tile = renderer.getTileEntity();
+        if(renderer.hasDynamicRendering() && tile != null) {
             ClientRegistry.bindTileEntitySpecialRenderer(tile.getClass(), this);
         }
-        if(this.hasStaticRendering()) {
+        if(renderer.hasStaticRendering()) {
 
         }
     }
 
-    public abstract void renderBlockAt(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state,
-                                       Block block, @Nullable T tile, boolean dynamicRender, float partialTick, int destroyStage);
+    public Block getBlock() {
+        return block;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -51,7 +58,7 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
         tessellator.startDrawingQuads(DefaultVertexFormats.BLOCK);
         tessellator.translate(x, y, z);
 
-        this.renderBlockAt(tessellator, world, pos, x, y, z, state, block, (T) te, true, partialTicks, destroyStage);
+        this.renderer.renderWorldBlock(tessellator, world, pos, x, y, z, state, block, (T) te, true, partialTicks, destroyStage);
 
         tessellator.translate(-x, -y, -z);
         tessellator.draw();
@@ -61,7 +68,7 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
     @SuppressWarnings("unchecked")
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
         List<BakedQuad> list;
-        if(state instanceof IBlockStateSpecial) {
+        if(side != EnumFacing.UP && (state instanceof IBlockStateSpecial)) {
             World world = Minecraft.getMinecraft().theWorld;
             T tile = ((IBlockStateSpecial<T>) state).getTileEntity(world);
             BlockPos pos = ((IBlockStateSpecial<T>) state).getPos();
@@ -71,7 +78,7 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
             tessellator.startDrawingQuads(DefaultVertexFormats.BLOCK);
             tessellator.translate(pos);
 
-            this.renderBlockAt(tessellator, world, pos, pos.getX(), pos.getY(), pos.getZ(), state, block, tile, false, 1, 0);
+            this.renderer.renderWorldBlock(tessellator, world, pos, pos.getX(), pos.getY(), pos.getZ(), state, block, tile, false, 1, 0);
 
             list = tessellator.getQuads();
             tessellator.draw();
@@ -88,7 +95,7 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
 
     @Override
     public boolean isGui3d() {
-        return false;
+        return inventory;
     }
 
     @Override
@@ -98,7 +105,7 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
 
     @Override
     public TextureAtlasSprite getParticleTexture() {
-        return null;
+        return renderer.getIcon();
     }
 
     @Override
@@ -110,8 +117,4 @@ public abstract class RenderBlockBase<T extends TileEntity> extends TileEntitySp
     public ItemOverrideList getOverrides() {
         return null;
     }
-
-    protected abstract boolean hasDynamicRendering();
-
-    protected abstract boolean hasStaticRendering();
 }

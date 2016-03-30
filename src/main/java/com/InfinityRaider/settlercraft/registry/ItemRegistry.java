@@ -54,7 +54,7 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerModels() {
+    public void registerRenderers() {
         settlerCraftItems.stream().filter(item -> item instanceof IItemWithModel).forEach(item -> {
             for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
                 ModelLoader.setCustomModelResourceLocation(item, entry.getFirst(), entry.getSecond());

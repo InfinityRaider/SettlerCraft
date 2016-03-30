@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.proxy;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
+import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.registry.IconRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.render.RenderSettlement;
@@ -76,7 +77,9 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerRenderers() {
         //items
-        ItemRegistry.getInstance().registerModels();
+        ItemRegistry.getInstance().registerRenderers();
+        //blocks
+        BlockRegistry.getInstance().registerRenderers();
         //entities
         RenderingRegistry.registerEntityRenderingHandler(EntitySettler.class, RenderSettler.getFacotry());
     }

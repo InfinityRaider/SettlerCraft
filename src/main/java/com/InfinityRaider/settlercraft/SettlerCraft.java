@@ -5,6 +5,7 @@ import com.InfinityRaider.settlercraft.handler.GuiHandler;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.proxy.IProxy;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
@@ -35,6 +36,7 @@ public class SettlerCraft {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, GuiHandler.getInstance());
         NetworkWrapperSettlerCraft.getInstance().init();
         ItemRegistry.getInstance().init();
+        BlockRegistry.getInstance().init();
         ProfessionRegistry.getInstance();
         proxy.registerRenderers();
         APISelector.init();
@@ -54,6 +56,7 @@ public class SettlerCraft {
     public static void postInit(FMLPostInitializationEvent event) {
         LogHelper.debug("Starting Post-Initialization");
         ItemRegistry.getInstance().initRecipes();
+        BlockRegistry.getInstance().initRecipes();
         BuildingTypeRegistry.getInstance().postInit();
         LogHelper.debug("Post-Initialization Complete");
     }

@@ -22,6 +22,11 @@ import net.minecraft.util.math.BlockPos;
 @SuppressWarnings("unused")
 public interface APIv1 extends APIBase {
     /**
+     * @return the SettlerCraft Block registry
+     */
+    ISettlerCraftBlockRegistry getBlockRegistry();
+
+    /**
      * @return the SettlerCraft Item registry
      */
     ISettlerCraftItemRegistry getItemRegistry();
