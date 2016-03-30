@@ -50,6 +50,8 @@ public class VertexCreator {
     /** Current transformation matrix */
     private final Deque<TransformationMatrix> matrices;
 
+    /** Current color multiplier */
+    private int colorMultiplier;
     /** Current tint index for the quad */
     private int tintIndex;
     /** Current face for the quad */
@@ -64,6 +66,7 @@ public class VertexCreator {
         this.drawMode = DRAW_MODE_NOT_DRAWING;
         this.matrices = new ArrayDeque<>();
         this.matrices.add(new TransformationMatrix());
+        this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
     }
 
     /**
@@ -103,6 +106,7 @@ public class VertexCreator {
             this.tintIndex = 0;
             this.face = null;
             this.applyDiffuseLighting = false;
+            this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
         } else {
             throw new RuntimeException("NOT CONSTRUCTING VERTICES");
         }
@@ -119,7 +123,7 @@ public class VertexCreator {
      * @param v v value for the vertex
      */
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        this.addVertexWithUV(x, y, z, icon, u, v, COLOR_MULTIPLIER_STANDARD);
+        this.addVertexWithUV(x, y, z, icon, u, v, colorMultiplier);
     }
 
     /**
@@ -135,7 +139,7 @@ public class VertexCreator {
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
         double[] coords = this.matrices.getFirst().transform(x, y, z);
         vertexData.add(vertexToIntArray(x, y, z, color, icon, u, v));
-        if(vertexData.size() == 4) {
+        if(vertexData.size() == drawMode) {
             quads.add(new BakedQuad(Ints.concat(
                     vertexData.get(0),
                     vertexData.get(1),
@@ -156,7 +160,7 @@ public class VertexCreator {
      * @param v v value for the vertex
      */
     public void addScaledVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        addScaledVertexWithUV(x, y, z, icon, u, v, COLOR_MULTIPLIER_STANDARD);
+        addScaledVertexWithUV(x, y, z, icon, u, v, colorMultiplier);
     }
 
     /**
@@ -184,7 +188,7 @@ public class VertexCreator {
      * @param offset offset of the face along its normal
      */
     public void drawScaledFace(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset) {
-        this.drawScaledFace(minX, minY, maxX, maxY, face, icon, offset, COLOR_MULTIPLIER_STANDARD);
+        this.drawScaledFace(minX, minY, maxX, maxY, face, icon, offset, colorMultiplier);
     }
 
     /**
@@ -274,7 +278,7 @@ public class VertexCreator {
      * @param offset offset of the face along its normal
      */
     public void drawScaledFaceDouble(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset) {
-        this.drawScaledFaceDouble(minX, minY, maxX, maxY, face, icon, offset, COLOR_MULTIPLIER_STANDARD);
+        this.drawScaledFaceDouble(minX, minY, maxX, maxY, face, icon, offset, colorMultiplier);
     }
 
     /**
@@ -316,7 +320,7 @@ public class VertexCreator {
      * @param icon icon to render the prism with
      */
     public void drawScaledPrism(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, TextureAtlasSprite icon) {
-        this.drawScaledPrism(minX, minY, minZ, maxX, maxY, maxZ, icon, COLOR_MULTIPLIER_STANDARD);
+        this.drawScaledPrism(minX, minY, minZ, maxX, maxY, maxZ, icon, colorMultiplier);
     }
 
     /**
@@ -510,6 +514,24 @@ public class VertexCreator {
      */
     public boolean getApplyDiffuseLighting() {
         return this.applyDiffuseLighting;
+    }
+
+    /**
+     * Sets the current color multiplier for the quads
+     * @param color the color multiplier
+     * @return this
+     */
+    public VertexCreator setColorMultiplier(int color) {
+        this.colorMultiplier = color;
+        return this;
+    }
+
+    /**
+     * Gets the current color multiplier
+     * @return the color multiplier
+     */
+    public int getColorMultiplier() {
+        return this.colorMultiplier;
     }
 
     /**
