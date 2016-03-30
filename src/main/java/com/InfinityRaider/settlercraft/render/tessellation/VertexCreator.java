@@ -156,7 +156,7 @@ public class VertexCreator implements ITessellator {
                     vertexData.get(1),
                     vertexData.get(2),
                     vertexData.get(3)
-            ), this.tintIndex, EnumFacing.UP, icon, this.applyDiffuseLighting, this.format));
+            ), this.tintIndex, null, icon, this.applyDiffuseLighting, this.format));
             vertexData.clear();
         }
     }
