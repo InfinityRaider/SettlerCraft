@@ -15,6 +15,9 @@ public final class Names {
         public static final String X = "SC_X";
         public static final String Y = "SC_Y";
         public static final String Z = "SC_Z";
+        public static final String X1 = "SC_X1";
+        public static final String Y1 = "SC_Y1";
+        public static final String Z1 = "SC_Z1";
         public static final String X2 = "SC_X2";
         public static final String Y2 = "SC_Y2";
         public static final String Z2 = "SC_Z2";
