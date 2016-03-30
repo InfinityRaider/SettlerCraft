@@ -68,7 +68,7 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
     @SuppressWarnings("unchecked")
     public List<BakedQuad> getQuads(IBlockState state, EnumFacing side, long rand) {
         List<BakedQuad> list;
-        if(side != null && (state instanceof IBlockStateSpecial)) {
+        if(side == null && (state instanceof IBlockStateSpecial)) {
             World world = Minecraft.getMinecraft().theWorld;
             T tile = ((IBlockStateSpecial<T>) state).getTileEntity(world);
             BlockPos pos = ((IBlockStateSpecial<T>) state).getPos();
