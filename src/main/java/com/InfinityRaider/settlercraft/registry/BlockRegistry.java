@@ -5,6 +5,8 @@ import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.render.block.RenderBlockRegistry;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -40,7 +42,11 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
 
     public void init() {
         testBlock = new BlockTest();
-        settlerCraftBlocks.add(testBlock);
+
+        LogHelper.debug("Registered blocks:");
+        for(Block block : settlerCraftBlocks()) {
+            LogHelper.debug(" - "+block.getRegistryName());
+        }
     }
 
     public void initRecipes() {
@@ -63,6 +69,9 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
             //register the renderer
             RenderBlockRegistry.getInstance().registerCustomBlockRenderer(customRenderedBlock);
         });
+        for(ICustomRenderedBlock block : RenderBlockRegistry.getInstance().getRegisteredBlocks()) {
+            LogHelper.debug("Registered custom renderer for " + block.getBlockModelResourceLocation());
+        }
     }
 
     @Override
@@ -72,6 +81,6 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
 
     @Override
     public List<Block> settlerCraftBlocks() {
-        return settlerCraftBlocks;
+        return ImmutableList.copyOf(settlerCraftBlocks);
     }
 }

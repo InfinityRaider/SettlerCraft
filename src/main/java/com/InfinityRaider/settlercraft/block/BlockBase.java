@@ -29,6 +29,7 @@ public abstract class BlockBase<T extends TileEntity> extends Block implements I
         this.internalName = name;
         this.setCreativeTab(BlockRegistry.getInstance().creativeTabSettlerCraft());
         RegisterHelper.registerBlock(this, this.getInternalName(), this.getItemBlockClass());
+        BlockRegistry.getInstance().settlerCraftBlocks.add(this);
     }
 
     public String getInternalName() {

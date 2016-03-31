@@ -1,22 +1,20 @@
 package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.IRegistry;
-import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RenderBlockRegistry implements ICustomModelLoader {
@@ -27,18 +25,16 @@ public class RenderBlockRegistry implements ICustomModelLoader {
     }
 
     private final Map<ResourceLocation, RenderBlockBase<? extends TileEntity>> renderers;
+    private final List<ICustomRenderedBlock<? extends TileEntity>> blocks;
 
     private RenderBlockRegistry() {
         this.renderers = new HashMap<>();
+        this.blocks = new ArrayList<>();
         ModelLoaderRegistry.registerLoader(this);
     }
 
     @Override
     public boolean accepts(ResourceLocation loc) {
-        if(loc.getResourceDomain().equalsIgnoreCase("settlercraft")) {
-            //for breakpoint purposes
-            boolean flag = true;
-        }
         return renderers.containsKey(loc);
     }
 
@@ -48,7 +44,11 @@ public class RenderBlockRegistry implements ICustomModelLoader {
     }
 
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) { }
+    public void onResourceManagerReload(IResourceManager resourceManager) {}
+
+    public List<ICustomRenderedBlock<? extends TileEntity>> getRegisteredBlocks() {
+        return ImmutableList.copyOf(blocks);
+    }
 
     @SideOnly(Side.CLIENT)
     @SuppressWarnings("unchecked")
@@ -63,17 +63,7 @@ public class RenderBlockRegistry implements ICustomModelLoader {
             if(renderer.hasDynamicRendering() && tile != null) {
                 ClientRegistry.bindTileEntitySpecialRenderer(tile.getClass(), instance);
             }
-        }
-    }
-
-    @SubscribeEvent
-    public void onModelBake(ModelBakeEvent event) {
-        IRegistry<ModelResourceLocation, IBakedModel> registry =  event.getModelRegistry();
-        for(Map.Entry<ResourceLocation, RenderBlockBase<? extends TileEntity>> entry : this.renderers.entrySet()) {
-            if(entry.getKey() instanceof ModelResourceLocation) {
-                IBakedModel model = registry.getObject((ModelResourceLocation) entry.getKey());
-                boolean flag = false;
-            }
+            blocks.add(block);
         }
     }
 }

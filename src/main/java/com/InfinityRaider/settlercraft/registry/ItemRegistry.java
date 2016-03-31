@@ -4,6 +4,8 @@ import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
 import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -46,6 +48,11 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
         itemSchematicCreator = new ItemSchematicCreator();
         itemDebugger = new ItemDebugger();
         itemBuildingPlanner = new ItemBuildingPlanner();
+
+        LogHelper.debug("Registered items:");
+        for(Item item : settlerCraftItems()) {
+            LogHelper.debug(" - " + item.getRegistryName());
+        }
     }
 
     public void initRecipes() {
@@ -69,7 +76,7 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
 
     @Override
     public List<Item> settlerCraftItems() {
-        return settlerCraftItems;
+        return ImmutableList.copyOf(settlerCraftItems);
     }
 
     @Override
