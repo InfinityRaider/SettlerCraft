@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.reference.Constants;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
 import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -89,7 +88,7 @@ public class VertexCreator implements ITessellator {
      * @param format vertex format
      */
     public void startDrawing(int mode, VertexFormat format) {
-        if(drawMode != DRAW_MODE_NOT_DRAWING) {
+        if(drawMode == DRAW_MODE_NOT_DRAWING) {
             this.drawMode = mode;
             this.format = format;
         } else {

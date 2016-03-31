@@ -1,13 +1,18 @@
 package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
+import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.IRegistry;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -57,6 +62,17 @@ public class RenderBlockRegistry implements ICustomModelLoader {
             TileEntity tile = renderer.getTileEntity();
             if(renderer.hasDynamicRendering() && tile != null) {
                 ClientRegistry.bindTileEntitySpecialRenderer(tile.getClass(), instance);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onModelBake(ModelBakeEvent event) {
+        IRegistry<ModelResourceLocation, IBakedModel> registry =  event.getModelRegistry();
+        for(Map.Entry<ResourceLocation, RenderBlockBase<? extends TileEntity>> entry : this.renderers.entrySet()) {
+            if(entry.getKey() instanceof ModelResourceLocation) {
+                IBakedModel model = registry.getObject((ModelResourceLocation) entry.getKey());
+                boolean flag = false;
             }
         }
     }

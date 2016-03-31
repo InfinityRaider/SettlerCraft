@@ -16,16 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public interface ICustomRenderedBlock<T extends TileEntity> {
     /**
-     * This is here to make sure a block state containing the tile entity and block position of the block are passed in the block's getActualState method
-     * @param state the block's in world state
-     * @param world the world
-     * @param pos the block's position in the world
-     * @return a special block state containing the tile entity and the position
-     */
-    @SuppressWarnings("unused")
-    IBlockStateSpecial<T> getActualState(IBlockState state, IBlockAccess world, BlockPos pos);
-
-    /**
      * This is here to make sure a block state containing the tile entity and block position of the block are passed in the block's getExtendedState method
      * @param state the block's in world state
      * @param world the world

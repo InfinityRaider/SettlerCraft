@@ -53,7 +53,7 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
     }
 
     @Override
-    public IBakedModel bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+    public BakedModel<T> bake(IModelState state, VertexFormat format, Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         return new BakedModel<>(format, renderer, bakedTextureGetter);
     }
 
