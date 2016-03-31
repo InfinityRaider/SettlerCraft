@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -96,6 +97,9 @@ public class TessellatorVertexBuffer extends TessellatorAbstractBase {
      */
     @Override
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
+        if(icon == null) {
+            icon = Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+        }
         double[] coords = this.getTransformationMatrix().transform(x, y, z);
         buffer.pos(coords[0], coords[1], coords[2]);
         buffer.color(getRedValueInt(), getGreenValueInt(), getBlueValueInt(), getAlphaValueInt());

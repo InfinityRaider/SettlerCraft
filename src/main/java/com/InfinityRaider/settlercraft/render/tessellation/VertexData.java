@@ -80,7 +80,7 @@ public class VertexData {
     private void applyVertexDataForType(int index, VertexFormatElement.EnumUsage type, UnpackedBakedQuad.Builder builder) {
         switch(type) {
             case POSITION:
-                builder.put(index, x, y, z);
+                builder.put(index, x, y, z, 1);
                 break;
             case UV:
                 builder.put(index, u, v, 0, 1);
@@ -91,6 +91,13 @@ public class VertexData {
             case NORMAL:
                 builder.put(index, n_X, n_Y, n_Z, 0);
                 break;
+            case PADDING:
+                //TODO: figure this one out
+                builder.put(index, 1, 1, 1, 1);
+                break;
+            case GENERIC:
+                //TODO: figure this one out
+                builder.put(index, 1, 1, 1, 1);
 
         }
     }

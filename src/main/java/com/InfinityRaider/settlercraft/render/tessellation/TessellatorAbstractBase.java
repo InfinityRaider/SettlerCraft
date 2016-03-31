@@ -165,23 +165,34 @@ public abstract class TessellatorAbstractBase implements ITessellator {
         float x1, x2, x3, x4;
         float y1, y2, y3, y4;
         float z1, z2, z3, z4;
+        float u1, u2, u3, u4;
+        float v1, v2, v3, v4;
         final float min = 0.0F;
         final float max = 1.0F;
+        final int uv = 17;
         switch (face) {
             case UP: {
                 x1 = x2 = maxX;
                 x3 = x4 = minX;
                 z1 = z4 = maxY;
                 z2 = z3 = minY;
-                y1 = y2 = y3 = y4 = max + offset;
+                y1 = y2 = y3 = y4 = min + offset;
+                u1 = u2 = maxX % uv;
+                u3 = u4 = minX % uv;
+                v1 = v4 = maxY % uv;
+                v2 = v3 = minY % uv;
                 break;
             }
             case DOWN: {
                 x1 = x2 = maxX;
                 x3 = x4 = minX;
                 z1 = z4 = minY;
-                z2 = z3 = maxX;
-                y1 = y2 = y3 = y4 = min - offset;
+                z2 = z3 = maxY;
+                y1 = y2 = y3 = y4 = min + offset;
+                u1 = u2 = maxX % uv;
+                u3 = u4 = minX % uv;
+                v1 = v4 = minY % uv;
+                v2 = v3 = maxY % uv;
                 break;
             }
             case WEST: {
@@ -189,7 +200,11 @@ public abstract class TessellatorAbstractBase implements ITessellator {
                 z3 = z4 = minX;
                 y1 = y4 = minY;
                 y2 = y3 = maxY;
-                x1 = x2 = x3 = x4 = min - offset;
+                x1 = x2 = x3 = x4 = min + offset;
+                u1 = u2 = maxX % uv;
+                u3 = u4 = minX % uv;
+                v1 = v4 = 16 - (maxY % uv);
+                v2 = v3 = 16 - (minY % uv);
                 break;
             }
             case EAST: {
@@ -197,7 +212,11 @@ public abstract class TessellatorAbstractBase implements ITessellator {
                 z3 = z4 = maxX;
                 y1 = y4 = minY;
                 y2 = y3 = maxY;
-                x1 = x2 = x3 = x4 = max + offset;
+                x1 = x2 = x3 = x4 = min + offset;
+                u1 = u2 = minX % uv;
+                u3 = u4 = maxX % uv;
+                v1 = v4 = 16 - (maxY % uv);
+                v2 = v3 = 16 - (minY % uv);
                 break;
             }
             case NORTH: {
@@ -205,7 +224,11 @@ public abstract class TessellatorAbstractBase implements ITessellator {
                 x3 = x4 = maxX;
                 y1 = y4 = minY ;
                 y2 = y3 = maxY;
-                z1 = z2 = z3 = z4 = min - offset;
+                z1 = z2 = z3 = z4 = min + offset;
+                u1 = u2 = minX % uv;
+                u3 = u4 = maxX % uv;
+                v1 = v4 = 16 - (maxY % uv);
+                v2 = v3 = 16 - (minY % uv);
                 break;
             }
             case SOUTH: {
@@ -213,16 +236,20 @@ public abstract class TessellatorAbstractBase implements ITessellator {
                 x3 = x4 = minX;
                 y1 = y4 = minY;
                 y2 = y3 = maxY;
-                z1 = z2 = z3 = z4 = max + offset;
+                z1 = z2 = z3 = z4 = min + offset;
+                u1 = u2 = maxX % uv;
+                u3 = u4 = minX % uv;
+                v1 = v4 = 16 - (maxY % uv);
+                v2 = v3 = 16 - (minY % uv);
                 break;
             }
             default: return;
         }
         this.setNormal(new Vec3f(face.getFrontOffsetX(), face.getFrontOffsetY(), face.getFrontOffsetZ()));
-        addScaledVertexWithUV(x1, y1, z1, icon, 16, 16, color);
-        addScaledVertexWithUV(x2, y2, z2, icon, 16, 0, color);
-        addScaledVertexWithUV(x3, y3, z3, icon, 0, 0, color);
-        addScaledVertexWithUV(x4, y4, z4, icon, 0, 16, color);
+        addScaledVertexWithUV(x1, y1, z1, icon, u1, v1, color);
+        addScaledVertexWithUV(x2, y2, z2, icon, u2, v2, color);
+        addScaledVertexWithUV(x3, y3, z3, icon, u3, v3, color);
+        addScaledVertexWithUV(x4, y4, z4, icon, u4, v4, color);
     }
 
     /**
@@ -267,7 +294,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
                 return;
         }
         this.drawScaledFace(minX, minY, maxX, maxY, face, icon, offset, color);
-        this.drawScaledFace(minX, minY, maxX, maxY, opposite, icon, -offset, color);
+        this.drawScaledFace(minX, minY, maxX, maxY, opposite, icon, offset, color);
     }
 
     /**

@@ -106,7 +106,6 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
                 ITessellator tessellator = TessellatorBakedQuad.getInstance().setTextureFunction(this.textures);
 
                 tessellator.startDrawingQuads(this.format);
-                tessellator.translate(pos);
 
                 this.renderer.renderWorldBlock(tessellator, world, pos, pos.getX(), pos.getY(), pos.getZ(), extendedState, block, tile, false, 1, 0);
 

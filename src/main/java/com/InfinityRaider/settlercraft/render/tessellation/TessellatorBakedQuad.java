@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.google.common.base.Function;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
@@ -105,6 +106,9 @@ public class TessellatorBakedQuad extends TessellatorAbstractBase {
      * @param color color modifier
      */
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
+        if(icon == null) {
+            icon = Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+        }
         if(drawMode == DRAW_MODE_NOT_DRAWING) {
             throw new RuntimeException("NOT CONSTRUCTING VERTICES");
         }
