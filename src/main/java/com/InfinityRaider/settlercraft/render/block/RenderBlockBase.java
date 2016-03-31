@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
@@ -71,11 +72,16 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
         Block block = state.getBlock();
         IBlockState extendedState = block.getExtendedState(state, world, pos);
 
+        Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
 
         tessellator.startDrawingQuads(DefaultVertexFormats.BLOCK);
+        tessellator.setColorRGBA(255, 255, 255, 255);
+
         this.renderer.renderWorldBlock(tessellator, world, pos, x, y, z, extendedState, block, te, true, partialTicks, destroyStage);
+
         tessellator.draw();
 
         GL11.glTranslated(-x, -y, -z);

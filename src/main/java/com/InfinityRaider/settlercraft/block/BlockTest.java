@@ -8,19 +8,17 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTest extends BlockBase<TileEntityTest> {
+public class BlockTest extends BlockBaseTile<TileEntityTest> {
     public BlockTest() {
-        super("testBlock", Material.ground, MapColor.adobeColor);
+        super("testBlock", "test", Material.ground, MapColor.adobeColor);
     }
 
     @Override
@@ -52,5 +50,10 @@ public class BlockTest extends BlockBase<TileEntityTest> {
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler<TileEntityTest> getRenderer() {
         return new BlockRenderingHandlerTest(this);
+    }
+
+    @Override
+    public TileEntityTest createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityTest();
     }
 }

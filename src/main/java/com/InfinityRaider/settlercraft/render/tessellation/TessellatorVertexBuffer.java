@@ -105,7 +105,7 @@ public class TessellatorVertexBuffer extends TessellatorAbstractBase {
         buffer.color(getRedValueInt(), getGreenValueInt(), getBlueValueInt(), getAlphaValueInt());
         buffer.tex(icon.getInterpolatedU(u), icon.getInterpolatedV(v));
         buffer.lightmap(getBrightness()>> 16 & 65535, getBrightness() & 65535);
-        buffer.normal(getNormal().x, getNormal().y, getNormal().z);
+        //buffer.normal(getNormal().x, getNormal().y, getNormal().z);
         buffer.endVertex();
     }
 

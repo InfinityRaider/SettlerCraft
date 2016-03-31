@@ -20,7 +20,7 @@ import java.util.Deque;
 @SuppressWarnings("unused")
 public abstract class TessellatorAbstractBase implements ITessellator {
     /** Default color (white) */
-    public static final Color STANDARD_COLOR = Color.WHITE;
+    public static final Color STANDARD_COLOR = new Color(255, 255, 255, 255);
     /** Default normal (up) */
     public static final Vec3f STANDARD_NORMAL = new Vec3f(0, 1, 0);
 
