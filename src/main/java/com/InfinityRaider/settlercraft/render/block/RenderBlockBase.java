@@ -1,9 +1,9 @@
 package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.blockstate.IBlockStateSpecial;
-import com.InfinityRaider.settlercraft.render.tessellation.CustomTessellator;
+import com.InfinityRaider.settlercraft.render.tessellation.TessellatorVertexBuffer;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
-import com.InfinityRaider.settlercraft.render.tessellation.VertexCreator;
+import com.InfinityRaider.settlercraft.render.tessellation.TessellatorBakedQuad;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
@@ -64,7 +64,7 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
 
     @Override
     public void renderTileEntityAt(T te, double x, double y, double z, float partialTicks, int destroyStage) {
-        ITessellator tessellator = CustomTessellator.getInstance(Tessellator.getInstance());
+        ITessellator tessellator = TessellatorVertexBuffer.getInstance(Tessellator.getInstance());
         World world = te.getWorld();
         BlockPos pos = te.getPos();
         IBlockState state = world.getBlockState(pos);
@@ -101,7 +101,7 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
                 T tile = ((IBlockStateSpecial<T>) state).getTileEntity(world);
                 BlockPos pos = ((IBlockStateSpecial<T>) state).getPos();
                 Block block = state.getBlock();
-                ITessellator tessellator = VertexCreator.getInstance().setTextureFunction(this.textures);
+                ITessellator tessellator = TessellatorBakedQuad.getInstance().setTextureFunction(this.textures);
 
                 tessellator.startDrawingQuads(this.format);
                 tessellator.translate(pos);

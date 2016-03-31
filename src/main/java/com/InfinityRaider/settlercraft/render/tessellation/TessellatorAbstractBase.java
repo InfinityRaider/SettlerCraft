@@ -2,9 +2,7 @@ package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.InfinityRaider.settlercraft.reference.Constants;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
-import com.google.common.base.Function;
-import com.google.common.primitives.Ints;
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import com.sun.javafx.geom.Vec3f;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
@@ -14,117 +12,83 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.*;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
-/**
- * Helper class to construct vertices
- */
 @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")
-public class VertexCreator implements ITessellator {
-    /** Draw mode when no vertices are being constructed */
-    public static final int DRAW_MODE_NOT_DRAWING = -1;
-    /** Draw mode when vertices are being constructed for quads */
-    public static final int DRAW_MODE_QUADS = 4;
+public abstract class TessellatorAbstractBase implements ITessellator {
+    /** Default color (white) */
+    public static final Color STANDARD_COLOR = Color.WHITE;
+    /** Default normal (up) */
+    public static final Vec3f STANDARD_NORMAL = new Vec3f(0, 1, 0);
 
-    /** Default color multiplier (white) */
-    public static final int COLOR_MULTIPLIER_STANDARD = 16777215;
-
-    /** The VertexCreator instance */
-    private static final VertexCreator INSTANCE = new VertexCreator();
-
-    /** Getter for the VertexCreator instance */
-    public static VertexCreator getInstance() {
-        return INSTANCE;
-    }
-
-    /** Currently constructed quads */
-    private final List<BakedQuad> quads;
-    /** Currently constructed vertices */
-    private final List<int[]> vertexData;
-
-    /** Current drawing mode */
-    private int drawMode;
-    /** Current vertex format */
-    private VertexFormat format;
     /** Current transformation matrix */
     private final Deque<TransformationMatrix> matrices;
-    /** Texture function */
-    private Function<ResourceLocation, TextureAtlasSprite> textureFunction;
 
-    /** Current color multiplier */
-    private int colorMultiplier;
+    /** Current vertex format */
+    private VertexFormat format;
+    /** Current normal */
+    private Vec3f normal;
+    /** Current color*/
+    private Color color;
+    /** Current brightness value */
+    private int l;
     /** Current tint index for the quad */
     private int tintIndex;
     /** Current diffuse lighting setting for the quad */
     private boolean applyDiffuseLighting;
 
-    /** Private constructor */
-    private VertexCreator() {
-        this.quads = new ArrayList<>();
-        this.vertexData = new ArrayList<>();
-        this.drawMode = DRAW_MODE_NOT_DRAWING;
+    protected TessellatorAbstractBase() {
         this.matrices = new ArrayDeque<>();
-        this.resetMatrix();
+        this.normal = STANDARD_NORMAL;
+        this.color = STANDARD_COLOR;
         this.tintIndex = -1;
-        this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
+        this.applyDiffuseLighting = false;
+        this.resetMatrix();
     }
-
     /**
      * Method to start constructing quads
      * @param vertexFormat vertex format
      */
     @Override
-    public void startDrawingQuads(VertexFormat vertexFormat) {
-        this.startDrawing(DRAW_MODE_QUADS, vertexFormat);
+    public final void startDrawingQuads(VertexFormat vertexFormat) {
+        this.format = vertexFormat;
+        this.onStartDrawingQuadsCall();
     }
 
     /**
-     * Method to start constructing vertices
-     * @param mode draw mode
-     * @param format vertex format
+     * Sub delegated method call of the startDrawingQuads() method to ensure correct call chain
      */
-    public void startDrawing(int mode, VertexFormat format) {
-        if(drawMode == DRAW_MODE_NOT_DRAWING) {
-            this.drawMode = mode;
-            this.format = format;
-        } else {
-            throw new RuntimeException("ALREADY CONSTRUCTING VERTICES");
-        }
-    }
-
-    /**
-     * Method to get all quads constructed
-     * @return list of quads, may be emtpy but never null
-     */
-    @Override
-    public List<BakedQuad> getQuads() {
-        List<BakedQuad> list = new ArrayList<>();
-        list.addAll(this.quads);
-        return list;
-    }
+    protected abstract void onStartDrawingQuadsCall();
 
     /**
      * Method to finalize drawing
      */
     @Override
-    public void draw() {
-        if(drawMode != DRAW_MODE_NOT_DRAWING) {
-            quads.clear();
-            vertexData.clear();
-            this.resetMatrix();
-            this.drawMode = DRAW_MODE_NOT_DRAWING;
-            this.format = null;
-            this.tintIndex = -1;
-            this.applyDiffuseLighting = false;
-            this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
-            this.textureFunction = null;
-        } else {
-            throw new RuntimeException("NOT CONSTRUCTING VERTICES");
-        }
+    public final void draw() {
+        this.onDrawCall();
+        this.format = null;
+        this.normal = STANDARD_NORMAL;
+        this.color = STANDARD_COLOR;
+        this.tintIndex = -1;
+        this.applyDiffuseLighting = false;
+        this.resetMatrix();
+    }
+
+    /**
+     * Sub delegated method call of the draw() method to ensure correct call chain
+     */
+    protected abstract void onDrawCall();
+
+    /**
+     * Gets the current vertex format the tessellator is drawing with
+     * @return the vertex format
+     */
+    @Override
+    public final VertexFormat getVertexFormat() {
+        return format;
     }
 
     /**
@@ -136,35 +100,9 @@ public class VertexCreator implements ITessellator {
      * @param u u value for the vertex
      * @param v v value for the vertex
      */
+    @Override
     public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        this.addVertexWithUV(x, y, z, icon, u, v, colorMultiplier);
-    }
-
-    /**
-     * Adds a vertex
-     * @param x the x-coordinate for the vertex
-     * @param y the y-coordinate for the vertex
-     * @param z the z-coordinate for the vertex
-     * @param icon the icon
-     * @param u u value for the vertex
-     * @param v v value for the vertex
-     * @param color color modifier
-     */
-    public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
-        if(drawMode == DRAW_MODE_NOT_DRAWING) {
-            throw new RuntimeException("NOT CONSTRUCTING VERTICES");
-        }
-        double[] coords = this.matrices.getFirst().transform(x, y, z);
-        vertexData.add(vertexToIntArray(x, y, z, color, icon, u, v));
-        if(vertexData.size() == drawMode) {
-            quads.add(new BakedQuad(Ints.concat(
-                    vertexData.get(0),
-                    vertexData.get(1),
-                    vertexData.get(2),
-                    vertexData.get(3)
-            ), this.tintIndex, null, icon, this.applyDiffuseLighting, this.format));
-            vertexData.clear();
-        }
+        this.addVertexWithUV(x, y, z, icon, u, v, getColor());
     }
 
     /**
@@ -176,8 +114,9 @@ public class VertexCreator implements ITessellator {
      * @param u u value for the vertex
      * @param v v value for the vertex
      */
+    @Override
     public void addScaledVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        addScaledVertexWithUV(x, y, z, icon, u, v, colorMultiplier);
+        addScaledVertexWithUV(x, y, z, icon, u, v, getColor());
     }
 
     /**
@@ -190,6 +129,7 @@ public class VertexCreator implements ITessellator {
      * @param v v value for the vertex
      * @param color color modifier
      */
+    @Override
     public void addScaledVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
         addVertexWithUV(x * Constants.UNIT, y * Constants.UNIT, z * Constants.UNIT, icon, u, v, color);
     }
@@ -204,8 +144,9 @@ public class VertexCreator implements ITessellator {
      * @param icon icon to render the face with
      * @param offset offset of the face along its normal
      */
+    @Override
     public void drawScaledFace(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset) {
-        this.drawScaledFace(minX, minY, maxX, maxY, face, icon, offset, colorMultiplier);
+        this.drawScaledFace(minX, minY, maxX, maxY, face, icon, offset, getColor());
     }
 
     /**
@@ -219,6 +160,7 @@ public class VertexCreator implements ITessellator {
      * @param offset offset of the face along its normal
      * @param color color multiplier
      */
+    @Override
     public void drawScaledFace(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset, int color) {
         float x1, x2, x3, x4;
         float y1, y2, y3, y4;
@@ -276,6 +218,7 @@ public class VertexCreator implements ITessellator {
             }
             default: return;
         }
+        this.setNormal(new Vec3f(face.getFrontOffsetX(), face.getFrontOffsetY(), face.getFrontOffsetZ()));
         addScaledVertexWithUV(x1, y1, z1, icon, 16, 16, color);
         addScaledVertexWithUV(x2, y2, z2, icon, 16, 0, color);
         addScaledVertexWithUV(x3, y3, z3, icon, 0, 0, color);
@@ -293,8 +236,9 @@ public class VertexCreator implements ITessellator {
      * @param icon icon to render the face with
      * @param offset offset of the face along its normal
      */
+    @Override
     public void drawScaledFaceDouble(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset) {
-        this.drawScaledFaceDouble(minX, minY, maxX, maxY, face, icon, offset, colorMultiplier);
+        this.drawScaledFaceDouble(minX, minY, maxX, maxY, face, icon, offset, getColor());
     }
 
     /**
@@ -309,6 +253,7 @@ public class VertexCreator implements ITessellator {
      * @param offset offset of the face along its normal
      * @param color color multiplier
      */
+    @Override
     public void drawScaledFaceDouble(float minX, float minY, float maxX, float maxY, EnumFacing face, TextureAtlasSprite icon, float offset, int color) {
         EnumFacing opposite;
         switch(face) {
@@ -335,8 +280,9 @@ public class VertexCreator implements ITessellator {
      * @param maxZ maximum z-coordinate of the face
      * @param icon icon to render the prism with
      */
+    @Override
     public void drawScaledPrism(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, TextureAtlasSprite icon) {
-        this.drawScaledPrism(minX, minY, minZ, maxX, maxY, maxZ, icon, colorMultiplier);
+        this.drawScaledPrism(minX, minY, minZ, maxX, maxY, maxZ, icon, getColor());
     }
 
     /**
@@ -350,6 +296,7 @@ public class VertexCreator implements ITessellator {
      * @param icon icon to render the prism with
      * @param color color multiplier
      */
+    @Override
     public void drawScaledPrism(float minX, float minY, float minZ, float maxX, float maxY, float maxZ, TextureAtlasSprite icon, int color) {
         //bottom
         drawScaledFace(minX, minZ, maxX, maxZ, EnumFacing.DOWN, icon, minY, color);
@@ -372,7 +319,8 @@ public class VertexCreator implements ITessellator {
      * @param z the z-coordinate
      * @return this
      */
-    public VertexCreator setTranslation(double x, double y, double z) {
+    @Override
+    public TessellatorAbstractBase setTranslation(double x, double y, double z) {
         this.matrices.getFirst().setTranslation(x, y, z);
         return this;
     }
@@ -385,7 +333,8 @@ public class VertexCreator implements ITessellator {
      * @param z the z-direction
      * @return this
      */
-    public VertexCreator setRotation(double angle, double x, double y, double z) {
+    @Override
+    public TessellatorAbstractBase setRotation(double angle, double x, double y, double z) {
         this.matrices.getFirst().setRotation(angle, x, y, z);
         return this;
     }
@@ -395,7 +344,8 @@ public class VertexCreator implements ITessellator {
      * @param pos the BlockPos
      * @return this
      */
-    public VertexCreator translate(BlockPos pos) {
+    @Override
+    public TessellatorAbstractBase translate(BlockPos pos) {
         this.translate(pos.getX(), pos.getY(), pos.getZ());
         return this;
     }
@@ -407,7 +357,8 @@ public class VertexCreator implements ITessellator {
      * @param z the z coordinate
      * @return this
      */
-    public VertexCreator translate(double x, double y, double z) {
+    @Override
+    public TessellatorAbstractBase translate(double x, double y, double z) {
         this.matrices.getFirst().multiplyRightWith(new TransformationMatrix(x, y, z));
         return this;
     }
@@ -420,7 +371,8 @@ public class VertexCreator implements ITessellator {
      * @param z the z direction
      * @return this
      */
-    public VertexCreator rotate(double angle, double x, double y, double z) {
+    @Override
+    public TessellatorAbstractBase rotate(double angle, double x, double y, double z) {
         this.matrices.getFirst().multiplyRightWith(new TransformationMatrix(angle, x, y, z));
         return this;
     }
@@ -432,18 +384,10 @@ public class VertexCreator implements ITessellator {
      * @param z the z-axis scale factor
      * @return this
      */
-    public VertexCreator scale(double x, double y, double z) {
+    @Override
+    public TessellatorAbstractBase scale(double x, double y, double z) {
         this.matrices.getFirst().scale(x, y, z);
         return this;
-    }
-
-    @Override
-    public TextureAtlasSprite getIcon(ResourceLocation loc) {
-        if(this.textureFunction == null) {
-            return ModelLoader.defaultTextureGetter().apply(loc);
-        } else {
-            return this.textureFunction.apply(loc);
-        }
     }
 
     /**
@@ -451,7 +395,7 @@ public class VertexCreator implements ITessellator {
      * @param transformationMatrix transformation matrix defining the custom transformation
      * @return this
      */
-    public VertexCreator applyTransformation(TransformationMatrix transformationMatrix) {
+    public TessellatorAbstractBase applyTransformation(TransformationMatrix transformationMatrix) {
         this.matrices.getFirst().multiplyRightWith(transformationMatrix);
         return this;
     }
@@ -465,26 +409,222 @@ public class VertexCreator implements ITessellator {
     }
 
     /**
-     * Copied from TheGreyGhost, converts the vertex information to the int array format expected by BakedQuads.
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param z z coordinate
-     * @param color RGBA colour format - white for no effect, non-white to tint the face with the specified colour
-     * @param texture the texture to use for the face
-     * @param u u-coordinate of the texture (0 - 16) corresponding to [x,y,z]
-     * @param v v-coordinate of the texture (0 - 16) corresponding to [x,y,z]
-     * @return int array
+     * Resets the transformation matrix
+     * @return this
      */
-    public int[] vertexToIntArray(float x, float y, float z, int color, TextureAtlasSprite texture, float u, float v) {
-        return new int[]{
-                Float.floatToRawIntBits(x),
-                Float.floatToRawIntBits(y),
-                Float.floatToRawIntBits(z),
-                color,
-                Float.floatToRawIntBits(texture.getInterpolatedU(u)),
-                Float.floatToRawIntBits(texture.getInterpolatedV(v)),
-                0
-        };
+    public TessellatorAbstractBase resetMatrix() {
+        this.matrices.clear();
+        this.matrices.push(new TransformationMatrix());
+        return this;
+    }
+
+    /**
+     * Gets a TextureAtlasSprite icon from a ResourceLocation
+     * @param loc the ResourceLocation
+     * @return the icon
+     */
+    @Override
+    public TextureAtlasSprite getIcon(ResourceLocation loc) {
+        return ModelLoader.defaultTextureGetter().apply(loc);
+    }
+
+    /**
+     * Sets the normal for the tessellator
+     * @param x the normal x direction
+     * @param y the normal y direction
+     * @param z the normal z direction
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setNormal(float x, float y, float z) {
+        return this.setNormal(new Vec3f(x, y, z));
+    }
+
+    /**
+     * Sets the normal for the tessellator
+     * @param vec the normal vector
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setNormal(Vec3f vec) {
+        this.normal = vec == null ? this.normal : vec;
+        return this;
+    }
+
+    /**
+     * Gets the current normal for the tessellator
+     * @return the normal vector
+     */
+    @Override
+    public Vec3f getNormal() {
+        return this.normal;
+    }
+
+    /**
+     * Sets the current opaque color multiplier for the quads
+     * @param color the rgb color value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColor(int color) {
+        this.color = new Color(color, false);
+        return this;
+    }
+
+    /**
+     * Sets the current transparent color multiplier for the quads
+     * @param color the rgba color value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColorTransparent(int color) {
+        this.color = new Color(color, true);
+        return this;
+    }
+
+    /**
+     * Gets the current color value as an rgb int
+     * @return the color multiplier
+     */
+    @Override
+    public int getColor() {
+        return this.color.getRGB();
+    }
+
+    /**
+     * Sets the current color value based on red, green and blue float values, all arguments should be between 0F and 1F
+     * @param red the rgb red value
+     * @param green the rgb green value
+     * @param blue the rgb blue value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColorRGB(float red, float green, float blue) {
+        return this.setColorRGBA(red, green, blue, 1);
+    }
+
+    /**
+     * Sets the current color value based on red, green, blue and alpha values, all arguments should be between 0F and 1F
+     * @param red the rgb red value
+     * @param green the rgb green value
+     * @param blue the rgb blue value
+     * @param alpha the rgb alpha value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColorRGBA(float red, float green, float blue, float alpha) {
+        this.color = new Color(red, green, blue, alpha);
+        return this;
+    }
+
+    /**
+     * Sets the current color value based on red, green and blue int values, all arguments should be between 0 and 255
+     * @param red the rgb red value
+     * @param green the rgb green value
+     * @param blue the rgb blue value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColorRGB(int red, int green, int blue) {
+        return this.setColorRGBA(red, green, blue, 255);
+    }
+
+    /**
+     * Sets the current color value based on red, green, blue and alpha values, all arguments should be between 0 and 255
+     * @param red the rgb red value
+     * @param green the rgb green value
+     * @param blue the rgb blue value
+     * @param alpha the rgb alpha value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setColorRGBA(int red, int green, int blue, int alpha) {
+        this.color = new Color(red, green, blue, alpha);
+        return this;
+    }
+
+    /**
+     * @return current blue value as float, will be between 0 and 1
+     */
+    @Override
+    public float getRedValueFloat() {
+        return ( (float) getRedValueInt()) / 255.0F;
+    }
+
+    /**
+     * @return current green value as float, will be between 0 and 1
+     */
+    @Override
+    public float getGreenValueFloat() {
+        return ( (float) getGreenValueInt()) / 255.0F;
+    }
+
+    /**
+     * @return current blue value as float, will be between 0 and 1
+     */
+    @Override
+    public float getBlueValueFloat() {
+        return ( (float) getBlueValueInt()) / 255.0F;
+    }
+
+    /**
+     * @return current alpha value as float, will be between 0 and 1
+     */
+    @Override
+    public float getAlphaValueFloat() {
+        return ( (float) getAlphaValueInt()) / 255.0F;
+    }
+
+    /**
+     * @return current red value as int, will be between 0 and 255
+     */
+    @Override
+    public int getRedValueInt() {
+        return this.color.getRed();
+    }
+
+    /**
+     * @return current green value as int, will be between 0 and 255
+     */
+    @Override
+    public int getGreenValueInt() {
+        return this.color.getGreen();
+    }
+
+    /**
+     * @return current red value as int, will be between 0 and 255
+     */
+    @Override
+    public int getBlueValueInt() {
+        return this.color.getBlue();
+    }
+
+    /**
+     * @return current alpha value as int, will be between 0 and 255
+     */
+    @Override
+    public int getAlphaValueInt() {
+        return this.color.getAlpha();
+    }
+
+    /**
+     * Sets the brightness of the tessellator
+     * @param value the brightness value
+     * @return this
+     */
+    @Override
+    public TessellatorAbstractBase setBrightness(int value) {
+        this.l = value;
+        return this;
+    }
+
+    /**
+     * Gets the brightness of the tessellator
+     * @return the brightness value
+     */
+    @Override
+    public int getBrightness() {
+        return this.l;
     }
 
     /**
@@ -492,7 +632,8 @@ public class VertexCreator implements ITessellator {
      * @param index the tint index
      * @return this
      */
-    public VertexCreator setTintIndex(int index) {
+    @Override
+    public TessellatorAbstractBase setTintIndex(int index) {
         this.tintIndex = index;
         return this;
     }
@@ -501,6 +642,7 @@ public class VertexCreator implements ITessellator {
      * Gets the current tint index value to use for the quads
      * @return the tint index
      */
+    @Override
     public int getTintIndex() {
         return this.tintIndex;
     }
@@ -510,7 +652,8 @@ public class VertexCreator implements ITessellator {
      * @param value the diffuse lighting setting
      * @return this
      */
-    public VertexCreator setApplyDiffuseLighting(boolean value) {
+    @Override
+    public TessellatorAbstractBase setApplyDiffuseLighting(boolean value) {
         this.applyDiffuseLighting = value;
         return this;
     }
@@ -519,40 +662,8 @@ public class VertexCreator implements ITessellator {
      * Gets if diffuse lighting is applied to the quads
      * @return the diffuse lighting setting
      */
+    @Override
     public boolean getApplyDiffuseLighting() {
         return this.applyDiffuseLighting;
-    }
-
-    /**
-     * Sets the current color multiplier for the quads
-     * @param color the color multiplier
-     * @return this
-     */
-    public VertexCreator setColorMultiplier(int color) {
-        this.colorMultiplier = color;
-        return this;
-    }
-
-    /**
-     * Gets the current color multiplier
-     * @return the color multiplier
-     */
-    public int getColorMultiplier() {
-        return this.colorMultiplier;
-    }
-
-    /**
-     * Resets the transformation matrix
-     * @return this
-     */
-    public VertexCreator resetMatrix() {
-        this.matrices.clear();
-        this.matrices.push(new TransformationMatrix());
-        return this;
-    }
-
-    public VertexCreator setTextureFunction(Function<ResourceLocation, TextureAtlasSprite> function) {
-        this.textureFunction = function;
-        return this;
     }
 }
