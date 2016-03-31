@@ -36,7 +36,7 @@ public abstract class BlockBase<T extends TileEntity> extends Block implements I
     }
 
     @Override
-    public IBlockStateSpecial<T> getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public IBlockStateSpecial<T, ? extends IBlockState> getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
         return new BlockStateSpecial<>(state, pos, this.getTileEntity(world, pos));
     }
 

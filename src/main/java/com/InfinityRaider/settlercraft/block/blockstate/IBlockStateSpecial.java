@@ -9,8 +9,14 @@ import net.minecraft.world.IBlockAccess;
  * Special block state containing the tile entity and block position of a block
  * @param <T> Tile Entity type
  */
-public interface IBlockStateSpecial<T extends TileEntity> extends IBlockState {
+public interface IBlockStateSpecial<T extends TileEntity, S extends IBlockState> extends IBlockState {
     T getTileEntity(IBlockAccess world);
 
     BlockPos getPos();
+
+    /**
+     * Gets the original block state wrapped in this block state
+     * @return original state
+     */
+    S getWrappedState();
 }

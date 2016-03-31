@@ -6,12 +6,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockStateSpecial<T extends TileEntity> extends BlockStateContainer.StateImplementation implements IBlockStateSpecial<T> {
+public class BlockStateSpecial<T extends TileEntity, S extends IBlockState> extends BlockStateContainer.StateImplementation
+        implements IBlockStateSpecial<T, S> {
+
     private final T tile;
     private final BlockPos pos;
+    private final S state;
 
-    public BlockStateSpecial(IBlockState state, BlockPos pos, T tile) {
+    public BlockStateSpecial(S state, BlockPos pos, T tile) {
         super(state.getBlock(), state.getProperties());
+        this.state = state;
         this.tile = tile;
         this.pos = pos;
     }
@@ -24,5 +28,10 @@ public class BlockStateSpecial<T extends TileEntity> extends BlockStateContainer
     @Override
     public BlockPos getPos() {
         return pos;
+    }
+
+    @Override
+    public S getWrappedState() {
+        return this.state;
     }
 }

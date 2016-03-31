@@ -69,12 +69,13 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
         BlockPos pos = te.getPos();
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
+        IBlockState extendedState = block.getExtendedState(state, world, pos);
 
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
 
         tessellator.startDrawingQuads(DefaultVertexFormats.BLOCK);
-        this.renderer.renderWorldBlock(tessellator, world, pos, x, y, z, state, block, te, true, partialTicks, destroyStage);
+        this.renderer.renderWorldBlock(tessellator, world, pos, x, y, z, extendedState, block, te, true, partialTicks, destroyStage);
         tessellator.draw();
 
         GL11.glTranslated(-x, -y, -z);
@@ -98,15 +99,16 @@ public class RenderBlockBase<T extends TileEntity> extends TileEntitySpecialRend
             List<BakedQuad> list;
             if(side == null && (state instanceof IBlockStateSpecial)) {
                 World world = Minecraft.getMinecraft().theWorld;
-                T tile = ((IBlockStateSpecial<T>) state).getTileEntity(world);
-                BlockPos pos = ((IBlockStateSpecial<T>) state).getPos();
+                T tile = ((IBlockStateSpecial<T, ? extends IBlockState>) state).getTileEntity(world);
+                BlockPos pos = ((IBlockStateSpecial<T, ? extends IBlockState>) state).getPos();
                 Block block = state.getBlock();
+                IBlockState extendedState = ((IBlockStateSpecial<T, ? extends IBlockState>) state).getWrappedState();
                 ITessellator tessellator = TessellatorBakedQuad.getInstance().setTextureFunction(this.textures);
 
                 tessellator.startDrawingQuads(this.format);
                 tessellator.translate(pos);
 
-                this.renderer.renderWorldBlock(tessellator, world, pos, pos.getX(), pos.getY(), pos.getZ(), state, block, tile, false, 1, 0);
+                this.renderer.renderWorldBlock(tessellator, world, pos, pos.getX(), pos.getY(), pos.getZ(), extendedState, block, tile, false, 1, 0);
 
                 list = tessellator.getQuads();
                 tessellator.draw();
