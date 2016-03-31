@@ -1,11 +1,9 @@
 package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -90,20 +88,16 @@ public class TessellatorVertexBuffer extends TessellatorAbstractBase {
      * @param x the x-coordinate for the vertex
      * @param y the y-coordinate for the vertex
      * @param z the z-coordinate for the vertex
-     * @param icon the icon
      * @param u u value for the vertex
      * @param v v value for the vertex
      * @param color color modifier
      */
     @Override
-    public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
-        if(icon == null) {
-            icon = Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
-        }
+    public void addVertexWithUV(float x, float y, float z, float u, float v, int color) {
         double[] coords = this.getTransformationMatrix().transform(x, y, z);
         buffer.pos(coords[0], coords[1], coords[2]);
         buffer.color(getRedValueInt(), getGreenValueInt(), getBlueValueInt(), getAlphaValueInt());
-        buffer.tex(icon.getInterpolatedU(u), icon.getInterpolatedV(v));
+        buffer.tex(u, v);
         buffer.lightmap(getBrightness()>> 16 & 65535, getBrightness() & 65535);
         //buffer.normal(getNormal().x, getNormal().y, getNormal().z);
         buffer.endVertex();

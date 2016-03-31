@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.render.tessellation;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
 import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
@@ -30,11 +29,6 @@ public class VertexData {
         this.setUV(u, v);
     }
 
-    public VertexData(VertexFormat format, float x, float y, float z, TextureAtlasSprite icon, double u, double v) {
-        this(format, x, y, z);
-        this.setUV(icon, u, v);
-    }
-
     public VertexData setXYZ(float x, float y, float z) {
         this.x = x;
         this.y = y;
@@ -46,10 +40,6 @@ public class VertexData {
         this.u = u;
         this.v = v;
         return this;
-    }
-
-    public VertexData setUV(TextureAtlasSprite icon, double u, double v) {
-        return this.setUV(icon.getInterpolatedU(u), icon.getInterpolatedV(v));
     }
 
     public VertexData setRGB(float r, float g, float b) {

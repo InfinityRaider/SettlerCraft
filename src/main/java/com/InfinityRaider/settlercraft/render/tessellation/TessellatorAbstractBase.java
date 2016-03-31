@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.render.tessellation;
 import com.InfinityRaider.settlercraft.reference.Constants;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
 import com.sun.javafx.geom.Vec3f;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
@@ -96,6 +97,18 @@ public abstract class TessellatorAbstractBase implements ITessellator {
      * @param x the x-coordinate for the vertex
      * @param y the y-coordinate for the vertex
      * @param z the z-coordinate for the vertex
+     * @param u u value for the vertex
+     * @param v v value for the vertex
+     */
+    public void addVertexWithUV(float x, float y, float z, float u, float v) {
+        this.addVertexWithUV(x, y, z, u, v, getColor());
+    }
+
+    /**
+     * Adds a vertex
+     * @param x the x-coordinate for the vertex
+     * @param y the y-coordinate for the vertex
+     * @param z the z-coordinate for the vertex
      * @param icon the icon
      * @param u u value for the vertex
      * @param v v value for the vertex
@@ -105,6 +118,22 @@ public abstract class TessellatorAbstractBase implements ITessellator {
         this.addVertexWithUV(x, y, z, icon, u, v, getColor());
     }
 
+    /**
+     * Adds a vertex
+     * @param x the x-coordinate for the vertex
+     * @param y the y-coordinate for the vertex
+     * @param z the z-coordinate for the vertex
+     * @param icon the icon
+     * @param u u value for the vertex
+     * @param v v value for the vertex
+     */
+    @Override
+    public void addVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v, int color) {
+        if(icon == null) {
+            icon = Minecraft.getMinecraft().getTextureMapBlocks().getMissingSprite();
+        }
+        this.addVertexWithUV(x, y, z, icon.getInterpolatedU(u), icon.getInterpolatedV(v), getColor());
+    }
     /**
      * Adds a vertex scaled by 1/16th of a block
      * @param x the x-coordinate for the vertex
@@ -116,7 +145,7 @@ public abstract class TessellatorAbstractBase implements ITessellator {
      */
     @Override
     public void addScaledVertexWithUV(float x, float y, float z, TextureAtlasSprite icon, float u, float v) {
-        addScaledVertexWithUV(x, y, z, icon, u, v, getColor());
+        this.addScaledVertexWithUV(x, y, z, icon, u, v, getColor());
     }
 
     /**

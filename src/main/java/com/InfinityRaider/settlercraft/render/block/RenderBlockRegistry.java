@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class RenderBlockRegistry implements ICustomModelLoader {
     private static final RenderBlockRegistry INSTANCE = new RenderBlockRegistry();
 

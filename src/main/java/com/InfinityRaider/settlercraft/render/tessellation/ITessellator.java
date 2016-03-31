@@ -43,6 +43,27 @@ public interface ITessellator {
      * @param x the x-coordinate for the vertex
      * @param y the y-coordinate for the vertex
      * @param z the z-coordinate for the vertex
+     * @param u u value for the vertex
+     * @param v v value for the vertex
+     */
+    void addVertexWithUV(float x, float y, float z, float u, float v);
+
+    /**
+     * Adds a vertex
+     * @param x the x-coordinate for the vertex
+     * @param y the y-coordinate for the vertex
+     * @param z the z-coordinate for the vertex
+     * @param u u value for the vertex
+     * @param v v value for the vertex
+     * @param color color modifier
+     */
+    void addVertexWithUV(float x, float y, float z, float u, float v, int color);
+
+    /**
+     * Adds a vertex
+     * @param x the x-coordinate for the vertex
+     * @param y the y-coordinate for the vertex
+     * @param z the z-coordinate for the vertex
      * @param icon the icon
      * @param u u value for the vertex
      * @param v v value for the vertex
