@@ -1,7 +1,6 @@
 package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.BlockTest;
-import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,11 +17,6 @@ public class BlockRenderingHandlerTest implements IBlockRenderingHandler<TileEnt
 
     public BlockRenderingHandlerTest(BlockTest block) {
         this.block = block;
-    }
-
-    @Override
-    public ICustomRenderedBlock<TileEntity> getCustomRenderedBlock() {
-        return block;
     }
 
     @Override

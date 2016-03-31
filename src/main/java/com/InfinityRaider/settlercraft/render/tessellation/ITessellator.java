@@ -1,7 +1,9 @@
 package com.InfinityRaider.settlercraft.render.tessellation;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -81,5 +83,7 @@ public interface ITessellator {
      * @return this
      */
     ITessellator scale(double x, double y, double z);
+
+    TextureAtlasSprite getIcon(ResourceLocation loc);
 }
 

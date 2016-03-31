@@ -51,7 +51,7 @@ public interface ICustomRenderedBlock<T extends TileEntity> {
     IBlockRenderingHandler<T> getRenderer();
 
     /**
-     * Gets the ModelResourceLocation used for this block, all block states for this block will use this as key in the model registry
+     * Gets an array of ResourceLocations used for the model of this block, all block states for this block will use this as key in the model registry
      * @return a unique ModelResourceLocation for this block
      */
     @SideOnly(Side.CLIENT)

@@ -5,7 +5,6 @@ import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.registry.IconRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.render.RenderSettlement;
-import com.InfinityRaider.settlercraft.render.block.ModelLoader;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.render.schematic.SchematicInWorldPlannerRenderer;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
@@ -73,7 +72,6 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(SettlementHandler.getClientInstance());
         MinecraftForge.EVENT_BUS.register(SettlementHandler.getServerInstance());
         MinecraftForge.EVENT_BUS.register(IconRegistry.getInstance());
-        MinecraftForge.EVENT_BUS.register(ModelLoader.getInstance());
     }
 
     @Override

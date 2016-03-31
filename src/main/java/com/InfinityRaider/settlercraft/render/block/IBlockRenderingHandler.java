@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.render.block;
 
-import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -15,14 +14,6 @@ import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public interface IBlockRenderingHandler<T extends TileEntity> {
-    /**
-     * Gets the ICustomRenderedBlock implementation tied to this block, used for registering this reference.
-     * Should always return the same object as getBlock().
-     *
-     * @return the block for this renderer
-     */
-    ICustomRenderedBlock<T> getCustomRenderedBlock();
-
     /**
      * Gets the block tied to this renderer, used for registering this renderer.
      * A pointer to the Block is saved and referenced.

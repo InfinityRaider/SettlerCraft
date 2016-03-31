@@ -2,12 +2,16 @@ package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.InfinityRaider.settlercraft.reference.Constants;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
+import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -49,6 +53,8 @@ public class VertexCreator implements ITessellator {
     private VertexFormat format;
     /** Current transformation matrix */
     private final Deque<TransformationMatrix> matrices;
+    /** Texture function */
+    private Function<ResourceLocation, TextureAtlasSprite> textureFunction;
 
     /** Current color multiplier */
     private int colorMultiplier;
@@ -116,6 +122,7 @@ public class VertexCreator implements ITessellator {
             this.tintIndex = -1;
             this.applyDiffuseLighting = false;
             this.colorMultiplier = COLOR_MULTIPLIER_STANDARD;
+            this.textureFunction = null;
         } else {
             throw new RuntimeException("NOT CONSTRUCTING VERTICES");
         }
@@ -431,6 +438,15 @@ public class VertexCreator implements ITessellator {
         return this;
     }
 
+    @Override
+    public TextureAtlasSprite getIcon(ResourceLocation loc) {
+        if(this.textureFunction == null) {
+            return ModelLoader.defaultTextureGetter().apply(loc);
+        } else {
+            return this.textureFunction.apply(loc);
+        }
+    }
+
     /**
      * Applies a custom transformation
      * @param transformationMatrix transformation matrix defining the custom transformation
@@ -533,6 +549,11 @@ public class VertexCreator implements ITessellator {
     public VertexCreator resetMatrix() {
         this.matrices.clear();
         this.matrices.push(new TransformationMatrix());
+        return this;
+    }
+
+    public VertexCreator setTextureFunction(Function<ResourceLocation, TextureAtlasSprite> function) {
+        this.textureFunction = function;
         return this;
     }
 }

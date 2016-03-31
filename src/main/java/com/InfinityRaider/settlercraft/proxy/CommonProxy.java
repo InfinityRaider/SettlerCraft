@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.proxy;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.SettlerTargetingHandler;
-import com.InfinityRaider.settlercraft.render.block.ModelLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;

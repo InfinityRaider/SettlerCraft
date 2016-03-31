@@ -2,12 +2,16 @@ package com.InfinityRaider.settlercraft.render.tessellation;
 
 import com.InfinityRaider.settlercraft.utility.ForgeDirection;
 import com.InfinityRaider.settlercraft.utility.TransformationMatrix;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -197,6 +201,11 @@ public class CustomTessellator implements ITessellator {
     public CustomTessellator scale(double x, double y, double z) {
         this.matrices.getFirst().scale(x, y, z);
         return this;
+    }
+
+    @Override
+    public TextureAtlasSprite getIcon(ResourceLocation loc) {
+        return ModelLoader.defaultTextureGetter().apply(loc);
     }
 
     /**

@@ -4,8 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftBlockRegistry;
 import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.item.*;
-import com.InfinityRaider.settlercraft.render.block.IBlockRenderingHandler;
-import com.InfinityRaider.settlercraft.render.block.RenderBlock;
+import com.InfinityRaider.settlercraft.render.block.RenderBlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -52,8 +51,8 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
     @SideOnly(Side.CLIENT)
     public void registerRenderers() {
         settlerCraftBlocks.stream().filter(block -> block instanceof ICustomRenderedBlock).forEach(block -> {
-            //set custom state mapper
             ICustomRenderedBlock<? extends  TileEntity> customRenderedBlock = (ICustomRenderedBlock<? extends  TileEntity>) block;
+            //set custom state mapper
             StateMapperBase stateMapper = new StateMapperBase() {
                 @Override
                 protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
@@ -62,10 +61,7 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
             };
             ModelLoader.setCustomStateMapper(block, stateMapper);
             //register the renderer
-            IBlockRenderingHandler<? extends TileEntity> renderer = customRenderedBlock.getRenderer();
-            if(renderer != null) {
-                new RenderBlock<>(renderer);
-            }
+            RenderBlockRegistry.getInstance().registerCustomBlockRenderer(customRenderedBlock);
         });
     }
 
