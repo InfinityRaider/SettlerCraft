@@ -46,8 +46,8 @@ public class SettlerCraft {
     @SuppressWarnings("unused")
     public static void init(FMLInitializationEvent event) {
         LogHelper.debug("Starting Initialization");
-        EntityRegistry.getInstance().init();
         proxy.registerRenderers();
+        EntityRegistry.getInstance().init();
         LogHelper.debug("Initialization Complete");
     }
 
