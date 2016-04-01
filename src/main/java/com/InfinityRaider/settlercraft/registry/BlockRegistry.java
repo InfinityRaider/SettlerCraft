@@ -8,12 +8,8 @@ import com.InfinityRaider.settlercraft.render.block.BlockRendererRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -56,20 +52,10 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
 
     @SideOnly(Side.CLIENT)
     public void registerRenderers() {
-        settlerCraftBlocks.stream().filter(block -> block instanceof ICustomRenderedBlock).forEach(block -> {
-            ICustomRenderedBlock<? extends  TileEntity> customRenderedBlock = (ICustomRenderedBlock<? extends  TileEntity>) block;
-            //set custom state mapper
-            StateMapperBase stateMapper = new StateMapperBase() {
-                @Override
-                protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                    return customRenderedBlock.getBlockModelResourceLocation();
-                }
-            };
-            ModelLoader.setCustomStateMapper(block, stateMapper);
-            //register the renderer
-            BlockRendererRegistry.getInstance().registerCustomBlockRenderer(customRenderedBlock);
-        });
-        for(ICustomRenderedBlock block : BlockRendererRegistry.getInstance().getRegisteredBlocks()) {
+        settlerCraftBlocks.stream().filter(block -> block instanceof ICustomRenderedBlock).forEach(
+                block -> BlockRendererRegistry.getInstance().registerCustomBlockRenderer((ICustomRenderedBlock<? extends TileEntity>) block));
+
+        for (ICustomRenderedBlock block : BlockRendererRegistry.getInstance().getRegisteredBlocks()) {
             LogHelper.debug("Registered custom renderer for " + block.getBlockModelResourceLocation());
         }
     }

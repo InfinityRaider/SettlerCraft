@@ -38,7 +38,6 @@ public class SettlerCraft {
         ItemRegistry.getInstance().init();
         BlockRegistry.getInstance().init();
         ProfessionRegistry.getInstance();
-        proxy.registerRenderers();
         APISelector.init();
         LogHelper.debug("Pre-Initialization Complete");
     }
@@ -48,6 +47,7 @@ public class SettlerCraft {
     public static void init(FMLInitializationEvent event) {
         LogHelper.debug("Starting Initialization");
         EntityRegistry.getInstance().init();
+        proxy.registerRenderers();
         LogHelper.debug("Initialization Complete");
     }
 

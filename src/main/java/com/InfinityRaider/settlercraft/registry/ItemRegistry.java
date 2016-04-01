@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
 import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.reference.Reference;
+import com.InfinityRaider.settlercraft.render.item.ItemRendererRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -62,11 +63,20 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
 
     @SideOnly(Side.CLIENT)
     public void registerRenderers() {
-        settlerCraftItems.stream().filter(item -> item instanceof IItemWithModel).forEach(item -> {
-            for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
-                ModelLoader.setCustomModelResourceLocation(item, entry.getFirst(), entry.getSecond());
+        for(Item item : settlerCraftItems) {
+            if(item instanceof IItemWithModel) {
+                for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
+                    ModelLoader.setCustomModelResourceLocation(item, entry.getFirst(), entry.getSecond());
+                }
             }
-        });
+            if(item instanceof ICustomRenderedItem) {
+                ItemRendererRegistry.getInstance().registerCustomItemRenderer((ICustomRenderedItem<? extends Item>) item);
+            }
+        }
+
+        for (ICustomRenderedItem item : ItemRendererRegistry.getInstance().getRegisteredItems()) {
+            LogHelper.debug("Registered custom renderer for " + item.getItemModelResourceLocation());
+        }
     }
 
     @Override
