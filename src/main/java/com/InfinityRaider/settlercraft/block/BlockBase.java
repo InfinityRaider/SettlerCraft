@@ -6,7 +6,6 @@ import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.utility.RegisterHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -15,17 +14,21 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class BlockBase<T extends TileEntity> extends Block implements ICustomRenderedBlock<T> {
     private final String internalName;
 
-    public BlockBase(String name, Material blockMaterial, MapColor blockMapColor) {
-        super(blockMaterial, blockMapColor);
+    public BlockBase(String name, Material blockMaterial) {
+        super(blockMaterial);
         this.internalName = name;
         this.setCreativeTab(BlockRegistry.getInstance().creativeTabSettlerCraft());
         RegisterHelper.registerBlock(this, this.getInternalName(), this.getItemBlockClass());
@@ -37,8 +40,9 @@ public abstract class BlockBase<T extends TileEntity> extends Block implements I
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public IBlockStateSpecial<T, ? extends IBlockState> getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return new BlockStateSpecial<>(state, pos, this.getTileEntity(world, pos));
+        return new BlockStateSpecial<>(state, pos, (T) world.getTileEntity(pos));
     }
 
     @Override
@@ -79,5 +83,10 @@ public abstract class BlockBase<T extends TileEntity> extends Block implements I
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public List<ResourceLocation> getTextures() {
+        return Collections.emptyList();
     }
 }

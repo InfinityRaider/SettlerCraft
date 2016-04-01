@@ -18,17 +18,17 @@ import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockRegistry implements ICustomModelLoader {
-    private static final RenderBlockRegistry INSTANCE = new RenderBlockRegistry();
+public class BlockRendererRegistry implements ICustomModelLoader {
+    private static final BlockRendererRegistry INSTANCE = new BlockRendererRegistry();
 
-    public static RenderBlockRegistry getInstance() {
+    public static BlockRendererRegistry getInstance() {
         return INSTANCE;
     }
 
-    private final Map<ResourceLocation, RenderBlockBase<? extends TileEntity>> renderers;
+    private final Map<ResourceLocation, BlockRenderer<? extends TileEntity>> renderers;
     private final List<ICustomRenderedBlock<? extends TileEntity>> blocks;
 
-    private RenderBlockRegistry() {
+    private BlockRendererRegistry() {
         this.renderers = new HashMap<>();
         this.blocks = new ArrayList<>();
         ModelLoaderRegistry.registerLoader(this);
@@ -56,7 +56,7 @@ public class RenderBlockRegistry implements ICustomModelLoader {
     public void registerCustomBlockRenderer(ICustomRenderedBlock block) {
         IBlockRenderingHandler renderer = block.getRenderer();
         if(renderer != null) {
-            RenderBlockBase instance = new RenderBlockBase<>(renderer);
+            BlockRenderer instance = new BlockRenderer<>(renderer);
             if(renderer.hasStaticRendering()) {
                 renderers.put(block.getBlockModelResourceLocation(), instance);
             }

@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftBlockRegistry;
 import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.ICustomRenderedBlock;
 import com.InfinityRaider.settlercraft.item.*;
-import com.InfinityRaider.settlercraft.render.block.RenderBlockRegistry;
+import com.InfinityRaider.settlercraft.render.block.BlockRendererRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
@@ -67,9 +67,9 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
             };
             ModelLoader.setCustomStateMapper(block, stateMapper);
             //register the renderer
-            RenderBlockRegistry.getInstance().registerCustomBlockRenderer(customRenderedBlock);
+            BlockRendererRegistry.getInstance().registerCustomBlockRenderer(customRenderedBlock);
         });
-        for(ICustomRenderedBlock block : RenderBlockRegistry.getInstance().getRegisteredBlocks()) {
+        for(ICustomRenderedBlock block : BlockRendererRegistry.getInstance().getRegisteredBlocks()) {
             LogHelper.debug("Registered custom renderer for " + block.getBlockModelResourceLocation());
         }
     }

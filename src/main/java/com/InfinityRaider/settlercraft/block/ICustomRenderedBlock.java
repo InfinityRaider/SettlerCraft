@@ -31,7 +31,7 @@ public interface ICustomRenderedBlock<T extends TileEntity> {
      * @param pos the position
      * @return tile entity for this bock
      */
-    T getTileEntity(IBlockAccess world, BlockPos pos);
+    //T getTileEntity(IBlockAccess world, BlockPos pos);
 
     /**
      * Gets called to create the IBlockRenderingHandler instance to render this block with
