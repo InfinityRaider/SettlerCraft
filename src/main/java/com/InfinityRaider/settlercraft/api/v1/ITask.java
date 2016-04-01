@@ -13,8 +13,6 @@ public interface ITask {
 
     boolean completed();
 
-    void onInterrupt();
-
     String getTaskDescription();
 
     List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player);

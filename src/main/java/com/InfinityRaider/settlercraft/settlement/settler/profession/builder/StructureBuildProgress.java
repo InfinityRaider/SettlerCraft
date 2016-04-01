@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -41,8 +42,20 @@ public class StructureBuildProgress {
         this.init();
     }
 
-    public void clearBlock(BlockPos pos) {
+    public Work getJob() {
+        return null;
+    }
+
+    public void cancelJob(Work work) {
+
+    }
+
+    protected void clearBlock(BlockPos pos) {
         blocksToClear.remove(pos);
+        performCompletedCheck = true;
+    }
+
+    protected void placeBlock(BlockBuildPosition position) {
         performCompletedCheck = true;
     }
 
@@ -120,5 +133,71 @@ public class StructureBuildProgress {
             }
         }
         this.checkCompletion();
+    }
+
+    public static abstract class Work {
+        private StructureBuildProgress progress;
+
+        private Work(StructureBuildProgress progress) {
+            this.progress = progress;
+        }
+
+        public StructureBuildProgress getJob() {
+            return progress;
+        }
+
+        public abstract BlockPos getWorkPos();
+
+        public abstract void doJob();
+
+        public abstract ItemStack getResource();
+
+        public static class PlaceBlock extends Work {
+            private BlockBuildPosition work;
+
+            private PlaceBlock(StructureBuildProgress progress, BlockBuildPosition work) {
+                super(progress);
+                this.work = work;
+            }
+
+            @Override
+            public BlockPos getWorkPos() {
+                return work.getPos();
+            }
+
+            @Override
+            public void doJob() {
+                getJob().placeBlock(work);
+            }
+
+            @Override
+            public ItemStack getResource() {
+                return work.getResource();
+            }
+        }
+
+        public static class ClearBlock extends Work {
+            private BlockPos pos;
+
+            private ClearBlock(StructureBuildProgress progress, BlockPos pos) {
+                super(progress);
+                this.pos = pos;
+            }
+
+            @Override
+            public BlockPos getWorkPos() {
+                return pos;
+            }
+
+            @Override
+            public void doJob() {
+                getJob().clearBlock(pos);
+            }
+
+            @Override
+            public ItemStack getResource() {
+                return null;
+            }
+        }
     }
 }
