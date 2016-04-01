@@ -53,7 +53,7 @@ public class BlockTest extends BlockBaseTile<TileEntityTest> {
     }
 
     @Override
-    public TileEntityTest createNewTileEntity(World worldIn, int meta) {
+    public TileEntityTest createNewTileEntity(World world, int meta) {
         return new TileEntityTest();
     }
 }

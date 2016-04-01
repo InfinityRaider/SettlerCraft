@@ -95,6 +95,19 @@ public class TessellatorBakedQuad extends TessellatorAbstractBase {
     }
 
     /**
+     * Adds a list of quads to be rendered
+     * @param quads list of quads
+     */
+    @Override
+    public void addQuads(List<BakedQuad> quads) {
+        if(drawMode != DRAW_MODE_NOT_DRAWING) {
+            this.quads.addAll(quads);
+        } else {
+            throw new RuntimeException("NOT CONSTRUCTING VERTICES");
+        }
+    }
+
+    /**
      * Adds a vertex
      * @param x the x-coordinate for the vertex
      * @param y the y-coordinate for the vertex

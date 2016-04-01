@@ -39,6 +39,12 @@ public interface ITessellator {
     VertexFormat getVertexFormat();
 
     /**
+     * Adds a list of quads to be rendered
+     * @param quads list of quads
+     */
+    void addQuads(List<BakedQuad> quads);
+
+    /**
      * Adds a vertex
      * @param x the x-coordinate for the vertex
      * @param y the y-coordinate for the vertex
