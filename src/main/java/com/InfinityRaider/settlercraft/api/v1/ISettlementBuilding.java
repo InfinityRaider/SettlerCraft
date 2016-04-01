@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -73,6 +74,11 @@ public interface ISettlementBuilding {
      * @return the items currently stored in this building
      */
     IInventorySerializable inventory();
+
+    /**
+     * @return The world object this building is in
+     */
+    World getWorld();
 
     /**
      * This always returns the lowest coordinates

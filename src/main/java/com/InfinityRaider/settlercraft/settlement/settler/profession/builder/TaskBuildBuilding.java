@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskBuildBuilding extends TaskBase {
-    public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuildingIncomplete building) {
+    private final StructureBuildProgress buildProgress;
+
+    public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuildingIncomplete building, StructureBuildProgress buildProgress) {
         super("buildBuilding", settlement, settler, building);
+        this.buildProgress = buildProgress;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class TaskBuildBuilding extends TaskBase {
     //TODO
     public List<ItemStack> getMissingResources() {
         List<ItemStack> resources = new ArrayList<>();
-        resources.addAll(getBuilding().getNeededResources());
+
         return resources;
     }
 }

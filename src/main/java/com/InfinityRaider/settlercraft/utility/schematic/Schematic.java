@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.BlockBuildPosition;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.block.Block;
@@ -143,6 +144,31 @@ public class Schematic {
 
         public BlockPos getBlockPos() {
             return new BlockPos(x, y, z);
+        }
+
+        public IBlockState getBlockState(int rotation) {
+            return getBlock().getStateFromMeta(getWorldMeta(rotation));
+        }
+
+        public ItemStack getResourceStack() {
+            return new ItemStack(getBlock(), 1, stackMeta);
+        }
+
+        public BlockBuildPosition toBlockBuildPosition(World world, BlockPos origin, int rotation) {
+            BlockPos pos = SchematicRotationTransformer.getInstance().applyRotation(origin, x, y, z, rotation);
+            IBlockState state = getBlockState(rotation);
+            ItemStack resource = getResourceStack();
+            NBTTagCompound tag = getTag();
+            if(tag != null && (state.getBlock() instanceof ITileEntityProvider)) {
+                tag.setInteger("x", pos.getX());
+                tag.setInteger("y", pos.getY());
+                tag.setInteger("z", pos.getZ());
+                TileEntity tile = ((ITileEntityProvider) state.getBlock()).createNewTileEntity(world, worldMeta);
+                SchematicRotationTransformer.getInstance().rotateTileTag(tile, tag, rotation);
+                return new BlockBuildPosition.BlockBuildPositionTileEntity(world, pos, state, resource, tag);
+            } else {
+                return new BlockBuildPosition(world, pos, state, resource);
+            }
         }
 
         public NBTTagCompound getTag() {

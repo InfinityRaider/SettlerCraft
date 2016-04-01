@@ -98,6 +98,9 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
     }
 
     public NBTTagCompound rotateTileTag(TileEntity tile, NBTTagCompound tag, int rotation) {
+        if(rotation == 0 || tile == null || tag == null) {
+            return tag;
+        }
         if(tile instanceof IRotatableTile) {
             ((IRotatableTile) tile).setRotationTag(tag, rotation);
         }

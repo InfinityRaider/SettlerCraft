@@ -142,6 +142,10 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
         return inventory;
     }
 
+    public World getWorld() {
+        return settlement().world();
+    }
+
     @Override
     public BlockPos position() {
         return getBoundingBox().getMinimumPosition();
