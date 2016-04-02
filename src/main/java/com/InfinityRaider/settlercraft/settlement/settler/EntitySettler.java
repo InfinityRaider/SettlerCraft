@@ -356,6 +356,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
+    public void assignTask(ITask task) {
+        this.ai.assignTask(task);
+    }
+
+    @Override
     public ItemStack getMissingResource() {
         Optional<ItemStack> optional = this.getDataManager().get(DATA_NEEDED_RESOURCE);
         return optional.isPresent() ? optional.get() : null;

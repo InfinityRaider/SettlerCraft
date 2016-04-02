@@ -111,13 +111,13 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
     }
 
     private void applyRotation(int rotation, boolean inverse) {
-        int dx = rotation == 1 || rotation == 2 ? -1 : 0;
-        int dz = rotation == 2 || rotation == 3 ? -1 : 0;
+        int dx = rotation == 2 || rotation == 3 ? -1 : 0;
+        int dz = rotation == 1 || rotation == 2 ? -1 : 0;
         if(inverse) {
             GL11.glTranslatef(-dx, 0, -dz);
-            GL11.glRotatef(-90*rotation, 0, 1, 0);
-        } else {
             GL11.glRotatef(90*rotation, 0, 1, 0);
+        } else {
+            GL11.glRotatef(-90 * rotation, 0, 1, 0);
             GL11.glTranslatef(dx, 0, dz);
         }
     }

@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
 
@@ -7,7 +8,7 @@ public class EntityAISettler extends EntityAIBase {
     public final SettlerAIRoutine routineIdle;
     public final SettlerAIRoutine routineFollowPlayer;
     public final SettlerAIRoutine routineFindResource;
-    public final SettlerAIRoutine routinePerformTasks;
+    public final SettlerAIRoutine routinePerformTask;
     public final SettlerAIRoutine routineGetFood;
     public final SettlerAIRoutine routineGoToBed;
 
@@ -18,7 +19,7 @@ public class EntityAISettler extends EntityAIBase {
         this.routineIdle = new SettlerAIRoutineIdle(settler);
         this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 8, 3);
         this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
-        this.routinePerformTasks = new SettlerAIRoutinePerformTask(settler);
+        this.routinePerformTask = new SettlerAIRoutinePerformTask(settler);
         this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
         this.routines = new SettlerAIRoutine[] {
@@ -26,7 +27,7 @@ public class EntityAISettler extends EntityAIBase {
                 routineGoToBed,
                 routineGetFood,
                 routineFindResource,
-                routinePerformTasks,
+                routinePerformTask,
                 routineIdle
         };
         this.activeRoutine = routines.length - 1;
@@ -39,6 +40,10 @@ public class EntityAISettler extends EntityAIBase {
 
     public SettlerAIRoutine getActiveRoutine() {
         return routines[activeRoutine];
+    }
+
+    public void assignTask(ITask task) {
+        this.routinePerformTask.setTask(task);
     }
 
     /**

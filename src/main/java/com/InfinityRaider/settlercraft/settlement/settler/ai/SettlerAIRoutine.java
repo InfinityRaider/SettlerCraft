@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import net.minecraft.util.math.BlockPos;
 
 public abstract class SettlerAIRoutine {
     private final EntitySettler settler;
@@ -22,6 +23,8 @@ public abstract class SettlerAIRoutine {
     }
 
     public abstract ITask getActiveTask();
+
+    public void setTask(ITask task) {}
 
     /**
      * Returns whether the EntityAIBase should begin execution.
@@ -47,4 +50,14 @@ public abstract class SettlerAIRoutine {
      * Updates the task
      */
     public abstract void updateRoutine();
+
+    public double getDistanceFromPositionSquared(BlockPos pos) {
+        if(pos == null) {
+            return -1;
+        }
+        double dx = (getSettler().posX - (pos.getX() + 0.5D));
+        double dy = (getSettler().posY + getSettler().getEyeHeight() - (pos.getY() + 0.5D));
+        double dz = (getSettler().posZ - (pos.getZ() + 0.5D));
+        return  dx*dx + dy*dy + dz*dz;
+    }
 }

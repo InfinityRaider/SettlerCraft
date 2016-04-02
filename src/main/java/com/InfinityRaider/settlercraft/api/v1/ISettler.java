@@ -48,6 +48,8 @@ public interface ISettler extends INpc {
 
     ITask getCurrentTask();
 
+    void assignTask(ITask task);
+
     ItemStack getMissingResource();
 
     void setMissingResource(ItemStack stack);

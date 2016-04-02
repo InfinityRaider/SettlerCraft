@@ -162,18 +162,25 @@ public class SettlementBoundingBox implements IBoundingBox {
         if(amount == 0) {
             return this;
         }
-        int newX1 = this.minX;
-        int newZ1 = this.minZ;
-        this.offset(-newX1, 0, -newZ1);
-        int newX2 = amount == 1 ? this.maxZ : amount == 2 ? - this.maxX : - this.maxZ;
-        int newZ2 = amount == 1 ? - this.maxX : amount == 2 ? - this.maxZ : this.maxX;
-        this.minX = Math.min(0, newX2);
-        this.minZ = Math.min(0, newZ2);
-        this.maxX = Math.max(0, newX2);
-        this.maxZ = Math.max(0, newZ2);
-        int dx = amount == 2 || amount == 3 ? 1 : 0;
-        int dz = amount == 1 || amount == 2 ? 1 : 0;
-        return this.offset(newX1 + dx, 0, newZ1 + dz);
+
+        int oldX = this.minX;
+        int oldY = this.minY;
+        int oldZ = this.minZ;
+
+        this.offset(-oldX, -oldY, - oldZ);
+
+        int newX = amount == 1 ? -this.maxZ : amount == 2 ? -this.maxX : this.maxZ;
+        int newZ = amount == 1 ? this.maxX : amount == 2 ? -this.maxZ : -this.maxX;
+
+        this.minX = Math.min(0, newX);
+        this.minZ = Math.min(0, newZ);
+        this.maxX = Math.max(0, newX);
+        this.maxZ = Math.max(0, newZ);
+
+        int dx = amount == 1 || amount == 2 ? 1 : 0;
+        int dz = amount == 2 || amount == 3 ? 1 : 0;
+
+        return this.offset(oldX + dx , oldY, oldZ + dz);
     }
 
     @Override

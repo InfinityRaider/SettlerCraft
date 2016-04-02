@@ -17,6 +17,11 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     }
 
     @Override
+    public void setTask(ITask task) {
+        this.task = task;
+    }
+
+    @Override
     public boolean shouldExecuteRoutine() {
         return false;
     }

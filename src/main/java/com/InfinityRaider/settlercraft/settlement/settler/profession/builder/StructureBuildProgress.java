@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
 import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
-import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
@@ -16,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StructureBuildProgress {
-    private final World world;
-    private final BlockPos origin;
-    private final Schematic schematic;
+    private World world;
+    private BlockPos origin;
+    private Schematic schematic;
 
     private BlockPos[][][] blocksToClear;
     private BlockBuildPosition[][][] blocksToBuild;
@@ -27,11 +26,10 @@ public class StructureBuildProgress {
     private List<Work> workQueue;
     private int assignedWork;
 
-    public StructureBuildProgress(World world, BlockPos origin, Schematic schematic, int rotation) {
+    public StructureBuildProgress(World world, BlockPos clicked, Schematic schematic, int rotation) {
         this.world = world;
-        this.origin = origin;
         this.schematic = schematic;
-        this.init(rotation);
+        this.init(clicked, rotation);
         this.buildWorkQueue();
     }
 
@@ -70,18 +68,22 @@ public class StructureBuildProgress {
         return workQueue.size() <= 0;
     }
 
-    private void init(int rotation) {
-        IBoundingBox box = schematic.getBoundingBox(origin, rotation);
-        blocksToClear = new BlockPos[box.xSize()][box.ySize()][box.zSize()];
-        blocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
-        finalBlocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
+    private void init(BlockPos clicked, int rotation) {
+        IBoundingBox box = schematic.getBoundingBox(clicked, rotation);
+        this.origin = box.getMinimumPosition();
+        blocksToClear = new BlockPos[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
+        blocksToBuild = new BlockBuildPosition[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
+        finalBlocksToBuild = new BlockBuildPosition[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
+        int dx = origin.getX();
+        int dy = origin.getY();
+        int dz = origin.getZ();
         for(Schematic.BlockPosition position : schematic.blocks) {
-            BlockPos coords = SchematicRotationTransformer.getInstance().applyRotation(new BlockPos(0, 0, 0), position.x, position.y, position.z, rotation);
-            BlockBuildPosition toBuild = position.toBlockBuildPosition(world, origin, rotation);
+            BlockBuildPosition toBuild = position.toBlockBuildPosition(world, clicked, rotation);
+            BlockPos inWorld = toBuild.getPos();
             if(position.needsSupportBlock) {
-                finalBlocksToBuild[coords.getX()][coords.getY()][coords.getZ()] = toBuild;
+                finalBlocksToBuild[inWorld.getX() - dx][inWorld.getY() - dy][inWorld.getZ() - dz] = toBuild;
             } else {
-                blocksToBuild[coords.getX()][coords.getY()][coords.getZ()] = toBuild;
+                blocksToBuild[inWorld.getX() - dx][inWorld.getY() - dy][inWorld.getZ() - dz] = toBuild;
             }
         }
         BlockPos min = box.getMinimumPosition();
@@ -130,6 +132,7 @@ public class StructureBuildProgress {
                     }
                 }
             }
+            x = 0;
         }
         //build structure layer by layer
         x = 0;
@@ -141,6 +144,7 @@ public class StructureBuildProgress {
                     }
                 }
             }
+            x = 0;
         }
         //build final blocks which need a support block (e.g. torches, ...)
         x = 0;
@@ -152,6 +156,7 @@ public class StructureBuildProgress {
                     }
                 }
             }
+            x = 0;
         }
     }
 
