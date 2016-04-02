@@ -4,6 +4,8 @@ import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -17,6 +19,21 @@ public interface IProxy {
      * @return The effective side, on the server, this is always Side.SERVER, on the client it is dependent on the thread
      */
     Side getEffectiveSide();
+
+    /**
+     * Performs all needed operations for the proxy's side during FML's pre init stage
+     */
+    void preInit(FMLPreInitializationEvent event);
+
+    /**
+     * Performs all needed operations for the proxy's side during FML's init stage
+     */
+    void init(FMLInitializationEvent event);
+
+    /**
+     * Performs all needed operations for the proxy's side during FML's post init stage
+     */
+    void postInit(FMLPostInitializationEvent event);
 
     /**
      * Registers the relevant event handlers for each side
