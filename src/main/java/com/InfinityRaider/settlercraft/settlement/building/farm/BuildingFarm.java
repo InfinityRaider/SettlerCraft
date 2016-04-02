@@ -2,9 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.building.farm;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.List;
+import net.minecraft.entity.player.EntityPlayer;;
 
 public class BuildingFarm extends BuildingBase {
     public BuildingFarm() {
@@ -37,7 +35,7 @@ public class BuildingFarm extends BuildingBase {
     }
 
     @Override
-    public List<ITask> getTasksForVillager(ISettlementBuilding building, ISettler settler) {
+    public ITask getTaskForVillager(ISettlementBuilding building, ISettler settler) {
         return null;
     }
 

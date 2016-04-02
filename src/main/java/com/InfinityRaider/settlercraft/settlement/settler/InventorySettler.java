@@ -145,6 +145,17 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
+    public boolean hasStack(ItemStack stack) {
+        return stack == null || stack.getItem() == null || getSlotForStack(stack) >= 0;
+    }
+
+    @Override
+    public void consumeStack(ItemStack stack) {
+        int index = getSlotForStack(stack);
+        this.decrStackSize(index, stack.stackSize);
+    }
+
+    @Override
     public ItemStack[] toArray() {
         ItemStack[] inv = new ItemStack[2 + armorInventory.length + mainInventory.length];
         inv[0] = active;
@@ -243,20 +254,23 @@ public class InventorySettler implements IInventorySettler {
         }
         if(index == 0) {
             active = stack;
-            return;
-        }
-        if(index == 1) {
+        } else if(index == 1) {
             offhand = stack;
-            return;
+        } else {
+            index = index - 2;
+            if (index < armorInventory.length) {
+                armorInventory[index] = stack;
+            } else {
+                index = index - armorInventory.length;
+                if (index < mainInventory.length) {
+                    mainInventory[index] = stack;
+                } else {
+                    return;
+                }
+            }
         }
-        index = index - 2;
-        if(index < armorInventory.length) {
-            armorInventory[index] = stack;
-            return;
-        }
-        index = index - armorInventory.length;
-        if(index < mainInventory.length) {
-            mainInventory[index] = stack;
+        if(isSameItem(stack, getSettler().getMissingResource())) {
+            getSettler().setMissingResource(null);
         }
     }
 

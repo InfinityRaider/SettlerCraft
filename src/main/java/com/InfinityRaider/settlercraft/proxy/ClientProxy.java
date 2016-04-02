@@ -24,6 +24,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
     @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        super.preInit(event);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySettler.class, RenderSettler.getFacotry());
+    }
+
+    @Override
     public EntityPlayer getClientPlayer() {
         return Minecraft.getMinecraft().thePlayer;
     }
@@ -80,7 +86,5 @@ public class ClientProxy extends CommonProxy {
         ItemRegistry.getInstance().registerRenderers();
         //blocks
         BlockRegistry.getInstance().registerRenderers();
-        //entities
-        RenderingRegistry.registerEntityRenderingHandler(EntitySettler.class, RenderSettler.getFacotry());
     }
 }

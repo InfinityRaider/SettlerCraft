@@ -33,20 +33,24 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
         this.buildProgress = new StructureBuildProgress(getWorld(), pos, this.schematic, rotation);
     }
 
+    public StructureBuildProgress getBuildProgress() {
+        if(buildProgress == null) {
+            this.buildProgress = new StructureBuildProgress(this.getWorld(), this.position(), this.schematic, this.getRotation());
+        }
+        return this.buildProgress;
+    }
+
     @Override
     public boolean canDoWorkHere(ISettler settler) {
         return settlement() != null
                 && settler != null
                 && settler.profession() == ProfessionRegistry.getInstance().BUILDER
-                && buildProgress != null
-                && !buildProgress.isComplete();
+                && getBuildProgress().isComplete();
     }
 
     @Override
-    public List<ITask> getTasksForSettler(ISettler settler) {
-        List<ITask> tasks = new ArrayList<>();
-        tasks.add(new TaskBuildBuilding(this.settlement(), settler, this, this.buildProgress));
-        return tasks;
+    public ITask getTaskForSettler(ISettler settler) {
+        return new TaskBuildBuilding(this.settlement(), settler, this, this.getBuildProgress());
     }
 
     @Override
@@ -77,7 +81,6 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
     public void readAdditionalDataFromNBT(NBTTagCompound tag) {
         try {
             this.schematic = SchematicReader.getInstance().deserialize(building().schematicLocation());
-            this.buildProgress = new StructureBuildProgress(this.getWorld(), this.position(), this.schematic, this.getRotation());
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
         }

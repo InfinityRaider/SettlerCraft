@@ -9,7 +9,6 @@ import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DialogueOptionTaskBuilder extends DialogueOptionBase {
     private final TaskBuildBuilding task;
@@ -37,16 +36,7 @@ public class DialogueOptionTaskBuilder extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        if(task.getBuilding().getBlocksToClear().size() > 0) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "builder.clearingBlocks"));
-        } else {
-            list.add(I18n.translateToLocal(getDiscriminator() + "builder.buildingStructure"));
-            if(task.hasMissingResources()) {
-                list.add(I18n.translateToLocal(getDiscriminator() + "builder.missingResources"));
-                list.addAll(task.getMissingResources().stream().map(
-                        stack -> " - " + stack.stackSize + "x " + stack.getDisplayName()).collect(Collectors.toList()));
-            }
-        }
+        list.add(I18n.translateToLocal(getDiscriminator() + task.describeJob()));
         return list;
     }
 

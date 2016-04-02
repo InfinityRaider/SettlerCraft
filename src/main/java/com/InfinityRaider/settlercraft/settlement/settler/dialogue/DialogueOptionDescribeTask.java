@@ -54,8 +54,14 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
                 break;
             case FOLLOWING_PLAYER:
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
-                        + getSettler().getCurrentlyFollowingPlayer().getDisplayName().getFormattedText() + ".");
+                EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();
+                if(player == null) {
+                    //DataWatcher is slow :s
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
+                } else {
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
+                            + player.getDisplayName().getFormattedText() + ".");
+                }
                 break;
             case GETTING_FOOD:
                 list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
@@ -68,6 +74,14 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                     list.add(task.getTaskDescription());
                 } else {
                     list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
+                }
+                break;
+            case FINDING_RESOURCE:
+                if(task != null) {
+                    list.add(task.getTaskDescription());
+                } else {
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource"));
+                    list.add(getSettler().getMissingResource().getDisplayName());
                 }
                 break;
         }

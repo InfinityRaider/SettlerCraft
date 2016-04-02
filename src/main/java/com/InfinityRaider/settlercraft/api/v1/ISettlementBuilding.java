@@ -46,7 +46,7 @@ public interface ISettlementBuilding {
      * @param settler the settler needing work
      * @return a List holding tasks for the settler, can be empty but should never be null
      */
-    List<ITask> getTasksForSettler(ISettler settler);
+    ITask getTaskForSettler(ISettler settler);
 
     /**
      * @return a list of settlers living in this building (may be empty, but will never be null)

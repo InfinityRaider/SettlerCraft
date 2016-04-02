@@ -34,8 +34,8 @@ public class SettlementBuildingComplete extends SettlementBuilding {
     }
 
     @Override
-    public List<ITask> getTasksForSettler(ISettler settler) {
-        return building().getTasksForVillager(this, settler);
+    public ITask getTaskForSettler(ISettler settler) {
+        return building().getTaskForVillager(this, settler);
     }
 
     @Override

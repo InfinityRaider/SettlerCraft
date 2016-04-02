@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.EntityAIBase;
 public class EntityAISettler extends EntityAIBase {
     public final SettlerAIRoutine routineIdle;
     public final SettlerAIRoutine routineFollowPlayer;
+    public final SettlerAIRoutine routineFindResource;
     public final SettlerAIRoutine routinePerformTasks;
     public final SettlerAIRoutine routineGetFood;
     public final SettlerAIRoutine routineGoToBed;
@@ -16,6 +17,7 @@ public class EntityAISettler extends EntityAIBase {
     public EntityAISettler(EntitySettler settler) {
         this.routineIdle = new SettlerAIRoutineIdle(settler);
         this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 8, 3);
+        this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
         this.routinePerformTasks = new SettlerAIRoutinePerformTask(settler);
         this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
@@ -23,6 +25,7 @@ public class EntityAISettler extends EntityAIBase {
                 routineFollowPlayer,
                 routineGoToBed,
                 routineGetFood,
+                routineFindResource,
                 routinePerformTasks,
                 routineIdle
         };
@@ -46,6 +49,7 @@ public class EntityAISettler extends EntityAIBase {
         for(int i = 0; i < routines.length; i++) {
             if(routines[i].shouldExecuteRoutine()) {
                 activeRoutine = i;
+                getSettler().setSettlerStatus(routines[i].getStatus());
                 break;
             }
         }

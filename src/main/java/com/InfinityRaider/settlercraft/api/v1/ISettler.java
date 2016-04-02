@@ -3,8 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.List;
+import net.minecraft.item.ItemStack;
 
 public interface ISettler extends INpc {
     void setSettlement(ISettlement settlement);
@@ -49,11 +48,16 @@ public interface ISettler extends INpc {
 
     ITask getCurrentTask();
 
+    ItemStack getMissingResource();
+
+    void setMissingResource(ItemStack stack);
+
     SettlerStatus getSettlerStatus();
 
     enum SettlerStatus {
         IDLE,
         FOLLOWING_PLAYER,
+        FINDING_RESOURCE,
         GETTING_FOOD,
         GOING_TO_BED,
         PERFORMING_TASK;

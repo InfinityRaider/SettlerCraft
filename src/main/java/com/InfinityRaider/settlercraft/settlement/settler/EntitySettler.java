@@ -1,12 +1,12 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
+import com.google.common.base.Optional;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
@@ -17,6 +17,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -31,7 +34,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
-    private static final SettlerRandomizer randomizer = SettlerRandomizer.getInstance();
+    private static final SettlerRandomizer RANDOMIZER = SettlerRandomizer.getInstance();
+    private static final DataParameter<Integer> DATA_SETTLER_STATUS = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
+    private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
 
     private ISettlement settlement;
     private int settlementId;
@@ -49,10 +54,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer conversationPartner;
 
     private EntityAISettler ai;
-
-    //TODO: sync this from the server to the client
-    @SideOnly(Side.CLIENT)
-    private SettlerStatus status;
 
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
@@ -73,13 +74,14 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.setCanPickUpLoot(true);
         this.setSize(0.6F, 1.8F);
         this.inventory = new InventorySettler(this);
-        this.male = randomizer.getRandomGender();
-        this.firstName = randomizer.getRandomFirstName(male);
-        this.surname = randomizer.getRandomSurname();
+        this.male = RANDOMIZER.getRandomGender();
+        this.firstName = RANDOMIZER.getRandomFirstName(male);
+        this.surname = RANDOMIZER.getRandomSurname();
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().BUILDER;
         this.settlementId = -1;
-        this.status = SettlerStatus.IDLE;
+        this.getDataManager().register(DATA_SETTLER_STATUS, 0);
+        this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.fromNullable(null));
     }
 
     @Override
@@ -353,17 +355,24 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         return ai.getActiveRoutine().getActiveTask();
     }
 
+    @Override
+    public ItemStack getMissingResource() {
+        Optional<ItemStack> optional = this.getDataManager().get(DATA_NEEDED_RESOURCE);
+        return optional.isPresent() ? optional.get() : null;
+    }
+
+    @Override
+    public void setMissingResource(ItemStack stack) {
+        this.getDataManager().set(DATA_NEEDED_RESOURCE, Optional.fromNullable(stack));
+    }
+
     @SideOnly(Side.CLIENT)
     public void setSettlerStatus(SettlerStatus status) {
-        this.status = status;
+        this.getDataManager().set(DATA_SETTLER_STATUS, status.ordinal());
     }
 
     @Override
     public SettlerStatus getSettlerStatus() {
-        if(SettlerCraft.proxy.getEffectiveSide() == Side.SERVER) {
-            return ai.getActiveRoutine().getStatus();
-        } else {
-            return status;
-        }
+        return ISettler.SettlerStatus.values()[this.getDataManager().get(DATA_SETTLER_STATUS)];
     }
 }

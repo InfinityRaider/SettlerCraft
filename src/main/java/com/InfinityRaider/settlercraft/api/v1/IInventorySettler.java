@@ -24,5 +24,9 @@ public interface IInventorySettler extends IInventorySerializable {
 
     int getSlotForStack(ItemStack stack);
 
+    boolean hasStack(ItemStack stack);
+
+    void consumeStack(ItemStack stack);
+
     ItemStack[] toArray();
 }

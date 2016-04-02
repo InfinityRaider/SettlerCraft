@@ -5,8 +5,6 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.util.List;
-
 public class BuildingTownHall extends BuildingBase {
     public BuildingTownHall() {
         super("town_hall1");
@@ -38,7 +36,7 @@ public class BuildingTownHall extends BuildingBase {
     }
 
     @Override
-    public List<ITask> getTasksForVillager(ISettlementBuilding building, ISettler settler) {
+    public ITask getTaskForVillager(ISettlementBuilding building, ISettler settler) {
         return null;
     }
 
