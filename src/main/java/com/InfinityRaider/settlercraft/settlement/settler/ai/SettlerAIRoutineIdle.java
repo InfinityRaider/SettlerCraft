@@ -8,7 +8,7 @@ import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.util.math.BlockPos;
 
 public class SettlerAIRoutineIdle extends SettlerAIRoutine {
-    private static int IDLE_COOL_DOWN = 100;
+    private static final int IDLE_COOL_DOWN = 100;
 
     private int idleCoolDown;
     private ISettlementBuilding workPlace;
@@ -30,18 +30,14 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
 
     @Override
     public boolean continueExecutingRoutine() {
-        return shouldExecuteRoutine();
+        return false;
     }
 
     @Override
-    public void startExecutingRoutine() {
-        this.idleCoolDown = 0;
-    }
+    public void startExecutingRoutine() {}
 
     @Override
-    public void resetRoutine() {
-        this.idleCoolDown = IDLE_COOL_DOWN;
-    }
+    public void resetRoutine() {}
 
     @Override
     public void updateRoutine() {
@@ -59,7 +55,7 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
             if(getDistanceFromPositionSquared(target) <= 6) {
                 this.getSettler().assignTask(workPlace.getTaskForSettler(getSettler()));
             } else {
-                getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, getSettler().getAIMoveSpeed());
+                getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);
             }
         }
     }

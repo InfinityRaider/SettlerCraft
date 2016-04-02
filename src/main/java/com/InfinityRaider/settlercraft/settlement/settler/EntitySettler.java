@@ -11,6 +11,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,8 +69,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     public EntitySettler(World world) {
         super(world);
-        this.ai = new EntityAISettler(this);
-        this.initTasks();
         this.enablePersistence();
         this.setCanPickUpLoot(true);
         this.setSize(0.6F, 1.8F);
@@ -82,6 +81,13 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.settlementId = -1;
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.fromNullable(null));
+    }
+
+    @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+        //this distance controls how far you can make a mob move. the value can be up to 2048 but the larger the value the more paths are possible so the game will lag if the value is too large
     }
 
     @Override
@@ -150,7 +156,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @SuppressWarnings("unchecked")
-    private void initTasks() {
+    protected void initEntityAI() {
         ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
@@ -159,6 +165,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+        this.ai = new EntityAISettler(this);
         this.tasks.addTask(6, this.ai);
         this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
         this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
@@ -352,7 +359,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ITask getCurrentTask() {
-        return ai.getActiveRoutine().getActiveTask();
+        return ai == null ? null : ai.getActiveRoutine().getActiveTask();
     }
 
     @Override

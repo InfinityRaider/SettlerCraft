@@ -45,7 +45,7 @@ public class SettlementBuildingIncomplete extends SettlementBuilding {
         return settlement() != null
                 && settler != null
                 && settler.profession() == ProfessionRegistry.getInstance().BUILDER
-                && getBuildProgress().isComplete();
+                && !getBuildProgress().isComplete();
     }
 
     @Override

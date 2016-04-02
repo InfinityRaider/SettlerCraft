@@ -80,8 +80,7 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 if(task != null) {
                     list.add(task.getTaskDescription());
                 } else {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource"));
-                    list.add(getSettler().getMissingResource().getDisplayName());
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + getSettler().getMissingResource().getDisplayName());
                 }
                 break;
         }

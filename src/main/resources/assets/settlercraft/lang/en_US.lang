@@ -66,3 +66,4 @@ settlercraft.dialogue.task.noTask=I don't have a specific task at the moment.
 settlercraft.dialogue.task.followingPlayer=I'm currently following
 settlercraft.dialogue.task.gettingFood=I'm hungry, I'm fetching something to eat.
 settlercraft.dialogue.task.goingToBed=Its getting dark, I'm going to bed.
+settlercraft.dialogue.task.findingResource=I'm currently in need of

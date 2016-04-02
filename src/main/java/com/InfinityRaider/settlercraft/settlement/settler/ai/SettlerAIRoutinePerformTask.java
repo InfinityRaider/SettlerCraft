@@ -23,26 +23,30 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     @Override
     public boolean shouldExecuteRoutine() {
-        return false;
+        return task != null;
     }
 
     @Override
     public boolean continueExecutingRoutine() {
-        return false;
+        return shouldExecuteRoutine();
     }
 
     @Override
     public void startExecutingRoutine() {
-
+        this.task.startTask();
     }
 
     @Override
     public void resetRoutine() {
-
+        this.task.cancelTask();
+        this.task.startTask();
     }
 
     @Override
     public void updateRoutine() {
-
+        this.task.updateTask();
+        if(this.task.completed()) {
+            this.task = null;
+        }
     }
 }

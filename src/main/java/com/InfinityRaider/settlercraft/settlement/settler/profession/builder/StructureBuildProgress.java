@@ -35,7 +35,7 @@ public class StructureBuildProgress {
 
     public Work getJob() {
         Work job = null;
-        if(assignedWork < workQueue.size()) {
+        if(assignedWork < workQueue.size() && assignedWork >= 0) {
             job = workQueue.get(assignedWork);
             assignedWork = assignedWork + 1;
         }

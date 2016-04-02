@@ -44,7 +44,7 @@ public class TaskBuildBuilding extends TaskBase {
                     getSettler().getSettlerInventory().consumeStack(stack);
                     buildProgress.doJob(job);
                 } else {
-                    getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, getEntitySettler().getAIMoveSpeed());
+                    getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1);
                 }
             } else {
                 getSettler().setMissingResource(stack);
