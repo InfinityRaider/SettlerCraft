@@ -31,12 +31,10 @@ public class SchematicRotationTransformer implements ISchematicRotationTransform
 
     @Override
     public BlockPos applyRotation(BlockPos start, int x, int y, int z, int rotation) {
-        int dx = rotation == 1 || rotation == 2 ? 1 : 0;
-        int dz = rotation == 2 || rotation == 3 ? 1 : 0;
         switch(rotation) {
-            case 1: return start.add(-z + dx, y, x + dz);
-            case 2: return start.add(-x + dx, y, -z + dz);
-            case 3: return start.add(z + dx, y, -x + dz);
+            case 1: return start.add(- z, y, x);
+            case 2: return start.add(- x, y, -z);
+            case 3: return start.add(z, y, - x);
             default: return start.add(x, y, z);
         }
     }
