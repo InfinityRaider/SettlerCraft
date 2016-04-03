@@ -151,8 +151,10 @@ public class InventorySettler implements IInventorySettler {
 
     @Override
     public void consumeStack(ItemStack stack) {
-        int index = getSlotForStack(stack);
-        this.decrStackSize(index, stack.stackSize);
+        if(stack != null) {
+            int index = getSlotForStack(stack);
+            this.decrStackSize(index, stack.stackSize);
+        }
     }
 
     @Override

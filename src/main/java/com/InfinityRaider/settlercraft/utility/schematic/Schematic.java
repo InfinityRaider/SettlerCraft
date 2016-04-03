@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
-import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.BlockBuildPosition;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
 import net.minecraft.block.Block;
@@ -28,15 +27,6 @@ public class Schematic {
         this.blocks = blocks;
         this.groundLevel = ground;
         this.home = home;
-    }
-
-    public ItemStack getItemStack(int index) {
-        if(index < 0 || index >= blocks.size()) {
-            return null;
-        }
-        BlockPosition position = blocks.get(index);
-        Block block = Block.blockRegistry.getObject(new ResourceLocation(position.block));
-        return new ItemStack(block, 1, position.stackMeta);
     }
 
     public Map<BlockPos, IBlockState> getBlockStateMap() {
@@ -71,7 +61,6 @@ public class Schematic {
                 map.put(position.getBlockPos(), tile);
             }
         }
-
         return map;
     }
 
@@ -152,23 +141,6 @@ public class Schematic {
 
         public ItemStack getResourceStack() {
             return new ItemStack(getBlock(), 1, stackMeta);
-        }
-
-        public BlockBuildPosition toBlockBuildPosition(World world, BlockPos origin, int rotation) {
-            BlockPos pos = SchematicRotationTransformer.getInstance().applyRotation(origin, x, y, z, rotation);
-            IBlockState state = getBlockState(rotation);
-            ItemStack resource = getResourceStack();
-            NBTTagCompound tag = getTag();
-            if(tag != null && (state.getBlock() instanceof ITileEntityProvider)) {
-                tag.setInteger("x", pos.getX());
-                tag.setInteger("y", pos.getY());
-                tag.setInteger("z", pos.getZ());
-                TileEntity tile = ((ITileEntityProvider) state.getBlock()).createNewTileEntity(world, worldMeta);
-                SchematicRotationTransformer.getInstance().rotateTileTag(tile, tag, rotation);
-                return new BlockBuildPosition.BlockBuildPositionTileEntity(world, pos, state, resource, tag);
-            } else {
-                return new BlockBuildPosition(world, pos, state, resource);
-            }
         }
 
         public NBTTagCompound getTag() {

@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.util.math.BlockPos;
 
@@ -16,11 +15,6 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
 
     protected SettlerAIRoutineIdle(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.IDLE);
-    }
-
-    @Override
-    public ITask getActiveTask() {
-        return null;
     }
 
     @Override

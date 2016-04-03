@@ -39,12 +39,14 @@ public class TaskBuildBuilding extends TaskBase {
             ItemStack stack = job.getResource();
             if(getSettler().getSettlerInventory().hasStack(stack)) {
                 BlockPos target = job.getWorkPos();
-                double reach = 2;
-                if(getDistanceFromPositionSquared(target) <= reach * reach) {
+                double reach = 2.5;
+                double distance = getDistanceFromPositionSquared(target);
+                if(distance <= reach * reach) {
                     getSettler().getSettlerInventory().consumeStack(stack);
                     buildProgress.doJob(job);
+                    job = null;
                 } else {
-                    getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1);
+                    getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1.1F);
                 }
             } else {
                 getSettler().setMissingResource(stack);
@@ -53,9 +55,14 @@ public class TaskBuildBuilding extends TaskBase {
     }
 
     @Override
+    public void resetTask() {
+
+    }
+
+    @Override
     public void cancelTask() {
         if(job != null) {
-            buildProgress.cancelJob();
+            buildProgress.cancelJob(job);
             job = null;
         }
     }

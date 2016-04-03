@@ -9,6 +9,8 @@ public interface ITask {
 
     void updateTask();
 
+    void resetTask();
+
     void cancelTask();
 
     boolean completed();

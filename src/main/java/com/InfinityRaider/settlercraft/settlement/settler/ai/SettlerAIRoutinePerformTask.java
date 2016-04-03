@@ -5,48 +5,38 @@ import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 
 public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
-    private ITask task;
-
     protected SettlerAIRoutinePerformTask(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.PERFORMING_TASK);
     }
 
     @Override
-    public ITask getActiveTask() {
-        return task;
-    }
-
-    @Override
-    public void setTask(ITask task) {
-        this.task = task;
-    }
-
-    @Override
     public boolean shouldExecuteRoutine() {
-        return task != null;
+        return getSettler().getCurrentTask() != null;
     }
 
     @Override
     public boolean continueExecutingRoutine() {
-        return shouldExecuteRoutine();
+        return getSettler().getMissingResource() == null && shouldExecuteRoutine();
     }
 
     @Override
     public void startExecutingRoutine() {
-        this.task.startTask();
+        this.getSettler().getCurrentTask().startTask();
     }
 
     @Override
     public void resetRoutine() {
-        this.task.cancelTask();
-        this.task.startTask();
+        ITask task = getSettler().getCurrentTask();
+        if(task != null) {
+            this.getSettler().getCurrentTask().resetTask();
+        }
     }
 
     @Override
     public void updateRoutine() {
-        this.task.updateTask();
-        if(this.task.completed()) {
-            this.task = null;
+        this.getSettler().getCurrentTask().updateTask();
+        if(this.getSettler().getCurrentTask().completed()) {
+            this.getSettler().assignTask(null);
         }
     }
 }

@@ -209,9 +209,9 @@ public class SettlementBoundingBox implements IBoundingBox {
         GlStateManager.disableLighting();
         GL11.glTranslatef(minX(), minY(), minZ());
 
-        int x = xSize();
-        int y = ySize();
-        int z = zSize();
+        int x = xSize() + 1;
+        int y = ySize() + 1;
+        int z = zSize() + 1;
 
         int red = color.getRed();
         int green = color.getGreen();

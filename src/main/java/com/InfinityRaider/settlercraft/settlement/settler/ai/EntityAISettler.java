@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
-import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
 
@@ -40,10 +39,6 @@ public class EntityAISettler extends EntityAIBase {
 
     public SettlerAIRoutine getActiveRoutine() {
         return routines[activeRoutine];
-    }
-
-    public void assignTask(ITask task) {
-        this.routinePerformTask.setTask(task);
     }
 
     /**

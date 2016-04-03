@@ -1,7 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -31,11 +30,6 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
         this.petPathfinder = settler.getNavigator();
         this.minDist = minDistIn;
         this.maxDist = maxDistIn;
-    }
-
-    @Override
-    public ITask getActiveTask() {
-        return null;
     }
 
     /**

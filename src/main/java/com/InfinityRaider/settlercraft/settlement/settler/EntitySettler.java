@@ -54,7 +54,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
 
-    private EntityAISettler ai;
+    private ITask task;
 
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
@@ -165,8 +165,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-        this.ai = new EntityAISettler(this);
-        this.tasks.addTask(6, this.ai);
+        this.tasks.addTask(6, new EntityAISettler(this));
         this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
         this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));}
@@ -359,12 +358,15 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ITask getCurrentTask() {
-        return ai == null ? null : ai.getActiveRoutine().getActiveTask();
+        return task;
     }
 
     @Override
     public void assignTask(ITask task) {
-        this.ai.assignTask(task);
+        if(this.task != null) {
+            this.task.cancelTask();
+        }
+        this.task = task;
     }
 
     @Override

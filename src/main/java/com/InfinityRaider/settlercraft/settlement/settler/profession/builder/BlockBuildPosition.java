@@ -1,5 +1,8 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
+import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
+import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,6 +43,24 @@ public class BlockBuildPosition {
         if (!getWorld().isRemote) {
             getWorld().setBlockState(getPos(), getState(), 3);
         }
+    }
+
+    public static BlockBuildPosition fromSchematicData(World world, BlockPos origin, int rotation, Schematic.BlockPosition schematicData) {
+        BlockPos pos = SchematicRotationTransformer.getInstance().applyRotation(origin, schematicData.x, schematicData.y, schematicData.z, rotation);
+        IBlockState state = schematicData.getBlockState(rotation);
+        ItemStack resource = schematicData.getResourceStack();
+        NBTTagCompound tag = schematicData.getTag();
+        if(tag != null && (state.getBlock() instanceof ITileEntityProvider)) {
+            tag.setInteger("x", pos.getX());
+            tag.setInteger("y", pos.getY());
+            tag.setInteger("z", pos.getZ());
+            TileEntity tile = ((ITileEntityProvider) state.getBlock()).createNewTileEntity(world, schematicData.worldMeta);
+            SchematicRotationTransformer.getInstance().rotateTileTag(tile, tag, rotation);
+            return new BlockBuildPosition.BlockBuildPositionTileEntity(world, pos, state, resource, tag);
+        } else {
+            return new BlockBuildPosition(world, pos, state, resource);
+        }
+
     }
 
     public static class BlockBuildPositionTileEntity extends BlockBuildPosition {

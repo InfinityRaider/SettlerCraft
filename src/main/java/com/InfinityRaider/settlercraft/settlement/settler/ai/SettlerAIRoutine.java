@@ -22,10 +22,6 @@ public abstract class SettlerAIRoutine {
         return status;
     }
 
-    public abstract ITask getActiveTask();
-
-    public void setTask(ITask task) {}
-
     /**
      * Returns whether the EntityAIBase should begin execution.
      */

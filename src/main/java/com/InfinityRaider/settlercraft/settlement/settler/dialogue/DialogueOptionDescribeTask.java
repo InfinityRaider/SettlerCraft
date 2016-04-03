@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
@@ -64,9 +65,15 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 }
                 break;
             case GETTING_FOOD:
+                if(task != null) {
+                    list.add(task.getTaskDescription());
+                }
                 list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
                 break;
             case GOING_TO_BED:
+                if(task != null) {
+                    list.add(task.getTaskDescription());
+                }
                 list.add(I18n.translateToLocal(getDiscriminator() + "task.goingToBed"));
                 break;
             case PERFORMING_TASK:
@@ -79,8 +86,11 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
             case FINDING_RESOURCE:
                 if(task != null) {
                     list.add(task.getTaskDescription());
-                } else {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + getSettler().getMissingResource().getDisplayName());
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.needResource"));
+                }
+                ItemStack missing = getSettler().getMissingResource();
+                if(missing != null) {
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + missing.getDisplayName());
                 }
                 break;
         }

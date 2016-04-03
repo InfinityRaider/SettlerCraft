@@ -23,8 +23,8 @@ public class StructureBuildProgress {
     private BlockBuildPosition[][][] blocksToBuild;
     private BlockBuildPosition[][][] finalBlocksToBuild;
 
+    //TODO: priority system for jobs
     private List<Work> workQueue;
-    private int assignedWork;
 
     public StructureBuildProgress(World world, BlockPos clicked, Schematic schematic, int rotation) {
         this.world = world;
@@ -34,22 +34,20 @@ public class StructureBuildProgress {
     }
 
     public Work getJob() {
-        Work job = null;
-        if(assignedWork < workQueue.size() && assignedWork >= 0) {
-            job = workQueue.get(assignedWork);
-            assignedWork = assignedWork + 1;
+        if(workQueue.size() <= 0) {
+            return null;
         }
+        Work job = workQueue.get(0);
+        workQueue.remove(0);
         return job;
     }
 
-    public void cancelJob() {
-        assignedWork = assignedWork - 1;
+    public void cancelJob(Work job) {
+        workQueue.add(0, job);
     }
 
     public void doJob(Work work) {
         work.doJob();
-        workQueue.remove(work);
-        assignedWork = assignedWork - 1;
     }
 
     protected void clearBlock(BlockPos pos) {
@@ -78,12 +76,11 @@ public class StructureBuildProgress {
         int dy = origin.getY();
         int dz = origin.getZ();
         for(Schematic.BlockPosition position : schematic.blocks) {
-            BlockBuildPosition toBuild = position.toBlockBuildPosition(world, clicked, rotation);
-            BlockPos inWorld = toBuild.getPos();
+            BlockBuildPosition toBuild = BlockBuildPosition.fromSchematicData(world, clicked, rotation, position);
             if(position.needsSupportBlock) {
-                finalBlocksToBuild[inWorld.getX() - dx][inWorld.getY() - dy][inWorld.getZ() - dz] = toBuild;
+                finalBlocksToBuild[toBuild.getPos().getX() - dx][toBuild.getPos().getY() - dy][toBuild.getPos().getZ() - dz] = toBuild;
             } else {
-                blocksToBuild[inWorld.getX() - dx][inWorld.getY() - dy][inWorld.getZ() - dz] = toBuild;
+                blocksToBuild[toBuild.getPos().getX() - dx][toBuild.getPos().getY() - dy][toBuild.getPos().getZ() - dz] = toBuild;
             }
         }
         BlockPos min = box.getMinimumPosition();
@@ -106,11 +103,11 @@ public class StructureBuildProgress {
                         //block is unbreakable
                         continue;
                     }
-                    if(state.equals(blocksToBuild[x][y][z].getState())) {
+                    if(state.equals(blocksToBuild[x - min.getX()][y - min.getY()][z - min.getZ()].getState())) {
                         //correct block is already here
                         continue;
                     }
-                    blocksToClear[x][y][z] = pos;
+                    blocksToClear[x - min.getX()][y - min.getY()][z - min.getZ()] = pos;
                 }
             }
         }
@@ -118,7 +115,6 @@ public class StructureBuildProgress {
 
     private void buildWorkQueue() {
         this.workQueue = new ArrayList<>();
-        this.assignedWork = 0;
         //first clear out the blocks two layers at a time
         int x = 0, y ,z;
         for (y = 0; y < blocksToClear[x].length; y = y + 2) {
@@ -140,7 +136,10 @@ public class StructureBuildProgress {
             for(x = 0; x < blocksToBuild.length; x++) {
                 for(z = 0; z < blocksToBuild[x][y].length; z++) {
                     if(blocksToBuild[x][y][z] != null) {
-                        workQueue.add(new Work.PlaceBlock(this, blocksToBuild[x][y][z]));
+                        IBlockState state = world.getBlockState(origin.add(x, y, z));
+                        if(!state.equals(blocksToBuild[x][y][z].getState())) {
+                            workQueue.add(new Work.PlaceBlock(this, blocksToBuild[x][y][z]));
+                        }
                     }
                 }
             }
