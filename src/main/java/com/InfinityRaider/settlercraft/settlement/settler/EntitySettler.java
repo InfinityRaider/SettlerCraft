@@ -54,12 +54,12 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
 
+    //TODO: sync this to the client
     private ITask task;
 
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
     }
-
 
     public EntitySettler(ISettlement settlement, String surname) {
         this(settlement.world());
@@ -87,7 +87,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-        //this distance controls how far you can make a mob move. the value can be up to 2048 but the larger the value the more paths are possible so the game will lag if the value is too large
     }
 
     @Override
@@ -257,7 +256,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         ISettlement homeTown = settlement();
         if(building.settlement() == this.settlement()) {
             this.home = building;
-            this.setHomePosAndDistance(home.homePosition(), Math.max(homeTown.xSize(), homeTown.ySize()));
+            this.setHomePosAndDistance(home.homePosition(), Math.max(homeTown.xSize(), homeTown.zSize()));
         }
     }
 

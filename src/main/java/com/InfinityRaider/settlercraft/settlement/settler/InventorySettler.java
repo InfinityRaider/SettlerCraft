@@ -134,7 +134,7 @@ public class InventorySettler implements IInventorySettler {
             slot = 1;
         } else {
             for (int i = 0; i < mainInventory.length; i++) {
-                ItemStack inSlot = this.getStackInSlot(i + 1 + armorInventory.length);
+                ItemStack inSlot = this.getStackInSlot(i + 2 + armorInventory.length);
                 if(isSameItem(stack, inSlot)) {
                     slot = i + 2 + armorInventory.length;
                     break;
