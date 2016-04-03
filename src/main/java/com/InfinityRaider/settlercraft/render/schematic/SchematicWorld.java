@@ -1,6 +1,6 @@
 package com.InfinityRaider.settlercraft.render.schematic;
 
-import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +20,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class SchematicWorld implements IBlockAccess {
     private final World world;
-    private final SettlementBoundingBox box;
+    private final BoundingBox box;
     private final Map<BlockPos, IBlockState> blockMap;
     private final Map<BlockPos, TileEntity> tileMap;
 
@@ -54,7 +54,7 @@ public class SchematicWorld implements IBlockAccess {
         return box.zSize();
     }
 
-    public SettlementBoundingBox getBoundingBox() {
+    public BoundingBox getBoundingBox() {
         return box;
     }
 

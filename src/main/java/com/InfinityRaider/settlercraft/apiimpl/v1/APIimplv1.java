@@ -12,7 +12,7 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionCreator;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
-import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -97,11 +97,11 @@ public class APIimplv1  implements APIv1 {
 
     @Override
     public IBoundingBox createNewBoundingBox(BlockPos min, BlockPos max) {
-        return new SettlementBoundingBox(min, max);
+        return new BoundingBox(min, max);
     }
 
     @Override
     public IBoundingBox createNewBoundingBox(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-        return new SettlementBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        return new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 }

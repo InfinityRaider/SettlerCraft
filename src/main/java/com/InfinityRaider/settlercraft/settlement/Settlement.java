@@ -8,7 +8,7 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
-import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +27,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     private ChunkCoordinates homeChunk;
     private EntityPlayer player;
     private String name;
-    private SettlementBoundingBox settlementBoundingBox;
+    private BoundingBox boundingBox;
 
     private int nextBuildingId;
     private HashMap<Integer, ISettlementBuilding> buildings;
@@ -54,7 +54,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         this.player = player;
         this.playerUUID = player.getUniqueID().toString();
         this.name = name;
-        this.settlementBoundingBox = new SettlementBoundingBox(center.add(0, -1, 0));
+        this.boundingBox = new BoundingBox(center.add(0, -1, 0));
         populationCount = 1;
     }
 
@@ -64,7 +64,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         tag.setString(Names.NBT.FIRST_NAME, name);
         tag.setString(Names.NBT.SURNAME, playerUUID);
         tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.x(), homeChunk.z(), homeChunk.dim()});
-        BlockPos pos = settlementBoundingBox.getMinimumPosition();
+        BlockPos pos = boundingBox.getMinimumPosition();
         tag.setInteger(Names.NBT.X, pos.getX());
         tag.setInteger(Names.NBT.Y, pos.getY());
         tag.setInteger(Names.NBT.Z, pos.getZ());
@@ -72,23 +72,8 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         tag.setInteger(Names.NBT.Y_SIZE, ySize());
         tag.setInteger(Names.NBT.Z_SIZE, zSize());
         tag.setInteger(Names.NBT.COUNT, nextBuildingId);
-        //tag.setTag(Names.NBT.BUILDINGS, getBuildingTagList());
         return tag;
     }
-
-    /*
-    private NBTTagList getBuildingTagList() {
-        NBTTagList buildings = new NBTTagList();
-        for(List<ISettlementBuilding> buildingForType : this.buildingsPerType.values()) {
-            for (ISettlementBuilding building : buildingForType) {
-                NBTTagCompound buildingTag = building.writeBuildingToNBT(new NBTTagCompound());
-                buildingTag.setBoolean(Names.NBT.COMPLETED, building.isComplete());
-                buildings.appendTag(buildingTag);
-            }
-        }
-        return buildings;
-    }
-    */
 
     @Override
     public NBTTagCompound readSettlementFromNBT(NBTTagCompound tag) {
@@ -100,28 +85,13 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         int minX = tag.getInteger(Names.NBT.X);
         int minY = tag.getInteger(Names.NBT.Y);
         int minZ = tag.getInteger(Names.NBT.Z);
-        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE);
-        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE);
-        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE);
-        this.settlementBoundingBox = new SettlementBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE) - 1;
+        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE) - 1;
+        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
+        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.nextBuildingId = tag.getInteger(Names.NBT.COUNT);
-        //this.readBuildingsFromTagList(tag.getTagList(Names.NBT.BUILDINGS, 10));
         return tag;
     }
-
-    /*
-    private void readBuildingsFromTagList(NBTTagList list) {
-        this.resetBuildings();
-        for(int i = 0; i < list.tagCount(); i++) {
-            NBTTagCompound tagAt = list.getCompoundTagAt(i);
-            ISettlementBuilding building = tagAt.getBoolean(Names.NBT.COMPLETED)
-                    ? new SettlementBuildingComplete(this.world())
-                    : new SettlementBuildingIncomplete(this.world());
-            building.readBuildingFromNBT(tagAt);
-            this.addBuilding(building);
-        }
-    }
-    */
 
     @Override
     public int id() {
@@ -270,27 +240,27 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
 
     @Override
     public boolean isWithinSettlementBounds(double x, double y, double z) {
-        return settlementBoundingBox.isWithinBounds(x, y, z);
+        return boundingBox.isWithinBounds(x, y, z);
     }
 
     @Override
     public int xSize() {
-        return settlementBoundingBox.xSize();
+        return boundingBox.xSize();
     }
 
     @Override
     public int ySize() {
-        return settlementBoundingBox.ySize();
+        return boundingBox.ySize();
     }
 
     @Override
     public int zSize() {
-        return settlementBoundingBox.zSize();
+        return boundingBox.zSize();
     }
 
     @Override
-    public SettlementBoundingBox getBoundingBox() {
-        return settlementBoundingBox;
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
     }
 
     @Override
@@ -309,7 +279,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         IBoundingBox buildingBox = building.getBoundingBox().copy();
         buildingBox.expandToFit(buildingBox.getMaximumPosition().add(BUILDING_CLEARANCE, BUILDING_CLEARANCE, BUILDING_CLEARANCE));
         buildingBox.expandToFit(buildingBox.getMinimumPosition().add(-BUILDING_CLEARANCE, -BUILDING_CLEARANCE, -BUILDING_CLEARANCE));
-        this.settlementBoundingBox.expandToFit(buildingBox);
+        this.boundingBox.expandToFit(buildingBox);
     }
 
     private void resetBuildings() {

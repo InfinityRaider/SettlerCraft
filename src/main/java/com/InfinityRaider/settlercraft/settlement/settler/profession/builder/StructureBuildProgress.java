@@ -69,9 +69,9 @@ public class StructureBuildProgress {
     private void init(BlockPos clicked, int rotation) {
         IBoundingBox box = schematic.getBoundingBox(clicked, rotation);
         this.origin = box.getMinimumPosition();
-        blocksToClear = new BlockPos[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
-        blocksToBuild = new BlockBuildPosition[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
-        finalBlocksToBuild = new BlockBuildPosition[box.xSize() + 1][box.ySize() +1][box.zSize() + 1];
+        blocksToClear = new BlockPos[box.xSize()][box.ySize()][box.zSize()];
+        blocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
+        finalBlocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
         int dx = origin.getX();
         int dy = origin.getY();
         int dz = origin.getZ();

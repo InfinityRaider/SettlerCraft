@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
 import com.InfinityRaider.settlercraft.utility.LogHelper;
-import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
@@ -64,7 +64,7 @@ public class Schematic {
         return map;
     }
 
-    public SettlementBoundingBox getBoundingBox(BlockPos start, int rotation) {
+    public BoundingBox getBoundingBox(BlockPos start, int rotation) {
         int maxX = 0;
         int maxY = 0;
         int maxZ = 0;
@@ -75,7 +75,7 @@ public class Schematic {
         }
         BlockPos min = new BlockPos(0, 0, 0);
         BlockPos max = new BlockPos(maxX, maxY, maxZ);
-        return (new SettlementBoundingBox(min, max)).offset(start).rotate(rotation);
+        return (new BoundingBox(min, max)).offset(start).rotate(rotation);
     }
 
     public static class BlockPosition {

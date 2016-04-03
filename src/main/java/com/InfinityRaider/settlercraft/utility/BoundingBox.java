@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
-public class SettlementBoundingBox implements IBoundingBox {
+public class BoundingBox implements IBoundingBox {
     private int minX;
     private int minY;
     private int minZ;
@@ -21,11 +21,11 @@ public class SettlementBoundingBox implements IBoundingBox {
     private int maxY;
     private int maxZ;
 
-    public SettlementBoundingBox(IBoundingBox box) {
+    public BoundingBox(IBoundingBox box) {
         this(box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ());
     }
 
-    public SettlementBoundingBox(BlockPos center) {
+    public BoundingBox(BlockPos center) {
         this(
                 center.getX() - (Constants.SETTLEMENT_DEFAULT_WIDTH)/2,
                 center.getY(),
@@ -36,11 +36,11 @@ public class SettlementBoundingBox implements IBoundingBox {
         );
     }
 
-    public SettlementBoundingBox(BlockPos min, BlockPos max) {
+    public BoundingBox(BlockPos min, BlockPos max) {
         this(min.getX(), min.getY(), min.getZ(), max.getX(), max.getY(), max.getZ());
     }
 
-    public SettlementBoundingBox(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+    public BoundingBox(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         this.minX = Math.min(minX, maxX);
         this.minY = Math.min(minY, maxY);
         this.minZ = Math.min(minZ, maxZ);
@@ -91,26 +91,26 @@ public class SettlementBoundingBox implements IBoundingBox {
 
     @Override
     public int xSize() {
-        return maxX - minX;
+        return maxX - minX + 1;
     }
 
     @Override
     public int ySize() {
-        return maxY - minY;
+        return maxY - minY + 1;
     }
 
     @Override
     public int zSize() {
-        return maxZ - minZ;
+        return maxZ - minZ + 1;
     }
 
     @Override
-    public SettlementBoundingBox copy() {
-        return new SettlementBoundingBox(this);
+    public BoundingBox copy() {
+        return new BoundingBox(this);
     }
 
     @Override
-    public SettlementBoundingBox expandToFit(IBoundingBox inner) {
+    public BoundingBox expandToFit(IBoundingBox inner) {
         minX = minX < inner.minX() ? minX : inner.minX();
         minY = minY < inner.minY() ? minY : inner.minY();
         minZ = minZ < inner.minZ() ? minZ : inner.minZ();
@@ -121,7 +121,7 @@ public class SettlementBoundingBox implements IBoundingBox {
     }
 
     @Override
-    public SettlementBoundingBox expandToFit(BlockPos pos) {
+    public BoundingBox expandToFit(BlockPos pos) {
         if(pos.getX() > maxX) {
             maxX = pos.getX();
         } else if(pos.getX() < minX) {
@@ -141,7 +141,7 @@ public class SettlementBoundingBox implements IBoundingBox {
     }
 
     @Override
-    public SettlementBoundingBox offset(int x, int y, int z) {
+    public BoundingBox offset(int x, int y, int z) {
         minX = minX + x;
         minY = minY + y;
         minZ = minZ + z;
@@ -152,17 +152,16 @@ public class SettlementBoundingBox implements IBoundingBox {
     }
 
     @Override
-    public SettlementBoundingBox offset(BlockPos offset) {
+    public BoundingBox offset(BlockPos offset) {
         return offset(offset.getX(), offset.getY(), offset.getZ());
     }
 
     @Override
-    public SettlementBoundingBox rotate(int amount) {
+    public BoundingBox rotate(int amount) {
         amount = amount % 4;
         if(amount == 0) {
             return this;
         }
-
         int oldX = this.minX;
         int oldY = this.minY;
         int oldZ = this.minZ;
@@ -206,9 +205,9 @@ public class SettlementBoundingBox implements IBoundingBox {
         GlStateManager.disableLighting();
         GL11.glTranslatef(minX(), minY(), minZ());
 
-        int x = xSize() + 1;
-        int y = ySize() + 1;
-        int z = zSize() + 1;
+        int x = xSize();
+        int y = ySize();
+        int z = zSize();
 
         int red = color.getRed();
         int green = color.getGreen();

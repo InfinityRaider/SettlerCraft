@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
-import com.InfinityRaider.settlercraft.utility.SettlementBoundingBox;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -14,7 +14,7 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     private int id;
     private int settlementId;
     private ISettlement settlement;
-    private SettlementBoundingBox boundingBox;
+    private BoundingBox boundingBox;
     private IBuilding building;
     private int rotation;
     private IInventorySerializable inventory;
@@ -23,7 +23,7 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
         super(world);
     }
 
-    public SettlementBuilding(ISettlement settlement, SettlementBoundingBox box, IBuilding building, int rotation, IInventorySerializable inventory) {
+    public SettlementBuilding(ISettlement settlement, BoundingBox box, IBuilding building, int rotation, IInventorySerializable inventory) {
         this(settlement.world());
         this.posX = box.minX() + 0.5;
         this.posY = box.minY() + 0.5;
@@ -66,10 +66,10 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
         int minX = tag.getInteger(Names.NBT.X);
         int minY = tag.getInteger(Names.NBT.Y);
         int minZ = tag.getInteger(Names.NBT.Z);
-        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE);
-        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE);
-        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE);
-        this.boundingBox = new SettlementBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE) - 1;
+        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE) - 1;
+        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
+        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.building = BuildingRegistry.getInstance().getBuildingFromName(tag.getString(Names.NBT.BUILDINGS));
         this.rotation = tag.getInteger(Names.NBT.ROTATION);
         this.readInventoryFromNBT(tag);
@@ -167,7 +167,7 @@ public abstract class SettlementBuilding extends AbstractEntityFrozen implements
     }
 
     @Override
-    public SettlementBoundingBox getBoundingBox() {
+    public BoundingBox getBoundingBox() {
         return boundingBox;
     }
 
