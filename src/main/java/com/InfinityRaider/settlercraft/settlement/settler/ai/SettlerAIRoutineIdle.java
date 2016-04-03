@@ -11,7 +11,7 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
 
     private int idleCoolDown;
     private ISettlementBuilding workPlace;
-
+    private boolean pathFinding;
 
     protected SettlerAIRoutineIdle(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.IDLE);
@@ -44,12 +44,15 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
                 }
             }
             idleCoolDown = idleCoolDown - 1;
+            pathFinding = false;
         } else {
             BlockPos target = workPlace.homePosition();
             if(getDistanceFromPositionSquared(target) <= 6) {
                 this.getSettler().assignTask(workPlace.getTaskForSettler(getSettler()));
-            } else {
+                pathFinding = false;
+            } else if(!pathFinding || getSettler().getNavigator().noPath()) {
                 getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);
+                pathFinding = true;
             }
         }
     }

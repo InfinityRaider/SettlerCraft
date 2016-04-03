@@ -157,7 +157,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @SuppressWarnings("unchecked")
     protected void initEntityAI() {
-        ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
+        ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
         this.tasks.addTask(1, new EntityAITalkToPlayer(this));
@@ -168,7 +168,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(6, new EntityAISettler(this));
         this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
         this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));}
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+    }
 
     @Override
     protected void entityInit() {

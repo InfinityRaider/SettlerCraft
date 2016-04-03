@@ -13,6 +13,7 @@ import java.util.List;
 public class TaskBuildBuilding extends TaskBase {
     private final StructureBuildProgress buildProgress;
     private StructureBuildProgress.Work job;
+    private boolean pathFinding;
 
     public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuildingIncomplete building, StructureBuildProgress buildProgress) {
         super("buildBuilding", settlement, settler, building);
@@ -45,8 +46,10 @@ public class TaskBuildBuilding extends TaskBase {
                     getSettler().getSettlerInventory().consumeStack(stack);
                     buildProgress.doJob(job);
                     job = null;
-                } else {
+                    pathFinding = false;
+                } else if(!pathFinding || this.getEntitySettler().getNavigator().noPath()){
                     getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1.1F);
+                    pathFinding = true;
                 }
             } else {
                 getSettler().setMissingResource(stack);
