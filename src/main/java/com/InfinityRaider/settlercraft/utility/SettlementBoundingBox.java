@@ -177,10 +177,7 @@ public class SettlementBoundingBox implements IBoundingBox {
         this.maxX = Math.max(0, newX);
         this.maxZ = Math.max(0, newZ);
 
-        int dx = amount == 1 || amount == 2 ? 1 : 0;
-        int dz = amount == 2 || amount == 3 ? 1 : 0;
-
-        return this.offset(oldX + dx , oldY, oldZ + dz);
+        return this.offset(oldX, oldY, oldZ);
     }
 
     @Override
@@ -197,8 +194,8 @@ public class SettlementBoundingBox implements IBoundingBox {
 
     @Override
     public boolean intersects(IBoundingBox other) {
-        return !(other.maxX() <= this.minX() || other.maxY() <= this.minY() || other.maxZ() <= this.minZ())
-                && !(this.maxX() <= other.minX() || this.maxY() <= other.minY() || this.maxZ() <= other.minZ());
+        return !(other.maxX()+1 <= this.minX() || other.maxY()+1 <= this.minY() || other.maxZ()+1 <= this.minZ())
+                && !(this.maxX()+1 <= other.minX() || this.maxY()+1 <= other.minY() || this.maxZ()+1 <= other.minZ());
     }
 
     @Override
