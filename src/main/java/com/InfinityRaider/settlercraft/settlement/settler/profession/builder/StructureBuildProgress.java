@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
-import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -67,27 +66,37 @@ public class StructureBuildProgress {
     }
 
     private void init(BlockPos clicked, int rotation) {
-        IBoundingBox box = schematic.getBoundingBox(clicked, rotation);
-        this.origin = box.getMinimumPosition();
-        blocksToClear = new BlockPos[box.xSize()][box.ySize()][box.zSize()];
-        blocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
-        finalBlocksToBuild = new BlockBuildPosition[box.xSize()][box.ySize()][box.zSize()];
-        int dx = origin.getX();
-        int dy = origin.getY();
-        int dz = origin.getZ();
+        List<BlockBuildPosition> blocks = new ArrayList<>();
+        List<BlockBuildPosition> finalBlocks = new ArrayList<>();
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
         for(Schematic.BlockPosition position : schematic.blocks) {
             BlockBuildPosition toBuild = BlockBuildPosition.fromSchematicData(world, clicked, rotation, position);
             if(position.needsSupportBlock) {
-                finalBlocksToBuild[toBuild.getPos().getX() - dx][toBuild.getPos().getY() - dy][toBuild.getPos().getZ() - dz] = toBuild;
+                finalBlocks.add(toBuild);
             } else {
-                blocksToBuild[toBuild.getPos().getX() - dx][toBuild.getPos().getY() - dy][toBuild.getPos().getZ() - dz] = toBuild;
+                blocks.add(toBuild);
             }
+            minX = Math.min(minX, toBuild.getPos().getX());
+            minY = Math.min(minY, toBuild.getPos().getY());
+            minZ = Math.min(minZ, toBuild.getPos().getZ());
+            maxX = Math.max(maxX, toBuild.getPos().getX());
+            maxY = Math.max(maxY, toBuild.getPos().getY());
+            maxZ = Math.max(maxZ, toBuild.getPos().getZ());
         }
-        BlockPos min = box.getMinimumPosition();
-        BlockPos max = box.getMaximumPosition();
-        for(int x = min.getX(); x <= max.getX(); x++) {
-            for(int y = min.getY(); y <= max.getY(); y++) {
-                for(int z = min.getZ(); z <= max.getZ(); z++) {
+        this.origin = new BlockPos(minX, minY, minZ);
+        this.blocksToClear = new BlockPos[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+        this.blocksToBuild = new BlockBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+        this.finalBlocksToBuild = new BlockBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+        for(BlockBuildPosition pos : blocks) {
+            blocksToBuild[pos.getPos().getX() - minX][pos.getPos().getY() - minY][pos.getPos().getZ() - minZ] = pos;
+        }
+        for(BlockBuildPosition pos : finalBlocks) {
+            finalBlocksToBuild[pos.getPos().getX() - minX][pos.getPos().getY() - minY][pos.getPos().getZ() - minZ] = pos;
+        }
+        for(int x = minX; x <= maxX; x++) {
+            for(int y = minY; y <= maxY; y++) {
+                for(int z = minZ; z <= maxZ; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
@@ -103,11 +112,11 @@ public class StructureBuildProgress {
                         //block is unbreakable
                         continue;
                     }
-                    if(state.equals(blocksToBuild[x - min.getX()][y - min.getY()][z - min.getZ()].getState())) {
+                    if(state.equals(blocksToBuild[x - minX][y - minY][z - minZ].getState())) {
                         //correct block is already here
                         continue;
                     }
-                    blocksToClear[x - min.getX()][y - min.getY()][z - min.getZ()] = pos;
+                    blocksToClear[x - minX][y - minY][z - minZ] = pos;
                 }
             }
         }
