@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
@@ -32,7 +33,11 @@ public class StructureBuildProgress {
         this.buildWorkQueue();
     }
 
-    public Work getJob() {
+    public World getWorld() {
+        return world;
+    }
+
+    public Work getNextJob() {
         if(workQueue.size() <= 0) {
             return null;
         }
@@ -185,6 +190,8 @@ public class StructureBuildProgress {
 
         public abstract ItemStack getResource();
 
+        public abstract List<ItemStack> getGainedResources();
+
         public abstract String describeJob();
 
         public static class PlaceBlock extends Work {
@@ -208,6 +215,11 @@ public class StructureBuildProgress {
             @Override
             public ItemStack getResource() {
                 return work.getResource();
+            }
+
+            @Override
+            public List<ItemStack> getGainedResources() {
+                return ImmutableList.of();
             }
 
             @Override
@@ -237,6 +249,14 @@ public class StructureBuildProgress {
             @Override
             public ItemStack getResource() {
                 return null;
+            }
+
+            @Override
+            public List<ItemStack> getGainedResources() {
+                List<ItemStack> list = new ArrayList<>();
+                IBlockState state = getJob().getWorld().getBlockState(pos);
+                list.add(state.getBlock().getPickBlock(state, null, getJob().getWorld(), pos, null));
+                return list;
             }
 
             @Override

@@ -123,6 +123,44 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
+    public ItemStack addStackToInventory(ItemStack stack) {
+        if(stack == null || stack.getItem() == null || stack.stackSize == 0) {
+            return stack;
+        }
+        ItemStack remaining = stack.copy();
+        //try to merge with existing stacks
+        for(int i = 0; i < this.getSizeInventory() && remaining.stackSize > 0; i++) {
+            if(!isItemValidForSlot(i, remaining)) {
+                continue;
+            }
+            ItemStack stackInSlot = getStackInSlot(i);
+            if(isSameItem(remaining, stackInSlot)) {
+                int room = Math.max(0, stackInSlot.getMaxStackSize() - stackInSlot.stackSize);
+                int amount = Math.min(room, remaining.stackSize);
+                if(amount > 0) {
+                    remaining.stackSize = remaining.stackSize - amount;
+                    stackInSlot.stackSize = stackInSlot.stackSize + amount;
+                }
+            }
+        }
+        //put in first free slot
+        if(remaining.stackSize <= 0) {
+            remaining = null;
+        } else {
+            for (int i = 0; i < this.getSizeInventory() && remaining != null; i++) {
+                if (!isItemValidForSlot(i, remaining)) {
+                    continue;
+                }
+                if (getStackInSlot(i) == null) {
+                    this.setInventorySlotContents(i, remaining.copy());
+                    remaining = null;
+                }
+            }
+        }
+        return remaining;
+    }
+
+    @Override
     public int getSlotForStack(ItemStack stack) {
         return getSlotForStack(stack, 1);
     }

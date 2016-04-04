@@ -4,6 +4,8 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.StructureBuildProgress;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -24,14 +26,14 @@ public class TaskBuildBuilding extends TaskBase {
     @Override
     public void startTask() {
         if(job == null) {
-            job = buildProgress.getJob();
+            job = buildProgress.getNextJob();
         }
     }
 
     @Override
     public void updateTask() {
         if(job == null) {
-            job = buildProgress.getJob();
+            job = buildProgress.getNextJob();
         } else {
             ItemStack stack = job.getResource();
             if(getSettler().getSettlerInventory().hasStack(stack)) {
@@ -40,6 +42,14 @@ public class TaskBuildBuilding extends TaskBase {
                 double distance = getDistanceFromPositionSquared(target);
                 if(distance <= reach * reach) {
                     getSettler().getSettlerInventory().consumeStack(stack);
+                    for(ItemStack gained : job.getGainedResources()) {
+                        ItemStack remaining = getSettler().getSettlerInventory().addStackToInventory(gained);
+                        if(remaining != null) {
+                            EntityLivingBase entity = getEntitySettler();
+                            EntityItem item = new EntityItem(getSettler().getWorld(), entity.posX, entity.posY, entity.posZ, remaining);
+                            getSettler().getWorld().spawnEntityInWorld(item);
+                        }
+                    }
                     buildProgress.doJob(job);
                     job = null;
                     pathFinding = false;

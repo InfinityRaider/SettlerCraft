@@ -61,6 +61,14 @@ public interface IInventorySettler extends IInventorySerializable {
     List<ItemStack> getEquipmentList();
 
     /**
+     * Tries to add a stack to the inventory, in the first possible slot
+     * Everything that was not added to the inventory is returned
+     * @param stack stack to be added
+     * @return stack not added
+     */
+    ItemStack addStackToInventory(ItemStack stack);
+
+    /**
      * Finds the first slot id which contains an item equal to the one passed in the stack, stacksize is ignored
      * @param stack stack to find
      * @return index for the stack, -1 if the settler does not have such an item in its inventory

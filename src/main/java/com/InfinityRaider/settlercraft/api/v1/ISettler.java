@@ -4,11 +4,17 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
  * This interface is used to interact with settlers and should not be implemented by you
  */
 public interface ISettler extends INpc {
+    /**
+     * @return the world object the settler is currently in
+     */
+    World getWorld();
+
     /**
      * Sets the settlement for the settler, this is called from within SettlerCraft's logic and should not be called by you
      * unless you are doing very specific things.
