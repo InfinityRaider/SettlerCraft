@@ -10,7 +10,6 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
     private static final int IDLE_COOL_DOWN = 100;
 
     private int idleCoolDown;
-    private ISettlementBuilding workPlace;
     private boolean pathFinding;
 
     protected SettlerAIRoutineIdle(EntitySettler settler) {
@@ -35,25 +34,33 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
 
     @Override
     public void updateRoutine() {
-        if(workPlace == null) {
+        if(getWorkPlace() == null) {
             if (idleCoolDown == 0) {
                 idleCoolDown = IDLE_COOL_DOWN;
                 ISettlement settlement = getSettler().settlement();
                 if(settlement != null) {
-                    settlement.getBuildings().stream().filter(building -> building.canDoWorkHere(getSettler())).forEach(building -> this.workPlace = building);
+                    settlement.getBuildings().stream().filter(building -> building.canDoWorkHere(getSettler())).forEach(this::setWorkPlace);
                 }
             }
             idleCoolDown = idleCoolDown - 1;
             pathFinding = false;
         } else {
-            BlockPos target = workPlace.homePosition();
+            BlockPos target = getWorkPlace().homePosition();
             if(getDistanceFromPositionSquared(target) <= 6) {
-                this.getSettler().assignTask(workPlace.getTaskForSettler(getSettler()));
+                this.getSettler().assignTask();
                 pathFinding = false;
             } else if(!pathFinding || getSettler().getNavigator().noPath()) {
                 getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);
                 pathFinding = true;
             }
         }
+    }
+
+    private ISettlementBuilding getWorkPlace() {
+        return getSettler().workPlace();
+    }
+
+    private void setWorkPlace(ISettlementBuilding building) {
+        getSettler().setWorkPlace(building);
     }
 }

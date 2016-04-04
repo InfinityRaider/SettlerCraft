@@ -11,7 +11,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     @Override
     public boolean shouldExecuteRoutine() {
-        return getSettler().getCurrentTask() != null;
+        return getSettler().isAdult() && getSettler().getCurrentTask() != null;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     public void updateRoutine() {
         this.getSettler().getCurrentTask().updateTask();
         if(this.getSettler().getCurrentTask().completed()) {
-            this.getSettler().assignTask(null);
+            this.getSettler().setTaskCompleted();
         }
     }
 }

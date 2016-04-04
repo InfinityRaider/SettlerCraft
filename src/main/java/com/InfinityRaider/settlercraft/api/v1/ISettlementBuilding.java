@@ -141,7 +141,17 @@ public interface ISettlementBuilding {
     */
     void assignIdAndAddToWorld(int id);
 
+    /**
+     * Called to serialize the building's data and save it
+     * @param tag NBT tag to serialize data to
+     * @return the tag passed as argument, with additional data written to it
+     */
     NBTTagCompound writeBuildingToNBT(NBTTagCompound tag);
 
+    /**
+     * Called to deserialize the building's data and load it
+     * @param tag NBT tag to deserialize data from
+     * @return the tag passed as argument
+     */
     NBTTagCompound readBuildingFromNBT(NBTTagCompound tag);
 }

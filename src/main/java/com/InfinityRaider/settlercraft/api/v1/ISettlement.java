@@ -50,6 +50,11 @@ public interface ISettlement extends ITickable {
      */
     void rename(String name);
 
+    /**
+     * Gets a building in this settlement by its id
+     * @param id of the building
+     * @return building with that id, or null if there is no building with this id
+     */
     ISettlementBuilding getBuildingFromId(int id);
 
     /**
@@ -94,6 +99,10 @@ public interface ISettlement extends ITickable {
      */
     void removeBuilding(ISettlementBuilding building);
 
+    /**
+     * Called when a settler joins this settlement
+     * @param settler a settler which joined this settlement
+     */
     void addInhabitant(ISettler settler);
 
     /**
@@ -149,7 +158,17 @@ public interface ISettlement extends ITickable {
      */
     void onBuildingUpdated(ISettlementBuilding building);
 
+    /**
+     * Called to serialize the settlement's data and save it
+     * @param tag NBT tag to serialize data to
+     * @return the tag passed as argument, with additional data written to it
+     */
     NBTTagCompound writeSettlementToNBT(NBTTagCompound tag);
 
+    /**
+     * Called to deserialize the settlement's data and load it
+     * @param tag NBT tag to deserialize data from
+     * @return the tag passed as argument
+     */
     NBTTagCompound readSettlementFromNBT(NBTTagCompound tag);
 }

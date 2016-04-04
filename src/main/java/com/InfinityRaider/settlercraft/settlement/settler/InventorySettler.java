@@ -124,18 +124,32 @@ public class InventorySettler implements IInventorySettler {
 
     @Override
     public int getSlotForStack(ItemStack stack) {
+        return getSlotForStack(stack, 1);
+    }
+
+    @Override
+    public int getSlotForStack(ItemStack stack, int n) {
         int slot = -1;
-        if(stack == null || stack.getItem() == null) {
-            return slot;
+        if (stack == null || stack.getItem() == null) {
+            return -1;
         }
-        if(isSameItem(stack, active)) {
-            slot = 0;
-        } else if(isSameItem(stack, offhand)) {
-            slot = 1;
-        } else {
-            for (int i = 0; i < mainInventory.length; i++) {
-                ItemStack inSlot = this.getStackInSlot(i + 2 + armorInventory.length);
-                if(isSameItem(stack, inSlot)) {
+        if (isSameItem(stack, active)) {
+            n = n - 1;
+            if (n <= 0) {
+                return 0;
+            }
+        }
+        if (isSameItem(stack, offhand)) {
+            n = n - 1;
+            if (n <= 0) {
+                return 1;
+            }
+        }
+        for (int i = 0; i < mainInventory.length; i++) {
+            ItemStack inSlot = this.getStackInSlot(i + 2 + armorInventory.length);
+            if (isSameItem(stack, inSlot)) {
+                n = n - 1;
+                if (n <= 0) {
                     slot = i + 2 + armorInventory.length;
                     break;
                 }

@@ -50,49 +50,42 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        switch (getSettler().getSettlerStatus()) {
-            case IDLE:
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
-                break;
-            case FOLLOWING_PLAYER:
-                EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();
-                if(player == null) {
-                    //DataWatcher is slow :s
+        ITask task = getSettler().getCurrentTask();
+        if(task == null) {
+            list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
+        } else {
+            switch (getSettler().getSettlerStatus()) {
+                case IDLE:
                     list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
-                } else {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
-                            + player.getDisplayName().getFormattedText() + ".");
-                }
-                break;
-            case GETTING_FOOD:
-                if(task != null) {
+                    break;
+                case FOLLOWING_PLAYER:
+                    EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();
+                    if (player != null) {
+                        //Data watcher is slow :s
+                        list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
+                                + player.getDisplayName().getFormattedText() + ".");
+                    }
+                    break;
+                case GETTING_FOOD:
                     list.add(task.getTaskDescription());
-                }
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
-                break;
-            case GOING_TO_BED:
-                if(task != null) {
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
+                    break;
+                case GOING_TO_BED:
                     list.add(task.getTaskDescription());
-                }
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.goingToBed"));
-                break;
-            case PERFORMING_TASK:
-                if(task != null) {
+                    list.add(I18n.translateToLocal(getDiscriminator() + "task.goingToBed"));
+                    break;
+                case PERFORMING_TASK:
                     list.add(task.getTaskDescription());
-                } else {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
-                }
-                break;
-            case FINDING_RESOURCE:
-                if(task != null) {
+                    break;
+                case FINDING_RESOURCE:
                     list.add(task.getTaskDescription());
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.needResource"));
-                }
-                ItemStack missing = getSettler().getMissingResource();
-                if(missing != null) {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + missing.getDisplayName());
-                }
-                break;
+                    ItemStack missing = getSettler().getMissingResource();
+                    if (missing != null) {
+                        list.add(I18n.translateToLocal(getDiscriminator() + "task.needResource"));
+                        list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + missing.getDisplayName());
+                    }
+                    break;
+            }
         }
         return list;
     }

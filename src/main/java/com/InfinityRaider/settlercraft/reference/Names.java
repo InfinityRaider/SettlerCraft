@@ -24,11 +24,12 @@ public final class Names {
         public static final String X_SIZE = "SC_xSize";
         public static final String Y_SIZE = "SC_ySize";
         public static final String Z_SIZE = "SC_zSize";
-        public static final String COMPLETED = "SC_completed";
+        public static final String TASK = "SC_task";
         public static final String SETTLERS = "SC_Settlers";
         public static final String BLOCKS = "SC_Blocks";
         public static final String RESOURCES = "SC_Resources";
         public static final String HOME = "SC_Home";
+        public static final String WORK_PLACE = "SC_WorkPlace";
         public static final String COUNT = "SC_Count";
         public static final String ROTATION = "SC_Rot";
     }

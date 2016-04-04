@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -133,6 +134,12 @@ public interface IBoundingBox {
      * @return if the two boxes intersect
      */
     boolean intersects(IBoundingBox other);
+
+    /**
+     * Converts this bounding box into a new, equivalent AxisAlignedBB
+     * @return a new AxisAlignedBB object with the same dimensions as this
+     */
+    AxisAlignedBB toAxisAlignedBB();
 
     /**
      * Renders this bounding box as a wireframe,

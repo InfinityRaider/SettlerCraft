@@ -36,14 +36,14 @@ public class DialogueOptionTaskBuilder extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + task.describeJob()));
+        list.add(I18n.translateToLocal(getDiscriminator() + "task." + task.describeJob()));
         return list;
     }
 
     @Override
     public List<String> getLocalizedDialogueQuestionString() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "builder.task"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "task.builder"));
         return list;
     }
 }

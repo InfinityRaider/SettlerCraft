@@ -46,6 +46,6 @@ public abstract class TaskBase implements ITask {
 
     @Override
     public String getTaskDescription() {
-        return I18n.translateToLocal("settlercraft.task." + name);
+        return I18n.translateToLocal("settlercraft.dialogue.task." + name);
     }
 }

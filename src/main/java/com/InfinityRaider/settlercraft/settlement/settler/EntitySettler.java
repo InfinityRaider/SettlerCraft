@@ -2,6 +2,8 @@ package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.GuiHandler;
+import com.InfinityRaider.settlercraft.network.MessageAssignTask;
+import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
@@ -36,14 +38,15 @@ import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     private static final SettlerRandomizer RANDOMIZER = SettlerRandomizer.getInstance();
+
     private static final DataParameter<Integer> DATA_SETTLER_STATUS = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
 
     private ISettlement settlement;
     private int settlementId;
     private IProfession profession;
-    private ISettlementBuilding home;
-    private ISettlementBuilding workplace;
 
     private boolean male;
     private String firstName;
@@ -54,7 +57,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
 
-    //TODO: sync this to the client
     private ITask task;
 
     public EntitySettler(ISettlement settlement) {
@@ -81,6 +83,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.settlementId = -1;
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.fromNullable(null));
+        this.getDataManager().register(DATA_HOME_ID, -1);
+        this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
     }
 
     @Override
@@ -125,7 +129,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         tag.setString(Names.NBT.FIRST_NAME, firstName);
         tag.setString(Names.NBT.SURNAME, surname);
         tag.setBoolean(Names.NBT.GENDER, male);
-        //TODO: write home and workplace
+        tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
+        tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
+        tag.setBoolean(Names.NBT.TASK, this.task != null);
     }
 
     public void readEntityFromNBT(NBTTagCompound tag) {
@@ -151,7 +157,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.firstName = tag.getString(Names.NBT.FIRST_NAME);
         this.surname = tag.getString(Names.NBT.SURNAME);
         this.male = tag.getBoolean(Names.NBT.GENDER);
-        //TODO: read home and workplace
+        this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
+        this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
+        if(tag.getBoolean(Names.NBT.TASK) && this.task == null) {
+            this.assignTask();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -248,26 +258,36 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ISettlementBuilding home() {
-        return home;
+        if(settlement() == null) {
+            return null;
+        }
+        return settlement().getBuildingFromId(getDataManager().get(DATA_HOME_ID));
     }
 
     @Override
     public void setHome(ISettlementBuilding building) {
-        ISettlement homeTown = settlement();
-        if(building.settlement() == this.settlement()) {
-            this.home = building;
-            this.setHomePosAndDistance(home.homePosition(), Math.max(homeTown.xSize(), homeTown.zSize()));
+        if(settlement() == null || (building != null && building.settlement() != settlement())) {
+            return;
         }
+        int id = building == null ? -1 : building.id();
+        getDataManager().set(DATA_HOME_ID, id);
     }
 
     @Override
     public ISettlementBuilding workPlace() {
-        return workplace;
+        if(settlement() == null) {
+            return null;
+        }
+        return settlement().getBuildingFromId(getDataManager().get(DATA_WORK_PLACE_ID));
     }
 
     @Override
     public void setWorkPlace(ISettlementBuilding building) {
-        this.workplace = building;
+        if(settlement() == null || (building != null && building.settlement() != settlement())) {
+            return;
+        }
+        int id = building == null ? -1 : building.id();
+        getDataManager().set(DATA_WORK_PLACE_ID, id);
     }
 
     @Override
@@ -277,6 +297,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setProfession(IProfession profession) {
+        if(profession == null) {
+            profession = ProfessionRegistry.getInstance().BUILDER;
+        }
         this.profession = profession;
     }
 
@@ -362,11 +385,25 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void assignTask(ITask task) {
-        if(this.task != null) {
-            this.task.cancelTask();
+    public void assignTask() {
+        if(workPlace() == null) {
+            return;
+        }
+        ITask task = workPlace().getTaskForSettler(this);
+        if (!this.worldObj.isRemote) {
+            if (this.task != null) {
+                this.task.cancelTask();
+            }
+            NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, false));
         }
         this.task = task;
+    }
+
+    public void setTaskCompleted() {
+        this.task = null;
+        if(!this.worldObj.isRemote) {
+            NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, true));
+        }
     }
 
     @Override

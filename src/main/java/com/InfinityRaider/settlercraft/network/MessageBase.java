@@ -15,6 +15,14 @@ import net.minecraftforge.fml.relauncher.Side;
 public abstract class MessageBase implements IMessage {
     public abstract Side getMessageHandlerSide();
 
+    protected String readStringFromByteBuf(ByteBuf buf) {
+        return ByteBufUtils.readUTF8String(buf);
+    }
+
+    protected void writeStringToByteBuf(ByteBuf buf, String string) {
+        ByteBufUtils.writeUTF8String(buf, string);
+    }
+
     protected EntityPlayer readPlayerFromByteBuf(ByteBuf buf) {
         Entity entity = readEntityFromByteBuf(buf);
         return (entity instanceof EntityPlayer)?(EntityPlayer) entity:null;
