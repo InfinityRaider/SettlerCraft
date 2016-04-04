@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder;
+package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;

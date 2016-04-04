@@ -2,8 +2,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder.DialogueOptionFollow;
-import com.InfinityRaider.settlercraft.settlement.settler.dialogue.builder.DialogueOptionStay;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
