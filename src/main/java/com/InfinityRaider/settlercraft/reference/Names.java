@@ -21,6 +21,9 @@ public final class Names {
         public static final String X2 = "SC_X2";
         public static final String Y2 = "SC_Y2";
         public static final String Z2 = "SC_Z2";
+        public static final String X3 = "SC_X3";
+        public static final String Y3 = "SC_Y3";
+        public static final String Z3 = "SC_Z3";
         public static final String X_SIZE = "SC_xSize";
         public static final String Y_SIZE = "SC_ySize";
         public static final String Z_SIZE = "SC_zSize";

@@ -35,7 +35,7 @@ public class BuildingFarm extends BuildingBase {
     }
 
     @Override
-    public ITask getTaskForVillager(ISettlementBuilding building, ISettler settler) {
+    public ITask getTaskForSettler(ISettlementBuilding building, ISettler settler) {
         return null;
     }
 

@@ -6,8 +6,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftEntityRegistry;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.Settlement;
-import com.InfinityRaider.settlercraft.settlement.SettlementBuildingComplete;
-import com.InfinityRaider.settlercraft.settlement.SettlementBuildingIncomplete;
+import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.utility.BiomeHelper;
 import net.minecraft.entity.Entity;
@@ -27,13 +26,11 @@ public class EntityRegistry implements ISettlerCraftEntityRegistry {
 
     public static final String SETTLER = "entity.settler";
     public static final String SETTLEMENT = "settlement";
-    public static final String BUILDING_COMPLETE = "building_complete";
-    public static final String BUILDING_INCOMPLETE = "building_incomplete";
+    public static final String BUILDING = "building";
 
     public final int ID_SETTLER = 0;
     public final int ID_SETTLEMENT = 1;
-    public final int ID_BUILDING_COMPLETE = 2;
-    public final int ID_BUILDING_INCOMPLETE = 3;
+    public final int ID_BUILDING = 2;
 
     public void init() {
         //Settler
@@ -56,14 +53,10 @@ public class EntityRegistry implements ISettlerCraftEntityRegistry {
                 SETTLEMENT, ID_SETTLEMENT,
                 SettlerCraft.instance, 64, 200, false);
 
-        //Buildings
+        //Building
         net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(
-                entityBuildingCompleteClass(),
-                BUILDING_COMPLETE, ID_BUILDING_COMPLETE,
-                SettlerCraft.instance, 64, 200, false);
-        net.minecraftforge.fml.common.registry.EntityRegistry.registerModEntity(
-                entityBuildingIncompleteClass(),
-                BUILDING_INCOMPLETE, ID_BUILDING_INCOMPLETE,
+                entityBuildingClass(),
+                BUILDING, ID_BUILDING,
                 SettlerCraft.instance, 64, 200, false);
 
     }
@@ -89,22 +82,12 @@ public class EntityRegistry implements ISettlerCraftEntityRegistry {
     }
 
     @Override
-    public Class<? extends Entity> entityBuildingCompleteClass() {
-        return SettlementBuildingComplete.class;
+    public Class<? extends Entity> entityBuildingClass() {
+        return SettlementBuilding.class;
     }
 
     @Override
-    public String entityBuildingCompleteId() {
-        return  Reference.MOD_ID + "." + BUILDING_COMPLETE;
-    }
-
-    @Override
-    public Class<? extends Entity> entityBuildingIncompleteClass() {
-        return SettlementBuildingIncomplete.class;
-    }
-
-    @Override
-    public String entityBuildingIncompleteId() {
-        return  Reference.MOD_ID + "." + BUILDING_INCOMPLETE;
+    public String entityBuildingId() {
+        return  Reference.MOD_ID + "." + BUILDING;
     }
 }

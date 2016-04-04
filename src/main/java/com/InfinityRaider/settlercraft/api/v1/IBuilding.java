@@ -72,7 +72,7 @@ public interface IBuilding {
      * @param settler the settler needing work
      * @return a task for the settler, should never be null
      */
-    ITask getTaskForVillager(ISettlementBuilding building, ISettler settler);
+    ITask getTaskForSettler(ISettlementBuilding building, ISettler settler);
 
     /**
      * This method is called right after this building has been built somewhere.

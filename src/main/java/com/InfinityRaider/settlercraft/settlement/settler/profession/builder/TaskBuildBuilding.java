@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
-import com.InfinityRaider.settlercraft.settlement.SettlementBuildingIncomplete;
+import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,14 +15,9 @@ public class TaskBuildBuilding extends TaskBase {
     private StructureBuildProgress.Work job;
     private boolean pathFinding;
 
-    public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuildingIncomplete building, StructureBuildProgress buildProgress) {
+    public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuilding building, StructureBuildProgress buildProgress) {
         super("buildBuilding", settlement, settler, building);
         this.buildProgress = buildProgress;
-    }
-
-    @Override
-    public SettlementBuildingIncomplete getBuilding() {
-        return (SettlementBuildingIncomplete) super.getBuilding();
     }
 
     @Override

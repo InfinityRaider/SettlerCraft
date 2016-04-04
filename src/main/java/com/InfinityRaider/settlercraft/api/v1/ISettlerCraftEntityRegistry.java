@@ -29,22 +29,12 @@ public interface ISettlerCraftEntityRegistry {
     String entitySettlementId();
 
     /**
-     * @return the class for completed settlement building entity objects
+     * @return the class for settlement building entity objects
      */
-    Class<? extends Entity> entityBuildingCompleteClass();
+    Class<? extends Entity> entityBuildingClass();
 
     /**
-     * @return the id for the completed settlement building entity
+     * @return the id for the settlement building entity
      */
-    String entityBuildingCompleteId();
-
-    /**
-     * @return the class for incomplete settlement building entity objects
-     */
-    Class<? extends Entity> entityBuildingIncompleteClass();
-
-    /**
-     * @return the id for the incomplete settlement building entity
-     */
-    String entityBuildingIncompleteId();
+    String entityBuildingId();
 }

@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.item;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
-import com.InfinityRaider.settlercraft.settlement.SettlementBuildingIncomplete;
+import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
@@ -59,7 +59,7 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
         }
         IBoundingBox box = schematic.getBoundingBox(pos, rotation);
         if(isValidBoundingBoxForBuilding(stack, player, settlement, building, box)) {
-            settlement.addBuilding(new SettlementBuildingIncomplete(settlement, pos, building, schematic, rotation));
+            settlement.addBuilding(new SettlementBuilding(settlement, pos, building, schematic, rotation));
             return true;
         }
         return false;
