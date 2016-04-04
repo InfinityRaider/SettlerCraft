@@ -112,7 +112,7 @@ public class StructureBuildProgress {
                         //block is unbreakable
                         continue;
                     }
-                    if(state.equals(blocksToBuild[x - minX][y - minY][z - minZ].getState())) {
+                    if(isSameState(state, blocksToBuild[x - minX][y - minY][z - minZ].getState())) {
                         //correct block is already here
                         continue;
                     }
@@ -146,7 +146,7 @@ public class StructureBuildProgress {
                 for(z = 0; z < blocksToBuild[x][y].length; z++) {
                     if(blocksToBuild[x][y][z] != null) {
                         IBlockState state = world.getBlockState(origin.add(x, y, z));
-                        if(!state.equals(blocksToBuild[x][y][z].getState())) {
+                        if(!isSameState(state, blocksToBuild[x][y][z].getState())) {
                             workQueue.add(new Work.PlaceBlock(this, blocksToBuild[x][y][z]));
                         }
                     }
@@ -244,5 +244,14 @@ public class StructureBuildProgress {
                 return "builder.clearingBlocks";
             }
         }
+    }
+
+    public boolean isSameState(IBlockState a, IBlockState b) {
+        if (a == null) {
+            return b == null;
+        }
+        return b != null
+                && a.getBlock() == b.getBlock()
+                && a.getBlock().getMetaFromState(a) == b.getBlock().getMetaFromState(b);
     }
 }
