@@ -119,7 +119,7 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
 
     @Override
     public List<? extends ISettler> inhabitants() {
-        return null;
+        return inhabitants;
     }
 
     @Override
