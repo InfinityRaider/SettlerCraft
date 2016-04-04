@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
+import com.InfinityRaider.settlercraft.settlement.StructureBuildProgress;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

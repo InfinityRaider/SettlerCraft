@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
+package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import net.minecraft.block.Block;
@@ -19,8 +19,8 @@ public class StructureBuildProgress {
     private Schematic schematic;
 
     private BlockPos[][][] blocksToClear;
-    private BlockBuildPosition[][][] blocksToBuild;
-    private BlockBuildPosition[][][] finalBlocksToBuild;
+    private StructureBuildPosition[][][] blocksToBuild;
+    private StructureBuildPosition[][][] finalBlocksToBuild;
 
     //TODO: priority system for jobs
     private List<Work> workQueue;
@@ -57,7 +57,7 @@ public class StructureBuildProgress {
         blocksToClear[x][y][z] = null;
     }
 
-    protected void placeBlock(BlockBuildPosition position) {
+    protected void placeBlock(StructureBuildPosition position) {
         position.build();
     }
 
@@ -66,12 +66,12 @@ public class StructureBuildProgress {
     }
 
     private void init(BlockPos clicked, int rotation) {
-        List<BlockBuildPosition> blocks = new ArrayList<>();
-        List<BlockBuildPosition> finalBlocks = new ArrayList<>();
+        List<StructureBuildPosition> blocks = new ArrayList<>();
+        List<StructureBuildPosition> finalBlocks = new ArrayList<>();
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
         for(Schematic.BlockPosition position : schematic.blocks) {
-            BlockBuildPosition toBuild = BlockBuildPosition.fromSchematicData(world, clicked, rotation, position);
+            StructureBuildPosition toBuild = StructureBuildPosition.fromSchematicData(world, clicked, rotation, position);
             if(position.needsSupportBlock) {
                 finalBlocks.add(toBuild);
             } else {
@@ -86,12 +86,12 @@ public class StructureBuildProgress {
         }
         this.origin = new BlockPos(minX, minY, minZ);
         this.blocksToClear = new BlockPos[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
-        this.blocksToBuild = new BlockBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
-        this.finalBlocksToBuild = new BlockBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
-        for(BlockBuildPosition pos : blocks) {
+        this.blocksToBuild = new StructureBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+        this.finalBlocksToBuild = new StructureBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
+        for(StructureBuildPosition pos : blocks) {
             blocksToBuild[pos.getPos().getX() - minX][pos.getPos().getY() - minY][pos.getPos().getZ() - minZ] = pos;
         }
-        for(BlockBuildPosition pos : finalBlocks) {
+        for(StructureBuildPosition pos : finalBlocks) {
             finalBlocksToBuild[pos.getPos().getX() - minX][pos.getPos().getY() - minY][pos.getPos().getZ() - minZ] = pos;
         }
         for(int x = minX; x <= maxX; x++) {
@@ -188,9 +188,9 @@ public class StructureBuildProgress {
         public abstract String describeJob();
 
         public static class PlaceBlock extends Work {
-            private BlockBuildPosition work;
+            private StructureBuildPosition work;
 
-            private PlaceBlock(StructureBuildProgress progress, BlockBuildPosition work) {
+            private PlaceBlock(StructureBuildProgress progress, StructureBuildPosition work) {
                 super(progress);
                 this.work = work;
             }
