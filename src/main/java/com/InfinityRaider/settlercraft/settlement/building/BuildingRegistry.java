@@ -41,7 +41,6 @@ public class BuildingRegistry implements IBuildingRegistry {
     public final IBuilding HOUSE_MEDIUM;
     public final IBuilding HOUSE_LARGE;
 
-
     private BuildingRegistry() {
         //Buildings
         BUILDINGS_LIST = new ArrayList<>();
@@ -67,7 +66,7 @@ public class BuildingRegistry implements IBuildingRegistry {
         //lumber mill
 
         //barracks
-        
+
     }
 
     public IBuilding registerBuilding(IBuilding building) {
