@@ -67,7 +67,6 @@ public class BuildingRegistry implements IBuildingRegistry {
         return building;
     }
 
-
     public IBuilding getBuildingFromName(String name) {
         return BUILDINGS_BY_NAME.get(name);
     }

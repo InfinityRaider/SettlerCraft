@@ -1,14 +1,19 @@
 package com.InfinityRaider.settlercraft.settlement.building.townhall;
 
-import com.InfinityRaider.settlercraft.api.v1.IInventorySerializable;
-import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.api.v1.ITask;
+import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 
-public abstract class BuildingTownHall extends BuildingBase {
+public abstract class BuildingTownHall extends BuildingBase implements IBuildingTownHall {
+    private final int tier;
+
     public BuildingTownHall(int tier) {
         super("town_hall"+tier);
+        this.tier = tier;
+    }
+
+    @Override
+    public int getTier() {
+        return tier;
     }
 
     @Override

@@ -136,6 +136,16 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
+    public int tier() {
+        List<ISettlementBuilding> townHalls = this.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeTownHall());
+        if(townHalls.size() <= 0) {
+            return 0;
+        }
+        //this is safe, see: BuildingTypeTowHall.addNewBuilding(IBuilding building)
+        return ((IBuildingTownHall) townHalls.get(0)).getTier();
+    }
+
+    @Override
     public String name() {
         return name;
     }

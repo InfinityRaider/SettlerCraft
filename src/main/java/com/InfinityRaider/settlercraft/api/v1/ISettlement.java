@@ -40,6 +40,17 @@ public interface ISettlement extends ITickable {
     boolean isMayor(EntityPlayer player);
 
     /**
+     * Settlement tier is an arbitrary numbering system based on the town hall, it can be used to quickly determine if a building can be built.
+     * The more advanced the town hall, the more advanced buildings can be built.
+     *  - Tier 0 means there is no town hall meaning a town hall has to be built.
+     *  - Tier 1 means there is a basic town hall.
+     *  - Tier 2 means that there is more advanced townhall
+     *  - ...
+     * @return the tier of the settlement
+     */
+    int tier();
+
+    /**
      * @return The name of this settlement (decided by the player)
      */
     String name();
