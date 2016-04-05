@@ -287,8 +287,8 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
         tag.setInteger(Names.NBT.Y2, home.getY());
         tag.setInteger(Names.NBT.Z2, home.getZ());
         tag.setInteger(Names.NBT.X3, origin.getX());
-        tag.setInteger(Names.NBT.Y2, origin.getY());
-        tag.setInteger(Names.NBT.Z2, origin.getZ());
+        tag.setInteger(Names.NBT.Y3, origin.getY());
+        tag.setInteger(Names.NBT.Z3, origin.getZ());
         int[] settlers = new int[inhabitants.size()];
         for(int i = 0; i < settlers.length; i++) {
             settlers[i] = inhabitants.get(i).getEntityId();
