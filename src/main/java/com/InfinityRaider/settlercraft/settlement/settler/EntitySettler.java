@@ -240,6 +240,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
+    public World getWorld() {
+        return worldObj;
+    }
+
+    @Override
     public void setSettlement(ISettlement settlement) {
         this.settlement = settlement;
         this.settlementId = settlement.id();
