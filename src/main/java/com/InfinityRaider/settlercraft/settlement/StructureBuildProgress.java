@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -117,7 +118,7 @@ public class StructureBuildProgress {
                         //block is unbreakable
                         continue;
                     }
-                    if(isSameState(state, blocksToBuild[x - minX][y - minY][z - minZ].getState())) {
+                    if(isSameState(state, blocksToBuild[x - minX][y - minY][z - minZ])) {
                         //correct block is already here
                         continue;
                     }
@@ -151,7 +152,7 @@ public class StructureBuildProgress {
                 for(z = 0; z < blocksToBuild[x][y].length; z++) {
                     if(blocksToBuild[x][y][z] != null) {
                         IBlockState state = world.getBlockState(origin.add(x, y, z));
-                        if(!isSameState(state, blocksToBuild[x][y][z].getState())) {
+                        if(!isSameState(state, blocksToBuild[x][y][z])) {
                             workQueue.add(new Work.PlaceBlock(this, blocksToBuild[x][y][z]));
                         }
                     }
@@ -266,12 +267,12 @@ public class StructureBuildProgress {
         }
     }
 
-    public boolean isSameState(IBlockState a, IBlockState b) {
-        if (a == null) {
-            return b == null;
+    public boolean isSameState(IBlockState a, StructureBuildPosition b) {
+        if (b == null) {
+            return a == null || a.getMaterial() == Material.air;
         }
-        return b != null
-                && a.getBlock() == b.getBlock()
-                && a.getBlock().getMetaFromState(a) == b.getBlock().getMetaFromState(b);
+        return a != null
+                && a.getBlock() == b.getState().getBlock()
+                && a.getBlock().getMetaFromState(a) == b.getState().getBlock().getMetaFromState(b.getState());
     }
 }
