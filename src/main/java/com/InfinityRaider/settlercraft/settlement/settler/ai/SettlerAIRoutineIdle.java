@@ -50,8 +50,7 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
                 this.getSettler().assignTask();
                 pathFinding = false;
             } else if(!pathFinding || getSettler().getNavigator().noPath()) {
-                getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);
-                pathFinding = true;
+                pathFinding = getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.util.math.BlockPos;
 
