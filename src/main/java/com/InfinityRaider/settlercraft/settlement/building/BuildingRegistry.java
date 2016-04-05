@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingRegistry;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
+import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseLarge;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseMedium;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseSmall;
 import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTownHallTier1;
@@ -38,14 +39,14 @@ public class BuildingRegistry implements IBuildingRegistry {
      */
     public final IBuilding HOUSE_SMALL;
     public final IBuilding HOUSE_MEDIUM;
+    public final IBuilding HOUSE_LARGE;
 
 
     private BuildingRegistry() {
         //Buildings
         BUILDINGS_LIST = new ArrayList<>();
         BUILDINGS_BY_NAME = new HashMap<>();
-       BUILDINGS_MAP = new HashMap<>();
-
+        BUILDINGS_MAP = new HashMap<>();
 
         //Town Halls
         TOWN_HALL_1 = registerBuilding(new BuildingTownHallTier1());
@@ -53,8 +54,20 @@ public class BuildingRegistry implements IBuildingRegistry {
         //Houses
         HOUSE_SMALL = registerBuilding(new BuildingHouseSmall());
         HOUSE_MEDIUM = registerBuilding(new BuildingHouseMedium());
+        HOUSE_LARGE = registerBuilding(new BuildingHouseLarge());
 
         //Warehouses
+
+        //workshops
+
+        //academies
+
+        //quarry
+
+        //lumber mill
+
+        //barracks
+        
     }
 
     public IBuilding registerBuilding(IBuilding building) {
