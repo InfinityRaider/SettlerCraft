@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class BuildingHouse extends BuildingBase {
     public BuildingHouse() {
-        super("house1");
+        super("house_small");
     }
 
     @Override
