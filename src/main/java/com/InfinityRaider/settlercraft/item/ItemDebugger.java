@@ -21,7 +21,7 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
     }
 
     @Override
-    public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             if (!player.isSneaking()) {
                 DebugHelper.getInstance().debug(player, world, pos);
