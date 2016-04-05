@@ -43,6 +43,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> DATA_HAS_TASK = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
 
     private ISettlement settlement;
     private int settlementId;
@@ -85,6 +86,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.fromNullable(null));
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
+        this.getDataManager().register(DATA_HAS_TASK, false);
     }
 
     @Override
@@ -386,6 +388,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ITask getCurrentTask() {
+        if(worldObj.isRemote && task == null && getDataManager().get(DATA_HAS_TASK)) {
+            this.assignTask();
+        }
         return task;
     }
 
@@ -399,6 +404,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             if (this.task != null) {
                 this.task.cancelTask();
             }
+            this.getDataManager().set(DATA_HAS_TASK, true);
             NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, false));
         }
         this.task = task;
@@ -407,6 +413,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     public void setTaskCompleted() {
         this.task = null;
         if(!this.worldObj.isRemote) {
+            this.getDataManager().set(DATA_HAS_TASK, false);
             NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, true));
         }
     }
