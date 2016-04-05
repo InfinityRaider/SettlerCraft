@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.BlockBase;
 import com.InfinityRaider.settlercraft.block.tile.TileEntityBase;
-import com.sun.istack.internal.NotNull;
+import com.InfinityRaider.settlercraft.render.RenderUtilBase;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public abstract class RenderBlockBase<T extends TileEntityBase> implements IBlockRenderingHandler<T> {
+public abstract class RenderBlockBase<T extends TileEntityBase> extends RenderUtilBase implements IBlockRenderingHandler<T> {
     private final BlockBase<T> block;
     private final T dummy;
     private final boolean inv;
@@ -33,7 +33,7 @@ public abstract class RenderBlockBase<T extends TileEntityBase> implements IBloc
     }
 
     @Override
-    @NotNull public T getTileEntity() {
+    public T getTileEntity() {
         return dummy;
     }
 
@@ -55,9 +55,5 @@ public abstract class RenderBlockBase<T extends TileEntityBase> implements IBloc
     @Override
     public boolean hasStaticRendering() {
         return statRender;
-    }
-
-    public final TextureAtlasSprite getIcon(ResourceLocation loc) {
-        return ModelLoader.defaultTextureGetter().apply(loc);
     }
 }

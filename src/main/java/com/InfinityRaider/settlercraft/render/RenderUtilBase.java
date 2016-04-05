@@ -5,9 +5,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Utility base class for rendering event handlers
  */
 @SideOnly(Side.CLIENT)
+@SuppressWarnings("unused")
 public abstract class RenderUtilBase {
     protected RenderUtilBase() {}
 
@@ -24,7 +28,6 @@ public abstract class RenderUtilBase {
      * @param partialTicks partial tick
      * @param inverse inverse or not
      */
-    @SuppressWarnings("unused")
     protected void correctViewBobbing(EntityPlayer player, float partialTicks, boolean inverse) {
         if (!Minecraft.getMinecraft().gameSettings.viewBobbing) {
             return;
@@ -51,7 +54,6 @@ public abstract class RenderUtilBase {
      * Renders three lines with length 1 starting from (0, 0, 0):
      * red line along x axis, green line along y axis and blue line along z axis.
      */
-    @SuppressWarnings("unused")
     protected void renderCoordinateSystemDebug() {
         if(ConfigurationHandler.getInstance().debug) {
             Tessellator tessellator = Tessellator.getInstance();
@@ -80,5 +82,14 @@ public abstract class RenderUtilBase {
             GlStateManager.enableLighting();
             GlStateManager.enableTexture2D();
         }
+    }
+
+    /**
+     * Method to fetch a TextureAtlasSprite icon from a Resource Location
+     * @param loc ResourceLocation to grab icon from
+     * @return the icon
+     */
+    public final TextureAtlasSprite getIcon(ResourceLocation loc) {
+        return ModelLoader.defaultTextureGetter().apply(loc);
     }
 }
