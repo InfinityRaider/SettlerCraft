@@ -29,8 +29,8 @@ SettlerCraft.building.town_hall1=Basic Town Hall
 
 
 //Styles
-SettlerCraft.style_default=Default style
-SettlerCraft.style_desert=Desert style
+settlercraft.style_default=Default style
+settlercraft.style_desert=Desert style
 
 
 //Dialogue
