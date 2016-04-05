@@ -5,10 +5,12 @@ import com.InfinityRaider.settlercraft.network.MessageAddInhabitant;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Settlement extends AbstractEntityFrozen implements ISettlement {
     private static final int BUILDING_CLEARANCE = 5;
@@ -28,6 +31,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     private EntityPlayer player;
     private String name;
     private BoundingBox boundingBox;
+    private IBuildingStyle style;
 
     private int nextBuildingId;
     private HashMap<Integer, ISettlementBuilding> buildings;
@@ -41,7 +45,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         this.resetBuildings();
     }
 
-    public Settlement(int id, World world, EntityPlayer player, BlockPos center, String name) {
+    public Settlement(int id, World world, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
         this(world);
         this.posX = center.getX() + 0.5;
         this.posY = center.getY() + 0.5;
@@ -50,6 +54,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         this.prevPosY = posY;
         this.prevPosZ = posZ;
         this.id = id;
+        this.style = style;
         this.homeChunk = new ChunkCoordinates(world, center);
         this.player = player;
         this.playerUUID = player.getUniqueID().toString();
@@ -72,6 +77,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         tag.setInteger(Names.NBT.Y_SIZE, ySize());
         tag.setInteger(Names.NBT.Z_SIZE, zSize());
         tag.setInteger(Names.NBT.COUNT, nextBuildingId);
+        tag.setString(Names.NBT.STYLE, style.getName());
         return tag;
     }
 
@@ -90,6 +96,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
         this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.nextBuildingId = tag.getInteger(Names.NBT.COUNT);
+        this.style = BuildingStyleRegistry.getInstance().getBuildingStyleFromName(tag.getString(Names.NBT.STYLE));
         return tag;
     }
 
@@ -139,6 +146,11 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
+    public IBuildingStyle getBuildingStyle() {
+        return this.style;
+    }
+
+    @Override
     public ISettlementBuilding getBuildingFromId(int id) {
         return buildings.get(id);
     }
@@ -151,11 +163,31 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
+    public List<ISettlementBuilding> getCompletedBuildings() {
+        List<ISettlementBuilding> structuresList = new ArrayList<>();
+        for(List<ISettlementBuilding> buildings : buildingsPerType.values()) {
+            structuresList.addAll(buildings.stream().filter(ISettlementBuilding::isComplete).collect(Collectors.toList()));
+        }
+        return structuresList;
+    }
+
+    @Override
     public List<ISettlementBuilding> getBuildings(IBuildingType buildingType) {
         if(buildingsPerType.containsKey(buildingType)) {
             return buildingsPerType.get(buildingType);
         } else {
-            return new ArrayList<>();
+            return ImmutableList.of();
+        }
+    }
+
+    @Override
+    public List<ISettlementBuilding> getCompletedBuildings(IBuildingType buildingType) {
+        if(buildingsPerType.containsKey(buildingType)) {
+            List<ISettlementBuilding> list = new ArrayList<>();
+            list.addAll(buildingsPerType.get(buildingType).stream().filter(ISettlementBuilding::isComplete).collect(Collectors.toList()));
+            return list;
+        } else {
+            return ImmutableList.of();
         }
     }
 
@@ -189,7 +221,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         if(!complete) {
             return list;
         }
-        list.add(BuildingRegistry.getInstance().HOUSE_1);
+        list.add(BuildingRegistry.getInstance().HOUSE_SMALL);
         return list;
     }
 

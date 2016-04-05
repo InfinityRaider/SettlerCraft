@@ -3,8 +3,9 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingRegistry;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
-import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouse;
-import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTownHall;
+import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseMedium;
+import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseSmall;
+import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTownHallTier1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,8 @@ public class BuildingRegistry implements IBuildingRegistry {
     /**
      * Houses
      */
-    public final IBuilding HOUSE_1;
+    public final IBuilding HOUSE_SMALL;
+    public final IBuilding HOUSE_MEDIUM;
 
 
     private BuildingRegistry() {
@@ -46,10 +48,13 @@ public class BuildingRegistry implements IBuildingRegistry {
 
 
         //Town Halls
-        TOWN_HALL_1 = registerBuilding(new BuildingTownHall());
+        TOWN_HALL_1 = registerBuilding(new BuildingTownHallTier1());
 
         //Houses
-        HOUSE_1 = registerBuilding(new BuildingHouse());
+        HOUSE_SMALL = registerBuilding(new BuildingHouseSmall());
+        HOUSE_MEDIUM = registerBuilding(new BuildingHouseMedium());
+
+        //Warehouses
     }
 
     public IBuilding registerBuilding(IBuilding building) {

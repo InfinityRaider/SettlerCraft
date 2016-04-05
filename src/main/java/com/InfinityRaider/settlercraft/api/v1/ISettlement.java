@@ -51,6 +51,11 @@ public interface ISettlement extends ITickable {
     void rename(String name);
 
     /**
+     * @return the building style for this settlement
+     */
+    IBuildingStyle getBuildingStyle();
+
+    /**
      * Gets a building in this settlement by its id
      * @param id of the building
      * @return building with that id, or null if there is no building with this id
@@ -58,15 +63,26 @@ public interface ISettlement extends ITickable {
     ISettlementBuilding getBuildingFromId(int id);
 
     /**
-     * @return a list of all buildings currently built in this settlement
+     * @return a list of all buildings currently built or being built in this settlement
      */
     List<ISettlementBuilding> getBuildings();
 
     /**
+     * @return a list of all completed buildings currently built in this settlement
+     */
+    List<ISettlementBuilding> getCompletedBuildings();
+
+    /**
      * @param buildingType a building type
-     * @return a list of all buildings of a specific building type currently built in this settlement
+     * @return a list of all buildings of a specific building type currently built or being built in this settlement
      */
     List<ISettlementBuilding> getBuildings(IBuildingType buildingType);
+
+    /**
+     * @param buildingType a building type
+     * @return a list of all completed buildings of a specific building type in this settlement
+     */
+    List<ISettlementBuilding> getCompletedBuildings(IBuildingType buildingType);
 
     /**
      * Checks if a specific building is built

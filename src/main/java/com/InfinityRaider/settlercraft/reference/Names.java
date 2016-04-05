@@ -29,8 +29,7 @@ public final class Names {
         public static final String Z_SIZE = "SC_zSize";
         public static final String TASK = "SC_task";
         public static final String SETTLERS = "SC_Settlers";
-        public static final String BLOCKS = "SC_Blocks";
-        public static final String RESOURCES = "SC_Resources";
+        public static final String STYLE = "SC_Style";
         public static final String HOME = "SC_Home";
         public static final String WORK_PLACE = "SC_WorkPlace";
         public static final String COUNT = "SC_Count";

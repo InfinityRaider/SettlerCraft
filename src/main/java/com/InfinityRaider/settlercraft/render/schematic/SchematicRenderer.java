@@ -1,8 +1,10 @@
 package com.InfinityRaider.settlercraft.render.schematic;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
+import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
@@ -58,13 +60,13 @@ public class SchematicRenderer {
         if(building.name().equals(this.name)) {
             return;
         }
-        setCurrentSchematic(building);
+        setCurrentSchematic(building, settlement.getBuildingStyle());
     }
 
-    public void setCurrentSchematic(IBuilding building) {
+    public void setCurrentSchematic(IBuilding building, IBuildingStyle style) {
         Schematic schematic;
         try {
-            schematic = SchematicReader.getInstance().deserialize(building.schematicLocation());
+            schematic = SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building, style));
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
             return;

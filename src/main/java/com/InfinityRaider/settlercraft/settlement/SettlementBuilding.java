@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskBuildBuilding;
@@ -213,7 +214,7 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
 
     private Schematic deserializeSchematic() {
         try {
-            return SchematicReader.getInstance().deserialize(building().schematicLocation());
+            return SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building(), settlement().getBuildingStyle()));
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
             return null;

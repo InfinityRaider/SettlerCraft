@@ -17,6 +17,6 @@ public class BuildingTypeHouse extends BuildingTypeBase {
 
     @Override
     public IBuilding startingBuilding() {
-        return BuildingRegistry.getInstance().HOUSE_1;
+        return BuildingRegistry.getInstance().HOUSE_SMALL;
     }
 }

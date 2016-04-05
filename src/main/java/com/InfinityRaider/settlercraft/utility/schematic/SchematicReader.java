@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.gson.Gson;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -72,7 +73,9 @@ public class SchematicReader {
     }
 
     public Schematic deserialize(ResourceLocation location) throws IOException {
-        Reader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(getFilePath(location)), "UTF-8"));
+        String filePath = getFilePath(location);
+        LogHelper.debug("Parsing file for "+filePath);
+        Reader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filePath), "UTF-8"));
         return deserialize(reader);
     }
 

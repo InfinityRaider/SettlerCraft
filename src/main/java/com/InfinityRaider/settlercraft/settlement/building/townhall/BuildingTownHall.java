@@ -1,23 +1,14 @@
 package com.InfinityRaider.settlercraft.settlement.building.townhall;
 
-import com.InfinityRaider.settlercraft.api.v1.*;
-import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.api.v1.IInventorySerializable;
+import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
+import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
-import net.minecraft.entity.player.EntityPlayer;
 
-public class BuildingTownHall extends BuildingBase {
-    public BuildingTownHall() {
-        super("town_hall1");
-    }
-
-    @Override
-    public IBuildingType buildingType() {
-        return BuildingTypeRegistry.getInstance().buildingTypeTownHall();
-    }
-
-    @Override
-    public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return settlement.getBuildings(this.buildingType()).size() == 0;
+public abstract class BuildingTownHall extends BuildingBase {
+    public BuildingTownHall(int tier) {
+        super("town_hall"+tier);
     }
 
     @Override

@@ -28,6 +28,11 @@ settlercraft.tooltip_planner.building_L3=Outline will turn green when a building
 SettlerCraft.building.town_hall1=Basic Town Hall
 
 
+//Styles
+SettlerCraft.style_default=Default style
+SettlerCraft.style_desert=Desert style
+
+
 //Dialogue
 settlercraft.dialogue.greetPlayer=Greetings fellow traveller
 settlercraft.dialogue.greetSettler=Good day
@@ -41,9 +46,10 @@ settlercraft.dialogue.followMe=Travelling is more fun together, join me.
 settlercraft.dialogue.following=Okay, lead on.
 settlercraft.dialogue.followMeCitizen=Come with me, citizen.
 settlercraft.dialogue.stay=I'll scout ahead, stay here.
-settlercraft.dialogue.stayCitizen=Nevermind, you're dismissed.
+settlercraft.dialogue.stayCitizen=Never mind, you're dismissed.
 settlercraft.dialogue.backToWork=I'll get back to work.
 settlercraft.dialogue.stayingPut=I'll wait here for you.
+settlercraft.dialogue.selectStyle=What style should we build this settlement in
 settlercraft.dialogue.createSettlement1=This looks like a good place to settle down.
 settlercraft.dialogue.createSettlement2=(create a new settlement here)
 settlercraft.dialogue.startSettlement=I agree, let's get to work.
@@ -59,7 +65,7 @@ settlercraft.dialogue.buildBuilding=Let's build a new building.
 settlercraft.dialogue.whatBuilding=Certainly, what building would you like to build?
 settlercraft.dialogue.buildNew=I want to build a new
 settlercraft.dialogue.planBuild=Here, use this to plan where and how you want the building
-settlercraft.dialogue.joinSettlement=This is my settlement, whould you like to live here
+settlercraft.dialogue.joinSettlement=This is my settlement, would you like to live here
 settlercraft.dialogue.aNewHome=Certainly, it looks lovely
 settlercraft.dialogue.describeTask=What are you doing at the moment?
 settlercraft.dialogue.task.noTask=I don't have a specific task at the moment.

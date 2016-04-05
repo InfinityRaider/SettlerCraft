@@ -1,10 +1,8 @@
 package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
-import com.InfinityRaider.settlercraft.api.v1.ISettlement;
-import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
-import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettler;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
@@ -149,18 +147,21 @@ public class SettlementHandler implements ISettlementHandler {
     }
 
     @Override
-    public ISettlement startNewSettlement(EntityPlayer player) {
+    public ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style) {
         if(player.getEntityWorld().isRemote) {
             return null;
         }
         if(!canCreateSettlementAtCurrentPosition(player)) {
             return null;
         }
+        if(style == null) {
+            style = BuildingStyleRegistry.getInstance().defaultStyle();
+        }
         World world = player.worldObj;
         int x = (int) player.posX;
         int y = (int) player.posY;
         int z = (int) player.posZ;
-        Settlement settlement = new Settlement(getNextId(), world, player, new BlockPos(x, y, z), "");
+        Settlement settlement = new Settlement(getNextId(), world, player, new BlockPos(x, y, z), player.getDisplayName().getFormattedText() + "'s Settlement", style);
         world.spawnEntityInWorld(settlement);
         settlementsById.put(settlement.id(), settlement);
         settlementsByChunk.put(new ChunkCoordinates(settlement.homeChunk()), settlement);

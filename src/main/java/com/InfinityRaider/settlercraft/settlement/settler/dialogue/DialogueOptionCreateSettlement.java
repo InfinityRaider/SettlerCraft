@@ -1,14 +1,14 @@
 package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
-import com.InfinityRaider.settlercraft.api.v1.ISettlement;
+import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
-import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DialogueOptionCreateSettlement extends DialogueOptionBase {
     public DialogueOptionCreateSettlement(EntityPlayer player, ISettler settler) {
@@ -17,21 +17,22 @@ public class DialogueOptionCreateSettlement extends DialogueOptionBase {
 
     @Override
     public boolean onDialogueOptionSelected(EntityPlayer player, ISettler settler) {
-        return true;
+        return false;
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        if(!player.worldObj.isRemote) {
-            ISettlement settlement = SettlementHandler.getInstance().startNewSettlement(player);
-            settlement.addInhabitant(settler);
-        }
+    public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
+        return BuildingStyleRegistry.getInstance().getBuildingStyles().stream().map(
+                style -> new DialogueOptionSelectBuildingStyle(getPlayer(), getSettler(), style)).collect(Collectors.toList());
     }
+
+    @Override
+    public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
     public List<String> getLocalizedDialogueAnswerString() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "startSettlement"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "selectStyle"));
         return list;
     }
 

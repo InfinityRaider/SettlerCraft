@@ -9,6 +9,7 @@ import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionCreator;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
@@ -73,6 +74,11 @@ public class APIimplv1  implements APIv1 {
     @Override
     public IBuildingTypeRegistry getBuildingTypeRegistry() {
         return BuildingTypeRegistry.getInstance();
+    }
+
+    @Override
+    public IBuildingStyleRegistry getBuildingStyleRegistry() {
+        return BuildingStyleRegistry.getInstance();
     }
 
     @Override

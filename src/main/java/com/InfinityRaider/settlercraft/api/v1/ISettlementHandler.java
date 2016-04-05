@@ -64,7 +64,8 @@ public interface ISettlementHandler {
      * This method internally calls onCreateSettlementAtCurrentPosition(player)
      *
      * @param player The player creating the settlement with the settler, this will also be the mayor
+     * @param style Building style for this settlement
      * @return the newly created ISettlement object, or null if the player can't make a settlement here.
      */
-    ISettlement startNewSettlement(EntityPlayer player);
+    ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style);
 }

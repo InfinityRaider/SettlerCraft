@@ -41,15 +41,22 @@ public interface IBuilding {
     IInventorySerializable getDefaultInventory();
 
     /**
-     * This method is used to read json schematics for the buildings, example:
+     * This method is used to read json schematics for the building,
+     * NEVER CALL THIS METHOD DIRECTLY, instead use IBuildingStyleRegistry.getSchematicLocation(building, style).
+     *
+     * the format of the resource location will be according to this example:
      * new ResourceLocation("settlercraft", "buildings/house/house1") will be converted to "assets/settlercraft/buildings/house/house1.json"
+     *
+     * This method should never return null, if you do not recognize the building style, do not return null, instead return the default style.
+     * You should not call style.getSchematicLocation() from within this method, if this method is called, it means the style does not recognize your building.
      *
      * Schematics can be created by building the structure in a world and then using the schematic creator item to export the building as a json to
      * the file specified in the config.
      *
+     * @param style style to be applied
      * @return a ResourceLocation containing the path to the json file defining this building
      */
-    ResourceLocation schematicLocation();
+    ResourceLocation schematicLocation(IBuildingStyle style);
 
     /**
      * @return the maximum number of settlers living in this building

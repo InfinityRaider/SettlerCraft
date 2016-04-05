@@ -52,6 +52,11 @@ public interface APIv1 extends APIBase {
     IBuildingTypeRegistry getBuildingTypeRegistry();
 
     /**
+     * @return The IBuildingStyleRegistry instance keeping track of all building styles
+     */
+    IBuildingStyleRegistry getBuildingStyleRegistry();
+
+    /**
      * @return the ISettlementHandler instance
      */
     ISettlementHandler getSettlementHandler();

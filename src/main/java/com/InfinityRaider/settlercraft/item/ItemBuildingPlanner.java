@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
@@ -52,7 +53,7 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
         int rotation = getRotation(stack);
         Schematic schematic;
         try {
-            schematic = SchematicReader.getInstance().deserialize(building.schematicLocation());
+            schematic = SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building, settlement.getBuildingStyle()));
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
             return false;
