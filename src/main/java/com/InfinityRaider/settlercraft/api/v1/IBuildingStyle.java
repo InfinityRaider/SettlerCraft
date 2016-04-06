@@ -33,7 +33,7 @@ public interface IBuildingStyle {
      * the file specified in the config.
      *
      * @param building the building to get the schematic for
-     * @@return a ResourceLocation containing the path to the json file defining this building
+     * @return a ResourceLocation containing the path to the json file defining this building
      */
     ResourceLocation getSchematicLocation(IBuilding building);
 
