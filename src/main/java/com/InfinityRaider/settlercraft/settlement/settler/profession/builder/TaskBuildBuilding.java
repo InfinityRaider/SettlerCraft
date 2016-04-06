@@ -35,6 +35,9 @@ public class TaskBuildBuilding extends TaskBase {
     public void updateTask() {
         if(job == null) {
             job = buildProgress.getNextJob();
+            if(job == null) {
+                getSettler().setWorkPlace(null);
+            }
         } else {
             ItemStack stack = job.getResource();
             if(getSettler().getSettlerInventory().hasStack(stack)) {

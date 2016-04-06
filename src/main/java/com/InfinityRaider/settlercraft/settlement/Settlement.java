@@ -141,7 +141,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
             return 0;
         }
         //this is safe, see: BuildingTypeTowHall.addNewBuilding(IBuilding building)
-        return ((IBuildingTownHall) townHalls.get(0)).getTier();
+        return ((IBuildingTownHall) townHalls.get(0).building()).getTier();
     }
 
     @Override

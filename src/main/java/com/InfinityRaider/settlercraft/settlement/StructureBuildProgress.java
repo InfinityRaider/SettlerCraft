@@ -119,6 +119,7 @@ public class StructureBuildProgress {
                     }
                 }
             }
+            complete = true;
         }
     }
 
@@ -173,6 +174,7 @@ public class StructureBuildProgress {
             world.setBlockToAir(pos);
         }
         clearingWork[x][y][z] = null;
+        needsCompletenessCheck = true;
     }
 
     protected void placeBlock(StructureBuildPosition position) {
@@ -181,6 +183,7 @@ public class StructureBuildProgress {
         int z = position.getPos().getZ() - origin.getZ();
         position.build();
         buildingWork[x][y][z] = null;
+        needsCompletenessCheck = true;
     }
 
     private void init(BlockPos clicked, int rotation) {
