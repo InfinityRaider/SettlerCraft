@@ -20,6 +20,46 @@ public interface IBuildingTypeRegistry {
     IBuildingType buildingTypeHouse();
 
     /**
+     * @return The building type for warehouses
+     */
+    IBuildingType buildingTypeWareHouse();
+
+    /**
+     * @return The building type for workshops
+     */
+    IBuildingType buildingTypeWorkshop();
+
+    /**
+     * @return The building type for academies
+     */
+    IBuildingType buildingTypeAcademy();
+
+    /**
+     * @return The building type for quarries
+     */
+    IBuildingType buildingTypeQuarry();
+
+    /**
+     * @return The building type for lumber mills
+     */
+    IBuildingType buildingTypeLumberMill();
+
+    /**
+     * @return The building type for farms
+     */
+    IBuildingType buildingTypeFarm();
+
+    /**
+     * @return The building type for barracks
+     */
+    IBuildingType buildingTypeBarracks();
+
+    /**
+     * @return The building type for decorative buildings
+     */
+    IBuildingType buildingTypeDecorative();
+
+    /**
      * @return a list containing all building types
      */
     List<IBuildingType> allBuildingTypes();

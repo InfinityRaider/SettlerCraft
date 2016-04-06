@@ -1,15 +1,15 @@
-package com.InfinityRaider.settlercraft.settlement.building.farm;
+package com.InfinityRaider.settlercraft.settlement.building.academy;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeBase;
 
-public class BuildingTypeFarm extends BuildingTypeBase {
-    public BuildingTypeFarm() {
-        super("farm");
+public class BuildingTypeAcademy extends BuildingTypeBase {
+    public BuildingTypeAcademy() {
+        super("academy");
     }
 
     @Override
     public int maximumBuildingCountPerSettlement(ISettlement settlement) {
-        return 1 + (settlement.population() / 5);
+        return settlement.tier();
     }
 }

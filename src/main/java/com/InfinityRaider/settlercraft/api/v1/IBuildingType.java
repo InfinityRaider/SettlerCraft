@@ -23,12 +23,6 @@ public interface IBuildingType {
     int maximumBuildingCountPerSettlement(ISettlement settlement);
 
     /**
-     * A building type can be considered as a tech tree, and the building returned form this method is the start of that tech tree.
-     * @return The first building a player can build in his settlement
-     */
-    IBuilding startingBuilding();
-
-    /**
      * @return a List containing the instance of every building for this building type
      */
     List<IBuilding> getAllBuildings();

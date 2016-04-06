@@ -3,8 +3,16 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.building.academy.BuildingTypeAcademy;
+import com.InfinityRaider.settlercraft.settlement.building.barracks.BuildingTypeBarracks;
+import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingTypeDecorative;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingTypeFarm;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingTypeHouse;
+import com.InfinityRaider.settlercraft.settlement.building.lumbermill.BuildingTypeLumberMill;
+import com.InfinityRaider.settlercraft.settlement.building.quarry.BuildingTypeQuarry;
 import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTypeTownHall;
+import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingTypeWareHouse;
+import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingTypeWorkshop;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 
 import java.lang.reflect.Field;
@@ -22,6 +30,14 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
 
     private final IBuildingType TOWN_HALL;
     private final IBuildingType HOUSE;
+    private final IBuildingType WAREHOUSE;
+    private final IBuildingType WORKSHOP;
+    private final IBuildingType ACADEMY;
+    private final IBuildingType QUARRY;
+    private final IBuildingType LUMBER_MILL;
+    private final IBuildingType FARM;
+    private final IBuildingType BARRACKS;
+    private final IBuildingType DECORATIVE;
 
     private final List<IBuildingType> TYPES;
     private final List<IBuildingType> CUSTOM_TYPES;
@@ -29,6 +45,14 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     private BuildingTypeRegistry() {
         TOWN_HALL = new BuildingTypeTownHall();
         HOUSE = new BuildingTypeHouse();
+        WAREHOUSE = new BuildingTypeWareHouse();
+        WORKSHOP = new BuildingTypeWorkshop();
+        ACADEMY = new BuildingTypeAcademy();
+        QUARRY = new BuildingTypeQuarry();
+        LUMBER_MILL = new BuildingTypeLumberMill();
+        FARM = new BuildingTypeFarm();
+        BARRACKS = new BuildingTypeBarracks();
+        DECORATIVE = new BuildingTypeDecorative();
 
         TYPES = new ArrayList<>();
         CUSTOM_TYPES = new ArrayList<>();
@@ -44,6 +68,46 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     @Override
     public IBuildingType buildingTypeHouse() {
         return HOUSE;
+    }
+
+    @Override
+    public IBuildingType buildingTypeWareHouse() {
+        return WAREHOUSE;
+    }
+
+    @Override
+    public IBuildingType buildingTypeWorkshop() {
+        return WORKSHOP;
+    }
+
+    @Override
+    public IBuildingType buildingTypeAcademy() {
+        return ACADEMY;
+    }
+
+    @Override
+    public IBuildingType buildingTypeQuarry() {
+        return QUARRY;
+    }
+
+    @Override
+    public IBuildingType buildingTypeLumberMill() {
+        return LUMBER_MILL;
+    }
+
+    @Override
+    public IBuildingType buildingTypeFarm() {
+        return FARM;
+    }
+
+    @Override
+    public IBuildingType buildingTypeBarracks() {
+        return BARRACKS;
+    }
+
+    @Override
+    public IBuildingType buildingTypeDecorative() {
+        return DECORATIVE;
     }
 
     @Override

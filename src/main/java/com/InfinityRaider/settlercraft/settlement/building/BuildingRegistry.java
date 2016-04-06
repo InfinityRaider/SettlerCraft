@@ -3,10 +3,15 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingRegistry;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
+import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingWaterWell;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseLarge;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseMedium;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseSmall;
+import com.InfinityRaider.settlercraft.settlement.building.quarry.BuildingQuarry;
 import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTownHallTier1;
+import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingWareHouse;
+import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkShopBlackSmith;
+import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkshopCrafter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,26 +25,39 @@ public class BuildingRegistry implements IBuildingRegistry {
         return INSTANCE;
     }
 
-    /**
-     * ---------
-     * Buildings
-     * ---------
-     */
+    /** Buildings */
     public final List<IBuilding> BUILDINGS_LIST;
     public final Map<String, IBuilding> BUILDINGS_BY_NAME;
     public final Map<IBuildingType, List<IBuilding>> BUILDINGS_MAP;
 
-    /**
-     * Town halls
-     */
+    /** Town halls */
     public final IBuilding TOWN_HALL_1;
 
-    /**
-     * Houses
-     */
+    /** Houses */
     public final IBuilding HOUSE_SMALL;
     public final IBuilding HOUSE_MEDIUM;
     public final IBuilding HOUSE_LARGE;
+
+    /** Warehouses */
+    public final IBuilding WAREHOUSE;
+
+    /** Workshops */
+    public final IBuilding WORKSHOP_CRAFTER;
+    public final IBuilding WORKSHOP_BLACKSMITH;
+
+    /** Academies */
+
+    /** Quarries */
+    public final IBuilding QUARRY;
+
+    /** Lumber mills */
+
+    /** Farms */
+
+    /** Barracks */
+
+    /** Decorative */
+    public final IBuilding WATER_WELL;
 
     private BuildingRegistry() {
         //Buildings
@@ -56,19 +74,23 @@ public class BuildingRegistry implements IBuildingRegistry {
         HOUSE_LARGE = registerBuilding(new BuildingHouseLarge());
 
         //Warehouses
+        WAREHOUSE = registerBuilding(new BuildingWareHouse());
 
         //workshops
+        WORKSHOP_CRAFTER = registerBuilding(new BuildingWorkshopCrafter());
+        WORKSHOP_BLACKSMITH = registerBuilding(new BuildingWorkShopBlackSmith());
 
         //academies
 
         //quarry
+        QUARRY = registerBuilding(new BuildingQuarry());
 
         //lumber mill
 
         //barracks
 
         //decorative
-
+        WATER_WELL = registerBuilding(new BuildingWaterWell());
     }
 
     public IBuilding registerBuilding(IBuilding building) {
@@ -83,5 +105,10 @@ public class BuildingRegistry implements IBuildingRegistry {
 
     public IBuilding getBuildingFromName(String name) {
         return BUILDINGS_BY_NAME.get(name);
+    }
+
+    @Override
+    public List<IBuilding> apply(IBuildingType buildingType) {
+        return BUILDINGS_MAP.get(buildingType);
     }
 }

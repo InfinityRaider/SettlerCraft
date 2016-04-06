@@ -19,7 +19,7 @@ public abstract class BuildingTypeBase implements IBuildingType {
 
     @Override
     public List<IBuilding> getAllBuildings() {
-        return BuildingRegistry.getInstance().BUILDINGS_MAP.get(this);
+        return BuildingRegistry.getInstance().apply(this);
     }
 
     @Override
