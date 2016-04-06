@@ -7,10 +7,15 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -306,6 +311,17 @@ public class StructureBuildProgress {
 
             @Override
             public List<ItemStack> getGainedResources() {
+                ItemStack resource = getResource();
+                if(resource != null && resource.getItem() != null && !(resource.getItem() instanceof ItemBlock)) {
+                    Item item = resource.getItem();
+                    if(item instanceof ItemBucket) {
+                        List<ItemStack> list = new ArrayList<>();
+                        list.add(new ItemStack(Items.bucket));
+                        return list;
+                    } else if(item instanceof IFluidContainerItem) {
+                        //TODO
+                    }
+                }
                 return ImmutableList.of();
             }
 
