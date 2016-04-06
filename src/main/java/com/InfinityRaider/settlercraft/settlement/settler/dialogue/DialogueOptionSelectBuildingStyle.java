@@ -39,14 +39,14 @@ public class DialogueOptionSelectBuildingStyle extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "startSettlement"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(style.getName()));
         return list;

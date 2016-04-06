@@ -48,7 +48,7 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         ITask task = getSettler().getCurrentTask();
         if(task == null) {
@@ -91,7 +91,7 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "describeTask"));
         return list;

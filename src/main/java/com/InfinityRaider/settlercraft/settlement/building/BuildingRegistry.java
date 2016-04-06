@@ -12,6 +12,7 @@ import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTown
 import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingWareHouse;
 import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkShopBlackSmith;
 import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkshopCrafter;
+import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,6 +110,6 @@ public class BuildingRegistry implements IBuildingRegistry {
 
     @Override
     public List<IBuilding> apply(IBuildingType buildingType) {
-        return BUILDINGS_MAP.get(buildingType);
+        return BUILDINGS_MAP.containsKey(buildingType) ? BUILDINGS_MAP.get(buildingType) : ImmutableList.of();
     }
 }

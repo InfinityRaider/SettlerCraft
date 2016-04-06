@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageAddInhabitant;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Names;
-import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
@@ -215,30 +214,17 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
-    public List<IBuilding> getBuildableBuildings() {
-        List<IBuilding> list = new ArrayList<>();
-        List<ISettlementBuilding> townHalls = this.getBuildings(BuildingTypeRegistry.getInstance().buildingTypeTownHall());
-        if(list.size() <= 0) {
-            list.add(BuildingRegistry.getInstance().TOWN_HALL_1);
+    public List<IBuilding> getBuildableBuildings(IBuildingType type) {
+        if(type == null) {
+            return ImmutableList.of();
         }
-        boolean complete = false;
-        for(ISettlementBuilding townHall : townHalls) {
-            if(townHall.isComplete()) {
-                complete = true;
-                break;
-            }
-        }
-        if(!complete) {
-            return list;
-        }
-        list.add(BuildingRegistry.getInstance().HOUSE_SMALL);
-        return list;
+        return type.getAllBuildings().stream().filter(this::canBuildNewBuilding).collect(Collectors.toList());
     }
 
     @Override
     public boolean canBuildNewBuilding(IBuilding building) {
         List<ISettlementBuilding> buildingsForType = buildingsPerType.get(building.buildingType());
-        return buildingsForType.size() < building.buildingType().maximumBuildingCountPerSettlement(this);
+        return buildingsForType.size() < building.buildingType().maximumBuildingCountPerSettlement(this) && building.canBuild(mayor(), this);
     }
 
     @Override

@@ -24,8 +24,22 @@ settlercraft.tooltip_planner.building_L2=Right click to plan building, shift rig
 settlercraft.tooltip_planner.building_L3=Outline will turn green when a building can be built here
 
 
+//Building Types
+settlercraft:buildingType.town_hall=Town Hall
+settlercraft:buildingType.house=House
+settlercraft:buildingType.warehouse=Warehouse
+settlercraft:buildingType.workshop=Workshop
+settlercraft:buildingType.academy=Academy
+settlercraft:buildingType.quarry=Quarry
+settlercraft:buildingType.lumber_mill=Lumber Mill
+settlercraft:buildingType.farm=Farm
+settlercraft:buildingType.barracks=Barracks
+settlercraft:buildingType.decorative=Decorative
+
+
 //Buildings
 SettlerCraft.building.town_hall1=Basic Town Hall
+SettlerCraft.building.water_well=Water Well
 
 
 //Styles
@@ -62,7 +76,9 @@ settlercraft.dialogue.greetMayor1=Good day mayor,
 settlercraft.dialogue.greetMayor2=may I assist you with anything?
 settlercraft.dialogue.requestInventory=I would like to see your inventory.
 settlercraft.dialogue.buildBuilding=Let's build a new building.
-settlercraft.dialogue.whatBuilding=Certainly, what building would you like to build?
+settlercraft.dialogue.whatBuildingType=Certainly, what type of building would you like to build?
+settlercraft.dialogue.whatBuilding=Which building would you like to build?
+settlercraft.dialogue.noBuilding=We currently can't build a building of this type.
 settlercraft.dialogue.buildNew=I want to build a new
 settlercraft.dialogue.planBuild=Here, use this to plan where and how you want the building
 settlercraft.dialogue.joinSettlement=This is my settlement, would you like to live here

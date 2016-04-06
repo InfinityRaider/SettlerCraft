@@ -23,7 +23,7 @@ public class DialogueOptionDefault extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         if(getSettler().settlement() == null) {
             list.add(I18n.translateToLocal(getDiscriminator() + "greetPlayer"));
@@ -39,7 +39,7 @@ public class DialogueOptionDefault extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "greetSettler"));
         return list;

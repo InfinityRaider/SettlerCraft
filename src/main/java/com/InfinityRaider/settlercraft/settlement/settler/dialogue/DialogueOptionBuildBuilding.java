@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.translation.I18n;
 
@@ -16,8 +17,8 @@ public class DialogueOptionBuildBuilding extends DialogueOptionBase {
 
     @Override
     public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
-        List<IDialogueOption> list = settler.settlement().getBuildableBuildings().stream().map(building
-                -> new DialogueOptionSelectBuilding(player, settler, building)).collect(Collectors.toList());
+        List<IDialogueOption> list = BuildingTypeRegistry.getInstance().allBuildingTypes().stream().map(
+                type -> new DialogueOptionSelectBuildingType(player, settler, type)).collect(Collectors.toList());
         list.add(new DialogueOptionEndConversation(player, settler));
         return list;
     }
@@ -31,14 +32,14 @@ public class DialogueOptionBuildBuilding extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "whatBuilding"));
+        list.add(I18n.translateToLocal(getDiscriminator() + "whatBuildingType"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "buildBuilding"));
         return list;

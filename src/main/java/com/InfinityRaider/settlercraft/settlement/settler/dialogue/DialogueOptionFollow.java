@@ -26,14 +26,14 @@ public class DialogueOptionFollow extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "following"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "followMeCitizen"));

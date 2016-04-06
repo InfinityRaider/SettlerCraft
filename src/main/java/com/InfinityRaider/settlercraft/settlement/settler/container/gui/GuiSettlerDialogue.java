@@ -38,11 +38,11 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
     public void initGui() {
         super.initGui();
         //settler answer
-        List<String> answerText = getContainer().getCurrentDialogueOption().getLocalizedDialogueAnswerString();
+        List<String> answerText = getContainer().getCurrentDialogueOption().getLocalizedSettlerTextString();
         this.answer = new GuiComponent<>(answerText, this.width/2 + TEXT_BALLOON_X, TEXT_BALLOON_Y, TEXT_WIDTH, (3+answerText.size())*TEXT_HEIGHT);
 
         //player question
-        List<String> questonText = getContainer().getCurrentDialogueOption().getLocalizedDialogueQuestionString();
+        List<String> questonText = getContainer().getCurrentDialogueOption().getLocalizedPlayerTextString();
         int offset = (3+questonText.size())*TEXT_HEIGHT;
         this.question = new GuiComponent<>(questonText, TEXT_BALLOON_X, this.height - TEXT_BALLOON_Y - offset, TEXT_WIDTH, (3+questonText.size())*TEXT_HEIGHT);
 
@@ -53,7 +53,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
         int y = this.height - TEXT_BALLOON_Y;
         for(int i = amount-1; i >= 0; i--) {
             IDialogueOption dialogueOption = getContainer().getDialogueOptions().get((i));
-            int size = TEXT_HEIGHT*(1 + dialogueOption.getLocalizedDialogueQuestionString().size());
+            int size = TEXT_HEIGHT*(1 + dialogueOption.getLocalizedPlayerTextString().size());
             y = y - size;
             components.add(new GuiComponent<>(dialogueOption, x, y, TEXT_WIDTH, size, i));
         }
@@ -75,7 +75,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
 
         //dialogue options
         for(GuiComponent<IDialogueOption> component : components) {
-            List<String> textList = component.getComponent().getLocalizedDialogueQuestionString();
+            List<String> textList = component.getComponent().getLocalizedPlayerTextString();
             for(int i = 0; i < textList.size(); i++) {
                 this.drawCenteredString(textList.get(i), component.xOffset() + TEXT_WIDTH/2, component.yOffset() + 10 + TEXT_HEIGHT * i + 5);
             }
@@ -105,7 +105,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
         //dialogue options
         for(GuiComponent<IDialogueOption> component : components) {
             int v = component.isOverComponent(mouseX, mouseY) ? 160 : 120;
-            size = component.getComponent().getLocalizedDialogueQuestionString().size();
+            size = component.getComponent().getLocalizedPlayerTextString().size();
             drawTexturedModalRect(component.xOffset(), component.yOffset(), 0, v, component.xSize(), 10);
             for(int i = 0; i < size; i++) {
                 drawTexturedModalRect(component.xOffset(), component.yOffset() + 10 + i*20, 0, v + 10, component.xSize(), 20);

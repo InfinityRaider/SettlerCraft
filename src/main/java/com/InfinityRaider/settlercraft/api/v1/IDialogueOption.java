@@ -54,12 +54,12 @@ public interface IDialogueOption {
      * every entry in the list is a separate line
      */
     @SideOnly(Side.CLIENT)
-    List<String> getLocalizedDialogueAnswerString();
+    List<String> getLocalizedSettlerTextString();
 
     /**
      * @return a list of localized strings for this dialogue option (this is what a player says to the settler when selecting this option)
      * every entry in the list is a separate line
      */
     @SideOnly(Side.CLIENT)
-    List<String> getLocalizedDialogueQuestionString();
+    List<String> getLocalizedPlayerTextString();
 }

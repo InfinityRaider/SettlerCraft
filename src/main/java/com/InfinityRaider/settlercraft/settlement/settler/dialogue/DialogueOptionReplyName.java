@@ -41,7 +41,7 @@ public class DialogueOptionReplyName extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "noProblem1") + ".");
@@ -53,7 +53,7 @@ public class DialogueOptionReplyName extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "forgetful")+".");

@@ -103,9 +103,11 @@ public interface ISettlement extends ITickable {
     boolean hasBuilding(IBuilding building);
 
     /**
-     * @return a list of buildings which can be built in this settlement at the current time
+     * Gets a list of all buildings of a type which can be built in this settlement
+     * @param type building type to check buildings for
+     * @return a list of buildings which can be built in this settlement for a given building type at the current time
      */
-    List<IBuilding> getBuildableBuildings();
+    List<IBuilding> getBuildableBuildings(IBuildingType type);
 
     /**
      * Checks if all the requirements are met for a building to be built in this settlement

@@ -35,4 +35,11 @@ public interface IBuildingType {
      * @return if the registering was successful
      */
     boolean addNewBuilding(IBuilding building);
+
+    /**
+     * This method gets the unlocalized name of this building type, it is used in dialogues.
+     * Add a translation for this language key to your lang files.
+     * @return the unlocalized name of this building type
+     */
+    String unlocalizedName();
 }

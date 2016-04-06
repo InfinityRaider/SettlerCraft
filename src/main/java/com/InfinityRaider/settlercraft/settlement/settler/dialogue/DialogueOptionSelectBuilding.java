@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
-import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
@@ -23,7 +23,7 @@ public class DialogueOptionSelectBuilding extends DialogueOptionBase {
 
     @Override
     public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
-        return new ArrayList<>();
+        return ImmutableList.of();
     }
 
     @Override
@@ -41,14 +41,14 @@ public class DialogueOptionSelectBuilding extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "planBuild"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "buildNew"));
         list.add(I18n.translateToLocal(building.name()));

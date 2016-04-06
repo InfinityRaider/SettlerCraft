@@ -42,14 +42,14 @@ public class DialogueOptionRequestName extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(getDiscriminator() + "giveSettlerName")+" "+getSettler().getFirstName() + " " + getSettler().getSurname()+".");
         return list;
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName3"));

@@ -24,7 +24,10 @@ public interface IBuilding {
 
     /**
      * This method is called when the player wants to build this building in his settlement,
-     * use it to check if all the required prerequisites are met
+     * use it to check if all the required prerequisites are met.
+     * This is called from within the settlement code from ISettlement.canBuildNewBuilding(IBuilding building),
+     * don't call that method from within this method to prevent infinite loops.
+     * The maximum building count per building type has already been checked from the settlement code
      *
      * @param player the player owning the settlement
      * @param settlement the settlement

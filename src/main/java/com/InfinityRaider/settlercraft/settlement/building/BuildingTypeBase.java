@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
+import com.InfinityRaider.settlercraft.reference.Reference;
 
 import java.util.List;
 
@@ -26,5 +27,10 @@ public abstract class BuildingTypeBase implements IBuildingType {
     public boolean addNewBuilding(IBuilding building) {
         BuildingRegistry.getInstance().registerBuilding(building);
         return true;
+    }
+
+    @Override
+    public String unlocalizedName() {
+        return Reference.MOD_ID.toLowerCase() + ":buildingType." + name;
     }
 }

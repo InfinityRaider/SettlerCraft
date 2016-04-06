@@ -27,7 +27,7 @@ public class DialogueOptionStay extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueAnswerString() {
+    public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "backToWork"));
@@ -39,7 +39,7 @@ public class DialogueOptionStay extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedDialogueQuestionString() {
+    public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
         if(isMayor()) {
             list.add(I18n.translateToLocal(getDiscriminator() + "stayCitizen"));
