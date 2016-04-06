@@ -184,8 +184,9 @@ public interface ISettlement extends ITickable {
      * This is called from the argument, it is called when the building is updated and synced from the client.
      * This way the settlement knows this building has updated.
      * @param building the building which has been updated
+     * @return if the building was fully updated
      */
-    void onBuildingUpdated(ISettlementBuilding building);
+    boolean onBuildingUpdated(ISettlementBuilding building);
 
     /**
      * Called to serialize the settlement's data and save it

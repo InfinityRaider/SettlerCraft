@@ -191,8 +191,15 @@ public class SettlementHandler implements ISettlementHandler {
         if(buildings == null) {
             return;
         }
-        buildings.forEach(settlement::onBuildingUpdated);
-        buildingBuffer.put(settlement.id(), null);
+        Iterator<ISettlementBuilding> it = buildings.iterator();
+        while(it.hasNext()) {
+            if(settlement.onBuildingUpdated(it.next())) {
+                it.remove();
+            }
+        }
+        if(buildings.size() <= 0) {
+            buildingBuffer.put(settlement.id(), null);
+        }
     }
 
     private int getNextId() {

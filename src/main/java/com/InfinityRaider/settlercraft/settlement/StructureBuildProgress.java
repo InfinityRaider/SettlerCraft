@@ -20,12 +20,16 @@ public class StructureBuildProgress {
     private BlockPos origin;
     private Schematic schematic;
 
-    private BlockPos[][][] blocksToClear;
     private StructureBuildPosition[][][] blocksToBuild;
     private StructureBuildPosition[][][] finalBlocksToBuild;
 
-    //TODO: priority system for jobs
-    private List<Work> workQueue;
+    private Work[][][] clearingWork;
+    private Work[][][] buildingWork;
+
+    private List<Work> currentWork;
+
+    private boolean complete;
+    private boolean needsCompletenessCheck;
 
     public StructureBuildProgress(World world, BlockPos clicked, Schematic schematic, int rotation) {
         this.world = world;
@@ -38,37 +42,142 @@ public class StructureBuildProgress {
         return world;
     }
 
+    //there has to be a better way to do this...
     public Work getNextJob() {
-        if(workQueue.size() <= 0) {
-            return null;
+        Work work = null;
+        //first, look for the first clearing job
+        int x = 0, y ,z;
+        for (y = 0; y < clearingWork[x].length && work == null; y = y + 2) {
+            for (x = 0; x < clearingWork.length && work == null; x++) {
+                for (z = 0; z < clearingWork[x][y].length && work == null; z++) {
+                    if (clearingWork[x][y][z] != null && !currentWork.contains(clearingWork[x][y][z])) {
+                        work = clearingWork[x][y][z];
+                    }
+                    if (y + 1 < clearingWork[x].length && clearingWork[x][y+1][z] != null && !currentWork.contains(clearingWork[x][y+1][z])) {
+                        work = clearingWork[x][y+1][z];
+                    }
+                }
+            }
+            x = 0;
         }
-        Work job = workQueue.get(0);
-        workQueue.remove(0);
-        return job;
+        //next, find the first building job
+        x = 0;
+        Work finalWork = null;
+        for(y = 0; y < blocksToBuild[x].length && work == null; y++) {
+            for(x = 0; x < blocksToBuild.length && work == null; x++) {
+                for(z = 0; z < blocksToBuild[x][y].length && work == null; z++) {
+                    if(buildingWork[x][y][z] != null && !currentWork.contains(buildingWork[x][y][z])) {
+                        if(blocksToBuild[x][y][z] != null) {
+                            work = buildingWork[x][y][z];
+                        } else if(finalBlocksToBuild[x][y][z] != null) {
+                            finalWork = buildingWork[x][y][z];
+                        }
+                    }
+                }
+            }
+            x = 0;
+        }
+        work = work == null ? finalWork : work;
+        if(work != null) {
+            currentWork.add(work);
+        }
+        return work;
     }
 
     public void cancelJob(Work job) {
-        workQueue.add(0, job);
+        if(job != null) {
+            currentWork.remove(job);
+        }
     }
 
     public void doJob(Work work) {
-        work.doJob();
-    }
-
-    protected void clearBlock(BlockPos pos) {
-        world.setBlockToAir(pos);
-        int x = pos.getX() - origin.getX();
-        int y = pos.getY() - origin.getY();
-        int z = pos.getZ() - origin.getZ();
-        blocksToClear[x][y][z] = null;
-    }
-
-    protected void placeBlock(StructureBuildPosition position) {
-        position.build();
+        if(work != null) {
+            work.doJob();
+            currentWork.remove(work);
+            needsCompletenessCheck = true;
+        }
     }
 
     public boolean isComplete() {
-        return workQueue.size() <= 0;
+        performCompletenessCheck();
+        return complete;
+    }
+
+    private void performCompletenessCheck() {
+        if (needsCompletenessCheck) {
+            needsCompletenessCheck = false;
+            for (int x = 0; x < blocksToBuild.length; x++) {
+                for (int y = 0; y < blocksToBuild[x].length; y++) {
+                    for (int z = 0; z < blocksToBuild[x][y].length; z++) {
+                        if(clearingWork[x][y][z] != null || buildingWork[x][y][z] != null) {
+                            complete = false;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void onBlockBroken(BlockPos pos) {
+        int x = pos.getX() - origin.getX();
+        int y = pos.getY() - origin.getY();
+        int z = pos.getZ() - origin.getZ();
+        if(x >= blocksToBuild.length || y >= blocksToBuild[x].length || z >= blocksToBuild[x][y].length) {
+            return;
+        }
+        if(clearingWork[x][y][z] != null) {
+            Work work = clearingWork[x][y][z];
+            currentWork.remove(work);
+            clearingWork[x][y][z] = null;
+            needsCompletenessCheck = true;
+        } else if(blocksToBuild[x][y][z] != null){
+            buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
+            complete = false;
+            needsCompletenessCheck = false;
+        } else if(finalBlocksToBuild[x][y][z] != null){
+            buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
+            complete = false;
+            needsCompletenessCheck = false;
+        }
+    }
+
+    public void onBlockPlaced(BlockPos pos, IBlockState state) {
+        int x = pos.getX() - origin.getX();
+        int y = pos.getY() - origin.getY();
+        int z = pos.getZ() - origin.getZ();
+        if(x >= blocksToBuild.length || y >= blocksToBuild[x].length || z >= blocksToBuild[x][y].length) {
+            return;
+        }
+        if(isSameState(state, blocksToBuild[x][y][z]) || isSameState(state, finalBlocksToBuild[x][y][z])) {
+            if(buildingWork[x][y][z] != null) {
+                currentWork.remove(buildingWork[x][y][z]);
+                buildingWork[x][y][z] = null;
+                needsCompletenessCheck = true;
+            }
+        } else if(clearingWork[x][y][z] == null) {
+            clearingWork[x][y][z] = new Work.ClearBlock(this, pos);
+            complete = false;
+            needsCompletenessCheck = false;
+        }
+    }
+
+    protected void clearBlock(BlockPos pos) {
+        int x = pos.getX() - origin.getX();
+        int y = pos.getY() - origin.getY();
+        int z = pos.getZ() - origin.getZ();
+        if(clearingWork[x][y][z] != null) {
+            world.setBlockToAir(pos);
+        }
+        clearingWork[x][y][z] = null;
+    }
+
+    protected void placeBlock(StructureBuildPosition position) {
+        int x = position.getPos().getX() - origin.getX();
+        int y = position.getPos().getY() - origin.getY();
+        int z = position.getPos().getZ() - origin.getZ();
+        position.build();
+        buildingWork[x][y][z] = null;
     }
 
     private void init(BlockPos clicked, int rotation) {
@@ -91,7 +200,6 @@ public class StructureBuildProgress {
             maxZ = Math.max(maxZ, toBuild.getPos().getZ());
         }
         this.origin = new BlockPos(minX, minY, minZ);
-        this.blocksToClear = new BlockPos[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
         this.blocksToBuild = new StructureBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
         this.finalBlocksToBuild = new StructureBuildPosition[maxX - minX + 1][maxY - minY + 1][maxZ - minZ + 1];
         for(StructureBuildPosition pos : blocks) {
@@ -100,78 +208,56 @@ public class StructureBuildProgress {
         for(StructureBuildPosition pos : finalBlocks) {
             finalBlocksToBuild[pos.getPos().getX() - minX][pos.getPos().getY() - minY][pos.getPos().getZ() - minZ] = pos;
         }
-        for(int x = minX; x <= maxX; x++) {
-            for(int y = minY; y <= maxY; y++) {
-                for(int z = minZ; z <= maxZ; z++) {
-                    BlockPos pos = new BlockPos(x, y, z);
+    }
+
+    private void buildWorkQueue() {
+        needsCompletenessCheck = false;
+        complete = true;
+        this.currentWork = new ArrayList<>();
+        clearingWork = new Work[blocksToBuild.length][blocksToBuild[0].length][blocksToBuild[0][0].length];
+        buildingWork = new Work[blocksToBuild.length][blocksToBuild[0].length][blocksToBuild[0][0].length];
+        for(int x = 0; x < blocksToBuild.length; x ++) {
+            for(int y = 0; y < blocksToBuild[x].length; y++) {
+                for(int z = 0; z < blocksToBuild[x][y].length; z ++) {
+                    BlockPos pos = new BlockPos(x + origin.getX(), y + origin.getY(), z + origin.getZ());
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
-                    if(block == null || block instanceof BlockAir) {
-                        //no block here
+                    if(isSameState(state, blocksToBuild[x][y][z])) {
+                        //correct block is already here
                         continue;
                     }
-                    if(block instanceof BlockLiquid || block instanceof IFluidBlock) {
-                        //don't clean up liquids
+                    if(isSameState(state, finalBlocksToBuild[x][y][z])) {
+                        //correct block is already here
+                        continue;
+                    }
+                    if(block == null || block instanceof BlockAir|| block instanceof BlockLiquid || block instanceof IFluidBlock) {
+                        if(blocksToBuild[x][y][z] != null) {
+                            buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
+                            complete = false;
+                        } else if(finalBlocksToBuild[x][y][z] != null) {
+                            buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
+                            complete = false;
+                        }
                         continue;
                     }
                     if(block.getBlockHardness(state, world, pos) < 0) {
                         //block is unbreakable
                         continue;
                     }
-                    if(isSameState(state, blocksToBuild[x - minX][y - minY][z - minZ])) {
-                        //correct block is already here
-                        continue;
-                    }
-                    blocksToClear[x - minX][y - minY][z - minZ] = pos;
+                    clearingWork[x][y][z] = new Work.ClearBlock(this, pos);
+                    complete = false;
                 }
             }
         }
     }
 
-    private void buildWorkQueue() {
-        this.workQueue = new ArrayList<>();
-        //first clear out the blocks two layers at a time
-        int x = 0, y ,z;
-        for (y = 0; y < blocksToClear[x].length; y = y + 2) {
-            for (x = 0; x < blocksToClear.length; x++) {
-                for (z = 0; z < blocksToClear[x][y].length; z++) {
-                    if (blocksToClear[x][y][z] != null) {
-                        workQueue.add(new Work.ClearBlock(this, blocksToClear[x][y][z]));
-                    }
-                    if (y + 1 < blocksToClear[x].length && blocksToClear[x][y+1][z] != null) {
-                        workQueue.add(new Work.ClearBlock(this, blocksToClear[x][y+1][z]));
-                    }
-                }
-            }
-            x = 0;
+    protected boolean isSameState(IBlockState a, StructureBuildPosition b) {
+        if (b == null) {
+            return a == null || a.getMaterial() == Material.air;
         }
-        //build structure layer by layer
-        x = 0;
-        for(y = 0; y < blocksToBuild[x].length; y++) {
-            for(x = 0; x < blocksToBuild.length; x++) {
-                for(z = 0; z < blocksToBuild[x][y].length; z++) {
-                    if(blocksToBuild[x][y][z] != null) {
-                        IBlockState state = world.getBlockState(origin.add(x, y, z));
-                        if(!isSameState(state, blocksToBuild[x][y][z])) {
-                            workQueue.add(new Work.PlaceBlock(this, blocksToBuild[x][y][z]));
-                        }
-                    }
-                }
-            }
-            x = 0;
-        }
-        //build final blocks which need a support block (e.g. torches, ...)
-        x = 0;
-        for(y = 0; y < finalBlocksToBuild[x].length; y++) {
-            for(x = 0; x < finalBlocksToBuild.length; x++) {
-                for(z = 0; z < finalBlocksToBuild[x][y].length; z++) {
-                    if(finalBlocksToBuild[x][y][z] != null) {
-                        workQueue.add(new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]));
-                    }
-                }
-            }
-            x = 0;
-        }
+        return a != null
+                && a.getBlock() == b.getState().getBlock()
+                && a.getBlock().getMetaFromState(a) == b.getState().getBlock().getMetaFromState(b.getState());
     }
 
     public static abstract class Work {
@@ -265,14 +351,5 @@ public class StructureBuildProgress {
                 return "builder.clearingBlocks";
             }
         }
-    }
-
-    public boolean isSameState(IBlockState a, StructureBuildPosition b) {
-        if (b == null) {
-            return a == null || a.getMaterial() == Material.air;
-        }
-        return a != null
-                && a.getBlock() == b.getState().getBlock()
-                && a.getBlock().getMetaFromState(a) == b.getState().getBlock().getMetaFromState(b.getState());
     }
 }

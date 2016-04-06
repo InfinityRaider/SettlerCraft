@@ -14,7 +14,7 @@ public abstract class BuildingBase implements IBuilding {
 
     public BuildingBase(String name) {
         this.resourcePath = this.buildingType().name() + "/" + name;
-        this.name = "SettlerCraft.building." + name;
+        this.name = Reference.MOD_ID.toLowerCase() + ".building." + name;
     }
 
     @Override

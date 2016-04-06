@@ -38,8 +38,8 @@ settlercraft:buildingType.decorative=Decorative
 
 
 //Buildings
-SettlerCraft.building.town_hall1=Basic Town Hall
-SettlerCraft.building.water_well=Water Well
+settlercraft.building.town_hall1=Basic Town Hall
+settlercraft.building.water_well=Water Well
 
 
 //Styles

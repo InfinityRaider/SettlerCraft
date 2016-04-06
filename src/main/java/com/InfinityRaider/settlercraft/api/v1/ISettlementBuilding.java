@@ -1,5 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -140,6 +142,22 @@ public interface ISettlementBuilding {
      * This method is called from within the ISettlement code to assign the building its correct id and add it to the world.
     */
     void assignIdAndAddToWorld(int id);
+
+    /**
+     * Called right before a block inside this building's bounding box is broken
+     * @param player the player breaking the block (can be null)
+     * @param pos the position of the broken block
+     * @param state the state of the broken bock
+     */
+    void onBlockBroken(EntityPlayer player, BlockPos pos, IBlockState state);
+
+    /**
+     * Called right before a block inside this building's bounding box is placed
+     * @param player the player placing the block (can be null)
+     * @param pos the position of the placed block
+     * @param state the state of the placed bock
+     */
+    void onBlockPlaced(EntityPlayer player, BlockPos pos, IBlockState state);
 
     /**
      * Called to serialize the building's data and save it

@@ -14,7 +14,9 @@ import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -113,7 +115,8 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
         if(this.isComplete()) {
             return building().getTaskForSettler(this, settler);
         } else {
-            return new TaskBuildBuilding(this.settlement(), settler, this, this.getBuildProgress());
+            StructureBuildProgress progress = getBuildProgress();
+            return progress == null ? null : new TaskBuildBuilding(this.settlement(), settler, this, progress);
         }
     }
 
@@ -137,7 +140,8 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
 
     @Override
     public boolean isComplete() {
-        return getBuildProgress().isComplete();
+        StructureBuildProgress progress = getBuildProgress();
+        return progress != null && progress.isComplete();
     }
 
     @Override
@@ -202,8 +206,24 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
         }
     }
 
+    @Override
+    public void onBlockBroken(EntityPlayer player, BlockPos pos, IBlockState state) {
+        this.getBuildProgress().onBlockBroken(pos);
+    }
+
+    @Override
+    public void onBlockPlaced(EntityPlayer player, BlockPos pos, IBlockState state) {
+        this.getBuildProgress().onBlockPlaced(pos, state);
+    }
+
     public StructureBuildProgress getBuildProgress() {
         if(buildProgress == null) {
+            if(building() == null) {
+                //should never happen
+                LogHelper.info("[ERROR] SETTLEMENT WITHOUT BUILDING DETECTED, WORLD DAMAGE PREVENTED");
+                LogHelper.info("[ERROR] THIS IS A SERIOUS BUG, CONTACT THE MOD AUTHOR");
+                return null;
+            }
             Schematic schematic = deserializeSchematic();
             if(schematic != null) {
                 this.buildProgress = new StructureBuildProgress(this.getWorld(), this.origin, schematic, this.getRotation());

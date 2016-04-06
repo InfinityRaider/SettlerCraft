@@ -297,8 +297,11 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
-    public void onBuildingUpdated(ISettlementBuilding building) {
+    public boolean onBuildingUpdated(ISettlementBuilding building) {
         this.buildings.put(building.id(), building);
+        if(building.building() == null) {
+            return false;
+        }
         IBuildingType type = building.building().buildingType();
         if(!buildingsPerType.containsKey(type)) {
             this.buildingsPerType.put(type, new ArrayList<>());
@@ -308,6 +311,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         buildingBox.expandToFit(buildingBox.getMaximumPosition().add(BUILDING_CLEARANCE, BUILDING_CLEARANCE, BUILDING_CLEARANCE));
         buildingBox.expandToFit(buildingBox.getMinimumPosition().add(-BUILDING_CLEARANCE, -BUILDING_CLEARANCE, -BUILDING_CLEARANCE));
         this.boundingBox.expandToFit(buildingBox);
+        return true;
     }
 
     private void resetBuildings() {
