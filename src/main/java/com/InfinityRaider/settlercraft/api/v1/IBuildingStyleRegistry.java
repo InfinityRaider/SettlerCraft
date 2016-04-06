@@ -36,7 +36,7 @@ public interface IBuildingStyleRegistry {
     /**
      * Registers a new building style
      * @param style the style to be registered
-     * @return the registered style
+     * @return the registered style, can return null if registering has failed (for instance if not all required mods are loaded)
      */
     IBuildingStyle registerBuildingStyle(IBuildingStyle style);
 

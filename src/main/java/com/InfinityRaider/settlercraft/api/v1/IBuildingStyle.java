@@ -2,6 +2,8 @@ package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.util.ResourceLocation;
 
+import java.util.List;
+
 public interface IBuildingStyle {
     /**
      * This method gets the name for this style, the name should be unique for each style.
@@ -34,4 +36,11 @@ public interface IBuildingStyle {
      * @@return a ResourceLocation containing the path to the json file defining this building
      */
     ResourceLocation getSchematicLocation(IBuilding building);
+
+    /**
+     * This method should return a list of all mod id's of the mods which should be present for this style to work,
+     * Basically if your style contains Blocks of different mods, every mod should be loaded.
+     * @return A list containing the mod id's of all required mods, may be empty but should not be null
+     */
+    List<String> requiredMods();
 }

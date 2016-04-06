@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.api.v1.IBuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,11 @@ public class BuildingStyleRegistry implements IBuildingStyleRegistry {
 
     @Override
     public IBuildingStyle registerBuildingStyle(IBuildingStyle style) {
+        for(String modId : style.requiredMods()) {
+            if(!Loader.isModLoaded(modId)) {
+                return null;
+            }
+        }
         if(!buildingStyles.containsKey(style.getName())) {
             buildingStyles.put(style.getName(), style);
         }
@@ -91,6 +97,11 @@ public class BuildingStyleRegistry implements IBuildingStyleRegistry {
             } else {
                 return building.schematicLocation(this);
             }
+        }
+
+        @Override
+        public List<String> requiredMods() {
+            return ImmutableList.of();
         }
     }
 
