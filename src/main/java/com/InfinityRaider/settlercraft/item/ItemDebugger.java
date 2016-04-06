@@ -26,7 +26,6 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             if (!player.isSneaking()) {
-                String test = (new ItemStack(Items.water_bucket)).writeToNBT(new NBTTagCompound()).toString();
                 DebugHelper.getInstance().debug(player, world, pos);
             }
         } else {
