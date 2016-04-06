@@ -104,7 +104,6 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
         }
         if(settler.profession() == ProfessionRegistry.getInstance().BUILDER) {
             return settlement() != null
-                    && settler.profession() == ProfessionRegistry.getInstance().BUILDER
                     && !getBuildProgress().isComplete();
         }
         return building().canSettlerWorkHere(this, settler);

@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -140,6 +141,13 @@ public interface IBoundingBox {
      * @return a new AxisAlignedBB object with the same dimensions as this
      */
     AxisAlignedBB toAxisAlignedBB();
+
+    /**
+     * Checks if all chunks spanning this bounding box are loaded
+     * @param world world of the bounding box
+     * @return if the bounding box is fully in a loaded area
+     */
+    boolean areAllChunksLoaded(World world);
 
     /**
      * Renders this bounding box as a wireframe,

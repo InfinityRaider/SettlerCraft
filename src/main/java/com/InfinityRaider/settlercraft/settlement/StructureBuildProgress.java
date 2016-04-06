@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.IFluidContainerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -227,25 +225,25 @@ public class StructureBuildProgress {
                     BlockPos pos = new BlockPos(x + origin.getX(), y + origin.getY(), z + origin.getZ());
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
-                    if(isSameState(state, blocksToBuild[x][y][z])) {
-                        //correct block is already here
-                        continue;
-                    }
-                    if(isSameState(state, finalBlocksToBuild[x][y][z])) {
-                        //correct block is already here
-                        continue;
-                    }
-                    if(block == null || block instanceof BlockAir|| block instanceof BlockLiquid || block instanceof IFluidBlock) {
+                    boolean base = isSameState(state, blocksToBuild[x][y][z]);
+                    boolean last = isSameState(state, finalBlocksToBuild[x][y][z]);
+                    if(block == null || state.getMaterial() == Material.air || block instanceof BlockLiquid || block instanceof IFluidBlock) {
                         if(blocksToBuild[x][y][z] != null) {
-                            buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
-                            complete = false;
+                            if(!base) {
+                                buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
+                                complete = false;
+                            }
                         } else if(finalBlocksToBuild[x][y][z] != null) {
-                            buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
-                            complete = false;
+                            if(!last) {
+                                buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
+                                complete = false;
+                            }
                         }
+                    }
+                    if(base || last) {
                         continue;
                     }
-                    if(block.getBlockHardness(state, world, pos) < 0) {
+                    if(block != null && block.getBlockHardness(state, world, pos) < 0) {
                         //block is unbreakable
                         continue;
                     }
@@ -284,8 +282,6 @@ public class StructureBuildProgress {
 
         public abstract List<ItemStack> getGainedResources();
 
-        public abstract String describeJob();
-
         public static class PlaceBlock extends Work {
             private StructureBuildPosition work;
 
@@ -318,16 +314,12 @@ public class StructureBuildProgress {
                         List<ItemStack> list = new ArrayList<>();
                         list.add(new ItemStack(Items.bucket));
                         return list;
-                    } else if(item instanceof IFluidContainerItem) {
+                    } /*else if(item instanceof IFluidContainerItem) {
                         //TODO
                     }
+                    */
                 }
                 return ImmutableList.of();
-            }
-
-            @Override
-            public String describeJob() {
-                return "builder.buildingStructure";
             }
         }
 
@@ -360,11 +352,6 @@ public class StructureBuildProgress {
                 IBlockState state = getJob().getWorld().getBlockState(pos);
                 list.add(state.getBlock().getPickBlock(state, null, getJob().getWorld(), pos, null));
                 return list;
-            }
-
-            @Override
-            public String describeJob() {
-                return "builder.clearingBlocks";
             }
         }
     }

@@ -161,9 +161,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.male = tag.getBoolean(Names.NBT.GENDER);
         this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
         this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
-        if(tag.getBoolean(Names.NBT.TASK) && this.task == null) {
-            this.assignTask();
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -396,7 +393,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void assignTask() {
-        if(workPlace() == null) {
+        if(workPlace() == null || workPlace().building() == null) {
+            return;
+        }
+        if(!workPlace().getBoundingBox().areAllChunksLoaded(getWorld())) {
             return;
         }
         ITask task = workPlace().getTaskForSettler(this);

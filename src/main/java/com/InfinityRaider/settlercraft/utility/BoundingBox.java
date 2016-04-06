@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -201,6 +202,22 @@ public class BoundingBox implements IBoundingBox {
     @Override
     public AxisAlignedBB toAxisAlignedBB() {
         return new AxisAlignedBB(minX, minY, minZ, maxX + 1, maxY + 1, maxZ + 1);
+    }
+
+    @Override
+    public boolean areAllChunksLoaded(World world) {
+        int chunkMinX = minX >> 4;
+        int chunkMinZ = minZ >> 4;
+        int chunkMaxX = maxX >> 4;
+        int chunkMaxZ = maxZ >> 4;
+        for(int x = chunkMinX; x <= chunkMaxX; x ++) {
+            for(int z = chunkMinZ; z <= chunkMaxZ; z ++) {
+                if (!world.getChunkFromChunkCoords(x, z).isLoaded()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

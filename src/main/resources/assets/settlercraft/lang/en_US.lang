@@ -92,4 +92,4 @@ settlercraft.dialogue.task.buildBuilding=I'm currently building a new building.
 settlercraft.dialogue.task.needResource=But I'm missing a necessary resource,
 settlercraft.dialogue.task.findingResource=I need some
 settlercraft.dialogue.task.builder=What building are you constructing?
-settlercraft.dialogue.task.builder.standby=I'm currently on standby
+settlercraft.dialogue.task.building=I'm currently building a new

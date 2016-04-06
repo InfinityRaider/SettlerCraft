@@ -47,7 +47,7 @@ public class DialogueOptionSelectBuildingType extends DialogueOptionBase {
     @Override
     public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
-        if(list.size() > 0) {
+        if(buildings.size() > 0) {
             list.add(I18n.translateToLocal(getDiscriminator() + "whatBuilding"));
         } else {
             list.add(I18n.translateToLocal(getDiscriminator() + "noBuilding"));
@@ -60,6 +60,5 @@ public class DialogueOptionSelectBuildingType extends DialogueOptionBase {
         List<String> list = new ArrayList<>();
         list.add(I18n.translateToLocal(type.unlocalizedName()));
         return list;
-
     }
 }
