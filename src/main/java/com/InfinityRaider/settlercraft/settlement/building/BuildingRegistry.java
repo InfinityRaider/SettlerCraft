@@ -67,6 +67,8 @@ public class BuildingRegistry implements IBuildingRegistry {
 
         //barracks
 
+        //decorative
+
     }
 
     public IBuilding registerBuilding(IBuilding building) {
