@@ -88,8 +88,13 @@ public class Schematic {
         public boolean needsSupportBlock;
         public int[] rotationMetaTransform;
         public String nbtString;
+        public String stackOverride;
 
         public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag) {
+            this(x, y, z, block, worldMeta, stackMeta, tag, null);
+        }
+
+        public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag, ItemStack stackOverride) {
             this.x = x;
             this.y = y;
             this.z = z;
@@ -98,6 +103,7 @@ public class Schematic {
             this.needsSupportBlock = false;
             this.nbtString = tag != null ? tag.toString() : null;
             this.stackMeta = stackMeta;
+            this.stackOverride = stackOverride == null ? null : stackOverride.writeToNBT(new NBTTagCompound()).toString();
         }
 
         public boolean needsSupportBlock() {
@@ -140,6 +146,21 @@ public class Schematic {
         }
 
         public ItemStack getResourceStack() {
+            if(stackOverride != null) {
+                NBTTagCompound tag;
+                try {
+                    tag = JsonToNBT.getTagFromJson(stackOverride);
+                } catch (NBTException e) {
+                    e.printStackTrace();
+                    return new ItemStack(getBlock(), 1, stackMeta);
+                }
+                if(tag != null) {
+                    ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
+                    if(stack != null) {
+                        return stack;
+                    }
+                }
+            }
             return new ItemStack(getBlock(), 1, stackMeta);
         }
 

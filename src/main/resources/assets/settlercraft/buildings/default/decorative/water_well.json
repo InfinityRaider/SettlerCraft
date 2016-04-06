@@ -310,7 +310,8 @@
       "block": "minecraft:water",
       "worldMeta": 0,
       "stackMeta": 0,
-      "needsSupportBlock": false
+      "needsSupportBlock": true,
+      "stackOverride": "{id:\"minecraft:water_bucket\",Count:1b,Damage:0s}"
     },
     {
       "x": 2,
