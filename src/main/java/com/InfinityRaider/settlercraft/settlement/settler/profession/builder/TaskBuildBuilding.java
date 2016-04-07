@@ -39,6 +39,11 @@ public class TaskBuildBuilding extends TaskBase {
                 getSettler().setWorkPlace(null);
             }
         } else {
+            if(!buildProgress.validateJob(job)) {
+                job = null;
+                pathFinding = false;
+                return;
+            }
             ItemStack stack = job.getResource();
             if(getSettler().getSettlerInventory().hasStack(stack)) {
                 BlockPos target = job.getWorkPos();

@@ -83,8 +83,14 @@ public class StructureBuildProgress {
         work = work == null ? finalWork : work;
         if(work != null) {
             currentWork.add(work);
+        } else if(currentWork.size() > 0) {
+            work = currentWork.get(0);
         }
         return work;
+    }
+
+    public boolean validateJob(Work job) {
+        return currentWork.contains(job);
     }
 
     public void cancelJob(Work job) {
@@ -119,7 +125,7 @@ public class StructureBuildProgress {
                     }
                 }
             }
-            complete = true;
+            complete = currentWork.size() <= 0;
         }
     }
 

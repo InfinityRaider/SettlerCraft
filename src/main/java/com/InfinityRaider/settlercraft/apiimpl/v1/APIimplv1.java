@@ -15,7 +15,6 @@ import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptio
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 public class APIimplv1  implements APIv1 {
@@ -89,11 +88,6 @@ public class APIimplv1  implements APIv1 {
     @Override
     public IDialogueOptionCreator getDialogueOptionCreator() {
         return DialogueOptionCreator.getInstance();
-    }
-
-    @Override
-    public ISettler getSettlerInteractingWithPlayer(EntityPlayer player) {
-        return SettlementHandler.getInstance().getSettlerInteractingWith(player);
     }
 
     @Override

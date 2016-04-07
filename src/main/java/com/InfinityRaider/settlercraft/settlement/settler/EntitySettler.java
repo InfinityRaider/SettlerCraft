@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
-import com.InfinityRaider.settlercraft.handler.GuiHandler;
+import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Names;
@@ -203,10 +203,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
         if(this.conversationPartner == null) {
-            SettlementHandler.getInstance().interact(player, this);
+            this.conversationPartner = player;
         }
         if(!player.worldObj.isRemote) {
-            GuiHandler.getInstance().openSettlerDialogueContainer(player);
+            GuiHandlerSettler.getInstance().openSettlerDialogueContainer(player, this);
         }
         return EnumActionResult.SUCCESS;
     }

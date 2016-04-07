@@ -11,8 +11,8 @@ public class ContainerSettlerDialogue extends ContainerSettler {
     private IDialogueOption current;
     private List<IDialogueOption> dialogueOptions;
 
-    public ContainerSettlerDialogue(EntityPlayer player) {
-        super(player);
+    public ContainerSettlerDialogue(EntityPlayer player, ISettler settler) {
+        super(player, settler);
         initDialogueOptions();
         getSettler().setConversationPartner(player);
     }

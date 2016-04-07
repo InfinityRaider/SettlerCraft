@@ -4,7 +4,7 @@ import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.apiimpl.APISelector;
 import com.InfinityRaider.settlercraft.handler.BlockEventHandler;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
-import com.InfinityRaider.settlercraft.handler.GuiHandler;
+import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.handler.SettlerTargetingHandler;
 import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
@@ -26,7 +26,7 @@ public abstract class CommonProxy implements IProxy {
     public void preInit(FMLPreInitializationEvent event) {
         this.initConfiguration(event);
         this.registerEventHandlers();
-        NetworkRegistry.INSTANCE.registerGuiHandler(SettlerCraft.instance, GuiHandler.getInstance());
+        NetworkRegistry.INSTANCE.registerGuiHandler(SettlerCraft.instance, GuiHandlerSettler.getInstance());
         NetworkWrapperSettlerCraft.getInstance().init();
         ItemRegistry.getInstance().init();
         BlockRegistry.getInstance().init();

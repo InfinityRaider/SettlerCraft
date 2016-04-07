@@ -46,8 +46,7 @@ public class SettlementHandler implements ISettlementHandler {
     private Map<Integer, ISettlement> settlementsById;
     private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
     private Map<Integer, List<ISettlementBuilding>> buildingBuffer;
-    private Map<UUID, ISettler> interacts;
-    private Map<UUID, ContainerSettler> closedContainers;
+    private Map<UUID, ContainerSettler> containersToClose;
     private final boolean client;
 
     protected SettlementHandler(boolean client) {
@@ -59,8 +58,7 @@ public class SettlementHandler implements ISettlementHandler {
         settlementsById = new HashMap<>();
         settlementsByChunk = new HashMap<>();
         buildingBuffer = new HashMap<>();
-        interacts = new HashMap<>();
-        this.closedContainers = new HashMap<>();
+        this.containersToClose = new HashMap<>();
     }
 
     @Override
@@ -214,22 +212,6 @@ public class SettlementHandler implements ISettlementHandler {
         return settlementsById.size();
     }
 
-    public void interact(EntityPlayer player, ISettler settler) {
-        interacts.put(player.getUniqueID(), settler);
-    }
-
-    public ISettler getSettlerInteractingWith(EntityPlayer player) {
-        return interacts.get(player.getUniqueID());
-    }
-
-    public void stopInteractingWithSettler(EntityPlayer player) {
-        ISettler settler = interacts.get(player.getUniqueID());
-        if(settler != null) {
-            settler.setConversationPartner(null);
-        }
-        interacts.remove(player.getUniqueID());
-    }
-
     protected void onClientDisconnected() {
         reset();
     }
@@ -242,15 +224,15 @@ public class SettlementHandler implements ISettlementHandler {
     }
 
     public void onContainerClosed(ContainerSettler closedContainer) {
-        this.closedContainers.put(closedContainer.getPlayer().getUniqueID(), closedContainer);
+        this.containersToClose.put(closedContainer.getPlayer().getUniqueID(), closedContainer);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onTickEvent(TickEvent.PlayerTickEvent event) {
-        if(closedContainers.containsKey(event.player.getUniqueID())) {
-            closedContainers.get(event.player.getUniqueID()).afterContainerClosed();
-            closedContainers.remove(event.player.getUniqueID());
+        if(containersToClose.containsKey(event.player.getUniqueID())) {
+            containersToClose.get(event.player.getUniqueID()).afterContainerClosed();
+            containersToClose.remove(event.player.getUniqueID());
         }
     }
 

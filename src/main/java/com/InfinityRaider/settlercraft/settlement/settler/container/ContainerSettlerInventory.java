@@ -23,8 +23,8 @@ public class ContainerSettlerInventory extends ContainerSettler {
     private final InventoryPlayer playerInventory;
     private final IInventorySettler settlerInventory;
 
-    public ContainerSettlerInventory(EntityPlayer player) {
-        super(player);
+    public ContainerSettlerInventory(EntityPlayer player, ISettler settler) {
+        super(player, settler);
         this.playerInventory = getPlayer().inventory;
         this.settlerInventory = getSettler().getSettlerInventory();
         addSlotsToContainer();

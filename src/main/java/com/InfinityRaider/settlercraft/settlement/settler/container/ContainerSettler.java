@@ -10,8 +10,8 @@ public abstract class ContainerSettler extends Container {
     private final ISettler settler;
     private final EntityPlayer player;
 
-    public ContainerSettler(EntityPlayer player) {
-        this.settler = SettlementHandler.getInstance().getSettlerInteractingWith(player);
+    public ContainerSettler(EntityPlayer player, ISettler settler) {
+        this.settler = settler;
         this.player = player;
     }
 
@@ -34,7 +34,7 @@ public abstract class ContainerSettler extends Container {
     public void onContainerClosed(EntityPlayer player) {
         super.onContainerClosed(player);
         if(stopInteracting()) {
-            SettlementHandler.getInstance().stopInteractingWithSettler(player);
+            this.settler.setConversationPartner(null);
         }
         SettlementHandler.getInstance().onContainerClosed(this);
     }
