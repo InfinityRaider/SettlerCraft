@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.building.quarry;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.miner.TaskMine;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class BuildingQuarry extends BuildingBase {
@@ -17,7 +18,7 @@ public class BuildingQuarry extends BuildingBase {
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return false;
+        return settlement.tier() >= 2;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class BuildingQuarry extends BuildingBase {
 
     @Override
     public ITask getTaskForSettler(ISettlementBuilding building, ISettler settler) {
-        return null;
+        return new TaskMine(building.settlement(), settler, building);
     }
 
     @Override
