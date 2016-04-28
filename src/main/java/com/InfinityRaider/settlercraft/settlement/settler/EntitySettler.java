@@ -23,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -87,6 +88,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_HAS_TASK, false);
+    }
+
+    @Override
+    protected PathNavigate getNewNavigator(World worldIn) {
+        return new PathNavigateGround(this, worldIn);
     }
 
     @Override

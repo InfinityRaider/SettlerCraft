@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.pathfinding.astar.RenderPath;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.Tessellator;
@@ -39,6 +40,8 @@ public class RenderSettlement extends RenderUtilBase {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void renderSchematicOverlay(RenderWorldLastEvent event) {
+        RenderPath.getInstance().renderPath(event);
+
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         if(player == null) {
             return;
