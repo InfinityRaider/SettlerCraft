@@ -3,7 +3,12 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingRegistry;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
+import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingSittingCorner;
 import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingWaterWell;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingAnimalFarmStable;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmHouse;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmIrrigated;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmRiverside;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseLarge;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseMedium;
 import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseSmall;
@@ -54,11 +59,16 @@ public class BuildingRegistry implements IBuildingRegistry {
     /** Lumber mills */
 
     /** Farms */
+    public final IBuilding CROP_FARM_HOUSE;
+    public final IBuilding CROP_FARM_RIVERSIDE;
+    public final IBuilding CROP_FARM_IRRIGATED;
+    public final IBuilding CATTLE_FARM_STABLE;
 
     /** Barracks */
 
     /** Decorative */
     public final IBuilding WATER_WELL;
+    public final IBuilding SITTING_CORNER;
 
     private BuildingRegistry() {
         //Buildings
@@ -88,10 +98,17 @@ public class BuildingRegistry implements IBuildingRegistry {
 
         //lumber mill
 
+        //farms
+        CROP_FARM_HOUSE = registerBuilding(new BuildingCropFarmHouse());
+        CROP_FARM_RIVERSIDE = registerBuilding(new BuildingCropFarmRiverside());
+        CROP_FARM_IRRIGATED = registerBuilding(new BuildingCropFarmIrrigated());
+        CATTLE_FARM_STABLE = registerBuilding(new BuildingAnimalFarmStable());
+
         //barracks
 
         //decorative
         WATER_WELL = registerBuilding(new BuildingWaterWell());
+        SITTING_CORNER = registerBuilding(new BuildingSittingCorner());
     }
 
     public IBuilding registerBuilding(IBuilding building) {

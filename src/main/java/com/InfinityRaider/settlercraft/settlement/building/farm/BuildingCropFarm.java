@@ -2,41 +2,28 @@ package com.InfinityRaider.settlercraft.settlement.building.farm;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
-import net.minecraft.entity.player.EntityPlayer;;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.farmer.TaskFarmPlants;
 
-public class BuildingFarm extends BuildingBase {
-    public BuildingFarm() {
-        super("farm1");
+public abstract class BuildingCropFarm extends BuildingBase {
+    public BuildingCropFarm(String name) {
+        super(name);
     }
 
     @Override
     public IBuildingType buildingType() {
-        return null;
-    }
-
-    @Override
-    public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return false;
-    }
-
-    @Override
-    public IInventorySerializable getDefaultInventory() {
-        return null;
-    }
-
-    @Override
-    public int maxInhabitants() {
-        return 0;
+        return BuildingTypeRegistry.getInstance().buildingTypeFarm();
     }
 
     @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
-        return false;
+        return settler.profession() == ProfessionRegistry.getInstance().FARMER;
     }
 
     @Override
     public ITask getTaskForSettler(ISettlementBuilding building, ISettler settler) {
-        return null;
+        return new TaskFarmPlants(building.settlement(), settler, building, this);
     }
 
     @Override

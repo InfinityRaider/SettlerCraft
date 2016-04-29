@@ -4,14 +4,18 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.settlement.building.quarry.BuildingQuarry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
 public class TaskMine extends TaskBase {
-    public TaskMine(ISettlement settlement, ISettler settler, ISettlementBuilding building) {
+    private final BuildingQuarry quarry;
+
+    public TaskMine(ISettlement settlement, ISettler settler, ISettlementBuilding building, BuildingQuarry quarry) {
         super("mine", settlement, settler, building);
+        this.quarry = quarry;
     }
 
     @Override

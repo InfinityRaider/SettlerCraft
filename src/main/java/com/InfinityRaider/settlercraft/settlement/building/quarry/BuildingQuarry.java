@@ -38,7 +38,7 @@ public class BuildingQuarry extends BuildingBase {
 
     @Override
     public ITask getTaskForSettler(ISettlementBuilding building, ISettler settler) {
-        return new TaskMine(building.settlement(), settler, building);
+        return new TaskMine(building.settlement(), settler, building, this);
     }
 
     @Override

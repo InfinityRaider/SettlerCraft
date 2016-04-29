@@ -1,0 +1,9962 @@
+{
+  "groundLevel": 0,
+  "home": [
+    11,
+    4,
+    8
+  ],
+  "blocks": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 0,
+      "block": "minecraft:torch",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 15,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 2,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 3,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:lever",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 4,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:lever",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:water",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:water",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 0,
+      "block": "minecraft:torch",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:wool",
+      "worldMeta": 13,
+      "stackMeta": 13,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:wool",
+      "worldMeta": 13,
+      "stackMeta": 13,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "z": 15,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 3,
+      "block": "minecraft:lit_pumpkin",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "z": 12,
+      "block": "minecraft:lit_pumpkin",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 6,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:lever",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 6,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:lever",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 0,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:dirt",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 8,
+      "y": 0,
+      "z": 15,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 8,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:torch",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 8,
+      "y": 6,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:stone_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 11,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 3,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 4,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 11,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 12,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 3,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 4,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 7,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 7,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 8,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 6,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 11,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 12,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 4,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 5,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 7,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 8,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 9,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 9,
+      "y": 6,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 9,
+      "y": 7,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:spruce_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:crafting_table",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:spruce_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 10,
+      "block": "minecraft:chest",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1763,y:6,z:-40,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 11,
+      "block": "minecraft:chest",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1763,y:6,z:-39,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:chest",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1763,y:6,z:-37,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 10,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 3,
+      "block": "minecraft:flower_pot",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "nbtString": "{Item:\"minecraft:red_flower\",x:-1763,y:7,z:-47,Data:0,id:\"FlowerPot\"}"
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 5,
+      "block": "minecraft:torch",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 7,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 8,
+      "block": "minecraft:torch",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:hay_block",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 10,
+      "y": 7,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 10,
+      "y": 8,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:chest",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1762,y:6,z:-37,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 11,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 6,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 7,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 11,
+      "y": 8,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 11,
+      "y": 9,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:bed",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:bed",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 6,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 7,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 2,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 12,
+      "y": 8,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 12,
+      "y": 9,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:cobblestone",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:bed",
+      "worldMeta": 11,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:bed",
+      "worldMeta": 11,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:carpet",
+      "worldMeta": 14,
+      "stackMeta": 14,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 8,
+      "block": "minecraft:ladder",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 10,
+      "block": "minecraft:chest",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1760,y:6,z:-40,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 11,
+      "block": "minecraft:chest",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ],
+      "nbtString": "{x:-1760,y:6,z:-39,Items:[],id:\"Chest\",Lock:\"\"}"
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:hay_block",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 8,
+      "block": "minecraft:ladder",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "z": 8,
+      "block": "minecraft:ladder",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 5,
+      "block": "minecraft:torch",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 7,
+      "block": "minecraft:torch",
+      "worldMeta": 3,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 8,
+      "block": "minecraft:ladder",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        5,
+        3,
+        4,
+        2
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:wooden_slab",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 11,
+      "block": "minecraft:hay_block",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:hay_block",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:hay_block",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 13,
+      "y": 7,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 13,
+      "y": 8,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 2,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 3,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 4,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 5,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 7,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 8,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 10,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 11,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 12,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 13,
+      "block": "minecraft:fence",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 0,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 2,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 4,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 5,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 7,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 8,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 10,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 11,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 13,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 1,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 3,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 4,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 7,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 8,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 11,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 12,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 2,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 3,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 4,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 7,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 8,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 11,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 12,
+      "block": "minecraft:glass_pane",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 3,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 2,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 3,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 4,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 5,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 7,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 8,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 10,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 11,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 12,
+      "block": "minecraft:oak_stairs",
+      "worldMeta": 5,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 13,
+      "block": "minecraft:planks",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 2,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 3,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 4,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 5,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 7,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 8,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 10,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 11,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 12,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 13,
+      "block": "minecraft:log",
+      "worldMeta": 8,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        4,
+        8,
+        4,
+        8
+      ]
+    },
+    {
+      "x": 14,
+      "y": 5,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 6,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 9,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:log",
+      "worldMeta": 0,
+      "stackMeta": 0,
+      "needsSupportBlock": false
+    },
+    {
+      "x": 14,
+      "y": 6,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 4,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        6,
+        5,
+        7,
+        4
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 14,
+      "y": 7,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "z": 1,
+      "block": "minecraft:torch",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "z": 6,
+      "block": "minecraft:torch",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "z": 9,
+      "block": "minecraft:torch",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 15,
+      "y": 4,
+      "z": 14,
+      "block": "minecraft:torch",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": true,
+      "rotationMetaTransform": [
+        3,
+        2,
+        4,
+        1
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 0,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 1,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 2,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 3,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 4,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 5,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 6,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 7,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 8,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 9,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 10,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 11,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 12,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 13,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 14,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    },
+    {
+      "x": 15,
+      "y": 6,
+      "z": 15,
+      "block": "minecraft:brick_stairs",
+      "worldMeta": 1,
+      "stackMeta": 0,
+      "needsSupportBlock": false,
+      "rotationMetaTransform": [
+        2,
+        1,
+        3,
+        0
+      ]
+    }
+  ]
+}

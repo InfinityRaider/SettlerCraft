@@ -4,14 +4,18 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarm;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
 public class TaskFarmPlants extends TaskBase {
-    public TaskFarmPlants(ISettlement settlement, ISettler settler, ISettlementBuilding building) {
+    private final BuildingCropFarm farm;
+
+    public TaskFarmPlants(ISettlement settlement, ISettler settler, ISettlementBuilding building, BuildingCropFarm farm) {
         super("farmPlants", settlement, settler, building);
+        this.farm = farm;
     }
 
     @Override
