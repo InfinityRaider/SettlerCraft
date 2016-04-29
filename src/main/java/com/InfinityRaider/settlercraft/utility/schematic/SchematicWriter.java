@@ -12,7 +12,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SchematicWriter {
@@ -98,9 +101,11 @@ public class SchematicWriter {
     }
 
     private void serialize(List<Schematic.BlockPosition> list) throws IOException {
-        String path = ConfigurationHandler.getInstance().schematicOutput;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+        String path = ConfigurationHandler.getInstance().schematicOutput + "schematic_" + dateFormat.format(new Date()) + ".json";
         Writer writer = new OutputStreamWriter(new FileOutputStream(path));
         gson.toJson(new Schematic(list, 0, new int[] {0, 0, 0}), writer);
         writer.close();
+        SchematicReader.getInstance().lastPath = path;
     }
 }

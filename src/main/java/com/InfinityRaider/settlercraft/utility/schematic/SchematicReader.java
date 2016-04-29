@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
-import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.gson.Gson;
 import net.minecraft.block.Block;
@@ -23,6 +22,7 @@ public class SchematicReader {
     }
 
     private final Gson gson;
+    String lastPath;
 
     private SchematicReader() {
         gson = new Gson();
@@ -31,7 +31,7 @@ public class SchematicReader {
     public void buildStoredSchematic(World world, BlockPos pos, int rotation) {
         List<Schematic.BlockPosition> list;
         try {
-            list = deserialize(ConfigurationHandler.getInstance().schematicOutput).blocks;
+            list = deserialize(lastPath).blocks;
         } catch (IOException e) {
             e.printStackTrace();
             return;

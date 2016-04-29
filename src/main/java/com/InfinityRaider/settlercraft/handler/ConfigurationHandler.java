@@ -62,7 +62,7 @@ public class ConfigurationHandler {
 
     @SideOnly(Side.CLIENT)
     private void loadClientConfiguration(FMLPreInitializationEvent event) {
-        schematicOutput = config.getString("Schematic output file", Categories.CLIENT.getName(), event.getModConfigurationDirectory().getAbsolutePath() + "\\schematics\\schematic.json", "The location to the file where schematics will be saved");
+        schematicOutput = config.getString("Schematic output file", Categories.CLIENT.getName(), event.getModConfigurationDirectory().getAbsolutePath() + "\\schematics\\", "The location to the file where schematics will be saved");
     }
 
     public enum Categories {
