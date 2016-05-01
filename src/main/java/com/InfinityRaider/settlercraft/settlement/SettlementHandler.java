@@ -3,13 +3,18 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import com.InfinityRaider.settlercraft.settlement.settler.EntitySettlerFakePlayer;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettler;
 import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -47,6 +52,7 @@ public class SettlementHandler implements ISettlementHandler {
     private Map<ChunkCoordinates, ISettlement> settlementsByChunk;
     private Map<Integer, List<ISettlementBuilding>> buildingBuffer;
     private Map<UUID, ContainerSettler> containersToClose;
+    private Map<EntitySettler, FakePlayer> fakePlayers = new HashMap<>();
     private final boolean client;
 
     protected SettlementHandler(boolean client) {
@@ -227,6 +233,13 @@ public class SettlementHandler implements ISettlementHandler {
         this.containersToClose.put(closedContainer.getPlayer().getUniqueID(), closedContainer);
     }
 
+    public FakePlayer getFakePlayerForSettler(EntitySettler settler) {
+        if((settler.getWorld() instanceof WorldServer) && !fakePlayers.containsKey(settler)) {
+            fakePlayers.put(settler, new EntitySettlerFakePlayer((WorldServer) settler.getWorld(), settler));
+        }
+        return fakePlayers.get(settler);
+    }
+
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onTickEvent(TickEvent.PlayerTickEvent event) {
@@ -248,6 +261,21 @@ public class SettlementHandler implements ISettlementHandler {
         ISettlement settlement = getSettlementForChunk(event.getChunk());
         if(settlement != null) {
             onChunkUnloaded(event.getChunk(), settlement);
+        }
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onWorldUnload(WorldEvent.Unload event) {
+        if(event.getWorld() instanceof WorldServer) {
+            WorldServer world = (WorldServer) event.getWorld();
+            Iterator<Map.Entry<EntitySettler, FakePlayer>> it = fakePlayers.entrySet().iterator();
+            while(it.hasNext()) {
+                Map.Entry<EntitySettler, FakePlayer> entry = it.next();
+                if(entry.getValue().worldObj == world) {
+                    it.remove();
+                }
+            }
         }
     }
 }

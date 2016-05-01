@@ -5,6 +5,7 @@ import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 /**
  * This interface is used to interact with settlers and should not be implemented by you
@@ -93,6 +94,13 @@ public interface ISettler extends INpc {
      * @return this cast to EntityAgeable
      */
     EntityAgeable getEntityImplementation();
+
+    /**
+     * A FakePlayer object for this settler, can be used when the settler performs actions which are usually done by a player.
+     * This will return null on the client thread.
+     * @return A FakePlayer object representing the settler if called on the server thread, or null on the client thread
+     */
+    FakePlayer getFakePlayerImplementation();
 
     /**
      * Some settlers have achieved more than others, some settlers are allowed more than others.

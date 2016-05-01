@@ -30,6 +30,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -326,6 +327,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public EntityAgeable getEntityImplementation() {
         return this;
+    }
+
+    @Override
+    public FakePlayer getFakePlayerImplementation() {
+        return SettlementHandler.getInstance().getFakePlayerForSettler(this);
     }
 
     @Override
