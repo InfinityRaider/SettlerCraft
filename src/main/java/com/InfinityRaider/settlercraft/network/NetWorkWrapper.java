@@ -10,23 +10,23 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class NetworkWrapperSettlerCraft {
-    private static NetworkWrapperSettlerCraft INSTANCE = new NetworkWrapperSettlerCraft();
+public class NetWorkWrapper {
+    private static NetWorkWrapper INSTANCE = new NetWorkWrapper();
 
-    public static NetworkWrapperSettlerCraft getInstance() {
+    public static NetWorkWrapper getInstance() {
         return INSTANCE;
     }
 
     private final SimpleNetworkWrapper wrapper;
     private int nextId = 0;
 
-    private NetworkWrapperSettlerCraft() {
+    private NetWorkWrapper() {
         wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID.toLowerCase());}
 
     public void init() {
-        registerMessage(MessageDialogueOptionSelected.MessageHandler.class, MessageDialogueOptionSelected.class);
-        registerMessage(MessageAddInhabitant.MessageHandler.class, MessageAddInhabitant.class);
-        registerMessage(MessageAssignTask.MessageHandler.class, MessageAssignTask.class);
+        registerMessage(MessageDialogueOptionSelected.class);
+        registerMessage(MessageAddInhabitant.class);
+        registerMessage(MessageAssignTask.class);
     }
 
     public void sendToAll(MessageBase message) {
@@ -61,10 +61,10 @@ public class NetworkWrapperSettlerCraft {
         wrapper.sendToServer(message);
     }
 
-    private <REQ extends MessageBase, REPLY extends IMessage> void registerMessage(Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> message) {
+    private <REQ extends MessageBase<REPLY>, REPLY extends IMessage> void registerMessage(Class<? extends REQ> message) {
         try {
             Side side = message.getDeclaredConstructor().newInstance().getMessageHandlerSide();
-            wrapper.registerMessage(messageHandler, message, nextId, side);
+            wrapper.registerMessage(new MessageHandler<REQ, REPLY>(), message, nextId, side);
             nextId = nextId + 1;
         } catch (Exception e) {
             LogHelper.printStackTrace(e);

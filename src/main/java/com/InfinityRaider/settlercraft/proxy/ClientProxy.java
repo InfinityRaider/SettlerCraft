@@ -87,4 +87,13 @@ public class ClientProxy extends CommonProxy {
         //blocks
         BlockRegistry.getInstance().registerRenderers();
     }
+
+    @Override
+    public void queueTask(Runnable task) {
+        if(getEffectiveSide() == Side.CLIENT) {
+            Minecraft.getMinecraft().addScheduledTask(task);
+        } else {
+            FMLClientHandler.instance().getServer().addScheduledTask(task);
+        }
+    }
 }

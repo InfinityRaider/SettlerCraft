@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
-import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
+import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
@@ -417,7 +417,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                 this.task.cancelTask();
             }
             this.getDataManager().set(DATA_HAS_TASK, true);
-            NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, false));
+            NetWorkWrapper.getInstance().sendToAll(new MessageAssignTask(this, false));
         }
         this.task = task;
     }
@@ -426,7 +426,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.task = null;
         if(!this.worldObj.isRemote) {
             this.getDataManager().set(DATA_HAS_TASK, false);
-            NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAssignTask(this, true));
+            NetWorkWrapper.getInstance().sendToAll(new MessageAssignTask(this, true));
         }
     }
 

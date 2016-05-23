@@ -46,4 +46,9 @@ public class ServerProxy extends CommonProxy {
         super.registerEventHandlers();
         MinecraftForge.EVENT_BUS.register(SettlementHandler.getServerInstance());
     }
+
+    @Override
+    public void queueTask(Runnable task) {
+        FMLServerHandler.instance().getServer().addScheduledTask(task);
+    }
 }

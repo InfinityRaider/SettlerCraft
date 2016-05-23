@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.network;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -26,6 +25,22 @@ public class MessageAssignTask extends MessageBaseSettler {
     }
 
     @Override
+    protected void processMessage(MessageContext ctx) {
+        if(ctx.side == Side.CLIENT && this.settler != null) {
+            if(this.completed) {
+                this.settler.setTaskCompleted();
+            } else {
+                this.settler.assignTask();
+            }
+        }
+    }
+
+    @Override
+    protected IMessage getReply(MessageContext ctx) {
+        return null;
+    }
+
+    @Override
     public void fromBytes(ByteBuf buf) {
         this.settler = this.readSettlerFromByteBuf(buf);
         this.completed = buf.readBoolean();
@@ -35,19 +50,5 @@ public class MessageAssignTask extends MessageBaseSettler {
     public void toBytes(ByteBuf buf) {
         this.writeSettlerToByteBuf(buf, this.settler);
         buf.writeBoolean(this.completed);
-    }
-
-    public static class MessageHandler implements IMessageHandler<MessageAssignTask, IMessage> {
-        @Override
-        public IMessage onMessage(MessageAssignTask message, MessageContext ctx) {
-            if(ctx.side == Side.CLIENT && message.settler != null) {
-                if(message.completed) {
-                    message.settler.setTaskCompleted();
-                } else {
-                    message.settler.assignTask();
-                }
-            }
-            return null;
-        }
     }
 }

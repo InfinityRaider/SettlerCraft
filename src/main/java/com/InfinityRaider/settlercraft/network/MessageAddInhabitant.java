@@ -6,7 +6,6 @@ import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -28,6 +27,23 @@ public class MessageAddInhabitant extends MessageBase {
     }
 
     @Override
+    protected void processMessage(MessageContext ctx) {
+        if(ctx.side == Side.CLIENT && this.settler != null && this.settler instanceof ISettler) {
+            ISettlement settlement = SettlementHandler.getInstance().getSettlement(this.settlement_id);
+            if(settlement != null) {
+                settlement.addInhabitant((ISettler) this.settler);
+            } else {
+                SettlementHandler.getInstance().addSettlerToBuffer(this.settlement_id, (ISettler) this.settler);
+            }
+        }
+    }
+
+    @Override
+    protected IMessage getReply(MessageContext ctx) {
+        return null;
+    }
+
+    @Override
     public void fromBytes(ByteBuf buf) {
         this.settlement_id = buf.readInt();
         this.settler = (EntityLivingBase) readEntityFromByteBuf(buf);
@@ -37,20 +53,5 @@ public class MessageAddInhabitant extends MessageBase {
     public void toBytes(ByteBuf buf) {
         buf.writeInt(this.settlement_id);
         writeEntityToByteBuf(buf, this.settler);
-    }
-
-    public static class MessageHandler implements IMessageHandler<MessageAddInhabitant, IMessage> {
-        @Override
-        public IMessage onMessage(MessageAddInhabitant message, MessageContext ctx) {
-            if(ctx.side == Side.CLIENT && message.settler != null && message.settler instanceof ISettler) {
-                ISettlement settlement = SettlementHandler.getInstance().getSettlement(message.settlement_id);
-                if(settlement != null) {
-                    settlement.addInhabitant((ISettler) message.settler);
-                } else {
-                    SettlementHandler.getInstance().addSettlerToBuffer(message.settlement_id, (ISettler) message.settler);
-                }
-            }
-            return null;
-        }
     }
 }

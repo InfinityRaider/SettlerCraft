@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageAddInhabitant;
-import com.InfinityRaider.settlercraft.network.NetworkWrapperSettlerCraft;
+import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
@@ -248,7 +248,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
             this.populationCount = populationCount +1;
         }
         if(!world().isRemote) {
-            NetworkWrapperSettlerCraft.getInstance().sendToAll(new MessageAddInhabitant(this, settler.getEntityImplementation()));
+            NetWorkWrapper.getInstance().sendToAll(new MessageAddInhabitant(this, settler.getEntityImplementation()));
         }
     }
 

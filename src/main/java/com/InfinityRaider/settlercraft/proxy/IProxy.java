@@ -85,4 +85,7 @@ public interface IProxy {
      * @return The settlement handler relevant to the effective side
      */
     SettlementHandler getSettlementHandler();
+
+    /** Queues a task to be executed on this side */
+    void queueTask(Runnable task);
 }

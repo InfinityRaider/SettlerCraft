@@ -10,10 +10,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public abstract class MessageBase implements IMessage {
+public abstract class MessageBase<REPLY extends IMessage> implements IMessage {
     public abstract Side getMessageHandlerSide();
+
+    protected abstract void processMessage(MessageContext ctx);
+
+    protected abstract REPLY getReply(MessageContext ctx);
 
     protected String readStringFromByteBuf(ByteBuf buf) {
         return ByteBufUtils.readUTF8String(buf);
