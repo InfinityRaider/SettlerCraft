@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.api;
 import com.InfinityRaider.settlercraft.api.v0.NoAPI;
 
 /**
- * This is the main entry point for the AgriCraft API.
+ * This is the main entry point for the SettlerCraft API.
  *
  * Please DO NOT include the API in your mod jar!
  *

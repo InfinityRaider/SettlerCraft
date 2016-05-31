@@ -6,9 +6,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -61,11 +63,20 @@ public class ItemRendererRegistry implements ICustomModelLoader {
         Item item = (Item) customRenderedItem;
         ModelResourceLocation itemModel = customRenderedItem.getItemModelResourceLocation();
         IItemRenderingHandler<? extends Item> renderer = customRenderedItem.getRenderer();
+        if(item.getHasSubtypes()) {
+            List<ItemStack> subItems = new ArrayList<>();
+            item.getSubItems(item, item.getCreativeTab(), subItems);
+            for(ItemStack stack : subItems) {
+                ModelLoader.setCustomModelResourceLocation(item, stack.getItemDamage(), itemModel);
+            }
+        } else {
+            ModelLoader.setCustomModelResourceLocation(item, 0, itemModel);
+        }
         if (renderer != null) {
             ItemRenderer<? extends Item> instance = new ItemRenderer<>(renderer);
-            renderers.put(itemModel, instance);
-            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, stack -> itemModel);
-
+            ResourceLocation loc = new ResourceLocation(itemModel.getResourceDomain(), "models/item/" + itemModel.getResourcePath());
+            renderers.put(loc, instance);
+            ModelLoader.setCustomMeshDefinition(item, stack -> itemModel);
         }
         items.add(customRenderedItem);
     }
