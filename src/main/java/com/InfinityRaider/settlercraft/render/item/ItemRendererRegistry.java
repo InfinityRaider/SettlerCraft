@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.render.item;
 
 import com.InfinityRaider.settlercraft.item.ICustomRenderedItem;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.item.Item;
