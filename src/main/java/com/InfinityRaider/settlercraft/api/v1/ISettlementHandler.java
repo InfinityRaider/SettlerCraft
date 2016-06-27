@@ -1,9 +1,10 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.List;
 
@@ -13,16 +14,12 @@ import java.util.List;
  */
 public interface ISettlementHandler {
     /**
-     * @return The effective side of the handler
-     */
-    Side getEffectiveSide();
-
-    /**
      * Gets a settlement by its id
+     * @param world the world object
      * @param id the id of the settlement
      * @return the settlement with the requested id or null if there is no settlement with this id
      */
-    ISettlement getSettlement(int id);
+    ISettlement getSettlement(World world, int id);
 
     /**
      * Gets the settlement at the given coordinates in the world, may return null if there is no settlement here
@@ -41,6 +38,14 @@ public interface ISettlementHandler {
      * @return the settlement in the chunk, or null if there is none
      */
     ISettlement getSettlementForChunk(Chunk chunk);
+
+    /**
+     * Gets the settlement nearest to the passed position
+     * @param world world for the settlement
+     * @param pos position to look for a settlement nearby
+     * @return the closest settlement, or null if there are no settlements in the world
+     */
+    ISettlement getNearestSettlement(World world, BlockPos pos);
 
     /**
      * Gets a list of all settlements in a world
@@ -68,4 +73,12 @@ public interface ISettlementHandler {
      * @return the newly created ISettlement object, or null if the player can't make a settlement here.
      */
     ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style);
+
+    /**
+     * Sometimes a settler has to perform actions which usually only players can do,
+     * it is possible with this method to get a fake player implementation for the settler
+     * @param settler settler to get a fake player implementation for
+     * @return fake player for the settler
+     */
+    FakePlayer getFakePlayerForSettler(ISettler settler);
 }

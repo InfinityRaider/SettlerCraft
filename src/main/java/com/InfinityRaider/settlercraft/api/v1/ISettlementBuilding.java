@@ -139,11 +139,6 @@ public interface ISettlementBuilding {
     BlockPos getActualPosition(BlockPos pos);
 
     /**
-     * This method is called from within the ISettlement code to assign the building its correct id and add it to the world.
-    */
-    void assignIdAndAddToWorld(int id);
-
-    /**
      * Called right before a block inside this building's bounding box is broken
      * @param player the player breaking the block (can be null)
      * @param pos the position of the broken block

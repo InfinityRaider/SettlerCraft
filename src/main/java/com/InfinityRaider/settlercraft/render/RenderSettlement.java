@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.render;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
+import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.pathfinding.astar.RenderPath;
 import net.minecraft.client.Minecraft;
@@ -69,7 +70,7 @@ public class RenderSettlement extends RenderUtilBase {
 
         GL11.glTranslated(-posX, -posY, -posZ);
 
-        SettlementHandler handler = SettlementHandler.getInstance();
+        ISettlementHandler handler = SettlementHandler.getInstance();
         List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().theWorld);
 
         SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld).stream().filter(

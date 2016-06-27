@@ -148,7 +148,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
         if(tag.hasKey(Names.NBT.SETTLEMENT)) {
             this.settlementId = tag.getInteger(Names.NBT.SETTLEMENT);
-            this.settlement = SettlementHandler.getInstance().getSettlement(settlementId);
+            this.settlement = SettlementHandler.getInstance().getSettlement(this.getWorld(), settlementId);
         } else {
             this.settlementId = -1;
             this.settlement = null;
@@ -262,7 +262,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             return null;
         }
         if(settlement == null) {
-            settlement = SettlementHandler.getInstance().getSettlement(settlementId);
+            settlement = SettlementHandler.getInstance().getSettlement(this.getWorld(), settlementId);
         }
         return settlement;
     }

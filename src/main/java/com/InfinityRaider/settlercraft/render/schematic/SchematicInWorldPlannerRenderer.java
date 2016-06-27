@@ -18,6 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -51,6 +52,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
     @SuppressWarnings("unused")
     public void renderSchematicOverlay(RenderWorldLastEvent event) {
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        World world = SettlerCraft.proxy.getClientWorld();
         if(player == null) {
             return;
         }
@@ -63,7 +65,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
         }
         ItemBuildingPlanner planner = (ItemBuildingPlanner) stack.getItem();
         IBuilding building = planner.getBuilding(stack);
-        ISettlement settlement = planner.getSettlement(stack);
+        ISettlement settlement = planner.getSettlement(world, stack);
         if(building == null || settlement == null) {
             return;
         }
@@ -92,7 +94,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
 
         renderCoordinateSystemDebug();
         IBoundingBox buildingBox = renderer.getBoundingBox().copy().offset(pos).rotate(rotation);
-        Color color = planner.isValidBoundingBoxForBuilding(stack, player, settlement, building, buildingBox) ? BUILDING_VALID_COLOR : BUILDING_INVALID_COLOR;
+        Color color = planner.isValidBoundingBoxForBuilding(world, stack, player, settlement, building, buildingBox) ? BUILDING_VALID_COLOR : BUILDING_INVALID_COLOR;
         buildingBox.renderWireFrame(tessellator, color);
 
         GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());

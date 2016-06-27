@@ -107,6 +107,14 @@ public class BoundingBox implements IBoundingBox {
     }
 
     @Override
+    public double calculateDistanceToCenterSquared(double x, double y, double z) {
+        double xC = ((double) (this.maxX() + this.minX()))/2;
+        double yC = ((double) (this.maxY() + this.minY()))/2;
+        double zC = ((double) (this.maxZ() + this.minZ()))/2;
+        return (x - xC)*(x - xC) + (y - yC)*(y - yC) + (z - zC)*(z - zC);
+    }
+
+    @Override
     public BoundingBox copy() {
         return new BoundingBox(this);
     }

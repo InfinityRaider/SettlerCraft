@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.network;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
@@ -29,12 +30,8 @@ public class MessageAddInhabitant extends MessageBase {
     @Override
     protected void processMessage(MessageContext ctx) {
         if(ctx.side == Side.CLIENT && this.settler != null && this.settler instanceof ISettler) {
-            ISettlement settlement = SettlementHandler.getInstance().getSettlement(this.settlement_id);
-            if(settlement != null) {
-                settlement.addInhabitant((ISettler) this.settler);
-            } else {
-                SettlementHandler.getInstance().addSettlerToBuffer(this.settlement_id, (ISettler) this.settler);
-            }
+            ISettlement settlement = SettlementHandler.getInstance().getSettlement(SettlerCraft.proxy.getClientWorld(), this.settlement_id);
+            settlement.addInhabitant((ISettler) this.settler);
         }
     }
 

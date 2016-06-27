@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 /**
  * This interface is implemented in the building planner Item,
@@ -25,7 +26,7 @@ public interface IItemBuildingPlanner {
      * @param stack the stack holding the planner
      * @return the settlement
      */
-    ISettlement getSettlement(ItemStack stack);
+    ISettlement getSettlement(World world, ItemStack stack);
 
     /**
      * Sets the settlement this stack is for, this stack can only be used by the mayor of this settlement, inside this settlement
@@ -96,5 +97,5 @@ public interface IItemBuildingPlanner {
      * @param buildingBox the bounding box for the new building
      * @return true if the building can be built here, false if not
      */
-    boolean isValidBoundingBoxForBuilding(ItemStack stack, EntityPlayer player, ISettlement settlement, IBuilding building, IBoundingBox buildingBox);
+    boolean isValidBoundingBoxForBuilding(World world, ItemStack stack, EntityPlayer player, ISettlement settlement, IBuilding building, IBoundingBox buildingBox);
 }

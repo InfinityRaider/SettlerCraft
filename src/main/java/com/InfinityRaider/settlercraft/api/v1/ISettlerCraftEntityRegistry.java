@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 
 /**
@@ -17,24 +16,4 @@ public interface ISettlerCraftEntityRegistry {
      * @return the id for the settler entity
      */
     String entitySettlerId();
-
-    /**
-     * @return the class for settlement entity objects
-     */
-    Class<? extends Entity> entitySettlementClass();
-
-    /**
-     * @return the id for the settlement entity
-     */
-    String entitySettlementId();
-
-    /**
-     * @return the class for settlement building entity objects
-     */
-    Class<? extends Entity> entityBuildingClass();
-
-    /**
-     * @return the id for the settlement building entity
-     */
-    String entityBuildingId();
 }

@@ -8,7 +8,6 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskBuildBuilding;
-import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
@@ -25,9 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettlementBuilding extends AbstractEntityFrozen implements ISettlementBuilding {
+public class SettlementBuilding implements ISettlementBuilding {
     private int id;
-    private int settlementId;
     private ISettlement settlement;
     private IBuilding building;
     private BoundingBox boundingBox;
@@ -38,16 +36,14 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
     private IInventorySerializable inventory;
     private List<EntitySettler> inhabitants;
 
-    public SettlementBuilding(World world) {
-        super(world);
+    public SettlementBuilding(ISettlement settlement) {
+        this.settlement = settlement;
         this.inhabitants = new ArrayList<>();
     }
 
-    public SettlementBuilding(ISettlement settlement, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
-        this(settlement.world());
-        this.id = -1;
-        this.settlementId = settlement.id();
-        this.settlement = settlement;
+    public SettlementBuilding(ISettlement settlement, int id, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
+        this(settlement);
+        this.id = id;
         this.building = building;
         this.boundingBox = schematic.getBoundingBox(pos, rotation);
         this.origin = pos;
@@ -55,36 +51,6 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
         this.rotation = rotation;
         this.buildProgress = new StructureBuildProgress(getWorld(), pos, schematic, rotation);
         this.inventory = building.getDefaultInventory();
-        this.posX = this.prevPosX = this.home.getX() + 0.5;
-        this.posY = this.prevPosY = this.home.getY() + 0.5;
-        this.posZ = this.prevPosZ = this.home.getZ() + 0.5;
-    }
-
-    @Override
-    protected String name() {
-        return building().name();
-    }
-
-    @Override
-    protected void update() {
-        if(isComplete() && building() != null && building().needsUpdateTicks()) {
-            building().onUpdateTick(this);
-        }
-    }
-
-    @Override
-    protected void onEntitySpawned() {
-        ISettlement settlement = this.settlement();
-        if(settlement == null) {
-            SettlementHandler.getInstance().addBuildingToBuffer(settlementId, this);
-        } else {
-            settlement.onBuildingUpdated(this);
-        }
-    }
-
-    @Override
-    protected void onChunkLoaded() {
-        onEntitySpawned();
     }
 
     @Override
@@ -126,9 +92,6 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
 
     @Override
     public ISettlement settlement() {
-        if(settlement == null) {
-            this.settlement = SettlementHandler.getInstance().getSettlement(settlementId);
-        }
         return settlement;
     }
 
@@ -149,7 +112,7 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
     }
 
     public World getWorld() {
-        return settlement().world();
+        return this.settlement().world();
     }
 
     @Override
@@ -198,14 +161,6 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
     }
 
     @Override
-    public void assignIdAndAddToWorld(int id) {
-        if(!worldObj.isRemote && this.id < 0 && id >= 0) {
-            this.id = id;
-            worldObj.spawnEntityInWorld(this);
-        }
-    }
-
-    @Override
     public void onBlockBroken(EntityPlayer player, BlockPos pos, IBlockState state) {
         this.getBuildProgress().onBlockBroken(pos);
     }
@@ -241,15 +196,8 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
     }
 
     @Override
-    protected void readDataFromNBT(NBTTagCompound tag) {
-        this.readBuildingFromNBT(tag);
-    }
-
-    @Override
     public final NBTTagCompound readBuildingFromNBT(NBTTagCompound tag) {
         this.id = tag.getInteger(Names.NBT.SLOT);
-        this.settlementId = tag.getInteger(Names.NBT.SETTLEMENT);
-        this.settlement = SettlementHandler.getInstance().getSettlement(this.settlementId);
         int minX = tag.getInteger(Names.NBT.X);
         int minY = tag.getInteger(Names.NBT.Y);
         int minZ = tag.getInteger(Names.NBT.Z);
@@ -284,15 +232,9 @@ public class SettlementBuilding extends AbstractEntityFrozen implements ISettlem
     }
 
     @Override
-    protected void writeDataToNBT(NBTTagCompound tag) {
-        this.writeBuildingToNBT(tag);
-    }
-
-    @Override
     public final NBTTagCompound writeBuildingToNBT(NBTTagCompound tag) {
         BlockPos pos = getBoundingBox().getMinimumPosition();
         tag.setInteger(Names.NBT.SLOT, id);
-        tag.setInteger(Names.NBT.SETTLEMENT, settlementId);
         tag.setInteger(Names.NBT.X, pos.getX());
         tag.setInteger(Names.NBT.Y, pos.getY());
         tag.setInteger(Names.NBT.Z, pos.getZ());

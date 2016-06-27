@@ -7,6 +7,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -117,10 +118,16 @@ public interface ISettlement extends ITickable {
     boolean canBuildNewBuilding(IBuilding building);
 
     /**
-     * Adds a new building to this settlement
-     * @param building the building to be added
+     * Checks and tries to build the building with the applied rotation at the position,
+     * this calls canBuildNewBuilding(building) internally
+     * @param player player trying to build the new building
+     * @param building the building to build
+     * @param pos the position at which to build the building
+     * @param rotation the rotation to build the building with
+     * @return the ISettlementBuilding for the building if the building was successfully added, or null if the building can not be built here
      */
-    void addBuilding(ISettlementBuilding building);
+    @Nullable
+    ISettlementBuilding tryBuildNewBuildingAtLocation(EntityPlayer player, IBuilding building, BlockPos pos, int rotation);
 
     /**
      * Removes a building from this settlement

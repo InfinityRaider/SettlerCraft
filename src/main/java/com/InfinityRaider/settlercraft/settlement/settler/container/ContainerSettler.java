@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.container;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
+import com.InfinityRaider.settlercraft.handler.PlayerTickHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
@@ -36,7 +36,7 @@ public abstract class ContainerSettler extends Container {
         if(stopInteracting()) {
             this.settler.setConversationPartner(null);
         }
-        SettlementHandler.getInstance().onContainerClosed(this);
+        PlayerTickHandler.getInstance().onContainerClosed(this);
     }
 
     @Override

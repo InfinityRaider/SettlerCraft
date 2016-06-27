@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -27,6 +26,7 @@ public class NetWorkWrapper {
         registerMessage(MessageDialogueOptionSelected.class);
         registerMessage(MessageAddInhabitant.class);
         registerMessage(MessageAssignTask.class);
+        registerMessage(MessageCreateSettlement.class);
     }
 
     public void sendToAll(MessageBase message) {

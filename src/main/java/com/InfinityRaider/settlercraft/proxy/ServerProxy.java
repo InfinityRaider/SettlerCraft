@@ -1,9 +1,9 @@
 package com.InfinityRaider.settlercraft.proxy;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.server.FMLServerHandler;
@@ -27,8 +27,8 @@ public class ServerProxy extends CommonProxy {
     }
 
     @Override
-    public SettlementHandler getSettlementHandler() {
-        return SettlementHandler.getServerInstance();
+    public ISettlementHandler getSettlementHandler() {
+        return SettlementHandler.getInstanceServer();
     }
 
     @Override
@@ -44,7 +44,6 @@ public class ServerProxy extends CommonProxy {
     @Override
     public void registerEventHandlers() {
         super.registerEventHandlers();
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getServerInstance());
     }
 
     @Override

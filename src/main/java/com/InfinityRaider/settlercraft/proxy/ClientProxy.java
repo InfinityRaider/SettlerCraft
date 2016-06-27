@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.proxy;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.registry.IconRegistry;
@@ -56,8 +57,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public SettlementHandler getSettlementHandler() {
-        return getEffectiveSide() == Side.CLIENT ? SettlementHandler.getClientInstance() : SettlementHandler.getServerInstance();
+    public ISettlementHandler getSettlementHandler() {
+        return getEffectiveSide() == Side.CLIENT ? SettlementHandler.getInstanceClient() : SettlementHandler.getInstanceServer();
     }
 
     @Override
@@ -75,8 +76,6 @@ public class ClientProxy extends CommonProxy {
         super.registerEventHandlers();
         MinecraftForge.EVENT_BUS.register(SchematicInWorldPlannerRenderer.getInstance());
         MinecraftForge.EVENT_BUS.register(RenderSettlement.getInstance());
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getClientInstance());
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getServerInstance());
         MinecraftForge.EVENT_BUS.register(IconRegistry.getInstance());
     }
 

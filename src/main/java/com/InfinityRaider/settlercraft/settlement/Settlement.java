@@ -6,132 +6,80 @@ import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
-import com.InfinityRaider.settlercraft.utility.AbstractEntityFrozen;
-import com.InfinityRaider.settlercraft.utility.ChunkCoordinates;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
+import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
+import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class Settlement extends AbstractEntityFrozen implements ISettlement {
+public class Settlement implements ISettlement {
     private static final int BUILDING_CLEARANCE = 5;
-
+    //Settlement data
     private int id;
-    private ChunkCoordinates homeChunk;
-    private EntityPlayer player;
+    private World world;
+    private Chunk homeChunk;
+    private UUID mayorId;
     private String name;
     private BoundingBox boundingBox;
     private IBuildingStyle style;
-
-    private int nextBuildingId;
+    //Settler data
+    private int populationCount;
+    //Building data
     private HashMap<Integer, ISettlementBuilding> buildings;
     private HashMap<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
 
-    private int populationCount;
-    private String playerUUID;
-
     public Settlement(World world) {
-        super(world);
+        this.world = world;
         this.resetBuildings();
     }
 
-    public Settlement(int id, World world, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
+    public Settlement(World world, int id, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
         this(world);
-        this.posX = center.getX() + 0.5;
-        this.posY = center.getY() + 0.5;
-        this.posZ = center.getZ() + 0.5;
-        this.prevPosX = posX;
-        this.prevPosY = posY;
-        this.prevPosZ = posZ;
         this.id = id;
-        this.style = style;
-        this.homeChunk = new ChunkCoordinates(world, center);
-        this.player = player;
-        this.playerUUID = player.getUniqueID().toString();
+        this.homeChunk = world.getChunkFromChunkCoords(center.getX(), center.getZ());
+        this.mayorId = player.getUniqueID();
         this.name = name;
         this.boundingBox = new BoundingBox(center.add(0, -1, 0));
-        populationCount = 1;
-    }
-
-    @Override
-    public NBTTagCompound writeSettlementToNBT(NBTTagCompound tag) {
-        tag.setInteger(Names.NBT.SLOT, id);
-        tag.setString(Names.NBT.FIRST_NAME, name);
-        tag.setString(Names.NBT.SURNAME, playerUUID);
-        tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.x(), homeChunk.z(), homeChunk.dim()});
-        BlockPos pos = boundingBox.getMinimumPosition();
-        tag.setInteger(Names.NBT.X, pos.getX());
-        tag.setInteger(Names.NBT.Y, pos.getY());
-        tag.setInteger(Names.NBT.Z, pos.getZ());
-        tag.setInteger(Names.NBT.X_SIZE, xSize());
-        tag.setInteger(Names.NBT.Y_SIZE, ySize());
-        tag.setInteger(Names.NBT.Z_SIZE, zSize());
-        tag.setInteger(Names.NBT.COUNT, nextBuildingId);
-        tag.setString(Names.NBT.STYLE, style.getName());
-        return tag;
-    }
-
-    @Override
-    public NBTTagCompound readSettlementFromNBT(NBTTagCompound tag) {
-        this.id = tag.getInteger(Names.NBT.SLOT);
-        this.name = tag.getString(Names.NBT.FIRST_NAME);
-        this.playerUUID = tag.getString(Names.NBT.SURNAME);
-        int[] homeCoords = tag.getIntArray(Names.NBT.HOME);
-        this.homeChunk = new ChunkCoordinates(homeCoords[0], homeCoords[1], homeCoords[2]);
-        int minX = tag.getInteger(Names.NBT.X);
-        int minY = tag.getInteger(Names.NBT.Y);
-        int minZ = tag.getInteger(Names.NBT.Z);
-        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE) - 1;
-        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE) - 1;
-        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
-        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
-        this.nextBuildingId = tag.getInteger(Names.NBT.COUNT);
-        this.style = BuildingStyleRegistry.getInstance().getBuildingStyleFromName(tag.getString(Names.NBT.STYLE));
-        return tag;
+        this.style = style;
     }
 
     @Override
     public int id() {
-        return id;
+        return this.id;
     }
 
     @Override
     public World world() {
-        return getEntityWorld();
+        return this.world;
     }
 
     @Override
     public Chunk homeChunk() {
-        return homeChunk.getChunk();
+        return this.homeChunk;
     }
 
     @Override
     public EntityPlayer mayor() {
-        if(player == null) {
-            player = world().getPlayerEntityByUUID(UUID.fromString(playerUUID));
-        }
-        return player;
+        return this.world().getPlayerEntityByUUID(this.mayorId);
     }
 
     @Override
     public boolean isMayor(EntityPlayer player) {
-        if(player == null) {
-            return false;
-        }
-        EntityPlayer mayor = mayor();
-        if(mayor == null) {
-            return playerUUID.equals(player.getUniqueID().toString());
-        }
-        return player.getUniqueID().equals(mayor().getUniqueID());
+        return player == this.mayor();
     }
 
     @Override
@@ -146,7 +94,7 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
 
     @Override
     public String name() {
-        return name;
+        return this.name;
     }
 
     @Override
@@ -228,12 +176,55 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
     }
 
     @Override
-    public void addBuilding(ISettlementBuilding building) {
-        int id = nextBuildingId;
-        nextBuildingId = nextBuildingId + 1;
-        if(!world().isRemote) {
-            building.assignIdAndAddToWorld(id);
+    @Nullable
+    public ISettlementBuilding tryBuildNewBuildingAtLocation(EntityPlayer player, IBuilding building, BlockPos pos, int rotation) {
+        Schematic schematic;
+        try {
+            schematic = SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building, this.getBuildingStyle()));
+        } catch (IOException e) {
+            LogHelper.printStackTrace(e);
+            return null;
         }
+        IBoundingBox box = schematic.getBoundingBox(pos, rotation);
+        if(isValidBoundingBoxForBuilding(player, building, box)) {
+            //TODO: sync building to client
+            ISettlementBuilding built = new SettlementBuilding(this, nextBuildingId(), pos, building, schematic, rotation);
+            this.buildings.put(built.id(), built);
+            this.buildingsPerType.get(built.building().buildingType()).add(built);
+            return built;
+        }
+        return null;
+    }
+
+    private boolean isValidBoundingBoxForBuilding(EntityPlayer player, IBuilding building, IBoundingBox buildingBox) {
+        if(!this.canBuildNewBuilding(building)) {
+            return false;
+        }
+        if(!building.canBuild(player, this)) {
+            return false;
+        }
+        if(!this.getBoundingBox().intersects(buildingBox)) {
+            return false;
+        }
+        for(ISettlementBuilding built : this.getBuildings()) {
+            if(built.getBoundingBox().intersects(buildingBox)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int nextBuildingId() {
+        int id = this.buildings.size();
+        if(!this.buildings.containsKey(id)) {
+            return id;
+        }
+        for(int i = 0; i < id; i++) {
+            if(!this.buildings.containsKey(i)) {
+                return i;
+            }
+        }
+        return id;
     }
 
     @Override
@@ -293,11 +284,11 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
 
     @Override
     public double calculateDistanceSquaredToSettlement(BlockPos pos) {
-        return this.getDistanceSqToCenter(pos);
+        return this.getBoundingBox().calculateDistanceToCenterSquared(pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
-    public boolean onBuildingUpdated(ISettlementBuilding building) {
+     public boolean onBuildingUpdated(ISettlementBuilding building) {
         this.buildings.put(building.id(), building);
         if(building.building() == null) {
             return false;
@@ -314,37 +305,77 @@ public class Settlement extends AbstractEntityFrozen implements ISettlement {
         return true;
     }
 
-    private void resetBuildings() {
-        this.nextBuildingId = 0;
-        this.buildings = new HashMap<>();
-        this.buildingsPerType = new HashMap<>();
-        for(IBuildingType type : BuildingTypeRegistry.getInstance().allBuildingTypes()) {
-            buildingsPerType.put(type, new ArrayList<>());
-        }
-    }
-
     @Override
     public void update() {
 
     }
 
     @Override
-    protected void onEntitySpawned() {
-        SettlementHandler.getInstance().onSettlementLoaded(this);
+    public NBTTagCompound writeSettlementToNBT(NBTTagCompound tag) {
+        tag.setInteger(Names.NBT.SLOT, id);
+        tag.setString(Names.NBT.FIRST_NAME, name);
+        tag.setString(Names.NBT.SURNAME, mayor().getUniqueID().toString());
+        tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.xPosition, homeChunk.zPosition});
+        BlockPos pos = boundingBox.getMinimumPosition();
+        tag.setInteger(Names.NBT.X, pos.getX());
+        tag.setInteger(Names.NBT.Y, pos.getY());
+        tag.setInteger(Names.NBT.Z, pos.getZ());
+        tag.setInteger(Names.NBT.X_SIZE, xSize());
+        tag.setInteger(Names.NBT.Y_SIZE, ySize());
+        tag.setInteger(Names.NBT.Z_SIZE, zSize());
+        tag.setString(Names.NBT.STYLE, style.getName());
+        tag.setInteger(Names.NBT.INVENTORY, population());
+        this.writeBuildingsToNBT(tag);
+        return tag;
+    }
+
+    private void writeBuildingsToNBT(NBTTagCompound tag) {
+        NBTTagList list = new NBTTagList();
+        for(ISettlementBuilding building : this.getBuildings()) {
+            NBTTagCompound buildingTag = building.writeBuildingToNBT(new NBTTagCompound());
+            list.appendTag(buildingTag);
+        }
+        tag.setTag(Names.NBT.BUILDINGS, list);
     }
 
     @Override
-    protected void onChunkLoaded() {
-        SettlementHandler.getInstance().onSettlementLoaded(this);
+    public NBTTagCompound readSettlementFromNBT(NBTTagCompound tag) {
+        this.id = tag.getInteger(Names.NBT.SLOT);
+        this.name = tag.getString(Names.NBT.FIRST_NAME);
+        this.mayorId = UUID.fromString(tag.getString(Names.NBT.SURNAME));
+        int[] homeCoords = tag.getIntArray(Names.NBT.HOME);
+        this.homeChunk = this.world().getChunkFromChunkCoords(homeCoords[0], homeCoords[1]);
+        int minX = tag.getInteger(Names.NBT.X);
+        int minY = tag.getInteger(Names.NBT.Y);
+        int minZ = tag.getInteger(Names.NBT.Z);
+        int maxX = minX + tag.getInteger(Names.NBT.X_SIZE) - 1;
+        int maxY = minY + tag.getInteger(Names.NBT.Y_SIZE) - 1;
+        int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
+        this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+        this.style = BuildingStyleRegistry.getInstance().getBuildingStyleFromName(tag.getString(Names.NBT.STYLE));
+        this.populationCount = tag.getInteger(Names.NBT.INVENTORY);
+        this.readBuildingsFromNBT(tag);
+        return tag;
     }
 
-    @Override
-    protected void readDataFromNBT(NBTTagCompound tag) {
-        readSettlementFromNBT(tag);
+    private void readBuildingsFromNBT(NBTTagCompound tag) {
+        this.resetBuildings();
+        if(tag.hasKey(Names.NBT.BUILDINGS)) {
+            NBTTagList list = tag.getTagList(Names.NBT.BUILDINGS, 10);
+            for(int i = 0; i < list.tagCount(); i++) {
+                ISettlementBuilding building = new SettlementBuilding(this);
+                building.readBuildingFromNBT(list.getCompoundTagAt(i));
+                this.buildings.put(building.id(), building);
+                this.buildingsPerType.get(building.building().buildingType()).add(building);
+            }
+        }
     }
 
-    @Override
-    protected void writeDataToNBT(NBTTagCompound tag) {
-        writeSettlementToNBT(tag);
+    private void resetBuildings() {
+        this.buildings = new HashMap<>();
+        this.buildingsPerType = new HashMap<>();
+        for(IBuildingType type : BuildingTypeRegistry.getInstance().allBuildingTypes()) {
+            buildingsPerType.put(type, new ArrayList<>());
+        }
     }
 }

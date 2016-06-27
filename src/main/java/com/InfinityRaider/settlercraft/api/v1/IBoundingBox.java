@@ -77,6 +77,15 @@ public interface IBoundingBox {
     int zSize();
 
     /**
+     * Calculates the squared distance from three coordinates to the center of this bounding box
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordiante
+     * @return the squared distance between the center of this bounding box and the passed coordinates
+     */
+    double calculateDistanceToCenterSquared(double x, double y, double z);
+
+    /**
      * Expands this bounding box to make the argument fit into it
      * @param inner the bounding box to make fit in this one
      * @return this

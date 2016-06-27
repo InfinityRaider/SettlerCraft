@@ -1,6 +1,6 @@
 package com.InfinityRaider.settlercraft.proxy;
 
-import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
+import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -84,7 +84,7 @@ public interface IProxy {
     /**
      * @return The settlement handler relevant to the effective side
      */
-    SettlementHandler getSettlementHandler();
+    ISettlementHandler getSettlementHandler();
 
     /** Queues a task to be executed on this side */
     void queueTask(Runnable task);

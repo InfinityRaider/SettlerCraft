@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.render.schematic;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
@@ -51,7 +52,7 @@ public class SchematicRenderer {
             this.name = "";
             return;
         }
-        ISettlement settlement = planner.getSettlement(stack);
+        ISettlement settlement = planner.getSettlement(SettlerCraft.proxy.getClientWorld(), stack);
         if(settlement == null || !settlement.isMayor(Minecraft.getMinecraft().thePlayer)) {
             this.currentSchematic = null;
             this.name = "";
