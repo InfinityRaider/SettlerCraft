@@ -36,6 +36,7 @@ public class SettlementWorldData extends WorldSavedData {
         ISettlement settlement = new Settlement(world, getNextSettlementId(), player, center, name, style);
         settlementsById.put(settlement.id(), settlement);
         settlementsByChunk.put(settlement.homeChunk(), settlement);
+        this.markDirty();
         return settlement;
     }
 
