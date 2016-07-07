@@ -1,13 +1,9 @@
 package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
-import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.network.MessageCreateSettlement;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
-import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettlerFakePlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -15,25 +11,35 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class SettlementHandler implements ISettlementHandler {
-    private static final ISettlementHandler INSTANCE_CLIENT = new SettlementHandlerClient();
-    private static final ISettlementHandler INSTANCE_SERVER = new SettlementHandlerServer();
+    private static SettlementHandlerServer INSTANCE_SERVER;
+    @SideOnly(Side.CLIENT)
+    private static SettlementHandlerClient INSTANCE_CLIENT;
 
     public static ISettlementHandler getInstance() {
         return SettlerCraft.proxy.getSettlementHandler();
     }
 
-    public static ISettlementHandler getInstanceClient() {
-        return INSTANCE_CLIENT;
+    public static SettlementHandlerServer getInstanceServer() {
+        if(INSTANCE_SERVER == null) {
+            INSTANCE_SERVER = new SettlementHandlerServer();
+        }
+        return INSTANCE_SERVER;
     }
 
-    public static ISettlementHandler getInstanceServer() {
-        return INSTANCE_SERVER;
+    @SideOnly(Side.CLIENT)
+    public static SettlementHandlerClient getInstanceClient() {
+        if(INSTANCE_CLIENT == null) {
+            INSTANCE_CLIENT = new SettlementHandlerClient();
+        }
+        return INSTANCE_CLIENT;
     }
 
     private Map<ISettler, FakePlayer> fakePlayers;
@@ -101,28 +107,6 @@ public abstract class SettlementHandler implements ISettlementHandler {
             }
         }
         return true;
-    }
-
-    @Override
-    public ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style) {
-        if(player.getEntityWorld().isRemote) {
-            return null;
-        }
-        if(!canCreateSettlementAtCurrentPosition(player)) {
-            return null;
-        }
-        if(style == null) {
-            style = BuildingStyleRegistry.getInstance().defaultStyle();
-        }
-        World world = player.worldObj;
-        int x = (int) player.posX;
-        int y = (int) player.posY;
-        int z = (int) player.posZ;
-        ISettlement settlement =  getSettlementData(world).getNewSettlement(
-                world, player, new BlockPos(x, y, z), player.getDisplayName().getFormattedText() + "'s Settlement", style);
-        MessageCreateSettlement message = new MessageCreateSettlement(settlement);
-        NetWorkWrapper.getInstance().sendToDimension(message, world);
-        return settlement;
     }
 
     @Override

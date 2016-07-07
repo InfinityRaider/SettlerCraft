@@ -34,7 +34,9 @@ public class DialogueOptionSelectBuildingStyle extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
         if(!player.worldObj.isRemote) {
             ISettlement settlement = SettlementHandler.getInstance().startNewSettlement(player, style);
-            settlement.addInhabitant(settler);
+            if(settlement != null) {
+                settlement.addInhabitant(settler);
+            }
         }
     }
 

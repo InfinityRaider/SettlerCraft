@@ -20,16 +20,24 @@ import java.util.Map;
 public class SettlementWorldData extends WorldSavedData {
     private static final String KEY = "SC_WORLD_DATA";
 
-    private final World world;
+    private World world;
 
     private Map<Integer, ISettlement> settlementsById;
     private Map<Chunk, ISettlement> settlementsByChunk;
 
-    public SettlementWorldData(World world) {
-        super(KEY);
-        this.world = world;
+    public SettlementWorldData(String key) {
+        super(key);
         this.settlementsById = new HashMap<>();
         this.settlementsByChunk = new HashMap<>();
+    }
+
+    public SettlementWorldData(World world) {
+        this(KEY);
+        this.world = world;
+    }
+
+    private void setWorld(World world) {
+        this.world = world;
     }
 
     public ISettlement getNewSettlement(World world, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
@@ -38,6 +46,9 @@ public class SettlementWorldData extends WorldSavedData {
         settlementsByChunk.put(settlement.homeChunk(), settlement);
         this.markDirty();
         return settlement;
+    }
+
+    public void registerSettlement(ISettlement settlement) {
     }
 
     private int getNextSettlementId() {
@@ -68,27 +79,36 @@ public class SettlementWorldData extends WorldSavedData {
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
-        NBTTagList list = new NBTTagList();
-        for(ISettlement settlement : this.getSettlements()) {
-            NBTTagCompound tag = settlement.readSettlementFromNBT(new NBTTagCompound());
-            list.appendTag(tag);
-        }
-        nbt.setTag(Names.NBT.SETTLEMENT, list);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbt) {
         this.settlementsById = new HashMap<>();
         this.settlementsByChunk = new HashMap<>();
         if(nbt.hasKey(Names.NBT.SETTLEMENT)) {
             NBTTagList list = nbt.getTagList(Names.NBT.SETTLEMENT, 10);
             for(int i = 0; i < list.tagCount(); i++) {
-                ISettlement settlement = new Settlement(this.world);
-                settlement.readSettlementFromNBT(list.getCompoundTagAt(i));
-                settlementsById.put(settlement.id(), settlement);
-                settlementsByChunk.put(settlement.homeChunk(), settlement);
+                this.readSettlementFromNBT(list.getCompoundTagAt(i));
             }
         }
+    }
+
+    public void readSettlementFromNBT(NBTTagCompound tag) {
+        int id = tag.getInteger(Names.NBT.SLOT);
+        if(this.settlementsById.containsKey(id)) {
+            this.settlementsById.get(id).readSettlementFromNBT(tag);
+        } else {
+            ISettlement settlement = new Settlement(this.world);
+            settlement.readSettlementFromNBT(tag);
+            settlementsById.put(settlement.id(), settlement);
+            settlementsByChunk.put(settlement.homeChunk(), settlement);
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) {
+        NBTTagList list = new NBTTagList();
+        for(ISettlement settlement : this.getSettlements()) {
+            NBTTagCompound tag = settlement.writeSettlementToNBT(new NBTTagCompound());
+            list.appendTag(tag);
+        }
+        nbt.setTag(Names.NBT.SETTLEMENT, list);
     }
 
     public static SettlementWorldData forWorld(World world) {
@@ -97,6 +117,8 @@ public class SettlementWorldData extends WorldSavedData {
         if(data == null) {
             data = new SettlementWorldData(world);
             storage.setData(KEY, data);
+        } else {
+            data.setWorld(world);
         }
         return data;
     }

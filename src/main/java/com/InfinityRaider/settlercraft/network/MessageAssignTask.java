@@ -6,15 +6,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageAssignTask extends MessageBaseSettler {
+public class MessageAssignTask extends MessageBaseSettler<IMessage> {
     private EntitySettler settler;
     private boolean completed;
 
-    @SuppressWarnings("unused")
     public MessageAssignTask() {
+        super();
     }
 
     public MessageAssignTask(EntitySettler settler, boolean completed) {
+        this();
         this.settler = settler;
         this.completed = completed;
     }

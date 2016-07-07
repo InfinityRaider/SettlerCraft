@@ -7,6 +7,7 @@ import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
 import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
+import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import net.minecraft.entity.Entity;
@@ -64,6 +65,7 @@ public abstract class CommonProxy implements IProxy {
         MinecraftForge.EVENT_BUS.register(SettlerTargetingHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(BlockEventHandler.getInstance());
         MinecraftForge.EVENT_BUS.register(PlayerTickHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstanceServer());
     }
 
     @Override

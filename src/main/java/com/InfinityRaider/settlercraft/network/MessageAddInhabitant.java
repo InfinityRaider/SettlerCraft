@@ -10,14 +10,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageAddInhabitant extends MessageBase {
+public class MessageAddInhabitant extends MessageBase<IMessage> {
     private int settlement_id;
     private EntityLivingBase settler;
 
-    @SuppressWarnings("unused")
-    public MessageAddInhabitant() {}
+    public MessageAddInhabitant() {
+        super();
+    }
 
     public MessageAddInhabitant(ISettlement settlement, EntityLivingBase settler) {
+        this();
         this.settlement_id = settlement.id();
         this.settler = settler;
     }

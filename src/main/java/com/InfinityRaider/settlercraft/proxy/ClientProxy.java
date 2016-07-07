@@ -74,6 +74,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerEventHandlers() {
         super.registerEventHandlers();
+        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstanceClient());
         MinecraftForge.EVENT_BUS.register(SchematicInWorldPlannerRenderer.getInstance());
         MinecraftForge.EVENT_BUS.register(RenderSettlement.getInstance());
         MinecraftForge.EVENT_BUS.register(IconRegistry.getInstance());

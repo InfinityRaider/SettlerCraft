@@ -1,11 +1,14 @@
 package com.InfinityRaider.settlercraft.network;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -26,7 +29,7 @@ public class NetWorkWrapper {
         registerMessage(MessageDialogueOptionSelected.class);
         registerMessage(MessageAddInhabitant.class);
         registerMessage(MessageAssignTask.class);
-        registerMessage(MessageCreateSettlement.class);
+        registerMessage(MessageSyncSettlementsToClient.class);
     }
 
     public void sendToAll(MessageBase message) {
@@ -68,6 +71,32 @@ public class NetWorkWrapper {
             nextId = nextId + 1;
         } catch (Exception e) {
             LogHelper.printStackTrace(e);
+        }
+    }
+
+    private static final class MessageHandler<REQ extends MessageBase<REPLY>, REPLY extends IMessage> implements IMessageHandler<REQ, REPLY> {
+        protected MessageHandler() {
+        }
+
+        @Override
+        public final REPLY onMessage(REQ message, MessageContext ctx) {
+            SettlerCraft.proxy.queueTask(new MessageTask(message, ctx));
+            return message.getReply(ctx);
+        }
+    }
+
+    private static class MessageTask implements Runnable {
+        private final MessageBase message;
+        private final MessageContext ctx;
+
+        private MessageTask(MessageBase message, MessageContext ctx) {
+            this.message = message;
+            this.ctx = ctx;
+        }
+
+        @Override
+        public void run() {
+            this.message.processMessage(this.ctx);
         }
     }
 }

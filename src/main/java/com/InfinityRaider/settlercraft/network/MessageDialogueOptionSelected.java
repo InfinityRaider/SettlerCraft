@@ -8,13 +8,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageDialogueOptionSelected extends MessageBase {
+public class MessageDialogueOptionSelected extends MessageBase<IMessage> {
     private int id;
 
-    @SuppressWarnings("unused")
-    public MessageDialogueOptionSelected() {}
+    public MessageDialogueOptionSelected() {
+        super();
+    }
 
     public MessageDialogueOptionSelected(int id) {
+        this();
         this.id = id;
     }
 

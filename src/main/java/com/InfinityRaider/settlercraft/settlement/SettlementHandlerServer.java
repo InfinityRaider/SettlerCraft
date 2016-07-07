@@ -1,6 +1,16 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
+import com.InfinityRaider.settlercraft.api.v1.ISettlement;
+import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
+import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,5 +30,38 @@ public class SettlementHandlerServer extends SettlementHandler {
             this.dataMap.put(world, data);
         }
         return this.dataMap.get(world);
+    }
+
+    @Override
+    public ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style) {
+        if(!canCreateSettlementAtCurrentPosition(player)) {
+            return null;
+        }
+        if(style == null) {
+            style = BuildingStyleRegistry.getInstance().defaultStyle();
+        }
+        World world = player.worldObj;
+        int x = (int) player.posX;
+        int y = (int) player.posY;
+        int z = (int) player.posZ;
+        ISettlement settlement =  getSettlementData(world).getNewSettlement(
+                world, player, new BlockPos(x, y, z), player.getDisplayName().getFormattedText() + "'s Settlement", style);
+        MessageSyncSettlementsToClient message = new MessageSyncSettlementsToClient(settlement);
+        NetWorkWrapper.getInstance().sendToDimension(message, world);
+        return settlement;
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onPlayerJoined(PlayerEvent.PlayerLoggedInEvent event) {
+        MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
+        NetWorkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
+    }
+
+    @SubscribeEvent
+    @SuppressWarnings("unused")
+    public void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
+        MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
+        NetWorkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
     }
 }

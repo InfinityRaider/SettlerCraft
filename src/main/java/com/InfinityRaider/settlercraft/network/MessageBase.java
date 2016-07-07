@@ -14,6 +14,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class MessageBase<REPLY extends IMessage> implements IMessage {
+    public MessageBase() {
+        super();
+    }
+
     public abstract Side getMessageHandlerSide();
 
     protected abstract void processMessage(MessageContext ctx);
