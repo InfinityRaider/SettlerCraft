@@ -75,9 +75,6 @@ public class SettlementHandlerClient extends SettlementHandler {
             return null;
         }
 
-        @Override
-        public void registerSettlement(ISettlement settlement) {}
-
         public ISettlement getSettlementFromId(int id) {
             return null;
         }

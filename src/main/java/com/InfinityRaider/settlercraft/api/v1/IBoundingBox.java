@@ -86,6 +86,14 @@ public interface IBoundingBox {
     double calculateDistanceToCenterSquared(double x, double y, double z);
 
     /**
+     * Expands the bounding box by the given amount in all directions (both positive and negative)
+     * For example expanding a box between (4, 2, 3) and (6, 8, 10) by 2 results in a box between (-2, 0, 1) and (8, 10, 12)
+     * @param amount the amount to expand this bounding box
+     * @return this
+     */
+    IBoundingBox expand(int amount);
+
+    /**
      * Expands this bounding box to make the argument fit into it
      * @param inner the bounding box to make fit in this one
      * @return this
@@ -116,8 +124,8 @@ public interface IBoundingBox {
     IBoundingBox offset(BlockPos offset);
 
     /**
-     * Rotates this bounding box around the y-axis in it's minimum point by amount x 90°
-     * @param amount the amount of 90° to rotate
+     * Rotates this bounding box around the y-axis in it's minimum point by amount x 90ï¿½
+     * @param amount the amount of 90ï¿½ to rotate
      * @return this
      */
     IBoundingBox rotate(int amount);

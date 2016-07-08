@@ -44,11 +44,11 @@ public abstract class SettlementHandler implements ISettlementHandler {
 
     private Map<ISettler, FakePlayer> fakePlayers;
 
+    protected abstract SettlementWorldData getSettlementData(World world);
+
     protected SettlementHandler() {
         this.fakePlayers = new HashMap<>();
     }
-
-    protected abstract SettlementWorldData getSettlementData(World world);
 
     @Override
     public ISettlement getSettlement(World world, int id) {

@@ -41,6 +41,7 @@ import java.util.List;
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     private static final SettlerRandomizer RANDOMIZER = SettlerRandomizer.getInstance();
 
+    private static final DataParameter<Integer> DATA_SETTLEMENT = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_SETTLER_STATUS = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
@@ -48,7 +49,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Boolean> DATA_HAS_TASK = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
 
     private ISettlement settlement;
-    private int settlementId;
     private IProfession profession;
 
     private boolean male;
@@ -83,9 +83,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.surname = RANDOMIZER.getRandomSurname();
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().BUILDER;
-        this.settlementId = -1;
+        this.getDataManager().register(DATA_SETTLEMENT, -1);
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
-        this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.fromNullable(null));
+        this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_HAS_TASK, false);
@@ -105,9 +105,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if(settlementId >= 0 && settlement == null) {
-            this.settlement();
-        }
     }
 
     @Override
@@ -138,6 +135,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         tag.setString(Names.NBT.FIRST_NAME, firstName);
         tag.setString(Names.NBT.SURNAME, surname);
         tag.setBoolean(Names.NBT.GENDER, male);
+        tag.setInteger(Names.NBT.SETTLEMENT, this.getDataManager().get(DATA_SETTLEMENT));
         tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
         tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
         tag.setBoolean(Names.NBT.TASK, this.task != null);
@@ -146,13 +144,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     public void readEntityFromNBT(NBTTagCompound tag) {
         super.readEntityFromNBT(tag);
         this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
-        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
-            this.settlementId = tag.getInteger(Names.NBT.SETTLEMENT);
-            this.settlement = SettlementHandler.getInstance().getSettlement(this.getWorld(), settlementId);
-        } else {
-            this.settlementId = -1;
-            this.settlement = null;
-        }
         if(tag.hasKey(Names.NBT.PROFESSION)) {
             this.profession = ProfessionRegistry.getInstance().getProfession(tag.getString(Names.NBT.PROFESSION));
         } else {
@@ -166,6 +157,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.firstName = tag.getString(Names.NBT.FIRST_NAME);
         this.surname = tag.getString(Names.NBT.SURNAME);
         this.male = tag.getBoolean(Names.NBT.GENDER);
+        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
+            this.getDataManager().set(DATA_SETTLEMENT, tag.getInteger(Names.NBT.SETTLEMENT));
+        } else {
+            this.getDataManager().set(DATA_SETTLEMENT, -1);
+        }
         this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
         this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
     }
@@ -253,16 +249,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void setSettlement(ISettlement settlement) {
         this.settlement = settlement;
-        this.settlementId = settlement.id();
+        this.getDataManager().set(DATA_SETTLEMENT, settlement.id());
     }
 
     @Override
     public ISettlement settlement() {
-        if(settlementId < 0) {
-            return null;
-        }
         if(settlement == null) {
-            settlement = SettlementHandler.getInstance().getSettlement(this.getWorld(), settlementId);
+            int id = this.getDataManager().get(DATA_SETTLEMENT);
+            if(id >= 0) {
+                settlement = SettlementHandler.getInstance().getSettlement(this.getWorld(), id);
+            }
         }
         return settlement;
     }

@@ -1,8 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
-import com.InfinityRaider.settlercraft.network.MessageAddInhabitant;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
@@ -30,7 +28,7 @@ public class Settlement implements ISettlement {
     private static final int BUILDING_CLEARANCE = 5;
     //Settlement data
     private int id;
-    private World world;
+    private SettlementWorldData worldData;
     private Chunk homeChunk;
     private UUID mayorId;
     private String name;
@@ -42,15 +40,15 @@ public class Settlement implements ISettlement {
     private HashMap<Integer, ISettlementBuilding> buildings;
     private HashMap<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
 
-    public Settlement(World world) {
-        this.world = world;
+    public Settlement(SettlementWorldData worldData) {
+        this.worldData = worldData;
         this.resetBuildings();
     }
 
-    public Settlement(World world, int id, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
-        this(world);
+    public Settlement(SettlementWorldData worldData, int id, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
+        this(worldData);
         this.id = id;
-        this.homeChunk = world.getChunkFromChunkCoords(center.getX(), center.getZ());
+        this.homeChunk = this.world().getChunkFromChunkCoords(center.getX(), center.getZ());
         this.mayorId = player.getUniqueID();
         this.name = name;
         this.boundingBox = new BoundingBox(center.add(0, -1, 0));
@@ -64,7 +62,7 @@ public class Settlement implements ISettlement {
 
     @Override
     public World world() {
-        return this.world;
+        return this.worldData.getWorld();
     }
 
     @Override
@@ -187,10 +185,11 @@ public class Settlement implements ISettlement {
         }
         IBoundingBox box = schematic.getBoundingBox(pos, rotation);
         if(isValidBoundingBoxForBuilding(player, building, box)) {
-            //TODO: sync building to client
             ISettlementBuilding built = new SettlementBuilding(this, nextBuildingId(), pos, building, schematic, rotation);
             this.buildings.put(built.id(), built);
             this.buildingsPerType.get(built.building().buildingType()).add(built);
+            this.boundingBox.expandToFit(box.expand(BUILDING_CLEARANCE));
+            this.worldData.markSettlementDirty(this);
             return built;
         }
         return null;
@@ -239,7 +238,7 @@ public class Settlement implements ISettlement {
             this.populationCount = populationCount +1;
         }
         if(!world().isRemote) {
-            NetWorkWrapper.getInstance().sendToAll(new MessageAddInhabitant(this, settler.getEntityImplementation()));
+            this.worldData.markSettlementDirty(this);
         }
     }
 
@@ -314,7 +313,7 @@ public class Settlement implements ISettlement {
     public NBTTagCompound writeSettlementToNBT(NBTTagCompound tag) {
         tag.setInteger(Names.NBT.SLOT, id);
         tag.setString(Names.NBT.FIRST_NAME, name);
-        tag.setString(Names.NBT.SURNAME, mayor().getUniqueID().toString());
+        tag.setString(Names.NBT.SURNAME, this.mayorId.toString());
         tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.xPosition, homeChunk.zPosition});
         BlockPos pos = boundingBox.getMinimumPosition();
         tag.setInteger(Names.NBT.X, pos.getX());

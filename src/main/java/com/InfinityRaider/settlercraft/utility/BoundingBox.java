@@ -120,6 +120,17 @@ public class BoundingBox implements IBoundingBox {
     }
 
     @Override
+    public BoundingBox expand(int amount) {
+        this.minX = minX - amount;
+        this.minY = minY - amount;
+        this.minZ = minZ - amount;
+        this.maxX = maxX + amount;
+        this.maxY = maxY + amount;
+        this.maxZ = maxZ + amount;
+        return this;
+    }
+
+    @Override
     public BoundingBox expandToFit(IBoundingBox inner) {
         minX = minX < inner.minX() ? minX : inner.minX();
         minY = minY < inner.minY() ? minY : inner.minY();

@@ -2,6 +2,8 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
+import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
+import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +15,7 @@ import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapStorage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,30 +28,36 @@ public class SettlementWorldData extends WorldSavedData {
     private Map<Integer, ISettlement> settlementsById;
     private Map<Chunk, ISettlement> settlementsByChunk;
 
+    private List<NBTTagCompound> buffer;
+
     public SettlementWorldData(String key) {
         super(key);
         this.settlementsById = new HashMap<>();
         this.settlementsByChunk = new HashMap<>();
+        this.buffer = new ArrayList<>();
     }
 
     public SettlementWorldData(World world) {
         this(KEY);
         this.world = world;
+        this.processBuffer();
+    }
+
+    public World getWorld() {
+        return this.world;
     }
 
     private void setWorld(World world) {
         this.world = world;
+        this.processBuffer();
     }
 
     public ISettlement getNewSettlement(World world, EntityPlayer player, BlockPos center, String name, IBuildingStyle style) {
-        ISettlement settlement = new Settlement(world, getNextSettlementId(), player, center, name, style);
+        ISettlement settlement = new Settlement(this, getNextSettlementId(), player, center, name, style);
         settlementsById.put(settlement.id(), settlement);
         settlementsByChunk.put(settlement.homeChunk(), settlement);
         this.markDirty();
         return settlement;
-    }
-
-    public void registerSettlement(ISettlement settlement) {
     }
 
     private int getNextSettlementId() {
@@ -77,6 +86,19 @@ public class SettlementWorldData extends WorldSavedData {
         return ImmutableList.copyOf(settlementsById.values());
     }
 
+    public void markSettlementDirty(ISettlement settlement) {
+        if(!this.getWorld().isRemote) {
+            MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(settlement);
+            NetWorkWrapper.getInstance().sendToDimension(msg, this.getWorld());
+            this.markDirty();
+        }
+    }
+
+    private void processBuffer() {
+        this.buffer.forEach(this::readSettlementFromNBT);
+        this.buffer = null;
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         this.settlementsById = new HashMap<>();
@@ -94,10 +116,14 @@ public class SettlementWorldData extends WorldSavedData {
         if(this.settlementsById.containsKey(id)) {
             this.settlementsById.get(id).readSettlementFromNBT(tag);
         } else {
-            ISettlement settlement = new Settlement(this.world);
-            settlement.readSettlementFromNBT(tag);
-            settlementsById.put(settlement.id(), settlement);
-            settlementsByChunk.put(settlement.homeChunk(), settlement);
+            if(this.world == null) {
+                this.buffer.add(tag);
+            } else {
+                ISettlement settlement = new Settlement(this);
+                settlement.readSettlementFromNBT(tag);
+                settlementsById.put(settlement.id(), settlement);
+                settlementsByChunk.put(settlement.homeChunk(), settlement);
+            }
         }
     }
 

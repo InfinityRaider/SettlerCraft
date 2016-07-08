@@ -27,7 +27,6 @@ public class NetWorkWrapper {
 
     public void init() {
         registerMessage(MessageDialogueOptionSelected.class);
-        registerMessage(MessageAddInhabitant.class);
         registerMessage(MessageAssignTask.class);
         registerMessage(MessageSyncSettlementsToClient.class);
     }
