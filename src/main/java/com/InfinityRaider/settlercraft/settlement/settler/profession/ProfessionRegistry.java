@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.Pro
 import com.InfinityRaider.settlercraft.settlement.settler.profession.courier.ProfessionCourier;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.craftsman.ProfessionCraftsman;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.farmer.ProfessionFarmer;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.lumberjack.ProfessionLumberJack;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.miner.ProfessionMiner;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.soldier.ProfessionSoldier;
 
@@ -25,6 +26,7 @@ public class ProfessionRegistry {
     public final IProfession BUILDER;
     public final IProfession COURIER;
     public final IProfession CRAFTSMAN;
+    public final IProfession LUMBERJACK;
     public final IProfession FARMER;
     public final IProfession MINER;
     public final IProfession SOLDIER;
@@ -43,6 +45,9 @@ public class ProfessionRegistry {
 
         CRAFTSMAN = new ProfessionCraftsman();
         this.registerProfession(CRAFTSMAN);
+
+        LUMBERJACK = new ProfessionLumberJack();
+        this.registerProfession(LUMBERJACK);
 
         FARMER = new ProfessionFarmer();
         this.registerProfession(FARMER);

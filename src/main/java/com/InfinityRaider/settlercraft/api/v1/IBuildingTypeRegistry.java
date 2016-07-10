@@ -60,6 +60,16 @@ public interface IBuildingTypeRegistry {
     IBuildingType buildingTypeDecorative();
 
     /**
+     * @return The building type for walls
+     */
+    IBuildingType buildingTypeWall();
+
+    /**
+     * @return The building type for utility buildings
+     */
+    IBuildingType buildingTypeUtilities();
+
+    /**
      * @return a list containing all building types
      */
     List<IBuildingType> allBuildingTypes();

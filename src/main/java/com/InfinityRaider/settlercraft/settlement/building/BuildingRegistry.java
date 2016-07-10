@@ -1,22 +1,17 @@
 package com.InfinityRaider.settlercraft.settlement.building;
 
-import com.InfinityRaider.settlercraft.api.v1.IBuilding;
-import com.InfinityRaider.settlercraft.api.v1.IBuildingRegistry;
-import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
-import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingSittingCorner;
-import com.InfinityRaider.settlercraft.settlement.building.decorative.BuildingWaterWell;
-import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingAnimalFarmStable;
-import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmHouse;
-import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmIrrigated;
-import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingCropFarmRiverside;
-import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseLarge;
-import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseMedium;
-import com.InfinityRaider.settlercraft.settlement.building.house.BuildingHouseSmall;
-import com.InfinityRaider.settlercraft.settlement.building.quarry.BuildingQuarry;
-import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTownHallTier1;
-import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingWareHouse;
-import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkShopBlackSmith;
-import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingWorkshopCrafter;
+import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.settlement.building.barracks.*;
+import com.InfinityRaider.settlercraft.settlement.building.decorative.*;
+import com.InfinityRaider.settlercraft.settlement.building.farm.*;
+import com.InfinityRaider.settlercraft.settlement.building.house.*;
+import com.InfinityRaider.settlercraft.settlement.building.lumbermill.*;
+import com.InfinityRaider.settlercraft.settlement.building.quarry.*;
+import com.InfinityRaider.settlercraft.settlement.building.townhall.*;
+import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingRailStation;
+import com.InfinityRaider.settlercraft.settlement.building.wall.*;
+import com.InfinityRaider.settlercraft.settlement.building.warehouse.*;
+import com.InfinityRaider.settlercraft.settlement.building.workshop.*;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -38,6 +33,7 @@ public class BuildingRegistry implements IBuildingRegistry {
 
     /** Town halls */
     public final IBuilding TOWN_HALL_1;
+    public final IBuilding TOWN_HALL_2;
 
     /** Houses */
     public final IBuilding HOUSE_SMALL;
@@ -57,6 +53,7 @@ public class BuildingRegistry implements IBuildingRegistry {
     public final IBuilding QUARRY;
 
     /** Lumber mills */
+    public final IBuilding LUMBER_MILL;
 
     /** Farms */
     public final IBuilding CROP_FARM_HOUSE;
@@ -65,10 +62,23 @@ public class BuildingRegistry implements IBuildingRegistry {
     public final IBuilding CATTLE_FARM_STABLE;
 
     /** Barracks */
+    public final IBuilding BARRACKS;
+    public final IBuilding ARCHERY_RANGE;
+    public final IBuilding CAVALRY_STABLES;
 
     /** Decorative */
     public final IBuilding WATER_WELL;
     public final IBuilding SITTING_CORNER;
+
+    /** Walls */
+    public final IBuilding WALL_SEGMENT;
+    public final IBuilding WALL_CORNER_CONVEX;
+    public final IBuilding WALL_CORNER_CONCAVE;
+    public final IBuilding WALL_GATE;
+    public final IBuilding WALL_BASTION;
+
+    /** Utilities */
+    public final IBuilding RAILWAY_STATION;
 
     private BuildingRegistry() {
         //Buildings
@@ -78,6 +88,7 @@ public class BuildingRegistry implements IBuildingRegistry {
 
         //Town Halls
         TOWN_HALL_1 = registerBuilding(new BuildingTownHallTier1());
+        TOWN_HALL_2 = registerBuilding(new BuildingTownHallTier2());
 
         //Houses
         HOUSE_SMALL = registerBuilding(new BuildingHouseSmall());
@@ -97,6 +108,7 @@ public class BuildingRegistry implements IBuildingRegistry {
         QUARRY = registerBuilding(new BuildingQuarry());
 
         //lumber mill
+        LUMBER_MILL = registerBuilding(new BuildingLumberMill());
 
         //farms
         CROP_FARM_HOUSE = registerBuilding(new BuildingCropFarmHouse());
@@ -105,10 +117,23 @@ public class BuildingRegistry implements IBuildingRegistry {
         CATTLE_FARM_STABLE = registerBuilding(new BuildingAnimalFarmStable());
 
         //barracks
+        BARRACKS = registerBuilding(new BuildingBarracks());
+        ARCHERY_RANGE = registerBuilding(new BuildingArcheryRange());
+        CAVALRY_STABLES = registerBuilding(new BuildingCavalryStables());
 
         //decorative
         WATER_WELL = registerBuilding(new BuildingWaterWell());
         SITTING_CORNER = registerBuilding(new BuildingSittingCorner());
+
+        //walls
+        WALL_SEGMENT = new BuildingWallSegment();
+        WALL_CORNER_CONVEX = new BuildingWallCornerConvex();
+        WALL_CORNER_CONCAVE = new BuildingWallCornerConcave();
+        WALL_GATE = new BuildingWallGate();
+        WALL_BASTION = new BuildingWallBastion();
+
+        //utilities
+        RAILWAY_STATION = new BuildingRailStation();
     }
 
     public IBuilding registerBuilding(IBuilding building) {

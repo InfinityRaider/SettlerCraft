@@ -1,25 +1,23 @@
-package com.InfinityRaider.settlercraft.settlement.building.quarry;
+package com.InfinityRaider.settlercraft.settlement.building.wall;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
-import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
-import com.InfinityRaider.settlercraft.settlement.settler.profession.miner.TaskMine;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class BuildingQuarry extends BuildingBase {
-    public BuildingQuarry() {
-        super("quarry");
+public abstract class BuildingWallBase extends BuildingBase {
+    protected BuildingWallBase(String name) {
+        super(name);
     }
 
     @Override
     public IBuildingType buildingType() {
-        return BuildingTypeRegistry.getInstance().buildingTypeQuarry();
+        return BuildingTypeRegistry.getInstance().buildingTypeWall();
     }
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return settlement.tier() >= 2;
+        return settlement.tier() >= 3;
     }
 
     @Override
@@ -34,12 +32,14 @@ public class BuildingQuarry extends BuildingBase {
 
     @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
-        return settler.profession() == ProfessionRegistry.getInstance().MINER;
+        return false;
     }
+
+    public abstract int maxNumberOfGuards();
 
     @Override
     public ITask getTaskForSettler(ISettlementBuilding building, ISettler settler) {
-        return new TaskMine(building.settlement(), settler, building, this);
+        return null;
     }
 
     @Override

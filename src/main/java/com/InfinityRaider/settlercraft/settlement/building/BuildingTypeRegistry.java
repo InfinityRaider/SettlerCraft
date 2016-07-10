@@ -11,6 +11,8 @@ import com.InfinityRaider.settlercraft.settlement.building.house.BuildingTypeHou
 import com.InfinityRaider.settlercraft.settlement.building.lumbermill.BuildingTypeLumberMill;
 import com.InfinityRaider.settlercraft.settlement.building.quarry.BuildingTypeQuarry;
 import com.InfinityRaider.settlercraft.settlement.building.townhall.BuildingTypeTownHall;
+import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingTypeUtility;
+import com.InfinityRaider.settlercraft.settlement.building.wall.BuildingTypeWall;
 import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingTypeWareHouse;
 import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingTypeWorkshop;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
@@ -38,6 +40,8 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     private final IBuildingType FARM;
     private final IBuildingType BARRACKS;
     private final IBuildingType DECORATIVE;
+    private final IBuildingType WALL;
+    private final IBuildingType UTILITY;
 
     private final List<IBuildingType> TYPES;
     private final List<IBuildingType> CUSTOM_TYPES;
@@ -53,6 +57,8 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
         FARM = new BuildingTypeFarm();
         BARRACKS = new BuildingTypeBarracks();
         DECORATIVE = new BuildingTypeDecorative();
+        WALL = new BuildingTypeWall();
+        UTILITY = new BuildingTypeUtility();
 
         TYPES = new ArrayList<>();
         CUSTOM_TYPES = new ArrayList<>();
@@ -108,6 +114,16 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     @Override
     public IBuildingType buildingTypeDecorative() {
         return DECORATIVE;
+    }
+
+    @Override
+    public IBuildingType buildingTypeWall() {
+        return WALL;
+    }
+
+    @Override
+    public IBuildingType buildingTypeUtilities() {
+        return UTILITY;
     }
 
     @Override
