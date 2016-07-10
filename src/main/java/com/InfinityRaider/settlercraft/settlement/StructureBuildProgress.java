@@ -159,7 +159,7 @@ public class StructureBuildProgress {
         if(x >= blocksToBuild.length || y >= blocksToBuild[x].length || z >= blocksToBuild[x][y].length) {
             return;
         }
-        if(isSameState(state, blocksToBuild[x][y][z]) || isSameState(state, finalBlocksToBuild[x][y][z])) {
+        if(isAllowedState(state, blocksToBuild[x][y][z]) || isAllowedState(state, finalBlocksToBuild[x][y][z])) {
             if(buildingWork[x][y][z] != null) {
                 currentWork.remove(buildingWork[x][y][z]);
                 buildingWork[x][y][z] = null;
@@ -234,8 +234,8 @@ public class StructureBuildProgress {
                     BlockPos pos = new BlockPos(x + origin.getX(), y + origin.getY(), z + origin.getZ());
                     IBlockState state = world.getBlockState(pos);
                     Block block = state.getBlock();
-                    boolean base = isSameState(state, blocksToBuild[x][y][z]);
-                    boolean last = isSameState(state, finalBlocksToBuild[x][y][z]);
+                    boolean base = isAllowedState(state, blocksToBuild[x][y][z]);
+                    boolean last = isAllowedState(state, finalBlocksToBuild[x][y][z]);
                     if(block == null || state.getMaterial() == Material.air || block instanceof BlockLiquid || block instanceof IFluidBlock) {
                         if(blocksToBuild[x][y][z] != null) {
                             if(!base) {
@@ -263,13 +263,11 @@ public class StructureBuildProgress {
         }
     }
 
-    protected boolean isSameState(IBlockState a, StructureBuildPosition b) {
-        if (b == null) {
-            return a == null || a.getMaterial() == Material.air;
+    protected boolean isAllowedState(IBlockState state, StructureBuildPosition mask) {
+        if (mask == null) {
+            return state == null || state.getMaterial() == Material.air;
         }
-        return a != null
-                && a.getBlock() == b.getState().getBlock()
-                && a.getBlock().getMetaFromState(a) == b.getState().getBlock().getMetaFromState(b.getState());
+        return mask.isAllowedState(state);
     }
 
     public static abstract class Work {

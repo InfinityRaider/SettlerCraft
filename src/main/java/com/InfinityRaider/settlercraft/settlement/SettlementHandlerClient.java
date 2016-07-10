@@ -56,7 +56,7 @@ public class SettlementHandlerClient extends SettlementHandler {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onPlayerDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
-        this.data = DUMMY;
+            this.data = DUMMY;
     }
 
     @SubscribeEvent

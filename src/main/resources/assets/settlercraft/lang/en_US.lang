@@ -39,6 +39,12 @@ settlercraft:buildingType.decorative=Decorative
 
 //Buildings
 settlercraft.building.town_hall1=Basic Town Hall
+settlercraft.building.house_small=Small House
+settlercraft.building.house_medium=Medium House
+settlercraft.building.house_large=Large House
+settlercraft.building.crop_farm_riverside=Riverside Crop Farm
+settlercraft.building.crop_farm_irrigated=Irrigated Crop Farm
+settlercraft.building.cattle_farm_stable=Cattle Farm
 settlercraft.building.water_well=Water Well
 
 

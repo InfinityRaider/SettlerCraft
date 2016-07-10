@@ -3230,6 +3230,7 @@
       "x": 8,
       "y": 1,
       "z": 11,
+      "fuzzy": true,
       "block": "minecraft:fence_gate",
       "worldMeta": 3,
       "stackMeta": 0,

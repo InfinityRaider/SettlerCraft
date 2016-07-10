@@ -23,7 +23,7 @@ public class NetWorkWrapper {
     private int nextId = 0;
 
     private NetWorkWrapper() {
-        wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID.toLowerCase());}
+        this.wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID.toLowerCase());}
 
     public void init() {
         registerMessage(MessageDialogueOptionSelected.class);
@@ -32,35 +32,35 @@ public class NetWorkWrapper {
     }
 
     public void sendToAll(MessageBase message) {
-        wrapper.sendToAll(message);
+        this.wrapper.sendToAll(message);
     }
 
     public void sendTo(MessageBase message, EntityPlayerMP player) {
-        wrapper.sendTo(message, player);
+        this.wrapper.sendTo(message, player);
     }
 
     public void sendToAllAround(MessageBase message, World world, double x, double y, double z, double range) {
-        sendToAllAround(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), x, y, z, range));
+        this.sendToAllAround(message, world.provider.getDimension(), x, y, z, range);
     }
 
     public void sendToAllAround(MessageBase message, int dimension, double x, double y, double z, double range) {
-        sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range));
+        this.sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range));
     }
 
     public void sendToAllAround(MessageBase message, NetworkRegistry.TargetPoint point) {
-        wrapper.sendToAllAround(message, point);
+        this.wrapper.sendToAllAround(message, point);
     }
 
     public void sendToDimension(MessageBase messageBase, World world) {
-        sendToDimension(messageBase, world.provider.getDimension());
+        this.sendToDimension(messageBase, world.provider.getDimension());
     }
 
     public void sendToDimension(MessageBase message, int dimensionId) {
-        wrapper.sendToDimension(message, dimensionId);
+        this.wrapper.sendToDimension(message, dimensionId);
     }
 
     public void sendToServer(MessageBase message) {
-        wrapper.sendToServer(message);
+        this.wrapper.sendToServer(message);
     }
 
     private <REQ extends MessageBase<REPLY>, REPLY extends IMessage> void registerMessage(Class<? extends REQ> message) {

@@ -17,10 +17,9 @@ public class DialogueOptionBuildBuilding extends DialogueOptionBase {
 
     @Override
     public List<IDialogueOption> getDialogueOptions(EntityPlayer player, ISettler settler) {
-        List<IDialogueOption> list = BuildingTypeRegistry.getInstance().allBuildingTypes().stream().map(
+        return BuildingTypeRegistry.getInstance().allBuildingTypes().stream().filter(
+                type -> settler.settlement().getBuildableBuildings(type).size() > 0).map(
                 type -> new DialogueOptionSelectBuildingType(player, settler, type)).collect(Collectors.toList());
-        list.add(new DialogueOptionEndConversation(player, settler));
-        return list;
     }
 
     @Override

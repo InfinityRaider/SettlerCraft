@@ -82,6 +82,7 @@ public class Schematic {
         public int x;
         public int y;
         public int z;
+        public boolean fuzzy;
         public String block;
         public int worldMeta;
         public int stackMeta;
@@ -91,13 +92,22 @@ public class Schematic {
         public String stackOverride;
 
         public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag) {
-            this(x, y, z, block, worldMeta, stackMeta, tag, null);
+            this(x, y, z, block, worldMeta, stackMeta, tag, false);
+        }
+
+        public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag, boolean fuzzy) {
+            this(x, y, z, block, worldMeta, stackMeta, tag, fuzzy, null);
         }
 
         public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag, ItemStack stackOverride) {
+            this(x, y, z, block, worldMeta, stackMeta, tag, false, null);
+        }
+
+        public BlockPosition(int x, int y, int z, String block, int worldMeta, int stackMeta, NBTTagCompound tag, boolean fuzzy, ItemStack stackOverride) {
             this.x = x;
             this.y = y;
             this.z = z;
+            this.fuzzy = fuzzy;
             this.block = block;
             this.worldMeta = worldMeta;
             this.needsSupportBlock = false;

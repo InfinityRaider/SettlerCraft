@@ -75,6 +75,15 @@ public interface ISettlement extends ITickable {
     ISettlementBuilding getBuildingFromId(int id);
 
     /**
+     * Gets the building built at this location, it will return a building as long as the coordinates are within the building's bounding box
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param z the z-coordinate
+     * @return the ISettlementBuilding built at the coordinates, or null if there is no building
+     */
+    ISettlementBuilding getBuildingForLocation(double x, double y, double z);
+
+    /**
      * @return a list of all buildings currently built or being built in this settlement
      */
     List<ISettlementBuilding> getBuildings();

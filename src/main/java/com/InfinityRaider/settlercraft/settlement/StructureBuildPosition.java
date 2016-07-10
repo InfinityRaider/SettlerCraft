@@ -15,12 +15,14 @@ public class StructureBuildPosition {
     private BlockPos pos;
     private IBlockState state;
     private ItemStack resource;
+    private boolean fuzzy;
 
-    public StructureBuildPosition(World world, BlockPos pos, IBlockState state, ItemStack resource) {
+    public StructureBuildPosition(World world, BlockPos pos, IBlockState state, ItemStack resource, boolean fuzzy) {
         this.world = world;
         this.pos = pos;
         this.state = state;
         this.resource = resource;
+        this.fuzzy = fuzzy;
     }
 
     public World getWorld() {
@@ -35,8 +37,18 @@ public class StructureBuildPosition {
         return state;
     }
 
+    public boolean isFuzzy() {
+        return fuzzy;
+    }
+
     public ItemStack getResource() {
         return resource;
+    }
+
+    public boolean isAllowedState(IBlockState state) {
+        return state != null
+                && state.getBlock() == this.getState().getBlock()
+                &&  ( this.isFuzzy() || (state.getBlock().getMetaFromState(state) == this.getState().getBlock().getMetaFromState(this.getState())) );
     }
 
     public void build() {
@@ -49,6 +61,7 @@ public class StructureBuildPosition {
         BlockPos pos = SchematicRotationTransformer.getInstance().applyRotation(origin, schematicData.x, schematicData.y, schematicData.z, rotation);
         IBlockState state = schematicData.getBlockState(rotation);
         ItemStack resource = schematicData.getResourceStack();
+        boolean fuzzy = schematicData.fuzzy;
         NBTTagCompound tag = schematicData.getTag();
         if(tag != null && (state.getBlock() instanceof ITileEntityProvider)) {
             tag.setInteger("x", pos.getX());
@@ -56,9 +69,9 @@ public class StructureBuildPosition {
             tag.setInteger("z", pos.getZ());
             TileEntity tile = ((ITileEntityProvider) state.getBlock()).createNewTileEntity(world, schematicData.worldMeta);
             SchematicRotationTransformer.getInstance().rotateTileTag(tile, tag, rotation);
-            return new StructureBuildPositionTileEntity(world, pos, state, resource, tag);
+            return new StructureBuildPositionTileEntity(world, pos, state, resource, fuzzy, tag);
         } else {
-            return new StructureBuildPosition(world, pos, state, resource);
+            return new StructureBuildPosition(world, pos, state, resource, fuzzy);
         }
 
     }
@@ -66,8 +79,8 @@ public class StructureBuildPosition {
     public static class StructureBuildPositionTileEntity extends StructureBuildPosition {
         private NBTTagCompound tag;
 
-        public StructureBuildPositionTileEntity(World world, BlockPos pos, IBlockState state, ItemStack resource, NBTTagCompound tag) {
-            super(world, pos, state, resource);
+        public StructureBuildPositionTileEntity(World world, BlockPos pos, IBlockState state, ItemStack resource, boolean fuzzy, NBTTagCompound tag) {
+            super(world, pos, state, resource, fuzzy);
             this.tag = tag;
         }
 

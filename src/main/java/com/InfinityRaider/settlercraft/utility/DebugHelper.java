@@ -49,14 +49,18 @@ public class DebugHelper {
         List<String> debugData = new ArrayList<>();
 
         if (!world.isRemote) {
+            debugData.add("------------------");
             debugData.add("Server debug info:");
             debugData.add("------------------");
         } else {
+            debugData.add("------------------");
             debugData.add("Client debug info:");
             debugData.add("------------------");
         }
 
         TileEntity tile = world.getTileEntity(pos);
+
+        debugData.add("Clicked block at (" + pos.getX() +", " + pos.getY() + ", " + pos.getZ() +")");
 
         if(tile!=null && tile instanceof IDebuggable) {
             ((IDebuggable) tile).addDebugInfo(debugData);

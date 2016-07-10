@@ -18,10 +18,7 @@ import net.minecraft.world.chunk.Chunk;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Settlement implements ISettlement {
@@ -37,8 +34,8 @@ public class Settlement implements ISettlement {
     //Settler data
     private int populationCount;
     //Building data
-    private HashMap<Integer, ISettlementBuilding> buildings;
-    private HashMap<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
+    private Map<Integer, ISettlementBuilding> buildings;
+    private Map<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
 
     public Settlement(SettlementWorldData worldData) {
         this.worldData = worldData;
@@ -97,7 +94,10 @@ public class Settlement implements ISettlement {
 
     @Override
     public void rename(String name) {
-        this.name = name;
+        if(!world().isRemote) {
+            this.name = name;
+            this.worldData.markSettlementDirty(this);
+        }
     }
 
     @Override
@@ -108,6 +108,19 @@ public class Settlement implements ISettlement {
     @Override
     public ISettlementBuilding getBuildingFromId(int id) {
         return buildings.get(id);
+    }
+
+    @Override
+    public ISettlementBuilding getBuildingForLocation(double x, double y, double z) {
+        if(!this.getBoundingBox().isWithinBounds(x, y ,z)) {
+            return null;
+        }
+        for (ISettlementBuilding building : getBuildings()) {
+            if(building.getBoundingBox().isWithinBounds(x, y, z)) {
+                return building;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -371,8 +384,8 @@ public class Settlement implements ISettlement {
     }
 
     private void resetBuildings() {
-        this.buildings = new HashMap<>();
-        this.buildingsPerType = new HashMap<>();
+        this.buildings = new IdentityHashMap<>();
+        this.buildingsPerType = new IdentityHashMap<>();
         for(IBuildingType type : BuildingTypeRegistry.getInstance().allBuildingTypes()) {
             buildingsPerType.put(type, new ArrayList<>());
         }
