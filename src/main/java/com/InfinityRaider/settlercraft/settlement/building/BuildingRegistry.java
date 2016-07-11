@@ -27,55 +27,55 @@ public class BuildingRegistry implements IBuildingRegistry {
     }
 
     /** Buildings */
-    public final List<IBuilding> BUILDINGS_LIST;
-    public final Map<String, IBuilding> BUILDINGS_BY_NAME;
-    public final Map<IBuildingType, List<IBuilding>> BUILDINGS_MAP;
+    private final List<IBuilding> BUILDINGS_LIST;
+    private final Map<String, IBuilding> BUILDINGS_BY_NAME;
+    private final Map<IBuildingType, List<IBuilding>> BUILDINGS_MAP;
 
     /** Town halls */
-    public final IBuilding TOWN_HALL_1;
-    public final IBuilding TOWN_HALL_2;
+    private final IBuilding TOWN_HALL_1;
+    private final IBuilding TOWN_HALL_2;
 
     /** Houses */
-    public final IBuilding HOUSE_SMALL;
-    public final IBuilding HOUSE_MEDIUM;
-    public final IBuilding HOUSE_LARGE;
+    private final IBuilding HOUSE_SMALL;
+    private final IBuilding HOUSE_MEDIUM;
+    private final IBuilding HOUSE_LARGE;
 
     /** Warehouses */
-    public final IBuilding WAREHOUSE;
+    private final IBuilding WAREHOUSE;
 
     /** Workshops */
-    public final IBuilding WORKSHOP_CRAFTER;
-    public final IBuilding WORKSHOP_BLACKSMITH;
+    private final IBuilding WORKSHOP_CRAFTER;
+    private final IBuilding WORKSHOP_BLACKSMITH;
 
     /** Academies */
 
     /** Quarries */
-    public final IBuilding QUARRY;
+    private final IBuilding QUARRY;
 
     /** Lumber mills */
-    public final IBuilding LUMBER_MILL;
+    private final IBuilding LUMBER_MILL;
 
     /** Farms */
-    public final IBuilding CROP_FARM_HOUSE;
-    public final IBuilding CROP_FARM_RIVERSIDE;
-    public final IBuilding CROP_FARM_IRRIGATED;
-    public final IBuilding CATTLE_FARM_STABLE;
+    private final IBuilding CROP_FARM_HOUSE;
+    private final IBuilding CROP_FARM_RIVERSIDE;
+    private final IBuilding CROP_FARM_IRRIGATED;
+    private final IBuilding CATTLE_FARM_STABLE;
 
     /** Barracks */
-    public final IBuilding BARRACKS;
-    public final IBuilding ARCHERY_RANGE;
-    public final IBuilding CAVALRY_STABLES;
+    private final IBuilding BARRACKS;
+    private final IBuilding ARCHERY_RANGE;
+    private final IBuilding CAVALRY_STABLES;
 
     /** Decorative */
-    public final IBuilding WATER_WELL;
-    public final IBuilding SITTING_CORNER;
+    private final IBuilding WATER_WELL;
+    private final IBuilding SITTING_CORNER;
 
     /** Walls */
-    public final IBuilding WALL_SEGMENT;
-    public final IBuilding WALL_CORNER_CONVEX;
-    public final IBuilding WALL_CORNER_CONCAVE;
-    public final IBuilding WALL_GATE;
-    public final IBuilding WALL_BASTION;
+    private final IBuilding WALL_SEGMENT;
+    private final IBuilding WALL_CORNER_CONVEX;
+    private final IBuilding WALL_CORNER_CONCAVE;
+    private final IBuilding WALL_GATE;
+    private final IBuilding WALL_BASTION;
 
     /** Utilities */
     public final IBuilding RAILWAY_STATION;
@@ -146,8 +146,139 @@ public class BuildingRegistry implements IBuildingRegistry {
         return building;
     }
 
+    @Override
+    public List<IBuilding> getBuildings() {
+        return ImmutableList.copyOf(this.BUILDINGS_LIST);
+    }
+
+    @Override
     public IBuilding getBuildingFromName(String name) {
         return BUILDINGS_BY_NAME.get(name);
+    }
+
+    @Override
+    public IBuilding buildingTownHallTier1() {
+        return TOWN_HALL_1;
+    }
+
+    @Override
+    public IBuilding buildingTownHallTier2() {
+        return TOWN_HALL_2;
+    }
+
+    @Override
+    public IBuilding buildingHouseSmall() {
+        return HOUSE_SMALL;
+    }
+
+    @Override
+    public IBuilding buildingHouseMedium() {
+        return HOUSE_MEDIUM;
+    }
+
+    @Override
+    public IBuilding buildingHouseLarge() {
+        return HOUSE_LARGE;
+    }
+
+    @Override
+    public IBuilding buildingWarehouse() {
+        return WAREHOUSE;
+    }
+
+    @Override
+    public IBuilding buildingWorkShopCrafter() {
+        return WORKSHOP_CRAFTER;
+    }
+
+    @Override
+    public IBuilding buildingWorkShopBlackSmith() {
+        return WORKSHOP_BLACKSMITH;
+    }
+
+    @Override
+    public IBuilding buildingQuarry() {
+        return QUARRY;
+    }
+
+    @Override
+    public IBuilding buildingLumberMill() {
+        return LUMBER_MILL;
+    }
+
+    @Override
+    public IBuilding buildingCropFarmHouse() {
+        return CROP_FARM_HOUSE;
+    }
+
+    @Override
+    public IBuilding buildingCropFarmRiverside() {
+        return CROP_FARM_RIVERSIDE;
+    }
+
+    @Override
+    public IBuilding buildingCropFarmIrrigated() {
+        return CROP_FARM_IRRIGATED;
+    }
+
+    @Override
+    public IBuilding buildingCattleFarmStable() {
+        return CATTLE_FARM_STABLE;
+    }
+
+    @Override
+    public IBuilding buildingBarracks() {
+        return BARRACKS;
+    }
+
+    @Override
+    public IBuilding buildingArcheryRange() {
+        return ARCHERY_RANGE;
+    }
+
+    @Override
+    public IBuilding buildingCavalryStables() {
+        return CAVALRY_STABLES;
+    }
+
+    @Override
+    public IBuilding buildingWaterWell() {
+        return WATER_WELL;
+    }
+
+    @Override
+    public IBuilding buildingSittingCorner() {
+        return SITTING_CORNER;
+    }
+
+    @Override
+    public IBuilding buildingWallSegment() {
+        return WALL_SEGMENT;
+    }
+
+    @Override
+    public IBuilding buildingWallCornerConvex() {
+        return WALL_CORNER_CONVEX;
+    }
+
+    @Override
+    public IBuilding buildingWallCornerConcave() {
+        return WALL_CORNER_CONCAVE;
+    }
+
+    @Override
+    public IBuilding buildingWallGate() {
+        return WALL_GATE;
+    }
+
+    @Override
+    public IBuilding buildingWallBastion() {
+        return WALL_BASTION;
+    }
+
+    @Override
+    public IBuilding buildingRailStation() {
+        return RAILWAY_STATION;
     }
 
     @Override
