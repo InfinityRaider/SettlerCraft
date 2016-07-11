@@ -34,6 +34,7 @@ public class BuildingRegistry implements IBuildingRegistry {
     /** Town halls */
     private final IBuilding TOWN_HALL_1;
     private final IBuilding TOWN_HALL_2;
+    private final IBuilding TOWN_HALL_3;
 
     /** Houses */
     private final IBuilding HOUSE_SMALL;
@@ -89,6 +90,7 @@ public class BuildingRegistry implements IBuildingRegistry {
         //Town Halls
         TOWN_HALL_1 = registerBuilding(new BuildingTownHallTier1());
         TOWN_HALL_2 = registerBuilding(new BuildingTownHallTier2());
+        TOWN_HALL_3 = registerBuilding(new BuildingTownHallTier3());
 
         //Houses
         HOUSE_SMALL = registerBuilding(new BuildingHouseSmall());
@@ -164,6 +166,11 @@ public class BuildingRegistry implements IBuildingRegistry {
     @Override
     public IBuilding buildingTownHallTier2() {
         return TOWN_HALL_2;
+    }
+
+    @Override
+    public IBuilding buildingTownHallTier3() {
+        return TOWN_HALL_3;
     }
 
     @Override

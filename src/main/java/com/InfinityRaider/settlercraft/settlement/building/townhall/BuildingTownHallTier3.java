@@ -4,15 +4,15 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class BuildingTownHallTier2 extends BuildingTownHall {
-    public BuildingTownHallTier2() {
-        super(2);
+public class BuildingTownHallTier3 extends BuildingTownHall {
+    public BuildingTownHallTier3() {
+        super(3);
     }
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return settlement.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeFarm()).size() >= 2
-                && (settlement.population() >= 10)
-                && (settlement.getCompletedBuildings().size() >= 5);
+        return settlement.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeAcademy()).size() >= 1
+                && settlement.population() >= 20
+                && settlement.getCompletedBuildings().size() >= 10;
     }
 }

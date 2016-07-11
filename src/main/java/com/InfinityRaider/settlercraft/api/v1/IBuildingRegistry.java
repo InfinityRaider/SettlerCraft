@@ -32,6 +32,11 @@ public interface IBuildingRegistry extends Function<IBuildingType, List<IBuildin
     IBuilding buildingTownHallTier2();
 
     /**
+     * @return Settlercraft tier 3 town hall building
+     */
+    IBuilding buildingTownHallTier3();
+
+    /**
      * @return Settlercraft small house building
      */
     IBuilding buildingHouseSmall();
