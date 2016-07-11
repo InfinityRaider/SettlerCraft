@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.profession;
 
 import com.InfinityRaider.settlercraft.api.v1.IProfession;
+import com.InfinityRaider.settlercraft.api.v1.IProfessionRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.blacksmith.ProfessionBlacksmith;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.ProfessionBuilder;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.courier.ProfessionCourier;
@@ -13,7 +14,7 @@ import com.InfinityRaider.settlercraft.settlement.settler.profession.soldier.Pro
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfessionRegistry {
+public class ProfessionRegistry implements IProfessionRegistry {
     private static final ProfessionRegistry INSTANCE = new ProfessionRegistry();
 
     public static ProfessionRegistry getInstance() {
@@ -22,14 +23,14 @@ public class ProfessionRegistry {
 
     private Map<String, IProfession> professions;
 
-    public final IProfession BLACKSMITH;
-    public final IProfession BUILDER;
-    public final IProfession COURIER;
-    public final IProfession CRAFTSMAN;
-    public final IProfession LUMBERJACK;
-    public final IProfession FARMER;
-    public final IProfession MINER;
-    public final IProfession SOLDIER;
+    private final IProfession BLACKSMITH;
+    private final IProfession BUILDER;
+    private final IProfession COURIER;
+    private final IProfession CRAFTSMAN;
+    private final IProfession LUMBERJACK;
+    private final IProfession FARMER;
+    private final IProfession MINER;
+    private final IProfession SOLDIER;
 
     private ProfessionRegistry() {
         this.professions = new HashMap<>();
@@ -59,15 +60,57 @@ public class ProfessionRegistry {
         this.registerProfession(SOLDIER);
     }
 
+    @Override
     public IProfession getProfession(String name) {
         return professions.get(name);
     }
 
+    @Override
     public boolean registerProfession(IProfession profession) {
         if(professions.containsKey(profession.getName())) {
             return false;
         }
         professions.put(profession.getName(), profession);
         return true;
+    }
+
+    @Override
+    public IProfession professionBlacksmith() {
+        return BLACKSMITH;
+    }
+
+    @Override
+    public IProfession professionBuilder() {
+        return BUILDER;
+    }
+
+    @Override
+    public IProfession professionCourier() {
+        return COURIER;
+    }
+
+    @Override
+    public IProfession professionCraftsman() {
+        return CRAFTSMAN;
+    }
+
+    @Override
+    public IProfession professionLumberJack() {
+        return LUMBERJACK;
+    }
+
+    @Override
+    public IProfession professionFarmer() {
+        return FARMER;
+    }
+
+    @Override
+    public IProfession professionMiner() {
+        return MINER;
+    }
+
+    @Override
+    public IProfession professionSoldier() {
+        return SOLDIER;
     }
 }

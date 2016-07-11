@@ -34,7 +34,7 @@ public class BuildingQuarry extends BuildingBase {
 
     @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
-        return settler.profession() == ProfessionRegistry.getInstance().MINER;
+        return settler.profession() == ProfessionRegistry.getInstance().professionMiner();
     }
 
     @Override

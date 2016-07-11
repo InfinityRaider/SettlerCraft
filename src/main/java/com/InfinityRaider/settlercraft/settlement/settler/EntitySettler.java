@@ -82,7 +82,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.firstName = RANDOMIZER.getRandomFirstName(male);
         this.surname = RANDOMIZER.getRandomSurname();
         this.title = null;
-        this.profession = ProfessionRegistry.getInstance().BUILDER;
+        this.profession = ProfessionRegistry.getInstance().professionBuilder();
         this.getDataManager().register(DATA_SETTLEMENT, -1);
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());
@@ -305,7 +305,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void setProfession(IProfession profession) {
         if(profession == null) {
-            profession = ProfessionRegistry.getInstance().BUILDER;
+            profession = ProfessionRegistry.getInstance().professionBuilder();
         }
         this.profession = profession;
     }

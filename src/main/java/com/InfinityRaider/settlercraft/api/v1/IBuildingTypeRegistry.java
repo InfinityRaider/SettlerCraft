@@ -8,6 +8,7 @@ import java.util.List;
  *
  * To get the instance of this class use APIv1.getBuildingTypeRegistry()
  */
+@SuppressWarnings("unused")
 public interface IBuildingTypeRegistry {
     /**
      * @return The building type for the town halls

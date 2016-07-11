@@ -7,6 +7,7 @@ import java.util.function.Function;
  * Interface used to interact with the building registry,
  * the instance of this interface can be retrieved via api.getBuildingRegistry()
  */
+@SuppressWarnings("unused")
 public interface IBuildingRegistry extends Function<IBuildingType, List<IBuilding>> {
     /**
      * @return a list of all registered buildings

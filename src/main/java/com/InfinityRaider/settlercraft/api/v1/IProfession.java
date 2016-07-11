@@ -7,6 +7,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+/**
+ * Interface used to define a settler's profession.
+ * Implementations of this interface should be registered in the IProfessionRegistry
+ * All professions can be retrieved from the IProfessionRegistry by their name.
+ */
 public interface IProfession {
     /** Returns a unique name for this profession, this is an unlocalized string, preferably tagged with the mod id to prevent overwriting of other professions */
     String getName();

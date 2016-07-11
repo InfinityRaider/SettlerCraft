@@ -81,6 +81,11 @@ public class APIimplv1  implements APIv1 {
     }
 
     @Override
+    public IProfessionRegistry getProfessionRegistry() {
+        return ProfessionRegistry.getInstance();
+    }
+
+    @Override
     public ISettlementHandler getSettlementHandler() {
         return SettlementHandler.getInstance();
     }

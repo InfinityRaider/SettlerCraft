@@ -41,7 +41,7 @@ public interface IBuildingStyleRegistry {
     IBuildingStyle registerBuildingStyle(IBuildingStyle style);
 
     /**
-     * @return The default SettlerCraft style
+     * @return The SettlerCraft default style
      */
     IBuildingStyle defaultStyle();
 

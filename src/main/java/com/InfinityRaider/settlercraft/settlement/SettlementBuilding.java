@@ -68,7 +68,7 @@ public class SettlementBuilding implements ISettlementBuilding {
         if(settler == null) {
             return false;
         }
-        if(settler.profession() == ProfessionRegistry.getInstance().BUILDER) {
+        if(settler.profession() == ProfessionRegistry.getInstance().professionBuilder()) {
             return settlement() != null
                     && !getBuildProgress().isComplete();
         }

@@ -18,7 +18,7 @@ public abstract class BuildingCropFarm extends BuildingBase {
 
     @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
-        return settler.profession() == ProfessionRegistry.getInstance().FARMER;
+        return settler.profession() == ProfessionRegistry.getInstance().professionFarmer();
     }
 
     @Override

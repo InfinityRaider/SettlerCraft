@@ -56,6 +56,11 @@ public interface APIv1 extends APIBase {
     IBuildingStyleRegistry getBuildingStyleRegistry();
 
     /**
+     * @return The IProfessionRegistry instance keeping track of all professions
+     */
+    IProfessionRegistry getProfessionRegistry();
+
+    /**
      * @return the ISettlementHandler instance
      */
     ISettlementHandler getSettlementHandler();
