@@ -86,11 +86,10 @@ public class SettlementWorldData extends WorldSavedData {
         return ImmutableList.copyOf(settlementsById.values());
     }
 
-    public void markSettlementDirty(ISettlement settlement) {
-        if(!this.getWorld().isRemote) {
+    public void syncSettlementToClient(ISettlement settlement) {
+        if(!getWorld().isRemote) {
             MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(settlement);
             NetWorkWrapper.getInstance().sendToDimension(msg, this.getWorld());
-            this.markDirty();
         }
     }
 

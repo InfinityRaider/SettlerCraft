@@ -45,13 +45,10 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     public ItemDebugger itemDebugger;
     public ItemBuildingPlanner itemBuildingPlanner;
 
-    public Item itemAStarTester;
-
     public void init() {
         itemSchematicCreator = new ItemSchematicCreator();
         itemDebugger = new ItemDebugger();
         itemBuildingPlanner = new ItemBuildingPlanner();
-        itemAStarTester = new ItemAStarTest();
 
         LogHelper.debug("Registered items:");
         for(Item item : settlerCraftItems()) {

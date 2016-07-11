@@ -96,7 +96,8 @@ public class Settlement implements ISettlement {
     public void rename(String name) {
         if(!world().isRemote) {
             this.name = name;
-            this.worldData.markSettlementDirty(this);
+            this.markDirty();
+            this.syncToClient();
         }
     }
 
@@ -202,7 +203,8 @@ public class Settlement implements ISettlement {
             this.buildings.put(built.id(), built);
             this.buildingsPerType.get(built.building().buildingType()).add(built);
             this.boundingBox.expandToFit(box.expand(BUILDING_CLEARANCE));
-            this.worldData.markSettlementDirty(this);
+            this.markDirty();
+            this.syncToClient();
             return built;
         }
         return null;
@@ -241,7 +243,10 @@ public class Settlement implements ISettlement {
 
     @Override
     public void removeBuilding(ISettlementBuilding building) {
+        buildings.remove(building.id());
         buildingsPerType.get(building.building().buildingType()).remove(building);
+        this.markDirty();
+        this.syncToClient();
     }
 
     @Override
@@ -251,7 +256,8 @@ public class Settlement implements ISettlement {
             this.populationCount = populationCount +1;
         }
         if(!world().isRemote) {
-            this.worldData.markSettlementDirty(this);
+            this.markDirty();
+            this.syncToClient();
         }
     }
 
@@ -300,26 +306,18 @@ public class Settlement implements ISettlement {
     }
 
     @Override
-     public boolean onBuildingUpdated(ISettlementBuilding building) {
-        this.buildings.put(building.id(), building);
-        if(building.building() == null) {
-            return false;
-        }
-        IBuildingType type = building.building().buildingType();
-        if(!buildingsPerType.containsKey(type)) {
-            this.buildingsPerType.put(type, new ArrayList<>());
-        }
-        this.buildingsPerType.get(type).add(building);
-        IBoundingBox buildingBox = building.getBoundingBox().copy();
-        buildingBox.expandToFit(buildingBox.getMaximumPosition().add(BUILDING_CLEARANCE, BUILDING_CLEARANCE, BUILDING_CLEARANCE));
-        buildingBox.expandToFit(buildingBox.getMinimumPosition().add(-BUILDING_CLEARANCE, -BUILDING_CLEARANCE, -BUILDING_CLEARANCE));
-        this.boundingBox.expandToFit(buildingBox);
-        return true;
+    public void update() {
+
     }
 
     @Override
-    public void update() {
+    public void markDirty() {
+        this.worldData.markDirty();
+    }
 
+    @Override
+    public void syncToClient() {
+        this.worldData.syncSettlementToClient(this);
     }
 
     @Override

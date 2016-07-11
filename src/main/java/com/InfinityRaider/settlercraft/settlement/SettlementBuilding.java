@@ -2,6 +2,8 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.network.MessageSyncBuildingsToClient;
+import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
@@ -151,7 +153,7 @@ public class SettlementBuilding implements ISettlementBuilding {
     }
 
     @Override
-    public boolean isInsideBuilding(int x, int y, int z) {
+    public boolean isInsideBuilding(double x, double y, double z) {
         return getBoundingBox().isWithinBounds(x, y, z);
     }
 
@@ -174,7 +176,7 @@ public class SettlementBuilding implements ISettlementBuilding {
         if(buildProgress == null) {
             if(building() == null) {
                 //should never happen
-                LogHelper.info("[ERROR] SETTLEMENT WITHOUT BUILDING DETECTED, WORLD DAMAGE PREVENTED");
+                LogHelper.info("[ERROR] SETTLEMENT BUILDING WITHOUT BUILDING DETECTED, WORLD DAMAGE PREVENTED");
                 LogHelper.info("[ERROR] THIS IS A SERIOUS BUG, CONTACT THE MOD AUTHOR");
                 return null;
             }
@@ -193,6 +195,17 @@ public class SettlementBuilding implements ISettlementBuilding {
             LogHelper.printStackTrace(e);
             return null;
         }
+    }
+
+    @Override
+    public void markDirty() {
+        this.settlement().markDirty();
+    }
+
+    @Override
+    public void syncToClient() {
+        MessageSyncBuildingsToClient msg = new MessageSyncBuildingsToClient(this);
+        NetWorkWrapper.getInstance().sendToDimension(msg, this.getWorld());
     }
 
     @Override

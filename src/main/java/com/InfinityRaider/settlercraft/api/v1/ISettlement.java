@@ -197,12 +197,15 @@ public interface ISettlement extends ITickable {
     double calculateDistanceSquaredToSettlement(BlockPos pos);
 
     /**
-     * This is called from the argument, it is called when the building is updated and synced from the client.
-     * This way the settlement knows this building has updated.
-     * @param building the building which has been updated
-     * @return if the building was fully updated
+     * Call this on the server to mark this settlement dirty,
+     * when marked dirty, the settlement will be saved to the disk
      */
-    boolean onBuildingUpdated(ISettlementBuilding building);
+    void markDirty();
+
+    /**
+     * Call this on the server to sync this settlement to the client
+     */
+    void syncToClient();
 
     /**
      * Called to serialize the settlement's data and save it

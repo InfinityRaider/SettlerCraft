@@ -127,7 +127,7 @@ public interface ISettlementBuilding {
      * @param z the z-coordinate
      * @return if the coordinates intersect with the building
      */
-    boolean isInsideBuilding(int x, int y, int z);
+    boolean isInsideBuilding(double x, double y, double z);
 
     /**
      * The actual structure of the building in a settlement might be rotated and offset, this method transforms a BlockPos
@@ -153,6 +153,20 @@ public interface ISettlementBuilding {
      * @param state the state of the placed bock
      */
     void onBlockPlaced(EntityPlayer player, BlockPos pos, IBlockState state);
+
+    /**
+     * Call this on the server to mark this settlement dirty,
+     * when marked dirty, the settlement for this building will be saved to the disk
+     * This is equivalent to calling markDirty() on the settlement for this building
+     */
+    void markDirty();
+
+    /**
+     * Call this on the server to sync this building to the client, it is faster than syncing the entire settlement to the client
+     * Call this if only the building has changed (for instance, the workers or inhabitants have changed, or the inventory is changed),
+     * If the changes have affected the entire settlement, sync the settlement to the client instead (syncing the settlement will also sync all buildings)
+     */
+    void syncToClient();
 
     /**
      * Called to serialize the building's data and save it
