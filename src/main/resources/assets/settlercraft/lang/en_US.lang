@@ -42,6 +42,7 @@ settlercraft.building.town_hall1=Basic Town Hall
 settlercraft.building.house_small=Small House
 settlercraft.building.house_medium=Medium House
 settlercraft.building.house_large=Large House
+settlercraft.building.warehouse=Basic Warehouse
 settlercraft.building.crop_farm_riverside=Riverside Crop Farm
 settlercraft.building.crop_farm_irrigated=Irrigated Crop Farm
 settlercraft.building.cattle_farm_stable=Cattle Farm
@@ -90,6 +91,9 @@ settlercraft.dialogue.planBuild=Here, use this to plan where and how you want th
 settlercraft.dialogue.joinSettlement=This is my settlement, would you like to live here
 settlercraft.dialogue.aNewHome=Certainly, it looks lovely
 settlercraft.dialogue.describeTask=What are you doing at the moment?
+settlercraft.dialogue.assignHouse=This house is now your home.
+settlercraft.dialogue.assignWorkplace=I want you to work here.
+
 settlercraft.dialogue.task.noTask=I don't have a specific task at the moment.
 settlercraft.dialogue.task.followingPlayer=I'm currently following
 settlercraft.dialogue.task.gettingFood=I'm hungry, I'm fetching something to eat.
@@ -99,3 +103,4 @@ settlercraft.dialogue.task.needResource=But I'm missing a necessary resource,
 settlercraft.dialogue.task.findingResource=I need some
 settlercraft.dialogue.task.builder=What building are you constructing?
 settlercraft.dialogue.task.building=I'm currently building a new
+

@@ -23,6 +23,7 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
             new DebugModeBuildSchematic(),
             new DebugModeFinishBuilding(),
             new DebugModeSettlementInfo(),
+            new DebugModeResetBuilding(),
             new DebugModePathfinding()
     };
 

@@ -92,6 +92,9 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public boolean canLiveHere(ISettler settler) {
+        boolean complete = isComplete();
+        boolean full = inhabitants.size() < building.maxInhabitants();
+        boolean allowed = building.canSettlerLiveHere(this, settler);
         return isComplete() && inhabitants.size() < building.maxInhabitants() && building.canSettlerLiveHere(this, settler);
     }
 
@@ -139,6 +142,25 @@ public class SettlementBuilding implements ISettlementBuilding {
             }
         }
         return list;
+    }
+
+    @Override
+    public int workerCount() {
+        return workers.size();
+    }
+
+    @Override
+    public int inhabitantCount() {
+        return inhabitants.size();
+    }
+
+    public void resetWorkersAndInhabitants() {
+        if(!this.getWorld().isRemote) {
+            this.workers = new ArrayList<>();
+            this.inhabitants = new ArrayList<>();
+            this.markDirty();
+            this.syncToClient();
+        }
     }
 
     @Override

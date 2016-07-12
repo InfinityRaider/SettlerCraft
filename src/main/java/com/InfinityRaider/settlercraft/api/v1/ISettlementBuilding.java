@@ -71,15 +71,27 @@ public interface ISettlementBuilding {
 
     /**
      * Gets all settlers living in this building, note that this list may be incomplete if the settlement is not chunk loaded
+     * If you need the number of settlers living in this building, use inhabitantCount() instead.
      * @return a list of settlers living in this building (may be empty, but will never be null)
      */
     List<? extends ISettler> inhabitants();
 
     /**
      * Gets all settlers working in this building, note that this list may be incomplete if the settlement is not chunk loaded
+     * If you need the number of settlers working in this building, use inhabitantCount() instead.
      * @return a list of settlers working in this building (may be empty, but will never be null)
      */
     List<? extends ISettler> workers();
+
+    /**
+     * @return the number of workers
+     */
+    int workerCount();
+
+    /**
+     * @return the number of inhabitants
+     */
+    int inhabitantCount();
 
     /**
      * Checks if this settler lives in this building

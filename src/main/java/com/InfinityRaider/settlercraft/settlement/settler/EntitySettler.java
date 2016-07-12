@@ -302,7 +302,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             int id = building == null ? -1 : building.id();
             getDataManager().set(DATA_WORK_PLACE_ID, id);
             if(building != null && !building.doesSettlerWorkHere(this)) {
-                building.addInhabitant(this);
+                building.addWorker(this);
             }
         }
     }

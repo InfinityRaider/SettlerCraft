@@ -38,7 +38,7 @@ public abstract class DialogueOptionBase implements IDialogueOption {
             list.add(DIALOGUE_FACTORY.dialogueOptionDescribeTask(player, settler, this));
             list.add(DIALOGUE_FACTORY.dialogueOptionShowInventory(player, settler));
             EntityAgeable entity = settler.getEntityImplementation();
-            ISettlementBuilding building = settler.settlement().getBuildingForLocation(entity.posX, entity.posY, entity.posZ);
+            ISettlementBuilding building = settler.settlement().getBuildingForLocation(entity.posX + 0.5, entity.posY + 1, entity.posZ + 0.5);
             if(building != null) {
                 if(building.canDoWorkHere(settler)) {
                     list.add(DIALOGUE_FACTORY.dialogueOptionAssignWorkplace(player, settler, building));

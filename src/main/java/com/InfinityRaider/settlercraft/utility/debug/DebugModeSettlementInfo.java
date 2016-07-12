@@ -47,7 +47,8 @@ public class DebugModeSettlementInfo extends DebugMode {
                 } else {
                     player.addChatComponentMessage(new TextComponentString("The building is under construction"));
                 }
-                player.addChatComponentMessage(new TextComponentString("There are " + building.inhabitants().size() + " settlers living in this building"));
+                player.addChatComponentMessage(new TextComponentString("There are " + building.inhabitantCount() + " settlers living in this building"));
+                player.addChatComponentMessage(new TextComponentString("There are " + building.workerCount() + " settlers working in this building"));
             }
         }
     }
