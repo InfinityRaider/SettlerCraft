@@ -60,7 +60,8 @@ public class MessageSyncBuildingsToClient extends MessageBase<IMessage> {
     public void fromBytes(ByteBuf buf) {
         if(buf.readBoolean()) {
             this.settlement = SettlementHandler.getInstance().getSettlement(SettlerCraft.proxy.getClientWorld(), buf.readInt());
-            for(int i = 0; i < buf.readInt(); i++) {
+            int amount = buf.readInt();
+            for(int i = 0; i < amount; i++) {
                 this.buildingTags.add(ByteBufUtils.readTag(buf));
             }
         }
