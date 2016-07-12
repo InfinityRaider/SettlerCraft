@@ -175,6 +175,12 @@ public interface ISettlementBuilding {
     boolean isInsideBuilding(double x, double y, double z);
 
     /**
+     * Gets a list of all block positions for beds inside this building.
+     * @return list of positions
+     */
+    List<BlockPos> getBeds();
+
+    /**
      * The actual structure of the building in a settlement might be rotated and offset, this method transforms a BlockPos
      * relative to the building to an absolute BlockPos (representing the actual position in the world)
      * For instance, if the schematic of the building has a certain block at coordinates (5, 1, 3) in the schematic and you wish to get the position of this chest,
@@ -184,6 +190,11 @@ public interface ISettlementBuilding {
      * @return the absolute position
      */
     BlockPos getActualPosition(BlockPos pos);
+
+    /**
+     * Called when the building is completed, used to scan the building for beds and inventories
+     */
+    void onBuildingCompleted();
 
     /**
      * Called right before a block inside this building's bounding box is broken

@@ -35,6 +35,8 @@ public final class Names {
         public static final String WORK_PLACE = "SC_WorkPlace";
         public static final String COUNT = "SC_Count";
         public static final String ROTATION = "SC_Rot";
+        public static final String HUNGER = "SC_Hunger";
+        public static final String SLEEPING = "SC_Sleeping";
     }
 
     public static class Mods {

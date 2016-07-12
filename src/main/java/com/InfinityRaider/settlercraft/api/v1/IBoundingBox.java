@@ -14,7 +14,7 @@ import java.awt.*;
  * If you want to create your own implementation, that's fine but the suggested way
  * to create new instances is to call api.createNewBoundingBox()
  */
-public interface IBoundingBox {
+public interface IBoundingBox extends Iterable<BlockPos> {
     /**
      * @return the minimum position as a BlockPos
      */

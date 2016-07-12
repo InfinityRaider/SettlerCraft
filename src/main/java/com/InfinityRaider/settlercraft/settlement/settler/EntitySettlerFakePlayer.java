@@ -19,15 +19,22 @@ public class EntitySettlerFakePlayer extends FakePlayer {
     }
 
     @Override
+    public boolean isPlayerSleeping() {
+        return settler.isSleeping();
+    }
+
+    @Override
     public Vec3d getPositionVector() {
         return settler.getEntityImplementation().getPositionVector();
     }
 
-    @Override public boolean canAttackPlayer(EntityPlayer player){
+    @Override
+    public boolean canAttackPlayer(EntityPlayer player){
         return true;
     }
 
-    @Override public Entity changeDimension(int dim) {
+    @Override
+    public Entity changeDimension(int dim) {
         return settler.getEntityImplementation().changeDimension(dim);
     }
 }

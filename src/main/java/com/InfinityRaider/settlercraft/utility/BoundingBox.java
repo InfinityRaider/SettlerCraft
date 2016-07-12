@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class BoundingBox implements IBoundingBox {
     private int minX;
@@ -325,5 +326,41 @@ public class BoundingBox implements IBoundingBox {
         GL11.glTranslatef(-minX(), -minY(), -minZ());
         GlStateManager.enableLighting();
         GlStateManager.enableTexture2D();
+    }
+
+    @Override
+    public BoundingBoxIterator iterator() {
+        return new BoundingBoxIterator(this);
+    }
+
+    /** should be fully threadsafe */
+    private static class BoundingBoxIterator implements Iterator<BlockPos> {
+        private final BlockPos offset;
+        private final int X;
+        private final int Y;
+        private final int limit;
+        private int index;
+
+        private BoundingBoxIterator(BoundingBox box) {
+            this.offset = new BlockPos(box.minX(), box.minY, box.minZ);
+            this.X = box.xSize();
+            this.Y = box.ySize();
+            this.limit = box.xSize()*box.ySize()*box.zSize();
+            this.index = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < limit;
+        }
+
+        @Override
+        public BlockPos next() {
+            int x = index % X;
+            int z = index / (X * Y);
+            int y = (index - (X * Y * z))/X;
+            index = index + 1;
+            return (x == 0 && y == 0 && z == 0) ? new BlockPos(offset) : offset.add(x, y, z);
+        }
     }
 }

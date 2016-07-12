@@ -206,6 +206,30 @@ public interface ISettler extends INpc {
     SettlerStatus getSettlerStatus();
 
     /**
+     * Gets the settler's hunger level, the hunger level goes from 0 to 10 and defines the hunger status.
+     * See HungerStatus for more details on this
+     * @return the hunger level
+     */
+    int getHungerLevel();
+
+    /**
+     * @return the settler's hunger status
+     */
+    HungerStatus getHungerStatus();
+
+    /**
+     * Tries to eat a food item, returns true if successful. Only one piece of food is eaten at a time
+     * @param food an ItemStack holding a food item
+     * @return if the settler has eaten a piece of food
+     */
+    boolean eatFood(ItemStack food);
+
+    /**
+     * @return true if the settler is asleep
+     */
+    boolean isSleeping();
+
+    /**
      * An enum with al the possible states a settler can have, used to determine settler behaviour.
      */
     enum SettlerStatus {
@@ -215,5 +239,59 @@ public interface ISettler extends INpc {
         GETTING_FOOD,
         GOING_TO_BED,
         PERFORMING_TASK
+    }
+
+    /**
+     * An enum with the possible settler hunger levels
+     * STUFFED: the settler's stomach is full, it can not possibly eat any more
+     * FINE: the settler is fine, he could eat but does not need anything
+     * HUNGRY: the settler is becoming hungry and can no longer regen health, he will stop doing his task and start looking for food
+     * STARVING: the settler's stomach is empty and the settler is steadily losing health, he will die if he does not eat something
+     */
+    enum HungerStatus {
+        STUFFED(10, true, false),
+        FINE(9, true, false),
+        HUNGRY(3, false, false),
+        STARVING(0, false, true);
+        private final int level;
+        private final boolean heal;
+        private final boolean hurt;
+
+        HungerStatus(int level, boolean heal, boolean hurt) {
+            this.level = level;
+            this.heal = heal;
+            this.hurt = hurt;
+        }
+
+        /**
+         * This number defines which status the settler's hunger level is. The hunger level goes from 0 to 10,
+         * if the settler's hunger level is higher or equal to this number, then the settler has this status.
+         */
+        public int getHungerLevel() {
+            return this.level;
+        }
+
+        /**
+         * This defines if the settler should regen when he has this hunger status
+         */
+        public boolean shouldHeal() {
+            return this.heal;
+        }
+
+        /**
+         * This defines if the settler should lose health when he has this hunger status
+         */
+        public boolean shouldHurt() {
+            return this.hurt;
+        }
+
+        public static HungerStatus fromLevel(int level) {
+            for(HungerStatus status : HungerStatus.values()) {
+                if(level >= status.getHungerLevel()) {
+                    return status;
+                }
+            }
+            return STARVING;
+        }
     }
 }

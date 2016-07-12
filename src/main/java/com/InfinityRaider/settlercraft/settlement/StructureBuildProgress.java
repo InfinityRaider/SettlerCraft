@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StructureBuildProgress {
-    private World world;
+    private ISettlementBuilding building;
     private BlockPos origin;
     private Schematic schematic;
 
@@ -34,15 +35,15 @@ public class StructureBuildProgress {
     private boolean complete;
     private boolean needsCompletenessCheck;
 
-    public StructureBuildProgress(World world, BlockPos clicked, Schematic schematic, int rotation) {
-        this.world = world;
+    public StructureBuildProgress(ISettlementBuilding building, BlockPos clicked, Schematic schematic, int rotation) {
+        this.building = building;
         this.schematic = schematic;
         this.init(clicked, rotation);
         this.buildWorkQueue();
     }
 
     public World getWorld() {
-        return world;
+        return building.getWorld();
     }
 
     //there has to be a better way to do this...
@@ -114,6 +115,7 @@ public class StructureBuildProgress {
 
     private void performCompletenessCheck() {
         if (needsCompletenessCheck) {
+            boolean wasComplete = complete;
             needsCompletenessCheck = false;
             for (int x = 0; x < blocksToBuild.length; x++) {
                 for (int y = 0; y < blocksToBuild[x].length; y++) {
@@ -126,6 +128,9 @@ public class StructureBuildProgress {
                 }
             }
             complete = currentWork.size() <= 0;
+            if(complete && !wasComplete) {
+                this.building.onBuildingCompleted();
+            }
         }
     }
 
@@ -177,7 +182,7 @@ public class StructureBuildProgress {
         int y = pos.getY() - origin.getY();
         int z = pos.getZ() - origin.getZ();
         if(clearingWork[x][y][z] != null) {
-            world.setBlockToAir(pos);
+            getWorld().setBlockToAir(pos);
         }
         clearingWork[x][y][z] = null;
         needsCompletenessCheck = true;
@@ -198,7 +203,7 @@ public class StructureBuildProgress {
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
         for(Schematic.BlockPosition position : schematic.blocks) {
-            StructureBuildPosition toBuild = StructureBuildPosition.fromSchematicData(world, clicked, rotation, position);
+            StructureBuildPosition toBuild = StructureBuildPosition.fromSchematicData(getWorld(), clicked, rotation, position);
             if(position.needsSupportBlock) {
                 finalBlocks.add(toBuild);
             } else {
@@ -232,7 +237,7 @@ public class StructureBuildProgress {
             for(int y = 0; y < blocksToBuild[x].length; y++) {
                 for(int z = 0; z < blocksToBuild[x][y].length; z ++) {
                     BlockPos pos = new BlockPos(x + origin.getX(), y + origin.getY(), z + origin.getZ());
-                    IBlockState state = world.getBlockState(pos);
+                    IBlockState state = getWorld().getBlockState(pos);
                     Block block = state.getBlock();
                     boolean base = isAllowedState(state, blocksToBuild[x][y][z]);
                     boolean last = isAllowedState(state, finalBlocksToBuild[x][y][z]);
@@ -252,7 +257,7 @@ public class StructureBuildProgress {
                     if(base || last) {
                         continue;
                     }
-                    if(block != null && block.getBlockHardness(state, world, pos) < 0) {
+                    if(block != null && block.getBlockHardness(state, getWorld(), pos) < 0) {
                         //block is unbreakable
                         continue;
                     }

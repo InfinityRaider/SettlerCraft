@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
 import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
@@ -18,6 +19,7 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -25,6 +27,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
@@ -47,6 +50,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_HAS_TASK = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> DATA_HUNGER_LEVEL = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
 
     private ISettlement settlement;
     private IProfession profession;
@@ -89,6 +94,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_HAS_TASK, false);
+        this.getDataManager().register(DATA_HUNGER_LEVEL, 9);
+        this.getDataManager().register(DATA_SLEEPING, false);
     }
 
     @Override
@@ -105,6 +112,23 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void onUpdate() {
         super.onUpdate();
+        //update hunger level
+        long time = this.getWorld().getWorldTime();
+        if(!this.getWorld().isRemote && (time % 2400 == 0)) {
+            int hungerLevel = this.getDataManager().get(DATA_HUNGER_LEVEL) - 1;
+            this.getDataManager().set(DATA_HUNGER_LEVEL, hungerLevel);
+        }
+        // hurt or heal the entity based on its hunger status
+        if(!this.getWorld().isRemote && (time % 1200 == 0)) {
+            HungerStatus status = this.getHungerStatus();
+            if(status.shouldHurt()) {
+                this.damageEntity(DamageSource.starve, this.getMaxHealth() / 20F);
+            } else if(status.shouldHeal()) {
+                float health = this.getHealth();
+                health = Math.min(this.getMaxHealth(), health + (this.getMaxHealth()/20F));
+                this.setHealth(health);
+            }
+        }
     }
 
     @Override
@@ -139,6 +163,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
         tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
         tag.setBoolean(Names.NBT.TASK, this.task != null);
+        tag.setInteger(Names.NBT.HUNGER, this.getDataManager().get(DATA_HUNGER_LEVEL));
+        tag.setBoolean(Names.NBT.SLEEPING, this.getDataManager().get(DATA_SLEEPING));
     }
 
     public void readEntityFromNBT(NBTTagCompound tag) {
@@ -164,6 +190,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         }
         this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
         this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
+        this.getDataManager().set(DATA_HUNGER_LEVEL, tag.hasKey(Names.NBT.HUNGER) ? tag.getInteger(Names.NBT.HUNGER) : 9);
+        this.getDataManager().set(DATA_SLEEPING, tag.hasKey(Names.NBT.SLEEPING) && tag.getBoolean(Names.NBT.SLEEPING));
     }
 
     @SuppressWarnings("unchecked")
@@ -455,5 +483,35 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public SettlerStatus getSettlerStatus() {
         return ISettler.SettlerStatus.values()[this.getDataManager().get(DATA_SETTLER_STATUS)];
+    }
+
+    @Override
+    public int getHungerLevel() {
+        return getDataManager().get(DATA_HUNGER_LEVEL);
+    }
+
+    @Override
+    public HungerStatus getHungerStatus() {
+        return HungerStatus.fromLevel(this.getHungerLevel());
+    }
+
+    @Override
+    public boolean eatFood(ItemStack stack) {
+        if(getHungerStatus() == HungerStatus.STUFFED ||stack == null || stack.getItem() == null || !(stack.getItem() instanceof ItemFood)) {
+            return false;
+        }
+        if(!this.getWorld().isRemote) {
+            ItemFood food = (ItemFood) stack.getItem();
+            float saturation = food.getSaturationModifier(stack);
+            float multiplier = ConfigurationHandler.getInstance().settlerFoodMultiplier;
+            int hungerLevel = this.getHungerLevel() + Math.round(multiplier * saturation);
+            this.getDataManager().set(DATA_HUNGER_LEVEL, hungerLevel);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isSleeping() {
+        return getDataManager().get(DATA_SLEEPING);
     }
 }

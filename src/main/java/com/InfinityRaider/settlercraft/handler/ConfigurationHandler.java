@@ -21,6 +21,7 @@ public class ConfigurationHandler {
     //settlers
     public String[] settlerSpawnBiomes;
     public int settlerSpawnWeight;
+    public float settlerFoodMultiplier;
 
     //debug
     public boolean debug;
@@ -56,6 +57,7 @@ public class ConfigurationHandler {
         //settlers
         settlerSpawnBiomes = config.getStringList("settler spawn biomes", Categories.SETTLERS.getName(), BiomeHelper.getInstance().getBiomeList(), "Biomes where settlers can spawn");
         settlerSpawnWeight = config.getInt("settler spawn weight", Categories.SETTLERS.getName(), 1, 1, 20, "The spawn weight for spawning settlers in the world");
+        settlerFoodMultiplier = config.getFloat("settler food multiplier", Categories.SETTLERS.getName(), 2.0F, 0.5F, 5F, "The multiplier used on a food's saturation to replenish a settler's hunger level");
         //debug
         debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
     }

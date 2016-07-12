@@ -14,10 +14,15 @@ import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
+import com.google.common.collect.ImmutableList;
+import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,11 +42,13 @@ public class SettlementBuilding implements ISettlementBuilding {
     private IInventorySerializable inventory;
     private List<Integer> inhabitants;
     private List<Integer> workers;
+    private List<BlockPos> beds;
 
     public SettlementBuilding(ISettlement settlement) {
         this.settlement = settlement;
         this.inhabitants = new ArrayList<>();
         this.workers = new ArrayList<>();
+        this.beds = new ArrayList<>();
     }
 
     public SettlementBuilding(ISettlement settlement, int id, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
@@ -52,7 +59,7 @@ public class SettlementBuilding implements ISettlementBuilding {
         this.origin = pos;
         this.home = SchematicRotationTransformer.getInstance().applyRotation(pos, schematic.home[0], schematic.home[1], schematic.home[2], rotation);
         this.rotation = rotation;
-        this.buildProgress = new StructureBuildProgress(getWorld(), pos, schematic, rotation);
+        this.buildProgress = new StructureBuildProgress(this, pos, schematic, rotation);
         this.inventory = building.getDefaultInventory();
     }
 
@@ -92,9 +99,6 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public boolean canLiveHere(ISettler settler) {
-        boolean complete = isComplete();
-        boolean full = inhabitants.size() < building.maxInhabitants();
-        boolean allowed = building.canSettlerLiveHere(this, settler);
         return isComplete() && inhabitants.size() < building.maxInhabitants() && building.canSettlerLiveHere(this, settler);
     }
 
@@ -234,8 +238,30 @@ public class SettlementBuilding implements ISettlementBuilding {
     }
 
     @Override
+    public List<BlockPos> getBeds() {
+        return ImmutableList.copyOf(this.beds);
+    }
+
+    @Override
     public BlockPos getActualPosition(BlockPos pos) {
         return SchematicRotationTransformer.getInstance().applyRotation(origin, pos.getX(), pos.getY(), pos.getZ(), getRotation());
+    }
+
+    @Override
+    public void onBuildingCompleted() {
+        this.beds = new ArrayList<>();
+        for (BlockPos pos : this.getBoundingBox()) {
+            IBlockState state = this.getWorld().getBlockState(pos);
+            TileEntity tile = this.getWorld().getTileEntity(pos);
+            if ((state.getBlock() instanceof BlockBed) && (state.getValue(BlockBed.PART) == BlockBed.EnumPartType.HEAD)) {
+                this.beds.add(new BlockPos(pos));
+            }
+            if(tile != null && (tile instanceof IInventory)) {
+                //TODO
+            }
+        }
+        this.markDirty();
+        this.syncToClient();
     }
 
     @Override
@@ -258,7 +284,7 @@ public class SettlementBuilding implements ISettlementBuilding {
             }
             Schematic schematic = deserializeSchematic();
             if(schematic != null) {
-                this.buildProgress = new StructureBuildProgress(this.getWorld(), this.origin, schematic, this.getRotation());
+                this.buildProgress = new StructureBuildProgress(this, this.origin, schematic, this.getRotation());
             }
         }
         return this.buildProgress;
@@ -309,6 +335,18 @@ public class SettlementBuilding implements ISettlementBuilding {
         for(int id : ids) {
             this.workers.add(id);
         }
+        this.beds = new ArrayList<>();
+        if(tag.hasKey(Names.NBT.SLEEPING)) {
+            NBTTagList list = tag.getTagList(Names.NBT.SLEEPING, 10);
+            int count = list.tagCount();
+            for(int i = 0; i < count; i ++) {
+                NBTTagCompound bedTag = list.getCompoundTagAt(i);
+                int[] bedCoords = bedTag.getIntArray(Names.NBT.SLEEPING);
+                if(bedCoords != null && bedCoords.length >= 3) {
+                    this.beds.add(new BlockPos(bedCoords[0], bedCoords[1], bedCoords[2]));
+                }
+            }
+        }
         return tag;
     }
 
@@ -352,6 +390,13 @@ public class SettlementBuilding implements ISettlementBuilding {
             workers[i] = this.workers.get(i);
         }
         tag.setIntArray(Names.NBT.WORKERS, workers);
+        NBTTagList bedList = new NBTTagList();
+        for(BlockPos bedPos : this.getBeds()) {
+            NBTTagCompound bedTag = new NBTTagCompound();
+            bedTag.setIntArray(Names.NBT.SLEEPING, new int[] {bedPos.getX(), bedPos.getY(), bedPos.getZ()});
+            bedList.appendTag(bedTag);
+        }
+        tag.setTag(Names.NBT.SLEEPING, bedList);
         return tag;
     }
 
