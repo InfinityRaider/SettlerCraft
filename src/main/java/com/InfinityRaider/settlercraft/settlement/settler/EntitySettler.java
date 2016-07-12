@@ -273,11 +273,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setHome(ISettlementBuilding building) {
-        if(settlement() == null || (building != null && building.settlement() != settlement())) {
-            return;
+        if(!worldObj.isRemote) {
+            if (settlement() == null || (building != null && building.settlement() != settlement())) {
+                return;
+            }
+            int id = building == null ? -1 : building.id();
+            getDataManager().set(DATA_HOME_ID, id);
+            if(building != null && !building.doesSettlerLiveHere(this)) {
+                building.addInhabitant(this);
+            }
         }
-        int id = building == null ? -1 : building.id();
-        getDataManager().set(DATA_HOME_ID, id);
     }
 
     @Override
@@ -290,11 +295,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setWorkPlace(ISettlementBuilding building) {
-        if(settlement() == null || (building != null && building.settlement() != settlement())) {
-            return;
+        if(!worldObj.isRemote) {
+            if (settlement() == null || (building != null && building.settlement() != settlement())) {
+                return;
+            }
+            int id = building == null ? -1 : building.id();
+            getDataManager().set(DATA_WORK_PLACE_ID, id);
+            if(building != null && !building.doesSettlerWorkHere(this)) {
+                building.addInhabitant(this);
+            }
         }
-        int id = building == null ? -1 : building.id();
-        getDataManager().set(DATA_WORK_PLACE_ID, id);
     }
 
     @Override

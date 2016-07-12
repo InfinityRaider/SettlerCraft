@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
+import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.gson.Gson;
 import net.minecraft.block.Block;
@@ -22,7 +23,6 @@ public class SchematicReader {
     }
 
     private final Gson gson;
-    String lastPath;
 
     private SchematicReader() {
         gson = new Gson();
@@ -31,9 +31,13 @@ public class SchematicReader {
     public void buildStoredSchematic(World world, BlockPos pos, int rotation) {
         List<Schematic.BlockPosition> list;
         try {
-            list = deserialize(lastPath).blocks;
+            File schematic = getLastSchematic();
+            if(schematic == null) {
+                return;
+            }
+            list = deserialize(new FileReader(schematic)).blocks;
         } catch (IOException e) {
-            e.printStackTrace();
+            LogHelper.printStackTrace(e);
             return;
         }
         List<Schematic.BlockPosition> delayedBlocks = new ArrayList<>();
@@ -49,6 +53,25 @@ public class SchematicReader {
         for(int i = 0; i < delayedBlocks.size(); i++) {
             addBlockPositionToWorld(world, delayedBlocks.get(i), pos, rotation, i == (list.size()-1) );
         }
+    }
+
+    public File getLastSchematic() {
+        File dir = new File(ConfigurationHandler.getInstance().schematicOutput);
+        File[] files = dir.listFiles();
+        if(files == null) {
+            return null;
+        }
+        File last = null;
+        for(File file : files) {
+            if(last == null) {
+                last = file;
+                continue;
+            }
+            if(last.lastModified() < file.lastModified()) {
+                last = file;
+            }
+        }
+        return last;
     }
 
     private void addBlockPositionToWorld(World world, Schematic.BlockPosition data, BlockPos pos, int rotation, boolean blockUpdate) {

@@ -15,6 +15,11 @@ public abstract class BuildingHouse extends BuildingBase {
     }
 
     @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return true;
+    }
+
+    @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
         return false;
     }

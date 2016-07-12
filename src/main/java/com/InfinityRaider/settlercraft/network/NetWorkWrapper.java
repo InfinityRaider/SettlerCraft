@@ -29,6 +29,7 @@ public class NetWorkWrapper {
         registerMessage(MessageDialogueOptionSelected.class);
         registerMessage(MessageAssignTask.class);
         registerMessage(MessageSyncSettlementsToClient.class);
+        registerMessage(MessageSyncBuildingsToClient.class);
     }
 
     public void sendToAll(MessageBase message) {

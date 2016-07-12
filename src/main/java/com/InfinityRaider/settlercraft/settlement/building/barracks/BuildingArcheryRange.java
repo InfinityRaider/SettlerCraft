@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.building.barracks;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class BuildingArcheryRange extends BuildingBase {
@@ -28,6 +29,11 @@ public class BuildingArcheryRange extends BuildingBase {
     @Override
     public int maxInhabitants() {
         return 3;
+    }
+
+    @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return settler.profession() == ProfessionRegistry.getInstance().professionSoldier();
     }
 
     @Override

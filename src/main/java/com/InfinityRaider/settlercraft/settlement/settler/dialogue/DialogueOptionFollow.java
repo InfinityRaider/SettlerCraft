@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DialogueOptionFollow extends DialogueOptionBase {
-    public DialogueOptionFollow(EntityPlayer player, ISettler settler) {
+    private final boolean follow;
+
+    public DialogueOptionFollow(EntityPlayer player, ISettler settler, boolean shouldFollow) {
         super(player, settler);
+        this.follow = shouldFollow;
     }
 
     @Override
@@ -20,25 +23,49 @@ public class DialogueOptionFollow extends DialogueOptionBase {
 
     @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        if(settler.getCurrentlyFollowingPlayer() == null) {
-            settler.followPlayer(player);
+        EntityPlayer current = settler.getCurrentlyFollowingPlayer();
+        if(follow) {
+            if (current == null) {
+                settler.followPlayer(player);
+            }
+        } else {
+            if(current != null && current.getUniqueID().equals(player.getUniqueID())) {
+                settler.followPlayer(null);
+            }
         }
     }
 
     @Override
     public List<String> getLocalizedSettlerTextString() {
         List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "following"));
+        if(this.follow) {
+            list.add(I18n.translateToLocal(getDiscriminator() + "following"));
+        } else {
+            if(isMayor()) {
+                list.add(I18n.translateToLocal(getDiscriminator() + "backToWork"));
+            } else {
+                list.add(I18n.translateToLocal(getDiscriminator() + "stayingPut"));
+
+            }
+        }
         return list;
     }
 
     @Override
     public List<String> getLocalizedPlayerTextString() {
         List<String> list = new ArrayList<>();
-        if(isMayor()) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "followMeCitizen"));
+        if(follow) {
+            if (isMayor()) {
+                list.add(I18n.translateToLocal(getDiscriminator() + "followMeCitizen"));
+            } else {
+                list.add(I18n.translateToLocal(getDiscriminator() + "followMe"));
+            }
         } else {
-            list.add(I18n.translateToLocal(getDiscriminator() + "followMe"));
+            if(isMayor()) {
+                list.add(I18n.translateToLocal(getDiscriminator() + "stayCitizen"));
+            } else {
+                list.add(I18n.translateToLocal(getDiscriminator() + "stay"));
+            }
         }
         return list;
     }

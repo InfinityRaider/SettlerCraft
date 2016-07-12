@@ -11,7 +11,7 @@ public class BuildingTownHallTier3 extends BuildingTownHall {
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return settlement.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeAcademy()).size() >= 1
+        return settlement.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeWorkshop()).size() >= 2
                 && settlement.population() >= 20
                 && settlement.getCompletedBuildings().size() >= 10;
     }

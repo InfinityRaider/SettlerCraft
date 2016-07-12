@@ -151,12 +151,15 @@ public interface ISettlement extends ITickable {
     void addInhabitant(ISettler settler);
 
     /**
+     * This method gets a list of all settlers living in this settlement,
+     * This always constructs a new list based on entity id's, it may thus be incomplete if the settlement is not chunk loaded.
+     * If you need to get the population count, it is faster to use the population() method instead.
      * @return a list of all settlers living in this settlement
      */
     List<ISettler> getSettlementInhabitants();
 
     /**
-     * @return the total population count (including the mayor)
+     * @return the total number of settlers living in this settlement
      */
     int population();
 

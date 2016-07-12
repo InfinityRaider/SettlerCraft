@@ -12,7 +12,7 @@ public class BuildingHouseMedium extends BuildingHouse {
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
         return settlement.tier() >= 1
-                && settlement.getSettlementInhabitants().size() >= 2;
+                && settlement.population() >= 2;
     }
 
     @Override

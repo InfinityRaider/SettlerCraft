@@ -106,6 +106,5 @@ public class SchematicWriter {
         Writer writer = new OutputStreamWriter(new FileOutputStream(path));
         gson.toJson(new Schematic(list, 0, new int[] {0, 0, 0}), writer);
         writer.close();
-        SchematicReader.getInstance().lastPath = path;
     }
 }

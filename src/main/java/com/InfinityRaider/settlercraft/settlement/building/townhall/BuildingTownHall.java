@@ -33,6 +33,11 @@ public abstract class BuildingTownHall extends BuildingBase implements IBuilding
     }
 
     @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return false;
+    }
+
+    @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
         return false;
     }

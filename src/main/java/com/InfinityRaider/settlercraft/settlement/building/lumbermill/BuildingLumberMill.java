@@ -32,6 +32,11 @@ public class BuildingLumberMill extends BuildingBase {
     }
 
     @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return settler.profession() == ProfessionRegistry.getInstance().professionLumberJack();
+    }
+
+    @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
         return settler.profession() == ProfessionRegistry.getInstance().professionLumberJack();
     }

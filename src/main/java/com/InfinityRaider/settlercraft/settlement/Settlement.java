@@ -9,6 +9,7 @@ import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -32,13 +33,14 @@ public class Settlement implements ISettlement {
     private BoundingBox boundingBox;
     private IBuildingStyle style;
     //Settler data
-    private int populationCount;
+    private List<Integer> inhabitants;
     //Building data
     private Map<Integer, ISettlementBuilding> buildings;
     private Map<IBuildingType, List<ISettlementBuilding>> buildingsPerType;
 
     public Settlement(SettlementWorldData worldData) {
         this.worldData = worldData;
+        this.inhabitants = new ArrayList<>();
         this.resetBuildings();
     }
 
@@ -117,7 +119,7 @@ public class Settlement implements ISettlement {
             return null;
         }
         for (ISettlementBuilding building : getBuildings()) {
-            if(building.getBoundingBox().isWithinBounds(x, y, z)) {
+            if(building.isInsideBuilding(x, y, z)) {
                 return building;
             }
         }
@@ -251,11 +253,9 @@ public class Settlement implements ISettlement {
 
     @Override
     public void addInhabitant(ISettler settler) {
-        if(settler.settlement() == null) {
+        if(!world().isRemote && settler.settlement() == null) {
             settler.setSettlement(this);
-            this.populationCount = populationCount +1;
-        }
-        if(!world().isRemote) {
+            this.inhabitants.add(settler.getEntityImplementation().getEntityId());
             this.markDirty();
             this.syncToClient();
         }
@@ -264,15 +264,18 @@ public class Settlement implements ISettlement {
     @Override
     public List<ISettler> getSettlementInhabitants() {
         List<ISettler> list = new ArrayList<>();
-        for(ISettlementBuilding building : getBuildings()) {
-            list.addAll(building.inhabitants());
+        for(int id : inhabitants) {
+            Entity e = this.world().getEntityByID(id);
+            if(e != null && (e instanceof ISettler)) {
+                list.add((ISettler) e);
+            }
         }
         return list;
     }
 
     @Override
     public int population() {
-        return populationCount;
+        return inhabitants.size();
     }
 
     @Override
@@ -334,7 +337,11 @@ public class Settlement implements ISettlement {
         tag.setInteger(Names.NBT.Y_SIZE, ySize());
         tag.setInteger(Names.NBT.Z_SIZE, zSize());
         tag.setString(Names.NBT.STYLE, style.getName());
-        tag.setInteger(Names.NBT.INVENTORY, population());
+        int[] ids = new int[population()];
+        for(int i = 0; i < ids.length; i++) {
+            ids[i] = inhabitants.get(i);
+        }
+        tag.setIntArray(Names.NBT.INVENTORY, ids);
         this.writeBuildingsToNBT(tag);
         return tag;
     }
@@ -363,7 +370,11 @@ public class Settlement implements ISettlement {
         int maxZ = minZ + tag.getInteger(Names.NBT.Z_SIZE) - 1;
         this.boundingBox = new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
         this.style = BuildingStyleRegistry.getInstance().getBuildingStyleFromName(tag.getString(Names.NBT.STYLE));
-        this.populationCount = tag.getInteger(Names.NBT.INVENTORY);
+        int[] ids = tag.getIntArray(Names.NBT.INVENTORY);
+        this.inhabitants = new ArrayList<>();
+        for(int id : ids) {
+            this.inhabitants.add(id);
+        }
         this.readBuildingsFromNBT(tag);
         return tag;
     }

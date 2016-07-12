@@ -17,7 +17,7 @@ public class BuildingWareHouse extends BuildingBase {
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return false;
+        return settlement.tier() >= 1;
     }
 
     @Override
@@ -28,6 +28,11 @@ public class BuildingWareHouse extends BuildingBase {
     @Override
     public int maxInhabitants() {
         return 0;
+    }
+
+    @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return false;
     }
 
     @Override

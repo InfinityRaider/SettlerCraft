@@ -40,6 +40,25 @@ public interface ISettlementBuilding {
     boolean canDoWorkHere(ISettler settler);
 
     /**
+     * Sets this building to the settler's workplace, only works on the server thread and is synced to the client automatically
+     * @param settler the settler
+     */
+    void addWorker(ISettler settler);
+
+    /**
+     * Checks if a settler can make this his home
+     * @param settler the settler to be assigned this building as home
+     * @return if the settler can live here
+     */
+    boolean canLiveHere(ISettler settler);
+
+    /**
+     * Sets this building to the settler's home, only works on the server thread and is synced to the client automatically
+     * @param settler the settler
+     */
+    void addInhabitant(ISettler settler);
+
+    /**
      * If the settler can do work for this building ( true returned from canDoWorkHere(settler) ),
      * this method will be called to get a list of task for the settler to fulfill.
      * For incomplete buildings this call will assign the settler to build the building,
@@ -51,21 +70,35 @@ public interface ISettlementBuilding {
     ITask getTaskForSettler(ISettler settler);
 
     /**
+     * Gets all settlers living in this building, note that this list may be incomplete if the settlement is not chunk loaded
      * @return a list of settlers living in this building (may be empty, but will never be null)
      */
     List<? extends ISettler> inhabitants();
 
     /**
+     * Gets all settlers working in this building, note that this list may be incomplete if the settlement is not chunk loaded
+     * @return a list of settlers working in this building (may be empty, but will never be null)
+     */
+    List<? extends ISettler> workers();
+
+    /**
+     * Checks if this settler lives in this building
+     * @param settler the settler
+     * @return true if the settler lives here, false if not
+     */
+    boolean doesSettlerLiveHere(ISettler settler);
+
+    /**
+     * Checks if this settler works in this building
+     * @param settler the settler
+     * @return true if the settler works here, false if not
+     */
+    boolean doesSettlerWorkHere(ISettler settler);
+
+    /**
      * @return the settlement where this is built, this can be null if the chunk with this building is loaded, but the settlement's home chunk isn't.
      */
     ISettlement settlement();
-
-    /**
-     * Checks if a settler can make this his home
-     * @param settler the settler to be assigned this building as home
-     * @return if the settler can live here
-     */
-    boolean canLiveHere(ISettler settler);
 
     /**
      * @return if this building is fully constructed
@@ -132,6 +165,8 @@ public interface ISettlementBuilding {
     /**
      * The actual structure of the building in a settlement might be rotated and offset, this method transforms a BlockPos
      * relative to the building to an absolute BlockPos (representing the actual position in the world)
+     * For instance, if the schematic of the building has a certain block at coordinates (5, 1, 3) in the schematic and you wish to get the position of this chest,
+     * call this method with a BlockPos argument with coordinates of (5, 1, 3) to get the BlockPos of that block in the world.
      *
      * @param pos the position, relative to the origin of the building to be transformed
      * @return the absolute position

@@ -10,7 +10,7 @@ public class BuildingWorkShopBlackSmith extends BuildingWorkShop {
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return false;
+        return settlement.tier() >= 2;
     }
 
     @Override

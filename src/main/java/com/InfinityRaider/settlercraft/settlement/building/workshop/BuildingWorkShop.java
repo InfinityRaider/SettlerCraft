@@ -18,4 +18,9 @@ public abstract class BuildingWorkShop extends BuildingBase {
     public int maxInhabitants() {
         return 0;
     }
+
+    @Override
+    public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
+        return false;
+    }
 }

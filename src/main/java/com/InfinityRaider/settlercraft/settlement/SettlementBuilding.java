@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageSyncBuildingsToClient;
 import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
@@ -36,11 +35,13 @@ public class SettlementBuilding implements ISettlementBuilding {
     private int rotation;
     private StructureBuildProgress buildProgress;
     private IInventorySerializable inventory;
-    private List<EntitySettler> inhabitants;
+    private List<Integer> inhabitants;
+    private List<Integer> workers;
 
     public SettlementBuilding(ISettlement settlement) {
         this.settlement = settlement;
         this.inhabitants = new ArrayList<>();
+        this.workers = new ArrayList<>();
     }
 
     public SettlementBuilding(ISettlement settlement, int id, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
@@ -78,6 +79,35 @@ public class SettlementBuilding implements ISettlementBuilding {
     }
 
     @Override
+    public void addWorker(ISettler settler) {
+        if(!getWorld().isRemote) {
+            this.workers.add(settler.getEntityImplementation().getEntityId());
+            if(settler.workPlace() != this) {
+                settler.setWorkPlace(this);
+            }
+            this.markDirty();
+            this.syncToClient();
+        }
+    }
+
+    @Override
+    public boolean canLiveHere(ISettler settler) {
+        return isComplete() && inhabitants.size() < building.maxInhabitants() && building.canSettlerLiveHere(this, settler);
+    }
+
+    @Override
+    public void addInhabitant(ISettler settler) {
+        if(!getWorld().isRemote) {
+            this.inhabitants.add(settler.getEntityImplementation().getEntityId());
+            if(settler.home() != this) {
+                settler.setHome(this);
+            }
+            this.markDirty();
+            this.syncToClient();
+        }
+    }
+
+    @Override
     public ITask getTaskForSettler(ISettler settler) {
         if(this.isComplete()) {
             return building().getTaskForSettler(this, settler);
@@ -88,18 +118,42 @@ public class SettlementBuilding implements ISettlementBuilding {
     }
 
     @Override
-    public List<? extends ISettler> inhabitants() {
-        return inhabitants;
+    public List<EntitySettler> inhabitants() {
+        List<EntitySettler> list = new ArrayList<>();
+        for(int id : this.inhabitants) {
+            Entity e = this.getWorld().getEntityByID(id);
+            if(e != null && (e instanceof EntitySettler)) {
+                list.add((EntitySettler) e);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<? extends ISettler> workers() {
+        List<EntitySettler> list = new ArrayList<>();
+        for(int id : this.workers) {
+            Entity e = this.getWorld().getEntityByID(id);
+            if(e != null && (e instanceof EntitySettler)) {
+                list.add((EntitySettler) e);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public boolean doesSettlerLiveHere(ISettler settler) {
+        return settler != null && this.inhabitants.contains(settler.getEntityImplementation().getEntityId());
+    }
+
+    @Override
+    public boolean doesSettlerWorkHere(ISettler settler) {
+        return settler != null && this.workers.contains(settler.getEntityImplementation().getEntityId());
     }
 
     @Override
     public ISettlement settlement() {
         return settlement;
-    }
-
-    @Override
-    public boolean canLiveHere(ISettler settler) {
-        return isComplete() && inhabitants().size() < building.maxInhabitants();
     }
 
     @Override
@@ -224,11 +278,14 @@ public class SettlementBuilding implements ISettlementBuilding {
         this.home = new BlockPos(tag.getInteger(Names.NBT.X2), tag.getInteger(Names.NBT.Y2), tag.getInteger(Names.NBT.Z2));
         this.origin = new BlockPos(tag.getInteger(Names.NBT.X3), tag.getInteger(Names.NBT.Y3), tag.getInteger(Names.NBT.Z3));
         int[] ids = tag.getIntArray(Names.NBT.SETTLERS);
+        this.inhabitants = new ArrayList<>();
         for(int id : ids) {
-            Entity entity = SettlerCraft.proxy.getEntityById(settlement().world(), id);
-            if(entity != null && entity instanceof EntitySettler) {
-                inhabitants.add((EntitySettler) entity);
-            }
+            inhabitants.add(id);
+        }
+        this.workers = new ArrayList<>();
+        ids = tag.getIntArray(Names.NBT.WORKERS);
+        for(int id : ids) {
+            this.workers.add(id);
         }
         return tag;
     }
@@ -263,11 +320,16 @@ public class SettlementBuilding implements ISettlementBuilding {
         tag.setInteger(Names.NBT.X3, origin.getX());
         tag.setInteger(Names.NBT.Y3, origin.getY());
         tag.setInteger(Names.NBT.Z3, origin.getZ());
-        int[] settlers = new int[inhabitants.size()];
-        for(int i = 0; i < settlers.length; i++) {
-            settlers[i] = inhabitants.get(i).getEntityId();
+        int[] inhabitants = new int[this.inhabitants.size()];
+        for(int i = 0; i < inhabitants.length; i++) {
+            inhabitants[i] = this.inhabitants.get(i);
         }
-        tag.setIntArray(Names.NBT.SETTLERS, settlers);
+        tag.setIntArray(Names.NBT.SETTLERS, inhabitants);
+        int[] workers = new int[this.workers.size()];
+        for(int i = 0; i < workers.length; i++) {
+            workers[i] = this.workers.get(i);
+        }
+        tag.setIntArray(Names.NBT.WORKERS, workers);
         return tag;
     }
 

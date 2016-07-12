@@ -67,6 +67,14 @@ public interface IBuilding {
     int maxInhabitants();
 
     /**
+     * Checks if a settler can live here, this is called when the mayor assigns a house to a settler
+     * @param building the ISettlementBuilding object where this is built
+     * @param settler the settler wanting to live here
+     * @return true if this building can be set as the settler's house
+     */
+    boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler);
+
+    /**
      * Checks if a settler can work here, this is called when a settler is idle and needs somewhere to work
      * @param building the ISettlementBuilding object where this is built
      * @param settler the settler wanting to work here
