@@ -5,9 +5,9 @@ import com.InfinityRaider.settlercraft.settlement.building.BuildingBase;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class BuildingRailStation extends BuildingBase {
-    public BuildingRailStation() {
-        super("railway_station");
+public class BuildingPrisonBlock extends BuildingBase {
+    public BuildingPrisonBlock() {
+        super("prison_block");
     }
 
     @Override
@@ -17,7 +17,7 @@ public class BuildingRailStation extends BuildingBase {
 
     @Override
     public boolean canBuild(EntityPlayer player, ISettlement settlement) {
-        return !settlement.hasBuilding(this) && settlement.tier() >= 2;
+        return settlement.tier() >= 3;
     }
 
     @Override
