@@ -120,7 +120,7 @@ public interface ISettlementBuilding {
     /**
      * @return the items currently stored in this building
      */
-    IInventorySerializable inventory();
+    IInventoryBuilding inventory();
 
     /**
      * @return The world object this building is in

@@ -23,11 +23,6 @@ public abstract class BuildingTownHall extends BuildingBase implements IBuilding
     }
 
     @Override
-    public IInventorySerializable getDefaultInventory() {
-        return null;
-    }
-
-    @Override
     public int maxInhabitants() {
         return 0;
     }

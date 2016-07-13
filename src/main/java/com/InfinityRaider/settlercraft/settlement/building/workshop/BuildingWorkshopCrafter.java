@@ -14,11 +14,6 @@ public class BuildingWorkshopCrafter extends BuildingWorkShop {
     }
 
     @Override
-    public IInventorySerializable getDefaultInventory() {
-        return null;
-    }
-
-    @Override
     public boolean canSettlerWorkHere(ISettlementBuilding building, ISettler settler) {
         return false;
     }

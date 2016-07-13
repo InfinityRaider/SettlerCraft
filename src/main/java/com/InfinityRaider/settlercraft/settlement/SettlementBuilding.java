@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageSyncBuildingsToClient;
 import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingInventory;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
@@ -39,7 +40,7 @@ public class SettlementBuilding implements ISettlementBuilding {
     private BlockPos home;
     private int rotation;
     private StructureBuildProgress buildProgress;
-    private IInventorySerializable inventory;
+    private BuildingInventory inventory;
     private List<Integer> inhabitants;
     private List<Integer> workers;
     private List<BlockPos> beds;
@@ -49,6 +50,7 @@ public class SettlementBuilding implements ISettlementBuilding {
         this.inhabitants = new ArrayList<>();
         this.workers = new ArrayList<>();
         this.beds = new ArrayList<>();
+        this.inventory = new BuildingInventory(this);
     }
 
     public SettlementBuilding(ISettlement settlement, int id, BlockPos pos, IBuilding building, Schematic schematic, int rotation) {
@@ -60,7 +62,6 @@ public class SettlementBuilding implements ISettlementBuilding {
         this.home = SchematicRotationTransformer.getInstance().applyRotation(pos, schematic.home[0], schematic.home[1], schematic.home[2], rotation);
         this.rotation = rotation;
         this.buildProgress = new StructureBuildProgress(this, pos, schematic, rotation);
-        this.inventory = building.getDefaultInventory();
     }
 
     @Override
@@ -189,7 +190,7 @@ public class SettlementBuilding implements ISettlementBuilding {
     }
 
     @Override
-    public IInventorySerializable inventory() {
+    public BuildingInventory inventory() {
         return inventory;
     }
 
@@ -249,19 +250,22 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public void onBuildingCompleted() {
-        this.beds = new ArrayList<>();
-        for (BlockPos pos : this.getBoundingBox()) {
-            IBlockState state = this.getWorld().getBlockState(pos);
-            TileEntity tile = this.getWorld().getTileEntity(pos);
-            if ((state.getBlock() instanceof BlockBed) && (state.getValue(BlockBed.PART) == BlockBed.EnumPartType.HEAD)) {
-                this.beds.add(new BlockPos(pos));
+        if(!getWorld().isRemote) {
+            this.beds = new ArrayList<>();
+            for (BlockPos pos : this.getBoundingBox()) {
+                IBlockState state = this.getWorld().getBlockState(pos);
+                TileEntity tile = this.getWorld().getTileEntity(pos);
+                if ((state.getBlock() instanceof BlockBed) && (state.getValue(BlockBed.PART) == BlockBed.EnumPartType.HEAD)) {
+                    this.beds.add(new BlockPos(pos));
+                }
+                if (tile != null && (tile instanceof IInventory)) {
+                    this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
+                }
             }
-            if(tile != null && (tile instanceof IInventory)) {
-                //TODO
-            }
+            this.building().onBuildingCompleted(this);
+            this.markDirty();
+            this.syncToClient();
         }
-        this.markDirty();
-        this.syncToClient();
     }
 
     @Override
@@ -352,11 +356,11 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     private void readInventoryFromNBT(NBTTagCompound tag) {
         if(!tag.hasKey(Names.NBT.INVENTORY)) {
-            this.inventory = null;
+            this.inventory = new BuildingInventory(this);
             return;
         }
         if(this.inventory == null) {
-            this.inventory = this.building.getDefaultInventory();
+            this.inventory = new BuildingInventory(this);
         }
         this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
     }

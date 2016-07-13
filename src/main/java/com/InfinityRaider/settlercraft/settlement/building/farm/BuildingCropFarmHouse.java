@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement.building.farm;
 
-import com.InfinityRaider.settlercraft.api.v1.IInventorySerializable;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
@@ -20,11 +19,6 @@ public class BuildingCropFarmHouse extends BuildingCropFarm {
     @Override
     public boolean canSettlerLiveHere(ISettlementBuilding building, ISettler settler) {
         return settler.profession() == ProfessionRegistry.getInstance().professionFarmer();
-    }
-
-    @Override
-    public IInventorySerializable getDefaultInventory() {
-        return null;
     }
 
     @Override

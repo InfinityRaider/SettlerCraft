@@ -23,11 +23,6 @@ public class BuildingQuarry extends BuildingBase {
     }
 
     @Override
-    public IInventorySerializable getDefaultInventory() {
-        return null;
-    }
-
-    @Override
     public int maxInhabitants() {
         return 0;
     }

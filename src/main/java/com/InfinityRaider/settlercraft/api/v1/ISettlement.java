@@ -68,6 +68,11 @@ public interface ISettlement extends ITickable {
     IBuildingStyle getBuildingStyle();
 
     /**
+     * @return This settlement's town hall
+     */
+    ISettlementBuilding getTownHall();
+
+    /**
      * Gets a building in this settlement by its id
      * @param id of the building
      * @return building with that id, or null if there is no building with this id

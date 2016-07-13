@@ -81,12 +81,12 @@ public class Settlement implements ISettlement {
 
     @Override
     public int tier() {
-        List<ISettlementBuilding> townHalls = this.getCompletedBuildings(BuildingTypeRegistry.getInstance().buildingTypeTownHall());
-        if(townHalls.size() <= 0) {
+        ISettlementBuilding townHall = this.getTownHall();
+        if(townHall == null || !townHall.isComplete()) {
             return 0;
         }
         //this is safe, see: BuildingTypeTowHall.addNewBuilding(IBuilding building)
-        return ((IBuildingTownHall) townHalls.get(0).building()).getTier();
+        return ((IBuildingTownHall) townHall.building()).getTier();
     }
 
     @Override
@@ -106,6 +106,12 @@ public class Settlement implements ISettlement {
     @Override
     public IBuildingStyle getBuildingStyle() {
         return this.style;
+    }
+
+    @Override
+    public ISettlementBuilding getTownHall() {
+        List<ISettlementBuilding> townHalls = this.getBuildings(BuildingTypeRegistry.getInstance().buildingTypeTownHall());
+        return townHalls.size() <= 0 ? null : townHalls.get(0);
     }
 
     @Override

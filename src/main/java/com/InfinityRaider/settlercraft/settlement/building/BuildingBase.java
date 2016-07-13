@@ -2,11 +2,9 @@ package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
-import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 public abstract class BuildingBase implements IBuilding {
     private final String resourcePath;
@@ -38,7 +36,5 @@ public abstract class BuildingBase implements IBuilding {
     }
 
     @Override
-    public void onBuildingBuilt(World world, ISettlement settlement, ISettlementBuilding building) {
-
-    }
+    public void onBuildingCompleted(ISettlementBuilding building) {}
 }
