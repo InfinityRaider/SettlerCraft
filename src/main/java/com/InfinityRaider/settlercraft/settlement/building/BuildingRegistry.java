@@ -9,6 +9,7 @@ import com.InfinityRaider.settlercraft.settlement.building.house.*;
 import com.InfinityRaider.settlercraft.settlement.building.lumbermill.*;
 import com.InfinityRaider.settlercraft.settlement.building.quarry.*;
 import com.InfinityRaider.settlercraft.settlement.building.townhall.*;
+import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingCouncilHall;
 import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingPrisonBlock;
 import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingRailStation;
 import com.InfinityRaider.settlercraft.settlement.building.wall.*;
@@ -84,6 +85,7 @@ public class BuildingRegistry implements IBuildingRegistry {
     /** Utilities */
     private final IBuilding RAILWAY_STATION;
     private final IBuilding PRISON_BLOCK;
+    private final IBuilding COUNCIL_HALL;
 
     private BuildingRegistry() {
         //Buildings
@@ -142,6 +144,7 @@ public class BuildingRegistry implements IBuildingRegistry {
         //utilities
         RAILWAY_STATION = new BuildingRailStation();
         PRISON_BLOCK = new BuildingPrisonBlock();
+        COUNCIL_HALL = new BuildingCouncilHall();
     }
 
     public IBuilding registerBuilding(IBuilding building) {
@@ -302,6 +305,11 @@ public class BuildingRegistry implements IBuildingRegistry {
     @Override
     public IBuilding buildingPrisonBlock() {
         return PRISON_BLOCK;
+    }
+
+    @Override
+    public IBuilding buildingCouncilHall() {
+        return COUNCIL_HALL;
     }
 
     @Override

@@ -160,4 +160,9 @@ public interface IBuildingRegistry extends Function<IBuildingType, List<IBuildin
      * @return Settlercraft prison block building
      */
     IBuilding buildingPrisonBlock();
+
+    /**
+     * @return Settlercraft council hall building
+     */
+    IBuilding buildingCouncilHall();
 }
