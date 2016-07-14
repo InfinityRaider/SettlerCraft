@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
+import com.InfinityRaider.settlercraft.settlement.building.academy.BuildingAcademy;
 import com.InfinityRaider.settlercraft.settlement.building.barracks.*;
 import com.InfinityRaider.settlercraft.settlement.building.decorative.*;
 import com.InfinityRaider.settlercraft.settlement.building.farm.*;
@@ -50,6 +51,7 @@ public class BuildingRegistry implements IBuildingRegistry {
     private final IBuilding WORKSHOP_BLACKSMITH;
 
     /** Academies */
+    private final IBuilding ACADEMY;
 
     /** Quarries */
     private final IBuilding QUARRY;
@@ -107,6 +109,7 @@ public class BuildingRegistry implements IBuildingRegistry {
         WORKSHOP_BLACKSMITH = registerBuilding(new BuildingWorkShopBlackSmith());
 
         //academies
+        ACADEMY = registerBuilding(new BuildingAcademy());
 
         //quarry
         QUARRY = registerBuilding(new BuildingQuarry());
@@ -204,6 +207,11 @@ public class BuildingRegistry implements IBuildingRegistry {
     @Override
     public IBuilding buildingWorkShopBlackSmith() {
         return WORKSHOP_BLACKSMITH;
+    }
+
+    @Override
+    public IBuilding buildingAcademy() {
+        return ACADEMY;
     }
 
     @Override
