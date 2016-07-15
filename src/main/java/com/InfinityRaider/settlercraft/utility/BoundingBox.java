@@ -329,6 +329,23 @@ public class BoundingBox implements IBoundingBox {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof BoundingBox) {
+            BoundingBox other = (BoundingBox) obj;
+            return this.minX() == other.minX()
+                    && this.minY() == other.minY()
+                    && this.minZ() == other.minZ()
+                    && this.maxX() == other.maxX()
+                    && this.maxY() == other.maxY()
+                    && this.maxZ() == other.maxZ();
+        }
+        return false;
+    }
+
+    @Override
     public BoundingBoxIterator iterator() {
         return new BoundingBoxIterator(this);
     }
@@ -342,7 +359,7 @@ public class BoundingBox implements IBoundingBox {
         private int index;
 
         private BoundingBoxIterator(BoundingBox box) {
-            this.offset = new BlockPos(box.minX(), box.minY, box.minZ);
+            this.offset = new BlockPos(box.minX(), box.minY(), box.minZ());
             this.X = box.xSize();
             this.Y = box.ySize();
             this.limit = box.xSize()*box.ySize()*box.zSize();
