@@ -102,4 +102,27 @@ public interface IInventorySettler extends IInventorySerializable {
      * @return array representation of the inventory
      */
     ItemStack[] toArray();
+
+    /**
+     * Register an inventory listener for this settler's inventory,
+     * The suggested way to do this is to create an event handler for EntityJoinWorldEvent and register from there.
+     * The callback only occurs in the server thread.
+     * @param listener listener to register
+     */
+    void registerInventoryListener(IListener listener);
+
+    /**
+     * Interface which can be registered to a settler's inventory,
+     * use this for callback when a stack in a settler's inventory has changed
+     */
+    interface IListener {
+        /**
+         * Called when the slot in a settler's inventory changes, this callback only happens in the server thread.
+         * Can be used in case the settler is looking for a specific item, for instance in AI tasks.
+         * @param settler settler whose inventory has changed
+         * @param slot slot which has changed
+         * @param stack new stack in the slot
+         */
+        void onInventorySlotChange(ISettler settler, int slot, ItemStack stack);
+    }
 }

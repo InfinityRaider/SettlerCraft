@@ -27,8 +27,13 @@ public class InventorySettler implements IInventorySettler {
 
     private EntitySettler settler;
 
+    private List<IListener> listeners;
+
     protected InventorySettler(EntitySettler settler) {
         this.settler = settler;
+        if(!settler.worldObj.isRemote) {
+            this.listeners = new ArrayList<>();
+        }
         this.mainInventory = new ItemStack[36];
         this.armorInventory = new ItemStack[4];
     }
@@ -220,6 +225,13 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
+    public void registerInventoryListener(IListener listener) {
+        if(!getSettler().getWorld().isRemote) {
+            this.listeners.add(listener);
+        }
+    }
+
+    @Override
     public NBTTagCompound writeToNBT() {
         NBTTagCompound tag = new NBTTagCompound();
         NBTTagList list = new NBTTagList();
@@ -323,8 +335,14 @@ public class InventorySettler implements IInventorySettler {
                 }
             }
         }
-        if(isSameItem(stack, getSettler().getMissingResource())) {
-            getSettler().setMissingResource(null);
+        notifyListenersOfSlotChange(index, stack);
+    }
+
+    private void notifyListenersOfSlotChange(int index, ItemStack stack) {
+        if(!getSettler().getWorld().isRemote) {
+            for(IListener listener : listeners) {
+                listener.onInventorySlotChange(getSettler(), index, stack);
+            }
         }
     }
 

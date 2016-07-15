@@ -4,23 +4,23 @@ import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
 
 public class EntityAISettler extends EntityAIBase {
-    public final SettlerAIRoutine routineIdle;
     public final SettlerAIRoutine routineFollowPlayer;
+    public final SettlerAIRoutine routineGoToBed;
+    public final SettlerAIRoutine routineGetFood;
     public final SettlerAIRoutine routineFindResource;
     public final SettlerAIRoutine routinePerformTask;
-    public final SettlerAIRoutine routineGetFood;
-    public final SettlerAIRoutine routineGoToBed;
+    public final SettlerAIRoutine routineIdle;
 
     private final SettlerAIRoutine[] routines;
     private int activeRoutine;
 
     public EntityAISettler(EntitySettler settler) {
-        this.routineIdle = new SettlerAIRoutineIdle(settler);
         this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 8, 3);
+        this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
+        this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
         this.routinePerformTask = new SettlerAIRoutinePerformTask(settler);
-        this.routineGetFood = new SettlerAIRoutineGetFood(settler);
-        this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
+        this.routineIdle = new SettlerAIRoutineIdle(settler);
         this.routines = new SettlerAIRoutine[] {
                 routineFollowPlayer,
                 routineGoToBed,
@@ -60,6 +60,11 @@ public class EntityAISettler extends EntityAIBase {
      * Returns whether an in-progress EntityAIBase should continue executing
      */
     public boolean continueExecuting() {
+        for(int i = 0; i < activeRoutine; i ++) {
+            if(routines[i].shouldExecuteRoutine()) {
+                return false;
+            }
+        }
         SettlerAIRoutine activeRoutine = getActiveRoutine();
         return activeRoutine.continueExecutingRoutine();
     }

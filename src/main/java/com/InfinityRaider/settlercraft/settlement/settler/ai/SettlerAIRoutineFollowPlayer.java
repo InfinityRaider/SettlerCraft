@@ -42,8 +42,6 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
             return false;
         } else if (player.isSpectator()) {
             return false;
-        } else if (this.getSettler().getDistanceSqToEntity(player) < (double) (this.minDist * this.minDist)) {
-            return false;
         } else {
             this.theOwner = player;
             return true;
@@ -55,9 +53,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
      */
     @Override
     public boolean continueExecutingRoutine() {
-        return !this.petPathfinder.noPath()
-                && this.theOwner != null
-                && this.getSettler().getDistanceSqToEntity(this.theOwner) > (double) (this.maxDist * this.maxDist);
+        return this.theOwner != null;
     }
 
     /**
@@ -92,6 +88,9 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     @Override
     public void updateRoutine() {
         if(this.theOwner == null) {
+            return;
+        }
+        if (this.getSettler().getDistanceSqToEntity(this.theOwner) < (double) (this.minDist * this.minDist)) {
             return;
         }
         this.getSettler().getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float) this.getSettler().getVerticalFaceSpeed());

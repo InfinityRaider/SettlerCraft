@@ -82,7 +82,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.enablePersistence();
         this.setCanPickUpLoot(true);
         this.setSize(0.6F, 1.8F);
-        this.inventory = new InventorySettler(this);
         this.male = RANDOMIZER.getRandomGender();
         this.firstName = RANDOMIZER.getRandomFirstName(male);
         this.surname = RANDOMIZER.getRandomSurname();
@@ -93,6 +92,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     protected void entityInit() {
         super.entityInit();
+        this.inventory = new InventorySettler(this);
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
         this.getDataManager().register(DATA_SETTLEMENT, -1);
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());

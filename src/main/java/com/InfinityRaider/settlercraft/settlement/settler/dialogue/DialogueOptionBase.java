@@ -40,10 +40,10 @@ public abstract class DialogueOptionBase implements IDialogueOption {
             EntityAgeable entity = settler.getEntityImplementation();
             ISettlementBuilding building = settler.settlement().getBuildingForLocation(entity.posX + 0.5, entity.posY + 1, entity.posZ + 0.5);
             if(building != null) {
-                if(building.canDoWorkHere(settler)) {
+                if(building.canDoWorkHere(settler) && settler.workPlace() != building) {
                     list.add(DIALOGUE_FACTORY.dialogueOptionAssignWorkplace(player, settler, building));
                 }
-                if(building.canLiveHere(settler)) {
+                if(building.canLiveHere(settler) && settler.home() != building) {
                     list.add(DIALOGUE_FACTORY.dialogueOptionAssignHouse(player, settler, building));
                 }
             }
