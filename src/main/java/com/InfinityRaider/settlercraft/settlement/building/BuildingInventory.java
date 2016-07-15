@@ -172,10 +172,10 @@ public class BuildingInventory implements IInventoryBuilding {
     @Override
     public NBTTagCompound writeToNBT() {
         NBTTagList tagList = new NBTTagList();
-        for(int i = 0; i < inventories.size(); i ++) {
-            BlockPos pos = this.getPositionForInventory(inventories.get(i));
+        for (IInventory inventory : inventories) {
+            BlockPos pos = this.getPositionForInventory(inventory);
             NBTTagCompound tag = new NBTTagCompound();
-            tag.setIntArray(Names.NBT.INVENTORY, new int[] {pos.getX(), pos.getY(), pos.getZ(), i});
+            tag.setIntArray(Names.NBT.INVENTORY, new int[]{pos.getX(), pos.getY(), pos.getZ()});
             tagList.appendTag(tag);
         }
         NBTTagCompound tag = new NBTTagCompound();
@@ -189,11 +189,11 @@ public class BuildingInventory implements IInventoryBuilding {
         NBTTagList list = tag.hasKey(Names.NBT.INVENTORY) ? tag.getTagList(Names.NBT.INVENTORY, 10) : null;
         if(list != null) {
             int amount = list.tagCount();
-            this.inventories = new ArrayList<>(amount);
+            this.inventories = new ArrayList<>();
             for(int i = 0; i < amount; i ++) {
                 NBTTagCompound dataTag = list.getCompoundTagAt(i);
                 int[] data = dataTag.hasKey(Names.NBT.INVENTORY) ? dataTag.getIntArray(Names.NBT.INVENTORY) : null;
-                if(data == null || data.length < 4) {
+                if(data == null || data.length < 3) {
                     continue;
                 }
                 BlockPos pos = new BlockPos(data[0], data[1], data[2]);
@@ -202,7 +202,7 @@ public class BuildingInventory implements IInventoryBuilding {
                     continue;
                 }
                 IInventory inventory = (IInventory) tile;
-                this.inventories.set(data[3], inventory);
+                this.inventories.add(inventory);
                 this.size = this.size + inventory.getSizeInventory();
                 this.posToInventory.put(pos, inventory);
                 this.inventoryToPos.put(inventory, pos);
