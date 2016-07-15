@@ -88,14 +88,35 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.surname = RANDOMIZER.getRandomSurname();
         this.title = null;
         this.profession = ProfessionRegistry.getInstance().professionBuilder();
-        this.getDataManager().register(DATA_SETTLEMENT, -1);
+    }
+
+    @Override
+    protected void entityInit() {
+        super.entityInit();
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
+        this.getDataManager().register(DATA_SETTLEMENT, -1);
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_HAS_TASK, false);
         this.getDataManager().register(DATA_HUNGER_LEVEL, 9);
         this.getDataManager().register(DATA_SLEEPING, false);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void initEntityAI() {
+        ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
+        this.tasks.addTask(1, new EntityAITalkToPlayer(this));
+        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
+        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+        this.tasks.addTask(6, new EntityAISettler(this));
+        this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+        this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
     }
 
     @Override
@@ -129,90 +150,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                 this.setHealth(health);
             }
         }
-    }
-
-    @Override
-    public void writeSpawnData(ByteBuf data) {
-        NBTTagCompound tag = new NBTTagCompound();
-        this.writeEntityToNBT(tag);
-        ByteBufUtils.writeTag(data, tag);
-    }
-
-    @Override
-    public void readSpawnData(ByteBuf data) {
-        NBTTagCompound tag = ByteBufUtils.readTag(data);
-        this.readEntityFromNBT(tag);
-    }
-
-    public void writeEntityToNBT(NBTTagCompound tag) {
-        super.writeEntityToNBT(tag);
-        tag.setTag(Names.NBT.INVENTORY, inventory.writeToNBT());
-        if(settlement != null) {
-            tag.setInteger(Names.NBT.SETTLEMENT, settlement.id());
-        }
-        if(profession != null) {
-            tag.setString(Names.NBT.PROFESSION, profession.getName());
-        }
-        if(title != null) {
-            tag.setString(Names.NBT.TITLE, title);
-        }
-        tag.setString(Names.NBT.FIRST_NAME, firstName);
-        tag.setString(Names.NBT.SURNAME, surname);
-        tag.setBoolean(Names.NBT.GENDER, male);
-        tag.setInteger(Names.NBT.SETTLEMENT, this.getDataManager().get(DATA_SETTLEMENT));
-        tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
-        tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
-        tag.setBoolean(Names.NBT.TASK, this.task != null);
-        tag.setInteger(Names.NBT.HUNGER, this.getDataManager().get(DATA_HUNGER_LEVEL));
-        tag.setBoolean(Names.NBT.SLEEPING, this.getDataManager().get(DATA_SLEEPING));
-    }
-
-    public void readEntityFromNBT(NBTTagCompound tag) {
-        super.readEntityFromNBT(tag);
-        this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
-        if(tag.hasKey(Names.NBT.PROFESSION)) {
-            this.profession = ProfessionRegistry.getInstance().getProfession(tag.getString(Names.NBT.PROFESSION));
-        } else {
-            this.profession = null;
-        }
-        if(tag.hasKey(Names.NBT.TITLE)) {
-            this.title = tag.getString(Names.NBT.TITLE);
-        } else {
-            this.title = null;
-        }
-        this.firstName = tag.getString(Names.NBT.FIRST_NAME);
-        this.surname = tag.getString(Names.NBT.SURNAME);
-        this.male = tag.getBoolean(Names.NBT.GENDER);
-        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
-            this.getDataManager().set(DATA_SETTLEMENT, tag.getInteger(Names.NBT.SETTLEMENT));
-        } else {
-            this.getDataManager().set(DATA_SETTLEMENT, -1);
-        }
-        this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
-        this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
-        this.getDataManager().set(DATA_HUNGER_LEVEL, tag.hasKey(Names.NBT.HUNGER) ? tag.getInteger(Names.NBT.HUNGER) : 9);
-        this.getDataManager().set(DATA_SLEEPING, tag.hasKey(Names.NBT.SLEEPING) && tag.getBoolean(Names.NBT.SLEEPING));
-    }
-
-    @SuppressWarnings("unchecked")
-    protected void initEntityAI() {
-        ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
-        this.tasks.addTask(1, new EntityAITalkToPlayer(this));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-        this.tasks.addTask(6, new EntityAISettler(this));
-        this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-        this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
     }
 
     @Override
@@ -513,5 +450,68 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public boolean isSleeping() {
         return getDataManager().get(DATA_SLEEPING);
+    }
+
+    @Override
+    public void writeSpawnData(ByteBuf data) {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeEntityToNBT(tag);
+        ByteBufUtils.writeTag(data, tag);
+    }
+
+    @Override
+    public void readSpawnData(ByteBuf data) {
+        NBTTagCompound tag = ByteBufUtils.readTag(data);
+        this.readEntityFromNBT(tag);
+    }
+
+    public void writeEntityToNBT(NBTTagCompound tag) {
+        super.writeEntityToNBT(tag);
+        tag.setTag(Names.NBT.INVENTORY, inventory.writeToNBT());
+        if(settlement != null) {
+            tag.setInteger(Names.NBT.SETTLEMENT, settlement.id());
+        }
+        if(profession != null) {
+            tag.setString(Names.NBT.PROFESSION, profession.getName());
+        }
+        if(title != null) {
+            tag.setString(Names.NBT.TITLE, title);
+        }
+        tag.setString(Names.NBT.FIRST_NAME, firstName);
+        tag.setString(Names.NBT.SURNAME, surname);
+        tag.setBoolean(Names.NBT.GENDER, male);
+        tag.setInteger(Names.NBT.SETTLEMENT, this.getDataManager().get(DATA_SETTLEMENT));
+        tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
+        tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
+        tag.setBoolean(Names.NBT.TASK, this.task != null);
+        tag.setInteger(Names.NBT.HUNGER, this.getDataManager().get(DATA_HUNGER_LEVEL));
+        tag.setBoolean(Names.NBT.SLEEPING, this.getDataManager().get(DATA_SLEEPING));
+    }
+
+    public void readEntityFromNBT(NBTTagCompound tag) {
+        super.readEntityFromNBT(tag);
+        this.inventory.readFromNBT(tag.getCompoundTag(Names.NBT.INVENTORY));
+        if(tag.hasKey(Names.NBT.PROFESSION)) {
+            this.profession = ProfessionRegistry.getInstance().getProfession(tag.getString(Names.NBT.PROFESSION));
+        } else {
+            this.profession = null;
+        }
+        if(tag.hasKey(Names.NBT.TITLE)) {
+            this.title = tag.getString(Names.NBT.TITLE);
+        } else {
+            this.title = null;
+        }
+        this.firstName = tag.getString(Names.NBT.FIRST_NAME);
+        this.surname = tag.getString(Names.NBT.SURNAME);
+        this.male = tag.getBoolean(Names.NBT.GENDER);
+        if(tag.hasKey(Names.NBT.SETTLEMENT)) {
+            this.getDataManager().set(DATA_SETTLEMENT, tag.getInteger(Names.NBT.SETTLEMENT));
+        } else {
+            this.getDataManager().set(DATA_SETTLEMENT, -1);
+        }
+        this.getDataManager().set(DATA_HOME_ID, tag.getInteger(Names.NBT.HOME));
+        this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
+        this.getDataManager().set(DATA_HUNGER_LEVEL, tag.hasKey(Names.NBT.HUNGER) ? tag.getInteger(Names.NBT.HUNGER) : 9);
+        this.getDataManager().set(DATA_SLEEPING, tag.hasKey(Names.NBT.SLEEPING) && tag.getBoolean(Names.NBT.SLEEPING));
     }
 }

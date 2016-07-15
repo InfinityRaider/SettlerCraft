@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventoryBuilding;
+import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
@@ -38,14 +39,17 @@ public class SettlerAIRoutineFindMissingResource extends SettlerAIRoutine {
         if(home != null) {
             this.buildingsToCheck.add(home);
         }
-        buildingsToCheck.addAll(settler.settlement().getCompletedBuildings().stream().filter(
-                building -> building.building().buildingType() == BuildingTypeRegistry.getInstance().buildingTypeTownHall() ||
-                building.building().buildingType() == BuildingTypeRegistry.getInstance().buildingTypeWareHouse()).collect(Collectors.toList()));
+        ISettlement settlement = settler.settlement();
+        if(settlement != null) {
+            buildingsToCheck.addAll(settlement.getCompletedBuildings().stream().filter(
+                    building -> building.building().buildingType() == BuildingTypeRegistry.getInstance().buildingTypeTownHall() ||
+                            building.building().buildingType() == BuildingTypeRegistry.getInstance().buildingTypeWareHouse()).collect(Collectors.toList()));
+        }
         this.updateBuildingToSearch();
     }
 
     private void updateBuildingToSearch() {
-        if(buildingsToCheck.size() >= 0) {
+        if(buildingsToCheck.size() > 0) {
             this.current = this.buildingsToCheck.get(0);
             this.buildingsToCheck.remove(0);
         } else {
