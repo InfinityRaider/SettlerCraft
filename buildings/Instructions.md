@@ -10,7 +10,7 @@ To get started creating a building style, follow these steps:
  2. Extract the zip, which is a world save, and copy it to a new minecraft instance's saves folder
  3. Install Forge and SettlerCraft or the SettlerCraft Schematic Creator Tool mod, which can be found here.
  4. Load up Minecraft and open the buildings world. You will see a bunch of buildings delimited by wool blocks and a sign to identify each building.
- 5. Build a new building in every woolen encasement for your style (while staying inside the limits, as mentioned below under constraints)
+ 5. Build a new building in every woolen encasement for your style (while staying inside the limits, as mentioned below under constraints). A list of buildings and their functions can be found on the [wiki](https://github.com/InfinityRaider/SettlerCraft/wiki/Buildings).
  6. When a building is finished, use the schematic creator tool and consecutively right click both red wool blocks to save the building to a json schematic. The directory where those json files are saved can be changed in the configs.
  7. Rename the json file to the relevant file name, put it in the right directory (see contraints), define the home position (also see contraints) and define the fuzzy blocks (again, see constraints).
  8. Zip up the save directory of the minecraft world with your new buildings and put it in this folder.
