@@ -30,7 +30,7 @@ When building structures, there are a couple of constraints you should keep in m
 
 ## Modded blocks
 Modded blocks are supported, however SettlerCraft has to know the mod ids of all blocks used in a building style. If one of the required mods is not loaded, the SettlerCraft code will not load that building style and the style will not be available ingame.
-When creating the pull request, also submit a list of all used mods, their mod id and download link. Do note that a building stye with an excessive amount of required mods or very exotic mods will only be merged when the builds are of extroardinary quality.
+When creating the pull request, also submit a list of all used mods, their mod id and download link. I do not mind two or three mod depencencies, but do note that a building stye with an excessive amount of required mods or very exotic mods will only be merged when the builds are of extroardinary quality.
 
 
 
