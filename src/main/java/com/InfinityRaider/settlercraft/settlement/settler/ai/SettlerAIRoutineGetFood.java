@@ -47,11 +47,6 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
         return stack != null && (stack.getItem() instanceof ItemFood);
     }
 
-    @Override
-    protected void postResourceFind() {
-        this.checkSettlerForFoodSlot();
-    }
-
     private boolean hasFood() {
         return foodSlot > 0;
     }

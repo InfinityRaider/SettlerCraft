@@ -112,7 +112,6 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
                         } else {
                             inventory.decrStackSize(index, inInventory.stackSize - remaining.stackSize);
                         }
-                        this.postResourceFind();
                         this.resetRoutine();
                     }
                 }
@@ -140,9 +139,4 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
     }
 
     protected abstract boolean isValidStack(ItemStack stack);
-
-    /**
-     * Called after the needed resource has been found and transferred to the settler's inventory
-     */
-    protected abstract void postResourceFind();
 }

@@ -21,9 +21,6 @@ public class SettlerAIRoutineFindMissingResource extends SettlerAIRoutineFindRes
     }
 
     @Override
-    protected void postResourceFind() {}
-
-    @Override
     public void onInventorySlotChange(ISettler settler, int slot, ItemStack stack) {
         if(settler == getSettler() && isValidStack(stack)) {
             getSettler().setMissingResource(null);
