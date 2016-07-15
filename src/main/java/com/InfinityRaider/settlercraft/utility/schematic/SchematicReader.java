@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
+import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.gson.Gson;
 import net.minecraft.block.Block;
@@ -29,17 +30,18 @@ public class SchematicReader {
     }
 
     public void buildStoredSchematic(World world, BlockPos pos, int rotation) {
-        List<Schematic.BlockPosition> list;
+        Schematic schematic;
         try {
-            File schematic = getLastSchematic();
-            if(schematic == null) {
+            File schematicFile = getLastSchematic();
+            if(schematicFile == null) {
                 return;
             }
-            list = deserialize(new FileReader(schematic)).blocks;
+            schematic = deserialize(new FileReader(schematicFile));
         } catch (IOException e) {
             LogHelper.printStackTrace(e);
             return;
         }
+        List<Schematic.BlockPosition> list = schematic.blocks;
         List<Schematic.BlockPosition> delayedBlocks = new ArrayList<>();
         for(int i = 0; i < list.size(); i++) {
             Schematic.BlockPosition position = list.get(i);
@@ -53,6 +55,8 @@ public class SchematicReader {
         for(int i = 0; i < delayedBlocks.size(); i++) {
             addBlockPositionToWorld(world, delayedBlocks.get(i), pos, rotation, i == (list.size()-1) );
         }
+        BoundingBox box = schematic.getBoundingBox(pos, rotation);
+        world.markBlockRangeForRenderUpdate(box.getMinimumPosition(), box.getMaximumPosition());
     }
 
     public File getLastSchematic() {
@@ -77,10 +81,11 @@ public class SchematicReader {
     private void addBlockPositionToWorld(World world, Schematic.BlockPosition data, BlockPos pos, int rotation, boolean blockUpdate) {
         Block block = Block.blockRegistry.getObject(new ResourceLocation(data.block));
         int meta = data.getWorldMeta(rotation);
-        IBlockState state = block.getStateFromMeta(meta);
         int flag = blockUpdate ? 3 : 2;
         BlockPos newPos = SchematicRotationTransformer.getInstance().applyRotation(pos, data.x, data.y, data.z, rotation);
-        world.setBlockState(newPos, state, flag);
+        IBlockState oldState = world.getBlockState(newPos);
+        IBlockState newState = block.getStateFromMeta(meta);
+        world.setBlockState(newPos, newState, flag);
         NBTTagCompound tag = data.getTag();
         if(tag != null) {
             TileEntity tile = world.getTileEntity(newPos);
@@ -92,7 +97,7 @@ public class SchematicReader {
                 tile.readFromNBT(tag);
             }
         }
-
+        world.notifyBlockUpdate(newPos, oldState, newState, 3);
     }
 
     public Schematic deserialize(ResourceLocation location) throws IOException {

@@ -53,7 +53,11 @@ public class StructureBuildPosition {
 
     public void build() {
         if (!getWorld().isRemote) {
-            getWorld().setBlockState(getPos(), getState(), 3);
+            BlockPos pos = getPos();
+            IBlockState oldState = getWorld().getBlockState(pos);
+            IBlockState newState = getState();
+            getWorld().setBlockState(pos, newState, 3);
+            getWorld().notifyBlockUpdate(pos, oldState, newState, 3);
         }
     }
 

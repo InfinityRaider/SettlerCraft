@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class BoundingBox implements IBoundingBox {
     private int minX;
@@ -373,6 +374,9 @@ public class BoundingBox implements IBoundingBox {
 
         @Override
         public BlockPos next() {
+            if(index >= limit) {
+                throw new NoSuchElementException();
+            }
             int x = index % X;
             int z = index / (X * Y);
             int y = (index - (X * Y * z))/X;
