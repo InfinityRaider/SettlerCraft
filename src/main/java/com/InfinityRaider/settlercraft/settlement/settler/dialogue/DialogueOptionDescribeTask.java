@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
+import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
@@ -57,6 +58,10 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
         }
         switch (status) {
             case IDLE:
+                if(task != null) {
+                    LogHelper.debug("settler is idle but still has a task");
+                    list.add(task.getTaskDescription());
+                }
                 break;
             case FOLLOWING_PLAYER:
                 EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();

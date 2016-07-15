@@ -100,6 +100,9 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public boolean canLiveHere(ISettler settler) {
+        boolean complete = isComplete();
+        boolean maxed = inhabitants.size() < building.maxInhabitants();
+        boolean allowed = building.canSettlerLiveHere(this, settler);
         return isComplete() && inhabitants.size() < building.maxInhabitants() && building.canSettlerLiveHere(this, settler);
     }
 
