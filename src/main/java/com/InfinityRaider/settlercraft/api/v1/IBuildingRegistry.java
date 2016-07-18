@@ -165,4 +165,9 @@ public interface IBuildingRegistry extends Function<IBuildingType, List<IBuildin
      * @return Settlercraft council hall building
      */
     IBuilding buildingCouncilHall();
+
+    /**
+     * @return Settlercraft stables building
+     */
+    IBuilding buildingStables();
 }
