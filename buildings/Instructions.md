@@ -23,7 +23,7 @@ When building structures, there are a couple of constraints you should keep in m
  - Chests and beds: invantories and beds are an important part of SettlerCraft's mechanics, make sure your building has the same amount of beds and inventories as the original default building.
  - Quarry: the quarry is a special building. The quarry hole has a specific size and position, this position MUST be the same regardless of building style. The ladders in the hole should also be placed identically.
  - Home location: the first three coordinates in the jsons define the home location relative to the building's origin (the coordinate with lowest x-, y- and z-values). When pathing towards a building, this is used as final waypoint, keep its location reasonable.
- - Fuzzy blocks: Some blocks (doors, levers, redstone, ...) can have multiple states, if you do not define these blocks as fuzzy, this will cause major overhead as builders will try to remove and replace those blocks. To make a block fuzzy, simply toggle its fuzzy state.
+ - Fuzzy blocks: Some blocks (doors, levers, redstone, ... and BEDS: beds must be fuzzy) can have multiple states, if you do not define these blocks as fuzzy, this will cause major overhead as builders will try to remove and replace those blocks. To make a block fuzzy, simply toggle its fuzzy state. The reason beds have to be fuzzy is that their blockstate changes when someone is sleeping in it.
  - File structure: all building jsons are saved per style under src/main/resources/assets/settlercraft/buildings/<stylename>/<buildingtype>/<buildingname>, this is required for the files to be loaded from the code. The recommended way is to copy the default style and rename it. Then replace each json file one by one.
 
 
@@ -31,6 +31,9 @@ When building structures, there are a couple of constraints you should keep in m
 ## Modded blocks
 Modded blocks are supported, however SettlerCraft has to know the mod ids of all blocks used in a building style. If one of the required mods is not loaded, the SettlerCraft code will not load that building style and the style will not be available ingame.
 When creating the pull request, also submit a list of all used mods, their mod id and download link. I do not mind two or three mod depencencies, but do note that a building stye with an excessive amount of required mods or very exotic mods will only be merged when the builds are of extroardinary quality.
+When using modded blocks, care has to be taken for the rotations and support blocks:
+ - For vanilla blocks whose meta changed based on its rotation (stairs for example), SettlerCraft will automatically generate the roation meta array. For modded blocks, unless they are registered to be rotatable this is not the case. The rotation meta is simply a list of metadata for increasing 90° rotations. If a block is rotated, say 180°, the metadata 2 positions further from the current metadata will be used instead.
+ - For vanilla blocks which require a support block, like torches, the 'needsSupportBlock' field is automatically set to true. When this field is set to true, these blocks will be placed last, so it is certain they have a block to support them. If a modded block requires a support block, set this field to true.
 
 
 
