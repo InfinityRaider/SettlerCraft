@@ -10,6 +10,13 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public interface IBuildingRegistry extends Function<IBuildingType, List<IBuilding>> {
     /**
+     * Registers a building to the building registry
+     * @param building the building to register
+     * @return the building
+     */
+    IBuilding registerBuilding(IBuilding building);
+
+    /**
      * @return a list of all registered buildings
      */
     List<IBuilding> getBuildings();

@@ -137,19 +137,20 @@ public class BuildingRegistry implements IBuildingRegistry {
         SITTING_CORNER = registerBuilding(new BuildingSittingCorner());
 
         //walls
-        WALL_SEGMENT = new BuildingWallSegment();
-        WALL_CORNER_CONVEX = new BuildingWallCornerConvex();
-        WALL_CORNER_CONCAVE = new BuildingWallCornerConcave();
-        WALL_GATE = new BuildingWallGate();
-        WALL_BASTION = new BuildingWallBastion();
+        WALL_SEGMENT = registerBuilding(new BuildingWallSegment());
+        WALL_CORNER_CONVEX = registerBuilding(new BuildingWallCornerConvex());
+        WALL_CORNER_CONCAVE = registerBuilding(new BuildingWallCornerConcave());
+        WALL_GATE = registerBuilding(new BuildingWallGate());
+        WALL_BASTION = registerBuilding(new BuildingWallBastion());
 
         //utilities
-        RAILWAY_STATION = new BuildingRailStation();
-        PRISON_BLOCK = new BuildingPrisonBlock();
-        COUNCIL_HALL = new BuildingCouncilHall();
-        STABLES = new BuildingStables();
+        RAILWAY_STATION = registerBuilding(new BuildingRailStation());
+        PRISON_BLOCK = registerBuilding(new BuildingPrisonBlock());
+        COUNCIL_HALL = registerBuilding(new BuildingCouncilHall());
+        STABLES = registerBuilding(new BuildingStables());
     }
 
+    @Override
     public IBuilding registerBuilding(IBuilding building) {
         BUILDINGS_LIST.add(building);
         BUILDINGS_BY_NAME.put(building.name(), building);
