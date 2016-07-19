@@ -55,4 +55,8 @@ public abstract class SettlerAIRoutine {
         double dz = (getSettler().posZ - (pos.getZ() + 0.5D));
         return  dx*dx + dy*dy + dz*dz;
     }
+
+    protected void findPathToTarget(BlockPos target) {
+        getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1.1F);
+    }
 }

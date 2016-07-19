@@ -1,9 +1,11 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
@@ -228,6 +230,14 @@ public interface ISettler extends INpc {
      * @return true if the settler is asleep
      */
     boolean isSleeping();
+
+    /**
+     * Puts the settler to sleep in the specified bed, returns true if the operation was successful.
+     * Going to bed may fail if: the world is remote, the settler is too far from the bed or the bed is occupied.
+     * @param pos position of the bed
+     * @return if the settler went to bed with success
+     */
+    boolean goSleepInBed(BlockPos pos);
 
     /**
      * An enum with al the possible states a settler can have, used to determine settler behaviour.

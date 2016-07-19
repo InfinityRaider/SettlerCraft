@@ -134,7 +134,7 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
     }
 
     private void findPathToTarget() {
-        getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1.1F);
+        this.findPathToTarget(target);
         this.pathFinding = true;
     }
 

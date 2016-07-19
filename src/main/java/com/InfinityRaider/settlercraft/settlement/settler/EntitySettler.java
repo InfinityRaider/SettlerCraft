@@ -11,6 +11,8 @@ import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.google.common.base.Optional;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
@@ -30,6 +32,7 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -450,6 +453,34 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public boolean isSleeping() {
         return getDataManager().get(DATA_SLEEPING);
+    }
+
+    @Override
+    public boolean goSleepInBed(BlockPos pos) {
+        if(getWorld().isRemote) {
+            return false;
+        }
+        if(this.isSleeping()) {
+            return false;
+        }
+        double dist = pos.distanceSqToCenter(this.posX, this.posY + this.getEyeHeight(), this.posZ);
+        double reach = 2.5;
+        if(dist > reach * reach) {
+            return false;
+        }
+        IBlockState bed = getWorld().getBlockState(pos);
+        if(bed.getBlock() instanceof BlockBed) {
+            if(bed.getValue(BlockBed.OCCUPIED)) {
+                return false;
+            }
+            EntityPlayer.EnumStatus status = this.getFakePlayerImplementation().trySleep(pos);
+            boolean flag = status == EntityPlayer.EnumStatus.OK;
+            if(flag) {
+                this.getDataManager().set(DATA_SLEEPING, true);
+            }
+            return flag;
+        }
+        return false;
     }
 
     @Override
