@@ -3,9 +3,9 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -89,7 +89,7 @@ public class SettlementWorldData extends WorldSavedData {
     public void syncSettlementToClient(ISettlement settlement) {
         if(!getWorld().isRemote) {
             MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(settlement);
-            NetWorkWrapper.getInstance().sendToDimension(msg, this.getWorld());
+            NetworkWrapper.getInstance().sendToDimension(msg, this.getWorld());
         }
     }
 
@@ -127,18 +127,19 @@ public class SettlementWorldData extends WorldSavedData {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         NBTTagList list = new NBTTagList();
         for(ISettlement settlement : this.getSettlements()) {
             NBTTagCompound tag = settlement.writeSettlementToNBT(new NBTTagCompound());
             list.appendTag(tag);
         }
         nbt.setTag(Names.NBT.SETTLEMENT, list);
+        return nbt;
     }
 
     public static SettlementWorldData forWorld(World world) {
         MapStorage storage = world.getPerWorldStorage();
-        SettlementWorldData data = (SettlementWorldData) storage.loadData(SettlementWorldData.class, KEY);
+        SettlementWorldData data = (SettlementWorldData) storage.getOrLoadData(SettlementWorldData.class, KEY);
         if(data == null) {
             data = new SettlementWorldData(world);
             storage.setData(KEY, data);

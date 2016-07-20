@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.utility.debug;
 
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.pathfinding.astar.AStarTest;
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

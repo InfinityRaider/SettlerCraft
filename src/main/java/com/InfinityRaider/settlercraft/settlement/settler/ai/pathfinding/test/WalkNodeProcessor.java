@@ -38,14 +38,14 @@ public class WalkNodeProcessor extends NodeProcessor {
         if (this.getCanSwim() && this.entity.isInWater()) {
             y = (int)this.entity.getEntityBoundingBox().minY;
             BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(MathHelper.floor_double(this.entity.posX), y, MathHelper.floor_double(this.entity.posZ));
-            for (Block block = this.world.getBlockState(pos).getBlock(); block == Blocks.flowing_water || block == Blocks.water; block = this.world.getBlockState(pos).getBlock()) {
+            for (Block block = this.world.getBlockState(pos).getBlock(); block == Blocks.FLOWING_WATER || block == Blocks.WATER; block = this.world.getBlockState(pos).getBlock()) {
                 ++y;
-                pos.set(MathHelper.floor_double(this.entity.posX), y, MathHelper.floor_double(this.entity.posZ));
+                pos.setPos(MathHelper.floor_double(this.entity.posX), y, MathHelper.floor_double(this.entity.posZ));
             }
         }
         else if (!this.entity.onGround) {
             BlockPos blockpos;
-            for (blockpos = new BlockPos(this.entity); (this.world.getBlockState(blockpos).getMaterial() == Material.air || this.world.getBlockState(blockpos).getBlock().isPassable(this.world, blockpos)) && blockpos.getY() > 0; blockpos = blockpos.down()) {}
+            for (blockpos = new BlockPos(this.entity); (this.world.getBlockState(blockpos).getMaterial() == Material.AIR || this.world.getBlockState(blockpos).getBlock().isPassable(this.world, blockpos)) && blockpos.getY() > 0; blockpos = blockpos.down()) {}
             y = blockpos.up().getY();
         } else {
             y = MathHelper.floor_double(this.entity.getEntityBoundingBox().minY + 0.5D);
@@ -268,27 +268,27 @@ public class WalkNodeProcessor extends NodeProcessor {
         Block block = iblockstate.getBlock();
         Material material = iblockstate.getMaterial();
         PathNodeType pathnodetype = PathNodeType.BLOCKED;
-        if (block != Blocks.trapdoor && block != Blocks.iron_trapdoor && block != Blocks.waterlily) {
+        if (block != Blocks.TRAPDOOR && block != Blocks.IRON_TRAPDOOR && block != Blocks.WATERLILY) {
             if (block instanceof BlockFire) {
                 return PathNodeType.DAMAGE_FIRE;
             } else if (block instanceof BlockCactus) {
                 return PathNodeType.DAMAGE_CACTUS;
-            } else if (block instanceof BlockDoor && material == Material.wood && !iblockstate.getValue(BlockDoor.OPEN)) {
+            } else if (block instanceof BlockDoor && material == Material.WOOD && !iblockstate.getValue(BlockDoor.OPEN)) {
                 return PathNodeType.DOOR_WOOD_CLOSED;
-            } else if (block instanceof BlockDoor && material == Material.iron && !iblockstate.getValue(BlockDoor.OPEN)) {
+            } else if (block instanceof BlockDoor && material == Material.IRON && !iblockstate.getValue(BlockDoor.OPEN)) {
                 return PathNodeType.DOOR_IRON_CLOSED;
             } else if (block instanceof BlockDoor && iblockstate.getValue(BlockDoor.OPEN)) {
                 return PathNodeType.DOOR_OPEN;
             } else if (block instanceof BlockRailBase) {
                 return PathNodeType.RAIL;
             } else if (!(block instanceof BlockFence) && !(block instanceof BlockWall) && (!(block instanceof BlockFenceGate) || iblockstate.getValue(BlockFenceGate.OPEN))) {
-                if (material == Material.air) {
+                if (material == Material.AIR) {
                     pathnodetype = PathNodeType.OPEN;
                 } else {
-                    if (material == Material.water) {
+                    if (material == Material.WATER) {
                         return PathNodeType.WATER;
                     }
-                    if (material == Material.lava) {
+                    if (material == Material.LAVA) {
                         return PathNodeType.LAVA;
                     }
                 }
@@ -304,9 +304,9 @@ public class WalkNodeProcessor extends NodeProcessor {
                         for (int i = z - 1; i <= z + 1; ++i) {
                             if (j != x || i != z) {
                                 Block block1 = world.getBlockState(new BlockPos(j, y, i)).getBlock();
-                                if (block1 == Blocks.cactus) {
+                                if (block1 == Blocks.CACTUS) {
                                     pathnodetype = PathNodeType.DANGER_CACTUS;
-                                } else if (block1 == Blocks.fire) {
+                                } else if (block1 == Blocks.FIRE) {
                                     pathnodetype = PathNodeType.DANGER_FIRE;
                                 }
                             }

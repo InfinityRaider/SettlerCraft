@@ -241,7 +241,7 @@ public class StructureBuildProgress {
                     Block block = state.getBlock();
                     boolean base = isAllowedState(state, blocksToBuild[x][y][z]);
                     boolean last = isAllowedState(state, finalBlocksToBuild[x][y][z]);
-                    if(block == null || state.getMaterial() == Material.air || block instanceof BlockLiquid || block instanceof IFluidBlock) {
+                    if(block == null || state.getMaterial() == Material.AIR || block instanceof BlockLiquid || block instanceof IFluidBlock) {
                         if(blocksToBuild[x][y][z] != null) {
                             if(!base) {
                                 buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
@@ -270,7 +270,7 @@ public class StructureBuildProgress {
 
     protected boolean isAllowedState(IBlockState state, StructureBuildPosition mask) {
         if (mask == null) {
-            return state == null || state.getMaterial() == Material.air;
+            return state == null || state.getMaterial() == Material.AIR;
         }
         return mask.isAllowedState(state);
     }
@@ -324,7 +324,7 @@ public class StructureBuildProgress {
                     Item item = resource.getItem();
                     if(item instanceof ItemBucket) {
                         List<ItemStack> list = new ArrayList<>();
-                        list.add(new ItemStack(Items.bucket));
+                        list.add(new ItemStack(Items.BUCKET));
                         return list;
                     } /*else if(item instanceof IFluidContainerItem) {
                         //TODO

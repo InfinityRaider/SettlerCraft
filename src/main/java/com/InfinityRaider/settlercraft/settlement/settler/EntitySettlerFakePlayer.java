@@ -45,25 +45,25 @@ public class EntitySettlerFakePlayer extends FakePlayer {
     }
 
     @Override
-    public EnumStatus trySleep(BlockPos bed) {
+    public SleepResult trySleep(BlockPos bed) {
         return this.trySleepVanilla(bed);
     }
 
-    private EnumStatus trySleepVanilla(BlockPos bedLocation) {
-        EntityPlayer.EnumStatus ret = net.minecraftforge.event.ForgeEventFactory.onPlayerSleepInBed(this, bedLocation);
+    private SleepResult trySleepVanilla(BlockPos bedLocation) {
+        EntityPlayer.SleepResult ret = net.minecraftforge.event.ForgeEventFactory.onPlayerSleepInBed(this, bedLocation);
         if (ret != null) return ret;
         if (!this.worldObj.isRemote) {
             if (this.isPlayerSleeping() || !this.isEntityAlive()) {
-                return EntityPlayer.EnumStatus.OTHER_PROBLEM;
+                return EntityPlayer.SleepResult.OTHER_PROBLEM;
             }
             if (!this.worldObj.provider.isSurfaceWorld()) {
-                return EntityPlayer.EnumStatus.NOT_POSSIBLE_HERE;
+                return EntityPlayer.SleepResult.NOT_POSSIBLE_HERE;
             }
             if (this.worldObj.isDaytime()) {
-                return EntityPlayer.EnumStatus.NOT_POSSIBLE_NOW;
+                return EntityPlayer.SleepResult.NOT_POSSIBLE_NOW;
             }
             if (Math.abs(this.posX - (double) bedLocation.getX()) > 3.0D || Math.abs(this.posY - (double) bedLocation.getY()) > 2.0D || Math.abs(this.posZ - (double) bedLocation.getZ()) > 3.0D) {
-                return EntityPlayer.EnumStatus.TOO_FAR_AWAY;
+                return EntityPlayer.SleepResult.TOO_FAR_AWAY;
             }
             double d0 = 8.0D;
             double d1 = 5.0D;
@@ -71,7 +71,7 @@ public class EntitySettlerFakePlayer extends FakePlayer {
                     new AxisAlignedBB((double) bedLocation.getX() - d0, (double) bedLocation.getY() - d1, (double) bedLocation.getZ() - d0,
                             (double) bedLocation.getX() + d0, (double) bedLocation.getY() + d1, (double) bedLocation.getZ() + d0));
             if (!list.isEmpty()) {
-                return EntityPlayer.EnumStatus.NOT_SAFE;
+                return EntityPlayer.SleepResult.NOT_SAFE;
             }
         }
         if (this.isRiding()) {
@@ -108,7 +108,7 @@ public class EntitySettlerFakePlayer extends FakePlayer {
         if (!this.worldObj.isRemote) {
             this.worldObj.updateAllPlayersSleepingFlag();
         }
-        return EntityPlayer.EnumStatus.OK;
+        return EntityPlayer.SleepResult.OK;
     }
 
     private void setRenderOffsetForSleep(EnumFacing facing) {

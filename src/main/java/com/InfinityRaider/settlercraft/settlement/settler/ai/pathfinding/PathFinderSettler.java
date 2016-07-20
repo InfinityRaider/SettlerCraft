@@ -8,7 +8,7 @@ import net.minecraft.world.IBlockAccess;
 
 public class PathFinderSettler extends PathFinder {
     /** The path being generated */
-    private final Path path = new Path();
+    private final PathHeap path = new PathHeap();
     /** Selection of path points to add to the path */
     private final PathPoint[] pathOptions = new PathPoint[32];
     private final NodeProcessor nodeProcessor;
@@ -18,27 +18,27 @@ public class PathFinderSettler extends PathFinder {
         this.nodeProcessor = nodeProcessor;
     }
 
-    public PathEntity func_186333_a(IBlockAccess world, EntityLiving entityFrom, Entity entityTo, float range) {
+    public Path findPath(IBlockAccess world, EntityLiving entityFrom, Entity entityTo, float range) {
         return this.getPathTo(world, entityFrom, entityTo.posX, entityTo.getEntityBoundingBox().minY, entityTo.posZ, range);
     }
 
-    public PathEntity func_186336_a(IBlockAccess world, EntityLiving entityFrom, BlockPos posTo, float range) {
+    public Path findPath(IBlockAccess world, EntityLiving entityFrom, BlockPos posTo, float range) {
         return this.getPathTo(world, entityFrom, (double) ((float) posTo.getX() + 0.5F), (double) ((float) posTo.getY() + 0.5F), (double) ((float) posTo.getZ() + 0.5F), range);
     }
 
-    private PathEntity getPathTo(IBlockAccess world, EntityLiving entity, double x, double y, double z, float range) {
+    private Path getPathTo(IBlockAccess world, EntityLiving entity, double x, double y, double z, float range) {
         this.path.clearPath();
-        this.nodeProcessor.func_186315_a(world, entity);
-        PathPoint pathpoint = this.nodeProcessor.func_186318_b();
-        PathPoint pathpoint1 = this.nodeProcessor.func_186325_a(x, y, z);
-        PathEntity pathentity = this.func_186335_a(pathpoint, pathpoint1, range);
+        this.nodeProcessor.initProcessor(world, entity);
+        PathPoint start = this.nodeProcessor.getStart();
+        PathPoint stop = this.nodeProcessor.getPathPointToCoords(x, y, z);
+        Path path = this.findPath(start, stop, range);
         this.nodeProcessor.postProcess();
-        return pathentity;
+        return path;
     }
 
-    private PathEntity func_186335_a(PathPoint pointFrom, PathPoint pointTo, float range) {
+    private Path findPath(PathPoint pointFrom, PathPoint pointTo, float range) {
         pointFrom.totalPathDistance = 0.0F;
-        pointFrom.distanceToNext = pointFrom.func_186281_c(pointTo);
+        pointFrom.distanceToNext = pointFrom.distanceManhattan(pointTo);
         pointFrom.distanceToTarget = pointFrom.distanceToNext;
         this.path.clearPath();
         this.path.addPoint(pointFrom);
@@ -54,21 +54,21 @@ public class PathFinderSettler extends PathFinder {
                 pathPoint1 = pointTo;
                 break;
             }
-            if (pathPoint.func_186281_c(pointTo) < pathPoint1.func_186281_c(pointTo)) {
+            if (pathPoint.distanceManhattan(pointTo) < pathPoint1.distanceManhattan(pointTo)) {
                 pathPoint1 = pathPoint;
             }
             pathPoint.visited = true;
-            int j = this.nodeProcessor.func_186320_a(this.pathOptions, pathPoint, pointTo, range);
+            int j = this.nodeProcessor.findPathOptions(this.pathOptions, pathPoint, pointTo, range);
             for (int k = 0; k < j; ++k) {
                 PathPoint pathPoint2 = this.pathOptions[k];
-                float f = pathPoint.func_186281_c(pathPoint2);
-                pathPoint2.field_186284_j = pathPoint.field_186284_j + f;
-                pathPoint2.field_186285_k = f + pathPoint2.field_186286_l;
-                float f1 = pathPoint.totalPathDistance + pathPoint2.field_186285_k;
-                if (pathPoint2.field_186284_j < range && (!pathPoint2.isAssigned() || f1 < pathPoint2.totalPathDistance)) {
+                float f = pathPoint.distanceManhattan(pathPoint2);
+                pathPoint2.distanceFromOrigin = pathPoint.distanceFromOrigin + f;
+                pathPoint2.cost = f + pathPoint2.costMalus;
+                float f1 = pathPoint.totalPathDistance + pathPoint2.cost;
+                if (pathPoint2.distanceFromOrigin < range && (!pathPoint2.isAssigned() || f1 < pathPoint2.totalPathDistance)) {
                     pathPoint2.previous = pathPoint;
                     pathPoint2.totalPathDistance = f1;
-                    pathPoint2.distanceToNext = pathPoint2.func_186281_c(pointTo) + pathPoint2.field_186286_l;
+                    pathPoint2.distanceToNext = pathPoint2.distanceManhattan(pointTo) + pathPoint2.costMalus;
                     if (pathPoint2.isAssigned()) {
                         this.path.changeDistance(pathPoint2, pathPoint2.totalPathDistance + pathPoint2.distanceToNext);
                     } else {
@@ -89,7 +89,7 @@ public class PathFinderSettler extends PathFinder {
     /**
      * Returns a new PathEntity for a given start and end point
      */
-    private PathEntity createEntityPath(PathPoint start, PathPoint end) {
+    private Path createEntityPath(PathPoint start, PathPoint end) {
         int i = 1;
         for (PathPoint pathpoint = end; pathpoint.previous != null; pathpoint = pathpoint.previous) {
             ++i;
@@ -102,6 +102,6 @@ public class PathFinderSettler extends PathFinder {
             pathPoint1 = pathPoint1.previous;
             --i;
         }
-        return new PathEntity(aPathPoint);
+        return new Path(aPathPoint);
     }
 }

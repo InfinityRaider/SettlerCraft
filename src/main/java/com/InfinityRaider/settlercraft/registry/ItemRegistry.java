@@ -4,18 +4,11 @@ import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
 import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.reference.Reference;
-import com.InfinityRaider.settlercraft.render.item.ItemRendererRegistry;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.Tuple;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +24,11 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
         settlerCraftTab = new CreativeTabs(Reference.MOD_ID.toLowerCase()+".creativeTab") {
             @Override
             public Item getTabIconItem() {
-                return Items.bed;
+                return Items.BED;
             }
         };
         settlerCraftItems = new ArrayList<>();
+        this.init();
     }
 
     public final CreativeTabs settlerCraftTab;
@@ -45,37 +39,20 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     public ItemDebugger itemDebugger;
     public ItemBuildingPlanner itemBuildingPlanner;
 
-    public void init() {
+    private void init() {
         itemSchematicCreator = new ItemSchematicCreator();
+        settlerCraftItems.add(itemSchematicCreator.setCreativeTab(creativeTabSettlerCraft()));
+
         itemDebugger = new ItemDebugger();
+        settlerCraftItems.add(itemDebugger.setCreativeTab(creativeTabSettlerCraft()));
+
         itemBuildingPlanner = new ItemBuildingPlanner();
+        settlerCraftItems.add(itemBuildingPlanner);
+
 
         LogHelper.debug("Registered items:");
         for(Item item : settlerCraftItems()) {
             LogHelper.debug(" - " + item.getRegistryName());
-        }
-    }
-
-    public void initRecipes() {
-        settlerCraftItems.stream().filter(item -> item instanceof IItemWithRecipe).forEach(item ->
-            ((IItemWithRecipe) item).getRecipes().forEach(GameRegistry::addRecipe));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerRenderers() {
-        for(Item item : settlerCraftItems) {
-            if(item instanceof IItemWithModel) {
-                for (Tuple<Integer, ModelResourceLocation> entry : ((IItemWithModel) item).getModelDefinitions()) {
-                    ModelLoader.setCustomModelResourceLocation(item, entry.getFirst(), entry.getSecond());
-                }
-            }
-            if(item instanceof ICustomRenderedItem) {
-                ItemRendererRegistry.getInstance().registerCustomItemRenderer((ICustomRenderedItem<? extends Item>) item);
-            }
-        }
-
-        for (ICustomRenderedItem item : ItemRendererRegistry.getInstance().getRegisteredItems()) {
-            LogHelper.debug("Registered custom renderer for " + item.getItemModelResourceLocation());
         }
     }
 

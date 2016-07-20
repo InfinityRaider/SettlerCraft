@@ -4,6 +4,8 @@ import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.utility.debug.*;
+import com.infinityraider.infinitylib.item.ItemDebuggerBase;
+import com.infinityraider.infinitylib.utility.debug.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,10 +18,12 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 
-public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes {
+import java.util.List;
+
+public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlementBoxes {
     private static final DebugMode[] DEBUG_MODES = {
-            new DebugModeFeedback(),
             new DebugModeBuildSchematic(),
             new DebugModeFinishBuilding(),
             new DebugModeSettlementInfo(),
@@ -28,8 +32,14 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
     };
 
     public ItemDebugger() {
-        super("debugger");
+        super();
         this.setMaxStackSize(1);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected List<DebugMode> getDebugModes() {
+        return Arrays.asList(DEBUG_MODES);
     }
 
     @Override
@@ -85,5 +95,10 @@ public class ItemDebugger extends ItemBase implements IItemRenderSettlementBoxes
     @SideOnly(Side.CLIENT)
     public boolean shouldRenderSettlementBoxes(ISettlement settlement, EntityPlayer player, ItemStack stack) {
         return true;
+    }
+
+    @Override
+    public List<String> getOreTags() {
+        return null;
     }
 }

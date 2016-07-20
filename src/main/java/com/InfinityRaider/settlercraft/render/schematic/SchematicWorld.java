@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -74,25 +74,19 @@ public class SchematicWorld implements IBlockAccess {
         if(blockMap.containsKey(pos)) {
             return blockMap.get(pos);
         } else {
-            return Blocks.air.getDefaultState();
+            return Blocks.AIR.getDefaultState();
         }
     }
 
     @Override
     public boolean isAirBlock(BlockPos pos) {
         IBlockState state = getBlockState(pos);
-        return !blockMap.containsKey(pos) || blockMap.get(pos).getBlock().getMaterial(state) == Material.air;
+        return !blockMap.containsKey(pos) || blockMap.get(pos).getBlock().getMaterial(state) == Material.AIR;
     }
 
     @Override
-    public BiomeGenBase getBiomeGenForCoords(BlockPos pos) {
+    public Biome getBiomeGenForCoords(BlockPos pos) {
         return world.getBiomeGenForCoords(pos.add(getOrigin()));
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean extendedLevelsInChunkCache() {
-        return false;
     }
 
     @Override

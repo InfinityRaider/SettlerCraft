@@ -4,12 +4,12 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.google.common.base.Optional;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -391,7 +391,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                 this.task.cancelTask();
             }
             this.getDataManager().set(DATA_HAS_TASK, true);
-            NetWorkWrapper.getInstance().sendToAll(new MessageAssignTask(this, false));
+            NetworkWrapper.getInstance().sendToAll(new MessageAssignTask(this, false));
         }
         this.task = task;
     }
@@ -400,7 +400,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.task = null;
         if(!this.worldObj.isRemote) {
             this.getDataManager().set(DATA_HAS_TASK, false);
-            NetWorkWrapper.getInstance().sendToAll(new MessageAssignTask(this, true));
+            NetworkWrapper.getInstance().sendToAll(new MessageAssignTask(this, true));
         }
     }
 
@@ -473,8 +473,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             if(bed.getValue(BlockBed.OCCUPIED)) {
                 return false;
             }
-            EntityPlayer.EnumStatus status = this.getFakePlayerImplementation().trySleep(pos);
-            boolean flag = status == EntityPlayer.EnumStatus.OK;
+            EntityPlayer.SleepResult status = this.getFakePlayerImplementation().trySleep(pos);
+            boolean flag = status == EntityPlayer.SleepResult.OK;
             if(flag) {
                 this.getDataManager().set(DATA_SLEEPING, true);
             }

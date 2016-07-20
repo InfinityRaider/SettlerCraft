@@ -108,6 +108,15 @@ public interface IBoundingBox extends Iterable<BlockPos> {
     IBoundingBox expandToFit(BlockPos pos);
 
     /**
+     * Expands this bounding box to make the arguments fit into it
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param z the z-coordinate
+     * @return this
+     */
+    IBoundingBox expandToFit(int x, int y, int z);
+
+    /**
      * Translates this bounding box by an offset
      * @param x offset x
      * @param y offset y

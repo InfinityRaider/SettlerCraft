@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.PlayerTickHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 
 public abstract class ContainerSettler extends Container {
     private final ISettler settler;
@@ -37,11 +36,6 @@ public abstract class ContainerSettler extends Container {
             this.settler.setConversationPartner(null);
         }
         PlayerTickHandler.getInstance().onContainerClosed(this);
-    }
-
-    @Override
-    public void onCraftGuiOpened(ICrafting listener) {
-        super.onCraftGuiOpened(listener);
     }
 
     public final void afterContainerClosed() {

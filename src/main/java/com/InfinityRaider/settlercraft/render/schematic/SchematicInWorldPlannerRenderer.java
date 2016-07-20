@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.IBoundingBox;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.item.ItemBuildingPlanner;
-import com.InfinityRaider.settlercraft.render.RenderUtilBase;
+import com.infinityraider.infinitylib.render.RenderUtilBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -76,7 +76,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
         }
         BlockPos pos = raytraced.getBlockPos().offset(raytraced.sideHit);
         IBlockState state = SettlerCraft.proxy.getClientWorld().getBlockState(raytraced.getBlockPos());
-        if(state.getBlock().getMaterial(state) == Material.air) {
+        if(state.getBlock().getMaterial(state) == Material.AIR) {
             return;
         }
         renderer.setSchematicFromStack(stack, planner);

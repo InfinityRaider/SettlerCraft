@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.network;
 
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettlerDialogue;
+import com.infinityraider.infinitylib.network.MessageBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

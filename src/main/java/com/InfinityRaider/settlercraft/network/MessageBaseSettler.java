@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.network;
 
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import com.infinityraider.infinitylib.network.MessageBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

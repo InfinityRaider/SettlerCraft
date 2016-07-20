@@ -40,15 +40,15 @@ public class PathNavigateGround extends PathNavigate {
      * Returns path to given BlockPos
      */
     public PathEntity getPathToPos(BlockPos pos) {
-        if (this.worldObj.getBlockState(pos).getMaterial() == Material.air) {
+        if (this.worldObj.getBlockState(pos).getMaterial() == Material.AIR) {
             BlockPos blockpos;
             //get the position of the first block which is not air, downwards
-            for (blockpos = pos.down(); blockpos.getY() > 0 && this.worldObj.getBlockState(blockpos).getMaterial() == Material.air; blockpos = blockpos.down()) {}
+            for (blockpos = pos.down(); blockpos.getY() > 0 && this.worldObj.getBlockState(blockpos).getMaterial() == Material.AIR; blockpos = blockpos.down()) {}
             if (blockpos.getY() > 0) {
                 return super.getPathToPos(blockpos.up());
             }
             //if none is found, get the position of the first block which is not air, upwards
-            while (blockpos.getY() < this.worldObj.getHeight() && this.worldObj.getBlockState(blockpos).getMaterial() == Material.air) {
+            while (blockpos.getY() < this.worldObj.getHeight() && this.worldObj.getBlockState(blockpos).getMaterial() == Material.AIR) {
                 blockpos = blockpos.up();
             }
             pos = blockpos;
@@ -78,7 +78,7 @@ public class PathNavigateGround extends PathNavigate {
             int y = (int)this.theEntity.getEntityBoundingBox().minY;
             Block block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), y, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
             int j = 0;
-            while (block == Blocks.flowing_water || block == Blocks.water) {
+            while (block == Blocks.FLOWING_LAVA || block == Blocks.WATER) {
                 ++y;
                 block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), y, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
                 ++j;
@@ -102,7 +102,7 @@ public class PathNavigateGround extends PathNavigate {
             PathPoint pathpoint1 = i + 1 < this.currentPath.getCurrentPathLength() ? this.currentPath.getPathPointFromIndex(i + 1) : null;
             IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord));
             Block block = iblockstate.getBlock();
-            if (block == Blocks.cauldron) {
+            if (block == Blocks.CAULDRON) {
                 this.currentPath.func_186309_a(i, pathpoint.copyToNewPathPointWithCoordinates(pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord));
                 if (pathpoint1 != null && pathpoint.yCoord >= pathpoint1.yCoord) {
                     this.currentPath.func_186309_a(i + 1, pathpoint1.copyToNewPathPointWithCoordinates(pathpoint1.xCoord, pathpoint.yCoord + 1, pathpoint1.zCoord));

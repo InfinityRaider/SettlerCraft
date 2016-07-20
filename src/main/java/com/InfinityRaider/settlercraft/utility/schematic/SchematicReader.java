@@ -79,7 +79,7 @@ public class SchematicReader {
     }
 
     private void addBlockPositionToWorld(World world, Schematic.BlockPosition data, BlockPos pos, int rotation, boolean blockUpdate) {
-        Block block = Block.blockRegistry.getObject(new ResourceLocation(data.block));
+        Block block = Block.REGISTRY.getObject(new ResourceLocation(data.block));
         int meta = data.getWorldMeta(rotation);
         int flag = blockUpdate ? 3 : 2;
         BlockPos newPos = SchematicRotationTransformer.getInstance().applyRotation(pos, data.x, data.y, data.z, rotation);

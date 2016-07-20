@@ -1,25 +1,25 @@
 package com.InfinityRaider.settlercraft.render.block;
 
-import com.InfinityRaider.settlercraft.block.BlockBase;
-import com.InfinityRaider.settlercraft.block.tile.TileEntityBase;
-import com.InfinityRaider.settlercraft.render.RenderUtilBase;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import com.infinityraider.infinitylib.block.BlockBaseTile;
+import com.infinityraider.infinitylib.block.tile.TileEntityBase;
+import com.infinityraider.infinitylib.render.RenderUtilBase;
+import com.infinityraider.infinitylib.render.block.IBlockRenderingHandler;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Collections;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class RenderBlockBase<T extends TileEntityBase> extends RenderUtilBase implements IBlockRenderingHandler<T> {
-    private final BlockBase<T> block;
+    private final BlockBaseTile<T> block;
     private final T dummy;
     private final boolean inv;
     private final boolean statRender;
     private final boolean dynRender;
 
-    protected RenderBlockBase(BlockBase<T> block, T te, boolean inv, boolean statRender, boolean dynRender) {
+    protected RenderBlockBase(BlockBaseTile<T> block, T te, boolean inv, boolean statRender, boolean dynRender) {
         this.block = block;
         this.dummy = te;
         this.inv = inv;
@@ -28,7 +28,7 @@ public abstract class RenderBlockBase<T extends TileEntityBase> extends RenderUt
     }
 
     @Override
-    public BlockBase<T> getBlock() {
+    public BlockBaseTile<T> getBlock() {
         return block;
     }
 
@@ -39,7 +39,7 @@ public abstract class RenderBlockBase<T extends TileEntityBase> extends RenderUt
 
     @Override
     public List<ResourceLocation> getAllTextures() {
-        return getBlock().getTextures();
+        return Collections.emptyList();
     }
 
     @Override

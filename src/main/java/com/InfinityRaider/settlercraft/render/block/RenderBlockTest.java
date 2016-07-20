@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.render.block;
 import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
 import com.InfinityRaider.settlercraft.reference.Constants;
-import com.InfinityRaider.settlercraft.render.tessellation.ITessellator;
+import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;

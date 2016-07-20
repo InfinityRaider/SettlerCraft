@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai.pathfinding.astar;
 
-import com.InfinityRaider.settlercraft.render.RenderUtilBase;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
+import com.infinityraider.infinitylib.render.RenderUtilBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;

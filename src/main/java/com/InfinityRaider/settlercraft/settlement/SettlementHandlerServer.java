@@ -3,8 +3,8 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +47,7 @@ public class SettlementHandlerServer extends SettlementHandler {
         ISettlement settlement =  getSettlementData(world).getNewSettlement(
                 world, player, new BlockPos(x, y, z), player.getDisplayName().getFormattedText() + "'s Settlement", style);
         MessageSyncSettlementsToClient message = new MessageSyncSettlementsToClient(settlement);
-        NetWorkWrapper.getInstance().sendToDimension(message, world);
+        NetworkWrapper.getInstance().sendToDimension(message, world);
         return settlement;
     }
 
@@ -55,13 +55,13 @@ public class SettlementHandlerServer extends SettlementHandler {
     @SuppressWarnings("unused")
     public void onPlayerJoined(PlayerEvent.PlayerLoggedInEvent event) {
         MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
-        NetWorkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
+        NetworkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
         MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
-        NetWorkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
+        NetworkWrapper.getInstance().sendTo(msg, (EntityPlayerMP) event.player);
     }
 }

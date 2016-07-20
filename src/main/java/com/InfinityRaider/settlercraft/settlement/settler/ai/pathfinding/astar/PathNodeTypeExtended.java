@@ -30,7 +30,7 @@ public enum PathNodeTypeExtended {
     }
 
     PathNodeTypeExtended(String name, float priority) {
-        this(EnumHelper.addEnum(PathNodeType.class, name, priority));
+        this(EnumHelper.addEnum(PathNodeType.class, name, new Class[]{Float.class}, priority));
     }
 
     public PathNodeType getType() {

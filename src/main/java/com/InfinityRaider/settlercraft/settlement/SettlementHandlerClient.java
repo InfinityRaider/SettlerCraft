@@ -93,6 +93,8 @@ public class SettlementHandlerClient extends SettlementHandler {
         public void readFromNBT(NBTTagCompound nbt) {}
 
         @Override
-        public void writeToNBT(NBTTagCompound nbt) {}
+        public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+            return nbt;
+        }
     }
 }

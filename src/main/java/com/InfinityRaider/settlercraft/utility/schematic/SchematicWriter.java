@@ -81,7 +81,7 @@ public class SchematicWriter {
                         tag = new NBTTagCompound();
                         tile.writeToNBT(tag);
                     }
-                    Schematic.BlockPosition position = new Schematic.BlockPosition(x, y, z, Block.blockRegistry.getNameForObject(block).toString(), worldMeta, stackMeta, tag);
+                    Schematic.BlockPosition position = new Schematic.BlockPosition(x, y, z, Block.REGISTRY.getNameForObject(block).toString(), worldMeta, stackMeta, tag);
                     if(needsSupportBlock(block)) {
                         position.setNeedsSupportBlock();
                     }

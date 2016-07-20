@@ -79,7 +79,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     private boolean func_181065_a(BlockPos pos) {
         IBlockState state = this.theWorld.getBlockState(pos);
         Block block = state.getBlock();
-        return block == Blocks.air || !block.isFullCube(state);
+        return block == Blocks.AIR || !block.isFullCube(state);
     }
 
     /**

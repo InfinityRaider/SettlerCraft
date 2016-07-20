@@ -2,10 +2,10 @@ package com.InfinityRaider.settlercraft.settlement.settler.container.gui;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.network.MessageDialogueOptionSelected;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettlerDialogue;
-import com.InfinityRaider.settlercraft.utility.GuiComponent;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.infinityraider.infinitylib.utility.GuiComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -118,7 +118,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         for(GuiComponent<IDialogueOption> component : components) {
             if(component.isOverComponent(mouseX, mouseY)) {
-                NetWorkWrapper.getInstance().sendToServer(new MessageDialogueOptionSelected(component.getIndex()));
+                NetworkWrapper.getInstance().sendToServer(new MessageDialogueOptionSelected(component.getIndex()));
                 getContainer().onDialogueOptionClicked(component.getIndex());
                 this.initGui();
                 return;

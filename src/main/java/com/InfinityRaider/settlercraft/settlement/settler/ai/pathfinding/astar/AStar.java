@@ -4,10 +4,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.init.Blocks;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.PathPoint;
-import net.minecraft.pathfinding.WalkNodeProcessor;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -49,7 +49,7 @@ public class AStar {
         this.maxFallHeight = 1;
     }
 
-    public PathEntity getPath() {
+    public Path getPath() {
         List<Node> nodes = run();
         if (nodes == null || nodes.size() <= 0) {
             return null;
@@ -58,7 +58,7 @@ public class AStar {
         for (int i = 0; i < pathPoints.length; i++) {
             pathPoints[i] = nodes.get(nodes.size() - i - 1).toPathPoint();
         }
-        return new PathEntity(pathPoints);
+        return new Path(pathPoints);
     }
 
     public List<Node> run() {
@@ -224,17 +224,17 @@ public class AStar {
         for (int i = 1; i < entityHeight; i++) {
             BlockPos posAt = pos.add(0, i, 0);
             IBlockState above = world.getBlockState(posAt);
-            if (above.getMaterial() == Material.air) {
+            if (above.getMaterial() == Material.AIR) {
                 continue;
             }
-            if (above.getMaterial() == Material.water && swim) {
+            if (above.getMaterial() == Material.WATER && swim) {
                 continue;
             }
             return new Node.Doom(world, pos);
         }
-        if (state.getMaterial() == Material.air) {
+        if (state.getMaterial() == Material.AIR) {
             return getNodeForAir(pos);
-        } else if (state.getMaterial() == Material.water) {
+        } else if (state.getMaterial() == Material.WATER) {
             if (swim) {
                 return new Node.Swim(world, pos);
             } else {
@@ -264,7 +264,7 @@ public class AStar {
                 break;
             }
             below = world.getBlockState(posAt);
-            if (below.getMaterial() != Material.air) {
+            if (below.getMaterial() != Material.AIR) {
                 flag = true;
                 break;
             }
@@ -285,7 +285,7 @@ public class AStar {
     }
 
     private boolean isSafeToStandAt(int x, int y, int z) {
-        if(world.getBlockState(new BlockPos(x, y -1, z)).getMaterial() == Material.air) {
+        if(world.getBlockState(new BlockPos(x, y -1, z)).getMaterial() == Material.AIR) {
             return false;
         }
         int sizeX = MathHelper.ceiling_float_int(entity.width);
@@ -329,7 +329,7 @@ public class AStar {
         for (int i = x; i < x + sizeX; ++i) {
             for (int j = y; j < y + sizeY; ++j) {
                 for (int k = z; k < z + sizeZ; ++k) {
-                    PathNodeType pathNodeType1 = WalkNodeProcessor.func_186330_a(world, i, j, k);
+                    PathNodeType pathNodeType1 = getPathNodeTypeRaw(world, i, j, k);
                     if (pathNodeType1 == PathNodeType.DOOR_WOOD_CLOSED || pathNodeType1 == PathNodeType.DOOR_OPEN) {
                         pathNodeType1 = openDoors ? PathNodeType.WALKABLE : PathNodeType.BLOCKED;
                     }
@@ -368,6 +368,14 @@ public class AStar {
                 return pathNodeType2;
             }
         }
+    }
+
+    public static PathNodeType getPathNodeTypeRaw(IBlockAccess world, int x, int y, int z) {
+        BlockPos blockpos = new BlockPos(x, y, z);
+        IBlockState iblockstate = world.getBlockState(blockpos);
+        Block block = iblockstate.getBlock();
+        Material material = iblockstate.getMaterial();
+        return material == Material.AIR ? PathNodeType.OPEN : (block != Blocks.TRAPDOOR && block != Blocks.IRON_TRAPDOOR && block != Blocks.WATERLILY ? (block == Blocks.FIRE ? PathNodeType.DAMAGE_FIRE : (block == Blocks.CACTUS ? PathNodeType.DAMAGE_CACTUS : (block instanceof BlockDoor && material == Material.WOOD && !((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_WOOD_CLOSED : (block instanceof BlockDoor && material == Material.IRON && !((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_IRON_CLOSED : (block instanceof BlockDoor && ((Boolean)iblockstate.getValue(BlockDoor.OPEN)).booleanValue() ? PathNodeType.DOOR_OPEN : (block instanceof BlockRailBase ? PathNodeType.RAIL : (!(block instanceof BlockFence) && !(block instanceof BlockWall) && (!(block instanceof BlockFenceGate) || ((Boolean)iblockstate.getValue(BlockFenceGate.OPEN)).booleanValue()) ? (material == Material.WATER ? PathNodeType.WATER : (material == Material.LAVA ? PathNodeType.LAVA : (block.isPassable(world, blockpos) ? PathNodeType.OPEN : PathNodeType.BLOCKED))) : PathNodeType.FENCE))))))) : PathNodeType.TRAPDOOR);
     }
 
     private boolean isPositionClear(int x, int y, int z) {

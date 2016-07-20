@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.settlement;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageSyncBuildingsToClient;
-import com.InfinityRaider.settlercraft.network.NetWorkWrapper;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingInventory;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
@@ -16,6 +15,7 @@ import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import com.google.common.collect.ImmutableList;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -314,7 +314,7 @@ public class SettlementBuilding implements ISettlementBuilding {
     @Override
     public void syncToClient() {
         MessageSyncBuildingsToClient msg = new MessageSyncBuildingsToClient(this);
-        NetWorkWrapper.getInstance().sendToDimension(msg, this.getWorld());
+        NetworkWrapper.getInstance().sendToDimension(msg, this.getWorld());
     }
 
     @Override

@@ -144,7 +144,7 @@ public class Schematic {
         }
 
         public Block getBlock() {
-            return Block.blockRegistry.getObject(new ResourceLocation(this.block));
+            return Block.REGISTRY.getObject(new ResourceLocation(this.block));
         }
 
         public BlockPos getBlockPos() {

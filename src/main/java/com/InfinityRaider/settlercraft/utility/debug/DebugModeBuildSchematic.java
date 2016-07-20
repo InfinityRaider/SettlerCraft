@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.utility.debug;
 
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
+import com.infinityraider.infinitylib.utility.debug.DebugMode;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

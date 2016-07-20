@@ -2,20 +2,28 @@ package com.InfinityRaider.settlercraft.block;
 
 import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
 import com.InfinityRaider.settlercraft.render.block.RenderBlockTest;
-import com.InfinityRaider.settlercraft.render.block.IBlockRenderingHandler;
-import net.minecraft.block.Block;
+import com.infinityraider.infinitylib.block.BlockTileCustomRenderedBase;
+import com.infinityraider.infinitylib.render.block.IBlockRenderingHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockTest extends BlockBaseTile<TileEntityTest> {
+import java.util.Collections;
+import java.util.List;
+
+public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
     public BlockTest() {
-        super("testBlock", "test", Material.ground);
+        super("testBlock", Material.GROUND);
+    }
+
+    @Override
+    public List<String> getOreTags() {
+        return Collections.emptyList();
     }
 
     @Override
@@ -24,13 +32,8 @@ public class BlockTest extends BlockBaseTile<TileEntityTest> {
     }
 
     @Override
-    protected Class<? extends ItemBlock> getItemBlockClass() {
+    public Class<? extends ItemBlock> getItemBlockClass() {
         return null;
-    }
-
-    @Override
-    public AxisAlignedBB getDefaultBoundingBox() {
-        return Block.FULL_BLOCK_AABB;
     }
 
     @Override
@@ -42,6 +45,11 @@ public class BlockTest extends BlockBaseTile<TileEntityTest> {
     @SideOnly(Side.CLIENT)
     public IBlockRenderingHandler<TileEntityTest> getRenderer() {
         return new RenderBlockTest(this);
+    }
+
+    @Override
+    public ModelResourceLocation getBlockModelResourceLocation() {
+        return null;
     }
 
     @Override

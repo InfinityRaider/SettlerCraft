@@ -4,7 +4,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.WalkNodeProcessor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -69,7 +68,7 @@ public class NodeCreator {
     }
 
     protected boolean isSwimmableLiquid(IBlockState state) {
-        return state.getMaterial() == Material.water;
+        return state.getMaterial() == Material.WATER;
     }
 
     protected Node getNodeForLiquid(World world, BlockPos pos, PathFinderSettings settings) {
@@ -101,7 +100,7 @@ public class NodeCreator {
     }
 
     protected boolean canStandOnBlock(IBlockAccess world, BlockPos pos, IBlockState state, PathFinderSettings settings) {
-        if(state.getMaterial() == Material.air) {
+        if(state.getMaterial() == Material.AIR) {
             return false;
         }
         int x = pos.getX();
@@ -148,7 +147,7 @@ public class NodeCreator {
         for (int i = x; i < x + sizeX; ++i) {
             for (int j = y; j < y + sizeY; ++j) {
                 for (int k = z; k < z + sizeZ; ++k) {
-                    PathNodeType pathNodeType1 = WalkNodeProcessor.func_186330_a(world, i, j, k);
+                    PathNodeType pathNodeType1 = AStar.getPathNodeTypeRaw(world, i, j, k);
                     if (pathNodeType1 == PathNodeType.DOOR_WOOD_CLOSED || pathNodeType1 == PathNodeType.DOOR_OPEN) {
                         pathNodeType1 = settings.canOpenDoors() ? PathNodeType.WALKABLE : PathNodeType.BLOCKED;
                     }
