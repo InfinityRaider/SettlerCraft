@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft;
 
+import com.InfinityRaider.settlercraft.network.*;
 import com.InfinityRaider.settlercraft.proxy.IProxy;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
@@ -10,10 +11,7 @@ import com.infinityraider.infinitylib.InfinityMod;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.*;
 
 @InfinityMod
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
@@ -41,7 +39,10 @@ public class SettlerCraft implements IInfinityMod {
 
     @Override
     public void registerMessages(INetworkWrapper wrapper) {
-
+        wrapper.registerMessage(MessageAssignTask.class);
+        wrapper.registerMessage(MessageDialogueOptionSelected.class);
+        wrapper.registerMessage(MessageSyncBuildingsToClient.class);
+        wrapper.registerMessage(MessageSyncSettlementsToClient.class);
     }
 
     @Mod.EventHandler

@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlementBoxes {
@@ -99,6 +100,6 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlem
 
     @Override
     public List<String> getOreTags() {
-        return null;
+        return Collections.emptyList();
     }
 }
