@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,6 +21,8 @@ import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft", "blocks/planks_oak");
+
     public RenderBlockTest(BlockTest block) {
         super(block, new TileEntityTest(), true, true, true);
     }
@@ -27,6 +30,10 @@ public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
     @Override
     public void renderWorldBlock(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state, Block block,
                                  @Nullable TileEntityTest tile, boolean dynamicRender, float partialTick, int destroyStage) {
+        if(dynamicRender) {
+            int brightness = world.getCombinedLight(pos.up(), 0);
+            tessellator.setBrightness(brightness);
+        }
         this.doRender(tessellator, dynamicRender);
     }
 
@@ -39,18 +46,18 @@ public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
 
     private void doRender(ITessellator tessellator, boolean dynamicRender) {
         if(!dynamicRender) {
-            tessellator.drawScaledPrism(3, 2, 3, 9, 16, 9, null);
-            tessellator.drawScaledFaceDouble(1, 1, 15, 15, EnumFacing.NORTH, null, -5);
+            tessellator.drawScaledPrism(3, 2, 3, 9, 16, 9, getIcon());
+            tessellator.drawScaledFaceDouble(1, 1, 15, 15, EnumFacing.NORTH, getIcon(), -5);
         } else {
             double yOffset = 3*Constants.UNIT*Math.cos(Math.PI*2*(System.currentTimeMillis()%6000)/6000);
             tessellator.translate(0, yOffset, 0);
-            tessellator.drawScaledPrism(2, 5, 11, 11, 12, 14, null);
+            tessellator.drawScaledPrism(2, 5, 11, 11, 12, 14, getIcon());
             tessellator.translate(0, -yOffset, 0);
         }
     }
 
     @Override
     public TextureAtlasSprite getIcon() {
-        return null;
+        return this.getIcon(TEXTURE);
     }
 }

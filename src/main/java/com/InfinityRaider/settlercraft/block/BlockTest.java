@@ -1,9 +1,9 @@
 package com.InfinityRaider.settlercraft.block;
 
 import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
+import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.render.block.RenderBlockTest;
 import com.infinityraider.infinitylib.block.BlockTileCustomRenderedBase;
-import com.infinityraider.infinitylib.reference.Reference;
 import com.infinityraider.infinitylib.render.block.IBlockRenderingHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -50,7 +50,7 @@ public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
 
     @Override
     public ModelResourceLocation getBlockModelResourceLocation() {
-        return new ModelResourceLocation(Reference.MOD_ID, getInternalName());
+        return new ModelResourceLocation(Reference.MOD_ID.toLowerCase() + ":" + getInternalName());
     }
 
     @Override

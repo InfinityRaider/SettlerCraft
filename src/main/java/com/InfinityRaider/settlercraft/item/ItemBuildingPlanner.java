@@ -7,6 +7,7 @@ import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.infinityraider.infinitylib.item.ItemBase;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -208,5 +210,13 @@ public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanne
     @Override
     public List<String> getOreTags() {
         return Collections.emptyList();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public List<Tuple<Integer, ModelResourceLocation>> getModelDefinitions() {
+        List<Tuple<Integer, ModelResourceLocation>> list = new ArrayList<>();
+        list.add(new Tuple<>(0, new ModelResourceLocation(Reference.MOD_ID.toLowerCase()+ ":" + getInternalName(), "inventory")));
+        return list;
     }
 }

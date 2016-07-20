@@ -3,23 +3,23 @@ package com.InfinityRaider.settlercraft.item;
 import com.InfinityRaider.settlercraft.api.v1.IItemRenderSettlementBoxes;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.reference.Names;
+import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.debug.*;
 import com.infinityraider.infinitylib.item.ItemDebuggerBase;
 import com.infinityraider.infinitylib.utility.debug.*;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import scala.actors.threadpool.Arrays;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -101,5 +101,13 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlem
     @Override
     public List<String> getOreTags() {
         return Collections.emptyList();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public List<Tuple<Integer, ModelResourceLocation>> getModelDefinitions() {
+        List<Tuple<Integer, ModelResourceLocation>> list = new ArrayList<>();
+        list.add(new Tuple<>(0, new ModelResourceLocation(Reference.MOD_ID.toLowerCase()+ ":" + getInternalName(), "inventory")));
+        return list;
     }
 }
