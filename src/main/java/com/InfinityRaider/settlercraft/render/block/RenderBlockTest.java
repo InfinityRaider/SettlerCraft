@@ -28,8 +28,6 @@ public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
     @Override
     public void renderWorldBlock(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state, Block block,
                                  @Nullable TileEntityTest tile, boolean dynamicRender, float partialTick, int destroyStage) {
-        int brightness = world.getCombinedLight(pos.up(), 15);
-        tessellator.setBrightness(brightness);
         this.doRender(tessellator, dynamicRender);
     }
 
@@ -41,20 +39,13 @@ public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
     }
 
     private void doRender(ITessellator tessellator, boolean dynamicRender) {
+        tessellator.setApplyDiffuseLighting(true);
         if(!dynamicRender) {
-            //tessellator.setColor(TessellatorAbstractBase.COLOR_MULTIPLIER_STANDARD);
-            tessellator.setApplyDiffuseLighting(false);
-            //tessellator.drawScaledFaceDouble(1, 1, 15, 15, EnumFacing.NORTH, getIcon(), -5);
-            //tessellator.drawScaledPrism(3, 2, 3, 9, 16, 9, getIcon());
-            tessellator.drawScaledPrism(0, 0, 0, 16, 16, 16, getIcon());
+            tessellator.setApplyDiffuseLighting(true);
             //tessellator.drawScaledFace(0, 0, 16, 16, EnumFacing.WEST, getIcon(), 0);
+            tessellator.drawScaledPrism(0, 0, 0, 16, 16, 16, getIcon());
         } else {
-            /*
-            double yOffset = 3*Constants.UNIT*Math.cos(Math.PI*2*(System.currentTimeMillis()%6000)/6000);
-            tessellator.translate(0, yOffset, 0);
-            tessellator.drawScaledPrism(2, 5, 11, 11, 12, 14, getIcon());
-            tessellator.translate(0, -yOffset, 0);
-            */
+            tessellator.setBrightness(15 << 24);
             //tessellator.drawScaledFace(0, 0, 16, 16, EnumFacing.WEST, getIcon(), 0);
             //tessellator.drawScaledPrism(0, 0, 0, 16, 16, 16, getIcon());
         }
