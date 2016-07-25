@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ItemSchematicCreator extends ItemBase {
     public ItemSchematicCreator() {
-        super("schematicCreator");
+        super("schematicCreator", false);
         this.setMaxStackSize(1);
     }
 

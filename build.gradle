@@ -82,3 +82,11 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+// Run Stuff
+runClient {
+	if( project.hasProperty('minecraft_username') && project.hasProperty('minecraft_password') ) {
+		args "--username=${project.minecraft_username}"
+		args "--password=${project.minecraft_password}"
+	}
+}

@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanner, IItemRenderSettlementBoxes {
     public ItemBuildingPlanner() {
-        super("buildingPlanner");
+        super("buildingPlanner", true);
         this.setMaxStackSize(1);
         this.setCreativeTab(null);
     }

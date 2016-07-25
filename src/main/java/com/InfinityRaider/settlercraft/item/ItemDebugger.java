@@ -33,7 +33,7 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlem
     };
 
     public ItemDebugger() {
-        super();
+        super(true);
         this.setMaxStackSize(1);
     }
 

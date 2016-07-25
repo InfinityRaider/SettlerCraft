@@ -4,13 +4,12 @@ import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.render.block.RenderBlockTest;
 import com.infinityraider.infinitylib.block.BlockTileCustomRenderedBase;
-import com.infinityraider.infinitylib.block.tile.TileEntityBase;
-import com.infinityraider.infinitylib.render.block.IBlockRenderingHandler;
+import com.infinityraider.infinitylib.block.blockstate.InfinityProperty;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,8 +29,8 @@ public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
     }
 
     @Override
-    protected IProperty[] getPropertyArray() {
-        return new IProperty[0];
+    protected InfinityProperty[] getPropertyArray() {
+        return new InfinityProperty[0];
     }
 
     @Override
@@ -46,7 +45,7 @@ public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IBlockRenderingHandler<TileEntityTest> getRenderer() {
+    public RenderBlockTest getRenderer() {
         return new RenderBlockTest(this);
     }
 
@@ -58,8 +57,13 @@ public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean needsRenderUpdate(World world, BlockPos pos, IBlockState state, TileEntityBase tile) {
-        return false;
+    public boolean needsRenderUpdate(World world, BlockPos pos, IBlockState state, TileEntityTest tile) {
+        return true;
+    }
+
+    @Override
+    public List<ResourceLocation> getTextures() {
+        return Collections.emptyList();
     }
 
     @Override

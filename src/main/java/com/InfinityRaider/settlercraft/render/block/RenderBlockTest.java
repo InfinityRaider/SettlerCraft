@@ -2,8 +2,8 @@ package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
+import com.infinityraider.infinitylib.render.block.RenderBlockBase;
 import com.infinityraider.infinitylib.render.tessellation.ITessellator;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
+public class RenderBlockTest extends RenderBlockBase<BlockTest, TileEntityTest> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft", "blocks/planks_oak");
 
     public RenderBlockTest(BlockTest block) {
@@ -26,13 +26,13 @@ public class RenderBlockTest extends RenderBlockBase<TileEntityTest> {
     }
 
     @Override
-    public void renderWorldBlock(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state, Block block,
+    public void renderWorldBlock(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state, BlockTest block,
                                  @Nullable TileEntityTest tile, boolean dynamicRender, float partialTick, int destroyStage) {
         this.doRender(tessellator, dynamicRender);
     }
 
     @Override
-    public void renderInventoryBlock(ITessellator tessellator, World world, IBlockState state, Block block,
+    public void renderInventoryBlock(ITessellator tessellator, World world, IBlockState state, BlockTest block,
                                      @Nullable TileEntityTest tile, ItemStack stack, EntityLivingBase entity, ItemCameraTransforms.TransformType type) {
         this.doRender(tessellator, true);
         this.doRender(tessellator, false);
