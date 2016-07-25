@@ -41,6 +41,7 @@ public class SettlerCraft implements IInfinityMod {
     public void registerMessages(INetworkWrapper wrapper) {
         wrapper.registerMessage(MessageAssignTask.class);
         wrapper.registerMessage(MessageDialogueOptionSelected.class);
+        wrapper.registerMessage(MessageSettlerSleeping.class);
         wrapper.registerMessage(MessageSyncBuildingsToClient.class);
         wrapper.registerMessage(MessageSyncSettlementsToClient.class);
     }

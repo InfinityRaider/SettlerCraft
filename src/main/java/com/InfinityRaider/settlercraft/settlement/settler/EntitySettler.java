@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
+import com.InfinityRaider.settlercraft.handler.SleepHandler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
@@ -470,15 +471,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         }
         IBlockState bed = getWorld().getBlockState(pos);
         if(bed.getBlock() instanceof BlockBed) {
-            if(bed.getValue(BlockBed.OCCUPIED)) {
-                return false;
-            }
-            EntityPlayer.SleepResult status = this.getFakePlayerImplementation().trySleep(pos);
-            boolean flag = status == EntityPlayer.SleepResult.OK;
-            if(flag) {
+            if(SleepHandler.getInstance().putSettlerToSleep(getWorld(), pos, bed, this)) {
                 this.getDataManager().set(DATA_SLEEPING, true);
+                this.setPosition(pos.getX(), pos.getY(), pos.getZ());
+                return true;
             }
-            return flag;
         }
         return false;
     }
