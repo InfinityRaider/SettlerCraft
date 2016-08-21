@@ -55,4 +55,9 @@ public class RenderBlockTest extends RenderBlockBase<BlockTest, TileEntityTest> 
     public TextureAtlasSprite getIcon() {
         return this.getIcon(TEXTURE);
     }
+
+    @Override
+    public boolean applyAmbientOcclusion() {
+        return false;
+    }
 }

@@ -1,16 +1,51 @@
 package com.InfinityRaider.settlercraft.proxy;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
-import com.infinityraider.infinitylib.proxy.IProxyBase;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
+import com.InfinityRaider.settlercraft.apiimpl.APISelector;
+import com.InfinityRaider.settlercraft.handler.*;
+import com.InfinityRaider.settlercraft.registry.EntityRegistry;
+import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
+import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
+import com.infinityraider.infinitylib.proxy.base.IProxyBase;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-public interface IProxy extends IProxyBase{
+public interface IProxy extends IProxyBase {
+    @Override
+    default void preInitStart(FMLPreInitializationEvent event) {
+        this.initConfiguration(event);
+        this.registerEventHandlers();
+        NetworkRegistry.INSTANCE.registerGuiHandler(SettlerCraft.instance, GuiHandlerSettler.getInstance());
+        ProfessionRegistry.getInstance();
+        APISelector.init();
+    }
+
+    @Override
+    default void initStart(FMLInitializationEvent event) {
+        EntityRegistry.getInstance().init();
+    }
+
+    @Override
+    default void postInitStart(FMLPostInitializationEvent event) {
+        BuildingTypeRegistry.getInstance().postInit();
+    }
+
+    default void initConfiguration(FMLPreInitializationEvent event) {
+        ConfigurationHandler.getInstance().init(event);
+    }
+
+    default void registerEventHandlers() {
+        MinecraftForge.EVENT_BUS.register(SettlerTargetingHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(BlockEventHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(PlayerTickHandler.getInstance());
+        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstanceServer());
+    }
+
     /**
      * @return The settlement handler relevant to the effective side
      */
