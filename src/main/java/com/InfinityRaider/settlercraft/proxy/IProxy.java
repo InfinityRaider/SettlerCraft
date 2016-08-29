@@ -4,13 +4,11 @@ import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
 import com.InfinityRaider.settlercraft.apiimpl.APISelector;
 import com.InfinityRaider.settlercraft.handler.*;
-import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.infinityraider.infinitylib.proxy.base.IProxyBase;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -23,11 +21,6 @@ public interface IProxy extends IProxyBase {
         NetworkRegistry.INSTANCE.registerGuiHandler(SettlerCraft.instance, GuiHandlerSettler.getInstance());
         ProfessionRegistry.getInstance();
         APISelector.init();
-    }
-
-    @Override
-    default void initStart(FMLInitializationEvent event) {
-        EntityRegistry.getInstance().init();
     }
 
     @Override

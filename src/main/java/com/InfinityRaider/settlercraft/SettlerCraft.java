@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.network.*;
 import com.InfinityRaider.settlercraft.proxy.IProxy;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.registry.BlockRegistry;
+import com.InfinityRaider.settlercraft.registry.EntityRegistry;
 import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.infinityraider.infinitylib.InfinityMod;
 import com.infinityraider.infinitylib.network.INetworkWrapper;
@@ -12,7 +13,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION)
+@Mod(
+        modid = Reference.MOD_ID,
+        name = Reference.MOD_NAME,
+        version = Reference.VERSION,
+        dependencies = "required-after:infinitylib"
+)
 public class SettlerCraft extends InfinityMod {
     @Mod.Instance(Reference.MOD_ID)
     public static SettlerCraft instance;
@@ -38,6 +44,11 @@ public class SettlerCraft extends InfinityMod {
     @Override
     public Object getModItemRegistry() {
         return ItemRegistry.getInstance();
+    }
+
+    @Override
+    public Object getModEntityRegistry() {
+        return EntityRegistry.getInstance();
     }
 
     @Override

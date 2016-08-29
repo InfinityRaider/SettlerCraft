@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.handler.SleepHandler;
 import com.InfinityRaider.settlercraft.network.MessageAssignTask;
 import com.InfinityRaider.settlercraft.reference.Names;
+import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
@@ -14,6 +15,8 @@ import com.infinityraider.infinitylib.network.NetworkWrapper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
@@ -38,6 +41,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,6 +50,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
+    public static final IRenderFactory<EntitySettler> RENDER_FACTORY = new RenderFactory();
+
     private static final SettlerRandomizer RANDOMIZER = SettlerRandomizer.getInstance();
 
     private static final DataParameter<Integer> DATA_SETTLEMENT = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
@@ -541,5 +547,13 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().set(DATA_WORK_PLACE_ID, tag.getInteger(Names.NBT.WORK_PLACE));
         this.getDataManager().set(DATA_HUNGER_LEVEL, tag.hasKey(Names.NBT.HUNGER) ? tag.getInteger(Names.NBT.HUNGER) : 9);
         this.getDataManager().set(DATA_SLEEPING, tag.hasKey(Names.NBT.SLEEPING) && tag.getBoolean(Names.NBT.SLEEPING));
+    }
+
+    private static class RenderFactory implements IRenderFactory<EntitySettler> {
+        @Override
+        @SideOnly(Side.CLIENT)
+        public Render<? super EntitySettler> createRenderFor(RenderManager manager) {
+            return new RenderSettler(manager);
+        }
     }
 }
