@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.reference;
 
 public final class Reference {
-    public static final String MOD_ID = "SettlerCraft";
+    public static final String MOD_ID = "settlercraft";
     public static final String MOD_NAME = "SettlerCraft";
 
     public static final String VER_MAJOR = "@MAJOR@";
