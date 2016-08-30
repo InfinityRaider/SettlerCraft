@@ -39,8 +39,13 @@ public class TaskFarmPlants extends TaskBase {
     }
 
     @Override
-    public boolean completed() {
+    public boolean isCompleted() {
         return false;
+    }
+
+    @Override
+    public void onTaskCompleted() {
+
     }
 
     @Override

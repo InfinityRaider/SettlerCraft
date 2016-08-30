@@ -45,6 +45,8 @@ public interface ISettlementBuilding {
      */
     void addWorker(ISettler settler);
 
+    void removeWorker(ISettler settler);
+
     /**
      * Checks if a settler can make this his home
      * @param settler the settler to be assigned this building as home

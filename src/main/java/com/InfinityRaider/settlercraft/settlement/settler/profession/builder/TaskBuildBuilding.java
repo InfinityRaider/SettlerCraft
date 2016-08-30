@@ -87,8 +87,13 @@ public class TaskBuildBuilding extends TaskBase {
     }
 
     @Override
-    public boolean completed() {
+    public boolean isCompleted() {
         return buildProgress.isComplete();
+    }
+
+    @Override
+    public void onTaskCompleted() {
+        getSettler().setWorkPlace(null);
     }
 
     @Override

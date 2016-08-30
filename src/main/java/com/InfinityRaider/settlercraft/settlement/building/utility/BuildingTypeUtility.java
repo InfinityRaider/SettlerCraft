@@ -10,6 +10,6 @@ public class BuildingTypeUtility extends BuildingTypeBase {
 
     @Override
     public int maximumBuildingCountPerSettlement(ISettlement settlement) {
-        return settlement.getBuildableBuildings(this).size() + 1;
+        return settlement.getCompletedBuildings(this).size() + 1;
     }
 }

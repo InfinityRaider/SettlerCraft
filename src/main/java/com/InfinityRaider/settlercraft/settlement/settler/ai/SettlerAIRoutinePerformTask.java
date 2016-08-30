@@ -34,8 +34,10 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     @Override
     public void updateRoutine() {
-        this.getSettler().getCurrentTask().updateTask();
-        if(this.getSettler().getCurrentTask().completed()) {
+        ITask task = this.getSettler().getCurrentTask();
+        task.updateTask();
+        if(task.isCompleted()) {
+            task.onTaskCompleted();
             this.getSettler().setTaskCompleted();
         }
     }

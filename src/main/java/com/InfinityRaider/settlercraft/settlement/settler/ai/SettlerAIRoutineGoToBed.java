@@ -3,8 +3,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;

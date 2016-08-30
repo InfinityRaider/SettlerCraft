@@ -53,7 +53,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
         cachedQuestion = null;
     }
 
-    public void updateDialogueOptions(List<ITextComponent> question, List<ITextComponent> answer, List<List<ITextComponent>> options) {
+    public void updateDialogueOptions(List<ITextComponent> answer, List<ITextComponent> question, List<List<ITextComponent>> options) {
         //settler answer
         this.answer = new GuiComponent<>(answer, this.width/2 + TEXT_BALLOON_X, TEXT_BALLOON_Y, TEXT_WIDTH, (3 + answer.size())*TEXT_HEIGHT);
 

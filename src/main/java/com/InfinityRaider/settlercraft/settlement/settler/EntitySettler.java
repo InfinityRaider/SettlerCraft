@@ -270,10 +270,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             if (settlement() == null || (building != null && building.settlement() != settlement())) {
                 return;
             }
+            if(building == null) {
+                ISettlementBuilding workplace = workPlace();
+                workplace.removeWorker(this);
+            }
             int id = building == null ? -1 : building.id();
             getDataManager().set(DATA_WORK_PLACE_ID, id);
-            if(building != null && !building.doesSettlerWorkHere(this)) {
-                building.addWorker(this);
+            if(building != null) {
+                if(building.doesSettlerWorkHere(this)) {
+                    building.addWorker(this);
+                }
             }
         }
     }

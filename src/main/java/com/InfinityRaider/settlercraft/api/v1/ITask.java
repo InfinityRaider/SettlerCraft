@@ -34,7 +34,12 @@ public interface ITask {
      * Checks if this task is complete, if the task is complete, the settler will look for a new task
      * @return true if this task is complete, false if not
      */
-    boolean completed();
+    boolean isCompleted();
+
+    /**
+     * Gets called when the settler completes this task
+     */
+    void onTaskCompleted();
 
     /**
      * Gets a list of text components describing this task, used in dialogues.

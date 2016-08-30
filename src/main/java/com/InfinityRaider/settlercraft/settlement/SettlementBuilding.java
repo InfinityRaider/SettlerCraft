@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SettlementBuilding implements ISettlementBuilding {
@@ -93,6 +94,23 @@ public class SettlementBuilding implements ISettlementBuilding {
             if(settler.workPlace() != this) {
                 settler.setWorkPlace(this);
             }
+            this.markDirty();
+            this.syncToClient();
+        }
+    }
+
+    @Override
+    public void removeWorker(ISettler settler) {
+        if(!getWorld().isRemote && doesSettlerWorkHere(settler)) {
+            Iterator<Integer> iterator = workers.iterator();
+            while(iterator.hasNext()) {
+                int id = iterator.next();
+                if(id == settler.getEntityImplementation().getEntityId()) {
+                    iterator.remove();
+                    break;
+                }
+            }
+            settler.setWorkPlace(null);
             this.markDirty();
             this.syncToClient();
         }
