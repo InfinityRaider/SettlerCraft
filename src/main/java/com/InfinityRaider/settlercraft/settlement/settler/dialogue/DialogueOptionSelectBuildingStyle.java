@@ -7,7 +7,8 @@ import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,16 +42,16 @@ public class DialogueOptionSelectBuildingStyle extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "startSettlement"));
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "startSettlement"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(style.getName()));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(style.getName()));
         return list;
     }
 }

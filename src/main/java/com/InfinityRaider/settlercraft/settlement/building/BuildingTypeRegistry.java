@@ -16,10 +16,13 @@ import com.InfinityRaider.settlercraft.settlement.building.wall.BuildingTypeWall
 import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingTypeWareHouse;
 import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingTypeWorkshop;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.google.common.collect.ImmutableList;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     private static final BuildingTypeRegistry INSTANCE = new BuildingTypeRegistry();
@@ -43,7 +46,7 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
     private final IBuildingType WALL;
     private final IBuildingType UTILITY;
 
-    private final List<IBuildingType> TYPES;
+    private final Map<String, IBuildingType> TYPES;
     private final List<IBuildingType> CUSTOM_TYPES;
 
     private BuildingTypeRegistry() {
@@ -60,7 +63,7 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
         WALL = new BuildingTypeWall();
         UTILITY = new BuildingTypeUtility();
 
-        TYPES = new ArrayList<>();
+        TYPES = new HashMap<>();
         CUSTOM_TYPES = new ArrayList<>();
 
         initTypes();
@@ -128,7 +131,7 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
 
     @Override
     public List<IBuildingType> allBuildingTypes() {
-        return TYPES;
+        return ImmutableList.copyOf(TYPES.values());
     }
 
     @Override
@@ -141,12 +144,20 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
         if(!postInit) {
             return false;
         }
-        TYPES.add(type);
+        if(TYPES.containsKey(type.name())) {
+            return false;
+        }
+        TYPES.put(type.name(), type);
         CUSTOM_TYPES.add(type);
         for(IBuilding building : type.getAllBuildings()) {
             BuildingRegistry.getInstance().registerBuilding(building);
         }
         return true;
+    }
+
+    @Override
+    public IBuildingType getBuildingTypeFromName(String name) {
+        return TYPES.get(name);
     }
 
     public void postInit() {
@@ -157,7 +168,8 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
         for(Field field:this.getClass().getDeclaredFields()) {
             if(field.getType() == IBuildingType.class) {
                 try {
-                    TYPES.add((IBuildingType) field.get(this));
+                    IBuildingType type = (IBuildingType) field.get(this);
+                    TYPES.put(type.name(), type);
                 } catch (IllegalAccessException e) {
                     LogHelper.printStackTrace(e);
                 }

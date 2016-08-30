@@ -3,7 +3,9 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,20 +44,24 @@ public class DialogueOptionRequestName extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "giveSettlerName")+" "+getSettler().getFirstName() + " " + getSettler().getSurname()+".");
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "giveSettlerName")
+                .appendSibling(new TextComponentString(" " + getSettler().getFirstName() + " " + getSettler().getSurname()+".")));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName3"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "getSettlerName3"));
         } else {
-            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName1") + " " + getPlayer().getDisplayName().getUnformattedText() + ",");
-            list.add(I18n.translateToLocal(getDiscriminator() + "getSettlerName2"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "getSettlerName1")
+                            .appendSibling(new TextComponentString(" ")
+                            .appendSibling(getPlayer().getDisplayName())
+                            .appendSibling(new TextComponentString(","))));
+            list.add(new TextComponentTranslation(getDiscriminator() + "getSettlerName2"));
         }
         return list;
     }

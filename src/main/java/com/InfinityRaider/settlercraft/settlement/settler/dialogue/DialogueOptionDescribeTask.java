@@ -6,7 +6,9 @@ import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,53 +51,56 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
         ITask task = getSettler().getCurrentTask();
         ISettler.SettlerStatus status = getSettler().getSettlerStatus();
         if(task == null) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "task.noTask"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "task.noTask"));
         }
         switch (status) {
             case IDLE:
                 if(task != null) {
                     LogHelper.debug("settler is idle but still has a task");
-                    list.add(task.getTaskDescription());
+                    list.addAll(task.getTaskDescription());
                 }
                 break;
             case FOLLOWING_PLAYER:
                 EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();
                 if (player != null) {
                     //Data watcher is slow :s
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.followingPlayer") + " "
-                            + player.getDisplayName().getFormattedText() + ".");
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.followingPlayer")
+                            .appendSibling(new TextComponentString(" ")
+                            .appendSibling(player.getDisplayName())
+                            .appendSibling(new TextComponentString("."))));
                 }
                 break;
             case GETTING_FOOD:
                 if(task != null) {
-                    list.add(task.getTaskDescription());
+                    list.addAll(task.getTaskDescription());
                 }
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.gettingFood"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "task.gettingFood"));
                 break;
             case GOING_TO_BED:
                 if(task != null) {
-                    list.add(task.getTaskDescription());
+                    list.addAll(task.getTaskDescription());
                 }
-                list.add(I18n.translateToLocal(getDiscriminator() + "task.goingToBed"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBed"));
                 break;
             case PERFORMING_TASK:
                 if(task != null) {
-                    list.add(task.getTaskDescription());
+                    list.addAll(task.getTaskDescription());
                 }
                 break;
             case FINDING_RESOURCE:
                 if(task != null) {
-                    list.add(task.getTaskDescription());
+                    list.addAll(task.getTaskDescription());
                 }
                 ItemStack missing = getSettler().getMissingResource();
                 if (missing != null) {
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.needResource"));
-                    list.add(I18n.translateToLocal(getDiscriminator() + "task.findingResource") + " " + missing.getDisplayName());
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.needResource"));
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.findingResource")
+                            .appendSibling(new TextComponentString(missing.getDisplayName())));
                 }
                 break;
 
@@ -104,9 +109,9 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "describeTask"));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "describeTask"));
         return list;
     }
 }

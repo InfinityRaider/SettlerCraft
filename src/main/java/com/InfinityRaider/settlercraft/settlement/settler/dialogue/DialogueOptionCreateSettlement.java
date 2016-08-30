@@ -4,7 +4,8 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +31,17 @@ public class DialogueOptionCreateSettlement extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "selectStyle"));
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "selectStyle"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "createSettlement1"));
-        list.add(I18n.translateToLocal(getDiscriminator() + "createSettlement2"));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "createSettlement1"));
+        list.add(new TextComponentTranslation(getDiscriminator() + "createSettlement2"));
         return list;
     }
 }

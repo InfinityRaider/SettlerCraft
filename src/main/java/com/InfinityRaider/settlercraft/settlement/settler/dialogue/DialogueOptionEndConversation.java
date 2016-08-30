@@ -3,7 +3,9 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +29,18 @@ public class DialogueOptionEndConversation extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "goodbye") + " " + getPlayer().getDisplayName().getUnformattedText());
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "goodbye")
+                .appendSibling(new TextComponentString(" ")
+                .appendSibling(getPlayer().getDisplayName())));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "goodbye"));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "goodbye"));
         return list;
     }
 }

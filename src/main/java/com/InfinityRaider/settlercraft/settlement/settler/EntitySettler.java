@@ -4,14 +4,12 @@ import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.handler.GuiHandlerSettler;
 import com.InfinityRaider.settlercraft.handler.SleepHandler;
-import com.InfinityRaider.settlercraft.network.MessageAssignTask;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.google.common.base.Optional;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -59,7 +57,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> DATA_HAS_TASK = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> DATA_HUNGER_LEVEL = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
 
@@ -108,7 +105,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
-        this.getDataManager().register(DATA_HAS_TASK, false);
         this.getDataManager().register(DATA_HUNGER_LEVEL, 9);
         this.getDataManager().register(DATA_SLEEPING, false);
     }
@@ -378,37 +374,28 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public ITask getCurrentTask() {
-        if(worldObj.isRemote && task == null && getDataManager().get(DATA_HAS_TASK)) {
-            this.assignTask();
-        }
         return task;
     }
 
     @Override
     public void assignTask() {
-        if(workPlace() == null || workPlace().building() == null) {
-            return;
-        }
-        if(!workPlace().getBoundingBox().areAllChunksLoaded(getWorld())) {
-            return;
-        }
-        ITask task = workPlace().getTaskForSettler(this);
         if (!this.worldObj.isRemote) {
+            if (workPlace() == null || workPlace().building() == null) {
+                return;
+            }
+            if (!workPlace().getBoundingBox().areAllChunksLoaded(getWorld())) {
+                return;
+            }
+            ITask task = workPlace().getTaskForSettler(this);
             if (this.task != null) {
                 this.task.cancelTask();
             }
-            this.getDataManager().set(DATA_HAS_TASK, true);
-            NetworkWrapper.getInstance().sendToAll(new MessageAssignTask(this, false));
+            this.task = task;
         }
-        this.task = task;
     }
 
     public void setTaskCompleted() {
         this.task = null;
-        if(!this.worldObj.isRemote) {
-            this.getDataManager().set(DATA_HAS_TASK, false);
-            NetworkWrapper.getInstance().sendToAll(new MessageAssignTask(this, true));
-        }
     }
 
     @Override

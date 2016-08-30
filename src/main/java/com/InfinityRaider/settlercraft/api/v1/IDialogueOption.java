@@ -1,8 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  * something the player says to a settler is called a question (even if semantically it isn't a question)
  * and something a settler says to the player is an answer.
  *
- * The implementation of this class is a container
+ * These options only exist on the server thread, the text components are synced to the client automatically
  */
 public interface IDialogueOption {
     /**
@@ -50,16 +49,14 @@ public interface IDialogueOption {
     boolean shouldEndInteraction();
 
     /**
-     * @return a list of localized strings for the answer to this dialogue option (this is what the settler replies to the player selecting this option)
+     * @return a list of text components for the answer to this dialogue option (this is what the settler replies to the player selecting this option)
      * every entry in the list is a separate line
      */
-    @SideOnly(Side.CLIENT)
-    List<String> getLocalizedSettlerTextString();
+    List<ITextComponent> getSettlerText();
 
     /**
-     * @return a list of localized strings for this dialogue option (this is what a player says to the settler when selecting this option)
+     * @return a list of text components for this dialogue option (this is what a player says to the settler when selecting this option)
      * every entry in the list is a separate line
      */
-    @SideOnly(Side.CLIENT)
-    List<String> getLocalizedPlayerTextString();
+    List<ITextComponent> getPlayerText();
 }

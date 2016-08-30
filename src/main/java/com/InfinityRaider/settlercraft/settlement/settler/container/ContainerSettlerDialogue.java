@@ -2,8 +2,11 @@ package com.InfinityRaider.settlercraft.settlement.settler.container;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.network.MessageSyncDialogueText;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionDefault;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.List;
 
@@ -38,18 +41,18 @@ public class ContainerSettlerDialogue extends ContainerSettler {
 
     @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        current.onContainerClosed(player, settler);
-    }
-
-    @Override
-    protected boolean stopInteracting() {
-        return current.shouldEndInteraction();
+        if(!player.getEntityWorld().isRemote) {
+            current.onContainerClosed(player, settler);
+        }
     }
 
     private void initDialogueOptions() {
-        if(current == null) {
-            current = new DialogueOptionDefault(getPlayer(), getSettler());
+        if(!getPlayer().getEntityWorld().isRemote && (getPlayer() instanceof EntityPlayerMP)) {
+            if (current == null) {
+                current = new DialogueOptionDefault(getPlayer(), getSettler());
+            }
+            dialogueOptions = current.getDialogueOptions(getPlayer(), getSettler());
+            NetworkWrapper.getInstance().sendTo(new MessageSyncDialogueText(this), (EntityPlayerMP) getPlayer());
         }
-        dialogueOptions = current.getDialogueOptions(getPlayer(), getSettler());
     }
 }

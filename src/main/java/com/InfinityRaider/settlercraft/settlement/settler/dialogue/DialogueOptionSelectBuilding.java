@@ -8,7 +8,8 @@ import com.InfinityRaider.settlercraft.registry.ItemRegistry;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,17 +42,17 @@ public class DialogueOptionSelectBuilding extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "planBuild"));
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "planBuild"));
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "buildNew"));
-        list.add(I18n.translateToLocal(building.name()));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "buildNew"));
+        list.add(new TextComponentTranslation(building.name()));
         return list;
     }
 }

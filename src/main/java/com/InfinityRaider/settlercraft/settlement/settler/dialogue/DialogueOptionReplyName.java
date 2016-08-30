@@ -3,7 +3,9 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,24 +43,25 @@ public class DialogueOptionReplyName extends DialogueOptionBase {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "noProblem1") + ".");
-            list.add(I18n.translateToLocal(getDiscriminator() + "noProblem2") + ".");
+            list.add(new TextComponentTranslation(getDiscriminator() + "noProblem1"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "noProblem2"));
         } else {
-            list.add(I18n.translateToLocal(getDiscriminator() + "likewise") + ".");
+            list.add(new TextComponentTranslation(getDiscriminator() + "likewise"));
         }
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(isMayor()) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "forgetful")+".");
+            list.add(new TextComponentTranslation(getDiscriminator() + "forgetful"));
         } else {
-            list.add(I18n.translateToLocal(getDiscriminator() + "helloName") + " " + getSettler().getFirstName() + " " + getSettler().getSurname() + ".");
+            list.add(new TextComponentTranslation(getDiscriminator() + "helloName")
+                    .appendSibling(new TextComponentString(" " + getSettler().getFirstName() + " " + getSettler().getSurname() + ".")));
         }
         return list;
     }

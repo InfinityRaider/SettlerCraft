@@ -2,7 +2,9 @@ package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,25 +25,26 @@ public class DialogueOptionDefault extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(getSettler().settlement() == null) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "greetPlayer"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "greetPlayer"));
         } else {
             if(isMayor()) {
-                list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor1"));
-                list.add(I18n.translateToLocal(getDiscriminator() + "greetMayor2"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "greetMayor1"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "greetMayor2"));
             } else {
-                list.add(I18n.translateToLocal(getDiscriminator() + "greetOtherPlayer") + getSettler().settlement().name());
+                list.add(new TextComponentTranslation(getDiscriminator() + "greetOtherPlayer"));
+                list.add(new TextComponentString(getSettler().settlement().name()));
             }
         }
         return list;
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
-        list.add(I18n.translateToLocal(getDiscriminator() + "greetSettler"));
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
+        list.add(new TextComponentTranslation(getDiscriminator() + "greetSettler"));
         return list;
     }
 }

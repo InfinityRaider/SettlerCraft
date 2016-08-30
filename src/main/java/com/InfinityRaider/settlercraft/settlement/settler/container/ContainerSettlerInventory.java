@@ -86,11 +86,6 @@ public class ContainerSettlerInventory extends ContainerSettler {
     public void onContainerClosed(EntityPlayer player, ISettler settler) {}
 
     @Override
-    protected boolean stopInteracting() {
-        return true;
-    }
-
-    @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         net.minecraft.inventory.Slot slot = this.inventorySlots.get(index);
         if(slot == null) {

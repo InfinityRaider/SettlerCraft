@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
 
@@ -36,10 +37,11 @@ public interface ITask {
     boolean completed();
 
     /**
-     * Gets a localized string describing this task, used in dialogues
-     * @return a localized task description
+     * Gets a list of text components describing this task, used in dialogues.
+     * Each entry in the list is a new line
+     * @return a task description
      */
-    String getTaskDescription();
+    List<ITextComponent> getTaskDescription();
 
     /**
      * It is possible to have specific dialogue options for the task.

@@ -9,7 +9,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,9 @@ public class TaskBuildBuilding extends TaskBase {
         return list;
     }
 
-    public String describeJob() {
-        return I18n.translateToLocal("settlercraft.dialogue.task.building") + " " + I18n.translateToLocal(getBuilding().building().name());
+    public ITextComponent describeJob() {
+        return new TextComponentTranslation("settlercraft.dialogue.task.building")
+                .appendText(" ")
+                .appendSibling(new TextComponentTranslation(getBuilding().building().name()));
     }
 }

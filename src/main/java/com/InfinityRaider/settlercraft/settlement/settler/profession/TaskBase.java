@@ -3,7 +3,11 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class TaskBase implements ITask {
     private final String name;
@@ -45,7 +49,9 @@ public abstract class TaskBase implements ITask {
     }
 
     @Override
-    public String getTaskDescription() {
-        return I18n.translateToLocal("settlercraft.dialogue.task." + name);
+    public List<ITextComponent> getTaskDescription() {
+        List<ITextComponent> text = new ArrayList<>();
+        text.add(new TextComponentTranslation("settlercraft.dialogue.task." + name));
+        return text;
     }
 }

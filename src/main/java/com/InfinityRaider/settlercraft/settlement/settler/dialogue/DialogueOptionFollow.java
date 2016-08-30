@@ -1,9 +1,9 @@
 package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +36,15 @@ public class DialogueOptionFollow extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedSettlerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getSettlerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(this.follow) {
-            list.add(I18n.translateToLocal(getDiscriminator() + "following"));
+            list.add(new TextComponentTranslation(getDiscriminator() + "following"));
         } else {
             if(isMayor()) {
-                list.add(I18n.translateToLocal(getDiscriminator() + "backToWork"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "backToWork"));
             } else {
-                list.add(I18n.translateToLocal(getDiscriminator() + "stayingPut"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "stayingPut"));
 
             }
         }
@@ -52,19 +52,19 @@ public class DialogueOptionFollow extends DialogueOptionBase {
     }
 
     @Override
-    public List<String> getLocalizedPlayerTextString() {
-        List<String> list = new ArrayList<>();
+    public List<ITextComponent> getPlayerText() {
+        List<ITextComponent> list = new ArrayList<>();
         if(follow) {
             if (isMayor()) {
-                list.add(I18n.translateToLocal(getDiscriminator() + "followMeCitizen"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "followMeCitizen"));
             } else {
-                list.add(I18n.translateToLocal(getDiscriminator() + "followMe"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "followMe"));
             }
         } else {
             if(isMayor()) {
-                list.add(I18n.translateToLocal(getDiscriminator() + "stayCitizen"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "stayCitizen"));
             } else {
-                list.add(I18n.translateToLocal(getDiscriminator() + "stay"));
+                list.add(new TextComponentTranslation(getDiscriminator() + "stay"));
             }
         }
         return list;

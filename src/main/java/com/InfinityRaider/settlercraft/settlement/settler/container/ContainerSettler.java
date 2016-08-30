@@ -2,7 +2,10 @@ package com.InfinityRaider.settlercraft.settlement.settler.container;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.PlayerTickHandler;
+import com.InfinityRaider.settlercraft.network.MessageCloseContainer;
+import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 
 public abstract class ContainerSettler extends Container {
@@ -23,8 +26,12 @@ public abstract class ContainerSettler extends Container {
     }
     
     public final void closeContainer() {
-        //Really important to close container from client side, weird bugs happen if this check is not here
-        if(player.worldObj.isRemote) {
+        //Really important to close container from client side, else weird bugs happen
+        if(!player.worldObj.isRemote) {
+            if(player instanceof EntityPlayerMP) {
+                NetworkWrapper.getInstance().sendTo(new MessageCloseContainer(), (EntityPlayerMP) player);
+            }
+        } else {
             player.closeScreen();
         }
     }
@@ -32,9 +39,7 @@ public abstract class ContainerSettler extends Container {
     @Override
     public void onContainerClosed(EntityPlayer player) {
         super.onContainerClosed(player);
-        if(stopInteracting()) {
-            this.settler.setConversationPartner(null);
-        }
+        this.settler.setConversationPartner(null);
         PlayerTickHandler.getInstance().onContainerClosed(this);
     }
 
@@ -43,8 +48,6 @@ public abstract class ContainerSettler extends Container {
     }
 
     protected abstract void onContainerClosed(EntityPlayer player, ISettler settler);
-
-    protected abstract boolean stopInteracting();
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {

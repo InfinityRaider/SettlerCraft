@@ -89,4 +89,11 @@ public interface IBuildingTypeRegistry {
      * @return if the registering was successful
      */
     boolean registerBuildingType(IBuildingType type);
+
+    /**
+     * Gets a previously registered building type back from the registry by using its name
+     * @param name The name of the building type
+     * @return the building type, or null if no building type with this name is registered
+     */
+    IBuildingType getBuildingTypeFromName(String name);
 }
