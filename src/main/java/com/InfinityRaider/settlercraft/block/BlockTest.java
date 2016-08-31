@@ -9,8 +9,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -53,17 +51,6 @@ public class BlockTest extends BlockTileCustomRenderedBase<TileEntityTest> {
     @SideOnly(Side.CLIENT)
     public ModelResourceLocation getBlockModelResourceLocation() {
         return new ModelResourceLocation(Reference.MOD_ID.toLowerCase() + ":" + getInternalName());
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean needsRenderUpdate(World world, BlockPos pos, IBlockState state, TileEntityTest tile) {
-        return true;
-    }
-
-    @Override
-    public List<ResourceLocation> getTextures() {
-        return Collections.emptyList();
     }
 
     @Override

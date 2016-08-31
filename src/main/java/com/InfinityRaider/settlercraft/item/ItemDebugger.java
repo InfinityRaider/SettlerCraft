@@ -5,6 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.debug.*;
+import com.infinityraider.infinitylib.item.IItemWithModel;
 import com.infinityraider.infinitylib.item.ItemDebuggerBase;
 import com.infinityraider.infinitylib.utility.debug.*;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemDebugger extends ItemDebuggerBase implements IItemRenderSettlementBoxes {
+public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel, IItemRenderSettlementBoxes {
     private static final DebugMode[] DEBUG_MODES = {
             new DebugModeBuildSchematic(),
             new DebugModeFinishBuilding(),

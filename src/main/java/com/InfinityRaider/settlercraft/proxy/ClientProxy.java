@@ -7,7 +7,6 @@ import com.InfinityRaider.settlercraft.render.RenderSettlement;
 import com.InfinityRaider.settlercraft.render.schematic.SchematicInWorldPlannerRenderer;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.infinityraider.infinitylib.proxy.base.IClientProxyBase;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,9 +28,9 @@ public class ClientProxy implements IProxy, IClientProxyBase {
     @Override
     public void registerEventHandlers() {
         IProxy.super.registerEventHandlers();
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstanceClient());
-        MinecraftForge.EVENT_BUS.register(SchematicInWorldPlannerRenderer.getInstance());
-        MinecraftForge.EVENT_BUS.register(RenderSettlement.getInstance());
-        MinecraftForge.EVENT_BUS.register(IconRegistry.getInstance());
+        registerEventHandler(SettlementHandler.getInstanceClient());
+        registerEventHandler(SchematicInWorldPlannerRenderer.getInstance());
+        registerEventHandler(RenderSettlement.getInstance());
+        registerEventHandler(IconRegistry.getInstance());
     }
 }

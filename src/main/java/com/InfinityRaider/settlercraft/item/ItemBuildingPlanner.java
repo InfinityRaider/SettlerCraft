@@ -6,7 +6,7 @@ import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
-import com.infinityraider.infinitylib.item.ItemBase;
+import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemBuildingPlanner extends ItemBase implements IItemBuildingPlanner, IItemRenderSettlementBoxes {
+public class ItemBuildingPlanner extends ItemWithModelBase implements IItemBuildingPlanner, IItemRenderSettlementBoxes {
     public ItemBuildingPlanner() {
-        super("buildingPlanner", true);
+        super("buildingPlanner");
         this.setMaxStackSize(1);
         this.setCreativeTab(null);
     }

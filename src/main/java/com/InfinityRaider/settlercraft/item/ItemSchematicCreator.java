@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.item;
 
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicWriter;
-import com.infinityraider.infinitylib.item.ItemBase;
+import com.infinityraider.infinitylib.item.ItemWithModelBase;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ItemSchematicCreator extends ItemBase {
+public class ItemSchematicCreator extends ItemWithModelBase {
     public ItemSchematicCreator() {
-        super("schematicCreator", false);
+        super("schematicCreator");
         this.setMaxStackSize(1);
     }
 

@@ -2,7 +2,7 @@ package com.InfinityRaider.settlercraft.render.block;
 
 import com.InfinityRaider.settlercraft.block.BlockTest;
 import com.InfinityRaider.settlercraft.block.tile.TileEntityTest;
-import com.infinityraider.infinitylib.render.block.RenderBlockBase;
+import com.infinityraider.infinitylib.render.block.RenderBlockWithTileBase;
 import com.infinityraider.infinitylib.render.tessellation.ITessellator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -16,13 +16,20 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockTest extends RenderBlockBase<BlockTest, TileEntityTest> {
+public class RenderBlockTest extends RenderBlockWithTileBase<BlockTest, TileEntityTest> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("minecraft", "blocks/planks_oak");
 
     public RenderBlockTest(BlockTest block) {
         super(block, new TileEntityTest(), true, true, true);
+    }
+
+    @Override
+    public List<ResourceLocation> getAllTextures() {
+        return Collections.emptyList();
     }
 
     @Override

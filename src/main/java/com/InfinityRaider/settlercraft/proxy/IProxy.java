@@ -8,7 +8,6 @@ import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.infinityraider.infinitylib.proxy.base.IProxyBase;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -16,8 +15,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public interface IProxy extends IProxyBase {
     @Override
     default void preInitStart(FMLPreInitializationEvent event) {
-        this.initConfiguration(event);
-        this.registerEventHandlers();
         NetworkRegistry.INSTANCE.registerGuiHandler(SettlerCraft.instance, GuiHandlerSettler.getInstance());
         ProfessionRegistry.getInstance();
         APISelector.init();
@@ -33,11 +30,14 @@ public interface IProxy extends IProxyBase {
     }
 
     default void registerEventHandlers() {
-        MinecraftForge.EVENT_BUS.register(SettlerTargetingHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(BlockEventHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(PlayerTickHandler.getInstance());
-        MinecraftForge.EVENT_BUS.register(SettlementHandler.getInstanceServer());
+        registerEventHandler(SettlerTargetingHandler.getInstance());
+        registerEventHandler(BlockEventHandler.getInstance());
+        registerEventHandler(PlayerTickHandler.getInstance());
+        registerEventHandler(SettlementHandler.getInstanceServer());
     }
+
+    @Override
+    default void activateRequiredModules() {}
 
     /**
      * @return The settlement handler relevant to the effective side
