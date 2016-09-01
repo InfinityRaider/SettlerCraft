@@ -1,11 +1,11 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.item.ItemStack;
 
 public class SettlerAIRoutineFindMissingResource extends SettlerAIRoutineFindResourceAbstract {
-    protected SettlerAIRoutineFindMissingResource(EntitySettler settler) {
+    public SettlerAIRoutineFindMissingResource(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.FINDING_RESOURCE);
     }
 

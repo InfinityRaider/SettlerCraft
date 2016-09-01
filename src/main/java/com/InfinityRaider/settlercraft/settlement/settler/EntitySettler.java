@@ -88,6 +88,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     /** used for player logic */
     private final EntityPlayerWrappedSettler fakePlayer;
+    private final SettlerInteractionController interactionController;
 
     public EntitySettler(ISettlement settlement) {
         this(settlement.world());
@@ -112,6 +113,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.foodStats = new FoodStats();
         this.cooldownTracker = new CooldownTracker();
         this.fakePlayer = new EntityPlayerWrappedSettler(this);
+        this.interactionController = null; //TODO
     }
 
     @Override
@@ -152,6 +154,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+    }
+
+    public SettlerInteractionController getInteractionController() {
+        return interactionController;
     }
 
     @Override
@@ -1139,7 +1145,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                     if (stack.stackSize <= 0) {
                         this.setHeldItem(hand, null);
                     }
-
                     return EnumActionResult.SUCCESS;
                 }
             }

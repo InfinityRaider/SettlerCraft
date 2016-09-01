@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
@@ -15,7 +15,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     private List<ITask> cachedTaskList;
     private boolean startedTask;
 
-    protected SettlerAIRoutinePerformTask(EntitySettler settler) {
+    public SettlerAIRoutinePerformTask(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.PERFORMING_TASK);
         this.tasks = new ArrayDeque<>();
         this.startedTask = false;

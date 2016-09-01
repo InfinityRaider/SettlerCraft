@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
@@ -13,7 +13,7 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
     private int idleCoolDown;
     private boolean pathFinding;
 
-    protected SettlerAIRoutineIdle(EntitySettler settler) {
+    public SettlerAIRoutineIdle(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.IDLE);
     }
 

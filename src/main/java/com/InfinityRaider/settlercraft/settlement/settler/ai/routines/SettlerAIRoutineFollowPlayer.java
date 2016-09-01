@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
@@ -23,7 +23,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     float maxDist;
     float minDist;
 
-    protected SettlerAIRoutineFollowPlayer(EntitySettler settler, double followSpeedIn, float minDistIn, float maxDistIn) {
+    public SettlerAIRoutineFollowPlayer(EntitySettler settler, double followSpeedIn, float minDistIn, float maxDistIn) {
         super(settler, ISettler.SettlerStatus.FOLLOWING_PLAYER);
         this.theWorld = settler.worldObj;
         this.followSpeed = followSpeedIn;

@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstract {
     private int foodSlot;
 
-    protected SettlerAIRoutineGetFood(EntitySettler settler) {
+    public SettlerAIRoutineGetFood(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.GETTING_FOOD);
         this.checkSettlerForFoodSlot();
     }

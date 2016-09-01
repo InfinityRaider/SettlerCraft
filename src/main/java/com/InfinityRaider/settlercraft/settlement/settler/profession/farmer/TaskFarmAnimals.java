@@ -5,17 +5,16 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingAnimalFarm;
-import com.InfinityRaider.settlercraft.settlement.settler.ai.TaskBase;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskBase;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskBuildingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;
 
-public class TaskFarmAnimals extends TaskBase {
-    private final BuildingAnimalFarm farm;
+public class TaskFarmAnimals extends TaskBuildingBase<BuildingAnimalFarm> {
 
     public TaskFarmAnimals(ISettlement settlement, ISettler settler, ISettlementBuilding building, BuildingAnimalFarm farm) {
-        super("farmAnimals", settlement, settler, building);
-        this.farm = farm;
+        super("farmAnimals", settler, settlement, building, farm);
     }
 
     @Override

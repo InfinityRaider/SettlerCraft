@@ -3,7 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.building.StructureBuildProgress;
-import com.InfinityRaider.settlercraft.settlement.settler.ai.TaskBase;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskBuildingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,13 +15,13 @@ import net.minecraft.util.text.TextComponentTranslation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskBuildBuilding extends TaskBase {
+public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     private final StructureBuildProgress buildProgress;
     private StructureBuildProgress.Work job;
     private boolean pathFinding;
 
     public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuilding building, StructureBuildProgress buildProgress) {
-        super("buildBuilding", settlement, settler, building);
+        super("buildBuilding", settler, settlement, building, building.building());
         this.buildProgress = buildProgress;
     }
 
@@ -101,6 +101,6 @@ public class TaskBuildBuilding extends TaskBase {
     public ITextComponent describeJob() {
         return new TextComponentTranslation("settlercraft.dialogue.task.building")
                 .appendText(" ")
-                .appendSibling(new TextComponentTranslation(getBuilding().building().name()));
+                .appendSibling(new TextComponentTranslation(getBuilding().name()));
     }
 }

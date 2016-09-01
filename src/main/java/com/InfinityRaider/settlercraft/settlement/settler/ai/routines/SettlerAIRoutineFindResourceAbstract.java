@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
@@ -19,7 +19,7 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
     private IInventory inventory;
     private boolean pathFinding;
 
-    protected SettlerAIRoutineFindResourceAbstract(EntitySettler settler, ISettler.SettlerStatus status) {
+    public SettlerAIRoutineFindResourceAbstract(EntitySettler settler, ISettler.SettlerStatus status) {
         super(settler, status);
         this.findRelevantBuildings(settler);
         this.index = -1;

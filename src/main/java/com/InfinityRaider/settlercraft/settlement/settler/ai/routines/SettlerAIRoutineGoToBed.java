@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
@@ -13,7 +13,7 @@ public class SettlerAIRoutineGoToBed extends SettlerAIRoutine {
     private BlockPos target;
     private int bedIndex;
 
-    protected SettlerAIRoutineGoToBed(EntitySettler settler) {
+    public SettlerAIRoutineGoToBed(EntitySettler settler) {
         super(settler, ISettler.SettlerStatus.GOING_TO_BED);
     }
 

@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import net.minecraft.entity.EntityAgeable;
@@ -11,21 +11,13 @@ import java.util.List;
 
 public abstract class TaskBase implements ITask {
     private final String name;
-    private final ISettlement settlement;
     private final ISettler settler;
-    private final ISettlementBuilding building;
     private boolean interrupted;
 
-    public TaskBase(String taskName, ISettlement settlement, ISettler settler, ISettlementBuilding building) {
+    public TaskBase(String taskName, ISettler settler) {
         this.name = taskName;
-        this.settlement = settlement;
         this.settler = settler;
-        this.building = building;
         this.interrupted = false;
-    }
-
-    public ISettlement getSettlement() {
-        return this.settlement;
     }
 
     public ISettler getSettler() {
@@ -34,10 +26,6 @@ public abstract class TaskBase implements ITask {
 
     public EntityAgeable getEntitySettler() {
         return getSettler().getEntityImplementation();
-    }
-
-    public ISettlementBuilding getBuilding() {
-        return this.building;
     }
 
     public double getDistanceFromPositionSquared(BlockPos pos) {

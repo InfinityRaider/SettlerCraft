@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.ai;
+package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
@@ -8,7 +8,7 @@ public abstract class SettlerAIRoutine {
     private final EntitySettler settler;
     private final ISettler.SettlerStatus status;
 
-    protected SettlerAIRoutine(EntitySettler settler, ISettler.SettlerStatus status) {
+    public SettlerAIRoutine(EntitySettler settler, ISettler.SettlerStatus status) {
         this.settler = settler;
         this.status = status;
     }
