@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
@@ -73,7 +74,7 @@ public class SettlerAIRoutineGoToBed extends SettlerAIRoutine {
                 }
                 //If the settler has reached its home, find a bed to sleep in
                 if(isHome()) {
-                    if(!getSettler().trySleepInBed(target) && (beds.size() > bedIndex + 1)) {
+                    if(getSettler().trySleepInBed(target) == EntityPlayer.SleepResult.OK && (beds.size() > bedIndex + 1)) {
                         bedIndex = bedIndex + 1;
                     }
                 }

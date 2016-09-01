@@ -74,11 +74,6 @@ public class TaskBuildBuilding extends TaskBase {
     }
 
     @Override
-    public void resetTask() {
-
-    }
-
-    @Override
     public void cancelTask() {
         if(job != null) {
             buildProgress.cancelJob(job);

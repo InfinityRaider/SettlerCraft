@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.util.math.BlockPos;
 
@@ -47,7 +48,10 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
         } else {
             BlockPos target = getWorkPlace().homePosition();
             if(getDistanceFromPositionSquared(target) <= 6) {
-                this.getSettler().assignTask();
+                ITask task = getSettler().workPlace().getTaskForSettler(getSettler());
+                if(task != null) {
+                    this.getSettler().assignTask(task);
+                }
                 pathFinding = false;
             } else if(!pathFinding || getSettler().getNavigator().noPath()) {
                 pathFinding = getSettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY() + 0.5D, target.getZ() + 0.5D, 1);

@@ -10,6 +10,8 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 /**
  * This interface is used to interact with settlers and should not be implemented by you
  */
@@ -177,6 +179,11 @@ public interface ISettler extends INpc {
     boolean followPlayer(EntityPlayer player);
 
     /**
+     * @return a list of all tasks the settler has queued, in order of execution (the task currently being executed is the first object in the list)
+     */
+    List<ITask> getTasks();
+
+    /**
      * Gets the task the settler is currently performing, might return null if the settler does not currently have a task
      * Tasks are only performed on the server thread so this method will always return null when queried in the client thread.
      * @return the settler's current task
@@ -184,11 +191,23 @@ public interface ISettler extends INpc {
     ITask getCurrentTask();
 
     /**
-     * Assigns a task to the settler, a settler can only do one task at a time so this will cancel the settler's previous task
-     * Tasks are only performed on the server thread and synced from there to the client thread, so only call this method on the server thread
-     * Tasks are assigned from the settler's workplace, so if the settler does not have a workplace, this method will have no effect
+     * Assigns a new task to the settler, if the settler is currently performing a task, this will interrupt the settler's current task.
+     * The settler's current task will be resumed after this new task has been completed.
      */
-    void assignTask();
+    void assignTask(ITask task);
+
+    /**
+     * Queues a task for the settler, the settler will first perform all its current tasks before starting this task
+     * @param task task to queue
+     */
+    void queueTask(ITask task);
+
+    /**
+     * Cancels a task, if the settler is currently executing this task, the settler will stop and execute its next task,
+     * if the task was interrupted, the settler will not resume the task anymore
+     * @param task the task to cancel
+     */
+    void cancelTask(ITask task);
 
     /**
      * If the settler needs a certain resource to perform a task, it will be returned from this method.

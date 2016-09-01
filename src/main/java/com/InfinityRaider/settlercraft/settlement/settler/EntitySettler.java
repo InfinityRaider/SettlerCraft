@@ -55,6 +55,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     public static final IRenderFactory<EntitySettler> RENDER_FACTORY = new RenderFactory();
@@ -79,8 +80,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private InventorySettler inventory;
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
+    private EntityAISettler settlerAI;
 
-    private ITask task;
     private FoodStats foodStats;
     private CooldownTracker cooldownTracker;
 
@@ -134,7 +135,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
         this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-        this.tasks.addTask(6, new EntityAISettler(this));
+        this.settlerAI = new EntityAISettler(this);
+        this.tasks.addTask(6, this.settlerAI);
         this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
         this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
@@ -368,29 +370,34 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public ITask getCurrentTask() {
-        return task;
+    public List<ITask> getTasks() {
+        return settlerAI.getRoutinePerformTask().getTasks();
     }
 
     @Override
-    public void assignTask() {
+    public ITask getCurrentTask() {
+        return settlerAI.getRoutinePerformTask().getCurrentTask();
+    }
+
+    @Override
+    public void assignTask(ITask task) {
         if (!this.worldObj.isRemote) {
-            if (workPlace() == null || workPlace().building() == null) {
-                return;
-            }
-            if (!workPlace().getBoundingBox().areAllChunksLoaded(getWorld())) {
-                return;
-            }
-            ITask task = workPlace().getTaskForSettler(this);
-            if (this.task != null) {
-                this.task.cancelTask();
-            }
-            this.task = task;
+            this.settlerAI.getRoutinePerformTask().addTask(task);
         }
     }
 
-    public void setTaskCompleted() {
-        this.task = null;
+    @Override
+    public void queueTask(ITask task) {
+        if (!this.worldObj.isRemote) {
+            this.settlerAI.getRoutinePerformTask().queueTask(task);
+        }
+    }
+
+    @Override
+    public void cancelTask(ITask task) {
+        if (!this.worldObj.isRemote) {
+            this.settlerAI.getRoutinePerformTask().cancelTask(task);
+        }
     }
 
     @Override
@@ -542,7 +549,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         tag.setInteger(Names.NBT.SETTLEMENT, this.getDataManager().get(DATA_SETTLEMENT));
         tag.setInteger(Names.NBT.HOME, this.getDataManager().get(DATA_HOME_ID));
         tag.setInteger(Names.NBT.WORK_PLACE, this.getDataManager().get(DATA_WORK_PLACE_ID));
-        tag.setBoolean(Names.NBT.TASK, this.task != null);
         tag.setBoolean(Names.NBT.SLEEPING, this.getDataManager().get(DATA_SLEEPING));
         this.getFoodStats().writeNBT(tag);
     }

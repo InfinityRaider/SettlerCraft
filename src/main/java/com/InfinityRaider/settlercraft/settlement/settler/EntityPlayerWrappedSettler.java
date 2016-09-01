@@ -2058,161 +2058,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public World getWorld() {
-        return getSettler().getWorld();
-    }
-
-    @Override
-    public void setSettlement(ISettlement settlement) {
-        getSettler().setSettlement(settlement);
-    }
-
-    @Override
-    public ISettlement settlement() {
-        return getSettler().settlement();
-    }
-
-    @Override
-    public ISettlementBuilding home() {
-        return getSettler().home();
-    }
-
-    @Override
-    public void setHome(ISettlementBuilding building) {
-        getSettler().setHome(building);
-    }
-
-    @Override
-    public ISettlementBuilding workPlace() {
-        return getSettler().workPlace();
-    }
-
-    @Override
-    public void setWorkPlace(ISettlementBuilding building) {
-        getSettler().setWorkPlace(building);
-    }
-
-    @Override
-    public IProfession profession() {
-        return getSettler().profession();
-    }
-
-    @Override
-    public void setProfession(IProfession profession) {
-        getSettler().setProfession(profession);
-    }
-
-    @Override
-    public boolean isMayor(EntityPlayer player) {
-        return getSettler().isMayor(player);
-    }
-
-    @Override
-    public IInventorySettler getSettlerInventory() {
-        return getSettler().getSettlerInventory();
-    }
-
-    @Override
-    public EntityAgeable getEntityImplementation() {
-        return getSettler().getEntityImplementation();
-    }
-
-    @Override
-    public EntityPlayer getFakePlayerImplementation() {
-        return getSettler().getFakePlayerImplementation();
-    }
-
-    @Override
-    public String getTitle() {
-        return getSettler().getTitle();
-    }
-
-    @Override
-    public String getFirstName() {
-        return getSettler().getFirstName();
-    }
-
-    @Override
-    public String getSurname() {
-        return getSettler().getSurname();
-    }
-
-    @Override
-    public boolean isMale() {
-        return getSettler().isMale();
-    }
-
-    @Override
-    public boolean isAdult() {
-        return getSettler().isAdult();
-    }
-
-    @Override
-    public void setConversationPartner(EntityPlayer player) {
-        getSettler().setConversationPartner(player);
-    }
-
-    @Override
-    public EntityPlayer getConversationPartner() {
-        return getSettler().getConversationPartner();
-    }
-
-    @Override
-    public EntityPlayer getCurrentlyFollowingPlayer() {
-        return getSettler().getCurrentlyFollowingPlayer();
-    }
-
-    @Override
-    public boolean followPlayer(EntityPlayer player) {
-        return getSettler().followPlayer(player);
-    }
-
-    @Override
-    public ITask getCurrentTask() {
-        return getSettler().getCurrentTask();
-    }
-
-    @Override
-    public void assignTask() {
-        getSettler().assignTask();
-    }
-
-    @Override
-    public ItemStack getMissingResource() {
-        return getSettler().getMissingResource();
-    }
-
-    @Override
-    public void setMissingResource(ItemStack stack) {
-        getSettler().setMissingResource(stack);
-    }
-
-    @Override
-    public SettlerStatus getSettlerStatus() {
-        return getSettler().getSettlerStatus();
-    }
-
-    @Override
-    public boolean isSleeping() {
-        return getSettler().isSleeping();
-    }
-
-    @Override
-    public SleepResult trySleepInBed(BlockPos pos) {
-        return getSettler().trySleepInBed(pos);
-    }
-
-    @Override
-    public DamageSource getDamageSource() {
-        return getSettler().getDamageSource();
-    }
-
-    @Override
-    public CooldownTracker getCooldownTracker() {
-        return getSettler().getCooldownTracker();
-    }
-
-    @Override
     public void applyEntityCollision(Entity entityIn) {
         getSettler().applyEntityCollision(entityIn);
     }
@@ -2423,5 +2268,175 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     public EnumPushReaction getPushReaction() {
         return getSettler().getPushReaction();
+    }
+
+    @Override
+    public World getWorld() {
+        return getSettler().getWorld();
+    }
+
+    @Override
+    public void setSettlement(ISettlement settlement) {
+        getSettler().setSettlement(settlement);
+    }
+
+    @Override
+    public ISettlement settlement() {
+        return getSettler().settlement();
+    }
+
+    @Override
+    public ISettlementBuilding home() {
+        return getSettler().home();
+    }
+
+    @Override
+    public void setHome(ISettlementBuilding building) {
+        getSettler().setHome(building);
+    }
+
+    @Override
+    public ISettlementBuilding workPlace() {
+        return getSettler().workPlace();
+    }
+
+    @Override
+    public void setWorkPlace(ISettlementBuilding building) {
+        getSettler().setWorkPlace(building);
+    }
+
+    @Override
+    public IProfession profession() {
+        return getSettler().profession();
+    }
+
+    @Override
+    public void setProfession(IProfession profession) {
+        getSettler().setProfession(profession);
+    }
+
+    @Override
+    public boolean isMayor(EntityPlayer player) {
+        return getSettler().isMayor(player);
+    }
+
+    @Override
+    public IInventorySettler getSettlerInventory() {
+        return getSettler().getSettlerInventory();
+    }
+
+    @Override
+    public EntityAgeable getEntityImplementation() {
+        return getSettler().getEntityImplementation();
+    }
+
+    @Override
+    public EntityPlayer getFakePlayerImplementation() {
+        return getSettler().getFakePlayerImplementation();
+    }
+
+    @Override
+    public String getTitle() {
+        return getSettler().getTitle();
+    }
+
+    @Override
+    public String getFirstName() {
+        return getSettler().getFirstName();
+    }
+
+    @Override
+    public String getSurname() {
+        return getSettler().getSurname();
+    }
+
+    @Override
+    public boolean isMale() {
+        return getSettler().isMale();
+    }
+
+    @Override
+    public boolean isAdult() {
+        return getSettler().isAdult();
+    }
+
+    @Override
+    public void setConversationPartner(EntityPlayer player) {
+        getSettler().setConversationPartner(player);
+    }
+
+    @Override
+    public EntityPlayer getConversationPartner() {
+        return getSettler().getConversationPartner();
+    }
+
+    @Override
+    public EntityPlayer getCurrentlyFollowingPlayer() {
+        return getSettler().getCurrentlyFollowingPlayer();
+    }
+
+    @Override
+    public boolean followPlayer(EntityPlayer player) {
+        return getSettler().followPlayer(player);
+    }
+
+    @Override
+    public List<ITask> getTasks() {
+        return getSettler().getTasks();
+    }
+
+    @Override
+    public ITask getCurrentTask() {
+        return getSettler().getCurrentTask();
+    }
+
+    @Override
+    public void assignTask(ITask task) {
+        getSettler().assignTask(task);
+    }
+
+    @Override
+    public void queueTask(ITask task) {
+        getSettler().queueTask(task);
+    }
+
+    @Override
+    public void cancelTask(ITask task) {
+        getSettler().cancelTask(task);
+    }
+
+    @Override
+    public ItemStack getMissingResource() {
+        return getSettler().getMissingResource();
+    }
+
+    @Override
+    public void setMissingResource(ItemStack stack) {
+        getSettler().setMissingResource(stack);
+    }
+
+    @Override
+    public SettlerStatus getSettlerStatus() {
+        return getSettler().getSettlerStatus();
+    }
+
+    @Override
+    public boolean isSleeping() {
+        return getSettler().isSleeping();
+    }
+
+    @Override
+    public SleepResult trySleepInBed(BlockPos pos) {
+        return getSettler().trySleepInBed(pos);
+    }
+
+    @Override
+    public DamageSource getDamageSource() {
+        return getSettler().getDamageSource();
+    }
+
+    @Override
+    public CooldownTracker getCooldownTracker() {
+        return getSettler().getCooldownTracker();
     }
 }

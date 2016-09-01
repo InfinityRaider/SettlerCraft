@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
 import com.InfinityRaider.settlercraft.reference.Names;
-import com.google.common.collect.ImmutableList;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -223,6 +222,18 @@ public class InventorySettler implements IInventorySettler {
             int index = getSlotForStack(stack);
             this.decrStackSize(index, stack.stackSize);
         }
+    }
+
+    @Override
+    public boolean switchStacksInSlots(int slot1, int slot2) {
+        ItemStack stack1 = this.getStackInSlot(slot1);
+        ItemStack stack2 = this.getStackInSlot(slot2);
+        if(this.isItemValidForSlot(slot1, stack2) && this.isItemValidForSlot(slot2, stack1)) {
+            this.setInventorySlotContents(slot1, stack2);
+            this.setInventorySlotContents(slot2, stack1);
+            return true;
+        }
+        return false;
     }
 
     @Override

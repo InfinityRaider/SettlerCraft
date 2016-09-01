@@ -29,11 +29,6 @@ public class TaskMine extends TaskBase {
     }
 
     @Override
-    public void resetTask() {
-
-    }
-
-    @Override
     public void cancelTask() {
 
     }

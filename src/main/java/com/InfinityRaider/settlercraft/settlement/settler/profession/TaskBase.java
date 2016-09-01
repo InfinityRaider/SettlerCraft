@@ -14,12 +14,14 @@ public abstract class TaskBase implements ITask {
     private final ISettlement settlement;
     private final ISettler settler;
     private final ISettlementBuilding building;
+    private boolean interrupted;
 
     public TaskBase(String taskName, ISettlement settlement, ISettler settler, ISettlementBuilding building) {
         this.name = taskName;
         this.settlement = settlement;
         this.settler = settler;
         this.building = building;
+        this.interrupted = false;
     }
 
     public ISettlement getSettlement() {
@@ -46,6 +48,27 @@ public abstract class TaskBase implements ITask {
         double dy = (getEntitySettler().posY + getEntitySettler().getEyeHeight() - (pos.getY() + 0.5D));
         double dz = (getEntitySettler().posZ - (pos.getZ() + 0.5D));
         return  dx*dx + dy*dy + dz*dz;
+    }
+
+    @Override
+    public final void interruptTask() {
+        this.interrupted = true;
+        this.onTaskInterrupted();
+    }
+
+    protected void onTaskInterrupted() {}
+
+    @Override
+    public void resumeTask() {
+        this.interrupted = false;
+        this.onTaskResumed();
+    }
+
+    protected void onTaskResumed() {}
+
+    @Override
+    public boolean isInterrupted() {
+        return interrupted;
     }
 
     @Override

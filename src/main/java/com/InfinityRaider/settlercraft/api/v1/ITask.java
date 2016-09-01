@@ -21,14 +21,25 @@ public interface ITask {
     void updateTask();
 
     /**
-     * Called when the task is reset, for example when the settler interrupts the task to go to sleep or fetch food
-     */
-    void resetTask();
-
-    /**
      * Called when this task is cancelled, for example when another task is assigned before this task was finished
      */
     void cancelTask();
+
+    /**
+     * Called when this task is interrupted, for example to do another task first. Interrupted tasks will be continued later
+     */
+    void interruptTask();
+
+    /**
+     * Called when this task was interrupted but is resumed again
+     */
+    void resumeTask();
+
+    /**
+     * Checks if this task has been interrupted, this should return true in between interruptTask() and resumeTask() calls and false any other time.
+     * @return true if this task is currently interrupted
+     */
+    boolean isInterrupted();
 
     /**
      * Checks if this task is complete, if the task is complete, the settler will look for a new task

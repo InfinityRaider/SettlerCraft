@@ -29,11 +29,6 @@ public class TaskFarmAnimals extends TaskBase {
     }
 
     @Override
-    public void resetTask() {
-
-    }
-
-    @Override
     public void cancelTask() {
 
     }

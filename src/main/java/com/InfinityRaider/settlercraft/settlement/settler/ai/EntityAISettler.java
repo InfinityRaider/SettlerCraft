@@ -4,12 +4,12 @@ import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
 
 public class EntityAISettler extends EntityAIBase {
-    public final SettlerAIRoutine routineFollowPlayer;
-    public final SettlerAIRoutine routineGoToBed;
-    public final SettlerAIRoutine routineGetFood;
-    public final SettlerAIRoutine routineFindResource;
-    public final SettlerAIRoutine routinePerformTask;
-    public final SettlerAIRoutine routineIdle;
+    private final SettlerAIRoutineFollowPlayer routineFollowPlayer;
+    private final SettlerAIRoutineGoToBed routineGoToBed;
+    private final SettlerAIRoutineGetFood routineGetFood;
+    private final SettlerAIRoutineFindMissingResource routineFindResource;
+    private final SettlerAIRoutinePerformTask routinePerformTask;
+    private final SettlerAIRoutineIdle routineIdle;
 
     private final SettlerAIRoutine[] routines;
     private int activeRoutine;
@@ -39,6 +39,30 @@ public class EntityAISettler extends EntityAIBase {
 
     public SettlerAIRoutine getActiveRoutine() {
         return routines[activeRoutine];
+    }
+
+    public SettlerAIRoutineFollowPlayer getRoutineFollowPlayer() {
+        return routineFollowPlayer;
+    }
+
+    public SettlerAIRoutineGoToBed getRoutineGoToBed() {
+        return routineGoToBed;
+    }
+
+    public SettlerAIRoutineGetFood getRoutineGetFood() {
+        return routineGetFood;
+    }
+
+    public SettlerAIRoutineFindMissingResource getRoutineFindResource() {
+        return routineFindResource;
+    }
+
+    public SettlerAIRoutinePerformTask getRoutinePerformTask() {
+        return routinePerformTask;
+    }
+
+    public SettlerAIRoutineIdle getRoutineIdle() {
+        return routineIdle;
     }
 
     /**

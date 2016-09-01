@@ -29,11 +29,6 @@ public class TaskFarmPlants extends TaskBase {
     }
 
     @Override
-    public void resetTask() {
-
-    }
-
-    @Override
     public void cancelTask() {
 
     }

@@ -108,10 +108,19 @@ public interface IInventorySettler extends IInventorySerializable {
 
     /**
      * Consumes an amount of items equal to the one passed in the stack.
-     * The stack's stacksize is the amount of items consumed.
+     * The stack's stack size is the amount of items consumed.
      * @param stack stack to be consumed
      */
     void consumeStack(ItemStack stack);
+
+    /**
+     * Switches the stacks in two slots, used for example when the settler consumes a food item:
+     *  the settler switches its active item with the food, consumes the food and then switches the food back to his previously active item.
+     * @param slot1 first slot
+     * @param slot2 second slot
+     * @return if the switch was successful, might fail if trying to switch a non armor item into an armor slot
+     */
+    boolean switchStacksInSlots(int slot1, int slot2);
 
     /**
      * Converts the inventory to an array, where the index in the array corresponds to the index in the inventory
