@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement.settler.profession;
+package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import net.minecraft.entity.EntityAgeable;

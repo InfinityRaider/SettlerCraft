@@ -5,7 +5,7 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.building.farm.BuildingAnimalFarm;
-import com.InfinityRaider.settlercraft.settlement.settler.profession.TaskBase;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.TaskBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.List;

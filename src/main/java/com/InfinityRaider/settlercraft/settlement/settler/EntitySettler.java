@@ -55,6 +55,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
@@ -370,33 +371,47 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public List<ITask> getTasks() {
-        return settlerAI.getRoutinePerformTask().getTasks();
+    public List<ITask> getTasks(int priority) {
+        if(settlerAI == null) {
+            return Collections.emptyList();
+        }
+        return settlerAI.getTasks(priority);
     }
 
     @Override
     public ITask getCurrentTask() {
-        return settlerAI.getRoutinePerformTask().getCurrentTask();
+        if(settlerAI == null) {
+            return null;
+        }
+        return settlerAI.getCurrentTask();
+    }
+
+    @Override
+    public ITask getCurrentTask(int priority) {
+        if(settlerAI == null) {
+            return null;
+        }
+        return settlerAI.getRoutinePerformTask(priority).getCurrentTask();
     }
 
     @Override
     public void assignTask(ITask task) {
-        if (!this.worldObj.isRemote) {
-            this.settlerAI.getRoutinePerformTask().addTask(task);
+        if (!this.worldObj.isRemote && task != null) {
+            this.settlerAI.addTask(task);
         }
     }
 
     @Override
     public void queueTask(ITask task) {
-        if (!this.worldObj.isRemote) {
-            this.settlerAI.getRoutinePerformTask().queueTask(task);
+        if (!this.worldObj.isRemote && task != null) {
+            this.settlerAI.queueTask(task);
         }
     }
 
     @Override
     public void cancelTask(ITask task) {
-        if (!this.worldObj.isRemote) {
-            this.settlerAI.getRoutinePerformTask().cancelTask(task);
+        if (!this.worldObj.isRemote && task != null) {
+            this.settlerAI.cancelTask(task);
         }
     }
 

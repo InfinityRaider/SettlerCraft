@@ -2381,13 +2381,18 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public List<ITask> getTasks() {
-        return getSettler().getTasks();
+    public List<ITask> getTasks(int priority) {
+        return getSettler().getTasks(priority);
     }
 
     @Override
     public ITask getCurrentTask() {
         return getSettler().getCurrentTask();
+    }
+
+    @Override
+    public ITask getCurrentTask(int priority) {
+        return null;
     }
 
     @Override

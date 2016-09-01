@@ -1,17 +1,20 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.ai.EntityAIBase;
+
+import java.util.List;
 
 public class EntityAISettler extends EntityAIBase {
     private final SettlerAIRoutineFollowPlayer routineFollowPlayer;
     private final SettlerAIRoutineGoToBed routineGoToBed;
     private final SettlerAIRoutineGetFood routineGetFood;
     private final SettlerAIRoutineFindMissingResource routineFindResource;
-    private final SettlerAIRoutinePerformTask routinePerformTask;
     private final SettlerAIRoutineIdle routineIdle;
 
     private final SettlerAIRoutine[] routines;
+    private final SettlerAIRoutinePerformTask[] taskRoutines;
     private int activeRoutine;
 
     public EntityAISettler(EntitySettler settler) {
@@ -19,14 +22,24 @@ public class EntityAISettler extends EntityAIBase {
         this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
         this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
-        this.routinePerformTask = new SettlerAIRoutinePerformTask(settler);
         this.routineIdle = new SettlerAIRoutineIdle(settler);
+        this.taskRoutines = new SettlerAIRoutinePerformTask[] {
+                new SettlerAIRoutinePerformTask(settler),
+                new SettlerAIRoutinePerformTask(settler),
+                new SettlerAIRoutinePerformTask(settler),
+                new SettlerAIRoutinePerformTask(settler),
+                new SettlerAIRoutinePerformTask(settler)
+        };
         this.routines = new SettlerAIRoutine[] {
+                getRoutinePerformTask(0),
                 routineFollowPlayer,
+                getRoutinePerformTask(1),
                 routineGoToBed,
+                getRoutinePerformTask(2),
                 routineGetFood,
+                getRoutinePerformTask(3),
                 routineFindResource,
-                routinePerformTask,
+                getRoutinePerformTask(4),
                 routineIdle
         };
         this.activeRoutine = routines.length - 1;
@@ -57,12 +70,38 @@ public class EntityAISettler extends EntityAIBase {
         return routineFindResource;
     }
 
-    public SettlerAIRoutinePerformTask getRoutinePerformTask() {
-        return routinePerformTask;
-    }
-
     public SettlerAIRoutineIdle getRoutineIdle() {
         return routineIdle;
+    }
+
+    public SettlerAIRoutinePerformTask getRoutinePerformTask(int priority) {
+        if(priority < 0) {
+            priority = 0;
+        } else if(priority >= taskRoutines.length) {
+            priority = taskRoutines.length - 1;
+        }
+        return taskRoutines[priority];
+    }
+
+    public List<ITask> getTasks(int priority) {
+        return getRoutinePerformTask(priority).getTasks();
+    }
+
+    public ITask getCurrentTask() {
+        int priority = activeRoutine - (activeRoutine % 2 == 0 ? 0 : 1);
+        return getRoutinePerformTask(priority).getCurrentTask();
+    }
+
+    public ITask addTask(ITask task) {
+        return getRoutinePerformTask(task.priority()).addTask(task);
+    }
+
+    public ITask queueTask(ITask task) {
+        return getRoutinePerformTask(task.priority()).queueTask(task);
+    }
+
+    public ITask cancelTask(ITask task) {
+        return getRoutinePerformTask(task.priority()).cancelTask(task);
     }
 
     /**

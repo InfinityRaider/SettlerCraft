@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement;
+package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;

@@ -179,16 +179,24 @@ public interface ISettler extends INpc {
     boolean followPlayer(EntityPlayer player);
 
     /**
-     * @return a list of all tasks the settler has queued, in order of execution (the task currently being executed is the first object in the list)
+     * @return a list of all tasks the settler has queued, for the given priority, in order of execution
+     * (the task currently being executed is the first object in the list)
      */
-    List<ITask> getTasks();
+    List<ITask> getTasks(int priority);
 
     /**
-     * Gets the task the settler is currently performing, might return null if the settler does not currently have a task
+     * Gets the highest priority task the settler is currently performing, might return null if the settler does not currently have a task
      * Tasks are only performed on the server thread so this method will always return null when queried in the client thread.
      * @return the settler's current task
      */
     ITask getCurrentTask();
+
+    /**
+     * Gets the task with the given priority the settler is currently performing, might return null if the settler does not currently have a task
+     * Tasks are only performed on the server thread so this method will always return null when queried in the client thread.
+     * @return the settler's current task
+     */
+    ITask getCurrentTask(int priority);
 
     /**
      * Assigns a new task to the settler, if the settler is currently performing a task, this will interrupt the settler's current task.

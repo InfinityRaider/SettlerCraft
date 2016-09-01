@@ -1,4 +1,4 @@
-package com.InfinityRaider.settlercraft.settlement;
+package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;

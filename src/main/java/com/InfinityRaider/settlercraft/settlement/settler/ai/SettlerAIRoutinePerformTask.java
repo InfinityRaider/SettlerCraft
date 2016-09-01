@@ -63,7 +63,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     @Override
     public boolean continueExecutingRoutine() {
-        return getSettler().getMissingResource() == null && shouldExecuteRoutine();
+        return shouldExecuteRoutine();
     }
 
     @Override

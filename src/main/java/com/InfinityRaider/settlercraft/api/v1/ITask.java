@@ -11,6 +11,26 @@ import java.util.List;
  */
 public interface ITask {
     /**
+     * Gets the priority of the task, this determines what actions this task has priority over.
+     * A settler without any tasks will perform the following actions in this order:
+     *  priority 0 : follow a player (if the settler has a player to follow)
+     *  priority 1: go to bed and sleep (if it is night time)
+     *  priority 2: find and/or eat food (if the settler is hungry)
+     *  priority 3: find a missing resource (if the settler needs a certain item)
+     *  priority 4: idle state (if the settler has nothing else to do)
+     *
+     *  For example a task with priority 2 will be executed before the settler searches for food,
+     *  but will not be executed as long as the settler is following a player or if it is night time.
+     *
+     *  Tasks related to the settler's profession (which is most tasks)  should have priority 4
+     *
+     * @return the task priority
+     */
+    default int priority() {
+        return 4;
+    }
+
+    /**
      * Called when the settler starts on this task
      */
     void startTask();
