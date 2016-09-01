@@ -13,7 +13,7 @@ public interface ITask {
     /**
      * Gets the priority of the task, this determines what actions this task has priority over.
      * A settler without any tasks will perform the following actions in this order:
-     *  priority 0 : follow a player (if the settler has a player to follow)
+     *  priority 0: follow a player (if the settler has a player to follow)
      *  priority 1: go to bed and sleep (if it is night time)
      *  priority 2: find and/or eat food (if the settler is hungry)
      *  priority 3: find a missing resource (if the settler needs a certain item)

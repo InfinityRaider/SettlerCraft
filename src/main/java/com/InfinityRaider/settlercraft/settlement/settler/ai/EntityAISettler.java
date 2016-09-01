@@ -7,6 +7,8 @@ import net.minecraft.entity.ai.EntityAIBase;
 import java.util.List;
 
 public class EntityAISettler extends EntityAIBase {
+    public static final int TASK_PRIORITY_LEVELS = 5;
+
     private final SettlerAIRoutineFollowPlayer routineFollowPlayer;
     private final SettlerAIRoutineGoToBed routineGoToBed;
     private final SettlerAIRoutineGetFood routineGetFood;
@@ -23,13 +25,10 @@ public class EntityAISettler extends EntityAIBase {
         this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
         this.routineIdle = new SettlerAIRoutineIdle(settler);
-        this.taskRoutines = new SettlerAIRoutinePerformTask[] {
-                new SettlerAIRoutinePerformTask(settler),
-                new SettlerAIRoutinePerformTask(settler),
-                new SettlerAIRoutinePerformTask(settler),
-                new SettlerAIRoutinePerformTask(settler),
-                new SettlerAIRoutinePerformTask(settler)
-        };
+        this.taskRoutines = new SettlerAIRoutinePerformTask[TASK_PRIORITY_LEVELS];
+        for(int i = 0; i < taskRoutines.length; i++) {
+            taskRoutines[i] = new SettlerAIRoutinePerformTask(settler);
+        }
         this.routines = new SettlerAIRoutine[] {
                 getRoutinePerformTask(0),
                 routineFollowPlayer,
@@ -88,8 +87,13 @@ public class EntityAISettler extends EntityAIBase {
     }
 
     public ITask getCurrentTask() {
-        int priority = activeRoutine - (activeRoutine % 2 == 0 ? 0 : 1);
-        return getRoutinePerformTask(priority).getCurrentTask();
+        for(SettlerAIRoutinePerformTask routine : taskRoutines) {
+            ITask task = routine.getCurrentTask();
+            if(task != null) {
+                return task;
+            }
+        }
+        return null;
     }
 
     public ITask addTask(ITask task) {
