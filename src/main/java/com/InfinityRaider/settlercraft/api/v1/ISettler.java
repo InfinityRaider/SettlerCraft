@@ -92,17 +92,23 @@ public interface ISettler extends INpc {
     IInventorySettler getSettlerInventory();
 
     /**
-     * ISettler's implementation extends EntityAgeable, this is a utility method, it simply returns this.
-     * It is in my opinion much cleaner than checking the type and then down casting.
-     * @return this cast to EntityAgeable
+     * An EntityAgeable object for this settler, this object is the actual entity in the world
+     * @return EntityAgeable object for the settler
      */
     EntityAgeable getEntityImplementation();
 
     /**
-     * A FakePlayer object for this settler, can be used when the settler performs actions which are usually done by a player.
+     * An EntityPlayer object for this settler, can be used when the settler performs actions which are usually done by a player.
+     * This is a virtual entity which does not exist in the world, all method calls to this object are forwarded to the settler object, use with caution.
+     *
      * @return A fake EntityPlayer object representing the settler
      */
     EntityPlayer getFakePlayerImplementation();
+
+    /**
+     * @return The full name of the settler, including title, first name and surname
+     */
+    String getName();
 
     /**
      * Some settlers have achieved more than others, some settlers are allowed more than others.

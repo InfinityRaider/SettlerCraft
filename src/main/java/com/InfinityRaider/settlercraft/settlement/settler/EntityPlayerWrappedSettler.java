@@ -2,26 +2,36 @@ package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.EnumPushReaction;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.command.CommandResultStats;
+import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryEnderChest;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.StatBase;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
@@ -29,13 +39,10 @@ import net.minecraft.tileentity.TileEntityCommandBlock;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.tileentity.TileEntityStructure;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.GameType;
-import net.minecraft.world.IInteractionObject;
-import net.minecraft.world.LockCode;
-import net.minecraft.world.World;
+import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.world.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,13 +51,15 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler {
-    private static final GameProfile PROFILE = new GameProfile(UUID.fromString("41C82C87-7AfB-4024-BA57-13D2C99CAE77"), "[Minecraft]");
-
     private final EntitySettler settler;
+    private final GameProfile profile;
 
     public EntityPlayerWrappedSettler(EntitySettler settler) {
-        super(settler.getWorld(), PROFILE);
+        super(settler.getWorld(), new GameProfile(UUID.fromString("41C82C87-7AfB-4024-BA57-13D2C99CAE77"), settler.getName()));
         this.settler = settler;
+        this.profile = super.getGameProfile();
+        //set this object's data manager to be the same as the settler's data manager
+        this.dataManager = getSettler().getDataManager();
     }
 
     public EntitySettler getSettler() {
@@ -74,7 +83,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void setEntityId(int id) {
-        //TODO: research this, its potentially dangerous
         getSettler().setEntityId(id);
     }
 
@@ -316,15 +324,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
         getSettler().heal(healAmount);
     }
 
-    //final methods, ugh...
-    //TODO: sync health from settler to this
-    /*
-    @Override
-    public final float getHealth() {
-        return getSettler().getHealth();
-    }
-    */
-
     @Override
     public void setHealth(float health) {
         getSettler().setHealth(health);
@@ -423,33 +422,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     public EntityLivingBase getAttackingEntity() {
         return getSettler().getAttackingEntity();
     }
-
-    //stupid final methods >>
-    //TODO: sync max health from settler to this
-    /*
-    @Override
-    public final float getMaxHealth() {
-        return getSettler().getMaxHealth();
-    }
-    */
-
-    //stupid final methods >>
-    //TODO: sync max arrow count
-    /*
-    @Override
-    public final int getArrowCountInEntity() {
-        return getSettler().getArrowCountInEntity();
-    }
-    */
-
-    //stupid final methods >>
-    //TODO: sync max arrow count
-    /*
-    @Override
-    public final void setArrowCountInEntity(int count) {
-        getSettler().setArrowCountInEntity(count);
-    }
-    */
 
     @Override
     public void swingArm(EnumHand hand) {
@@ -579,8 +551,193 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public void extinguish() {
+        getSettler().extinguish();
+    }
+
+    @Override
+    public boolean isOffsetPositionInLiquid(double x, double y, double z) {
+        return getSettler().isOffsetPositionInLiquid(x, y, z);
+    }
+
+    @Override
+    public void moveEntity(double x, double y, double z) {
+        getSettler().moveEntity(x, y, z);
+    }
+
+    @Override
+    public void resetPositionToBB() {
+        getSettler().resetPositionToBB();
+    }
+
+    @Override
+    protected void doBlockCollisions() {
+        getSettler().doBlockCollisions();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        getSettler().playStepSound(pos, blockIn);
+    }
+
+    @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
-        //no sound has to be played for a settler
+        getSettler().playSound(soundIn, volume, pitch);
+    }
+
+    @Override
+    public boolean isSilent() {
+        return getSettler().isSilent();
+    }
+
+    @Override
+    public void setSilent(boolean isSilent) {
+        getSettler().setSilent(isSilent);
+    }
+
+    @Override
+    public boolean func_189652_ae() {
+        return getSettler().func_189652_ae();
+    }
+
+    @Override
+    public void func_189654_d(boolean flag) {
+        getSettler().func_189654_d(flag);
+    }
+
+    @Override
+    protected void dealFireDamage(int amount) {
+        getSettler().dealFireDamage(amount);
+    }
+
+    @Override
+    public boolean isWet() {
+        return getSettler().isWet();
+    }
+
+    @Override
+    public boolean isInWater() {
+        return getSettler().isInWater();
+    }
+
+    @Override
+    public boolean handleWaterMovement() {
+        return getSettler().handleWaterMovement();
+    }
+
+    @Override
+    public void spawnRunningParticles() {
+        getSettler().spawnRunningParticles();
+    }
+
+    @Override
+    protected void createRunningParticles() {
+        getSettler().createRunningParticles();
+    }
+
+    @Override
+    public boolean isInsideOfMaterial(Material materialIn) {
+        return getSettler().isInsideOfMaterial(materialIn);
+    }
+
+    @Override
+    public boolean isInLava() {
+        return getSettler().isInLava();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getBrightnessForRender(float partialTicks) {
+        return getSettler().getBrightnessForRender(partialTicks);
+    }
+
+    @Override
+    public float getBrightness(float partialTicks) {
+        return getSettler().getBrightness(partialTicks);
+    }
+
+    @Override
+    public void setWorld(World worldIn) {
+        getSettler().setWorld(worldIn);
+        this.worldObj = worldIn;
+    }
+
+    @Override
+    public void setPositionAndRotation(double x, double y, double z, float yaw, float pitch) {
+        getSettler().setPositionAndRotation(x, y, z, yaw, pitch);
+    }
+
+    @Override
+    public void moveToBlockPosAndAngles(BlockPos pos, float rotationYawIn, float rotationPitchIn) {
+        getSettler().moveToBlockPosAndAngles(pos, rotationYawIn, rotationPitchIn);
+    }
+
+    public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
+        getSettler().setLocationAndAngles(x, y, z, yaw, pitch);
+    }
+
+    @Override
+    public float getDistanceToEntity(Entity entityIn) {
+        return getSettler().getDistanceToEntity(entityIn);
+    }
+
+    @Override
+    public double getDistanceSq(double x, double y, double z) {
+        return getSettler().getDistanceSq(x, y, z);
+    }
+
+    @Override
+    public double getDistanceSq(BlockPos pos) {
+        return getSettler().getDistanceSq(pos);
+    }
+
+    @Override
+    public double getDistanceSqToCenter(BlockPos pos) {
+        return getSettler().getDistanceSqToCenter(pos);
+    }
+
+    @Override
+    public double getDistance(double x, double y, double z) {
+        return getSettler().getDistance(x, y, z);
+    }
+
+    @Override
+    public double getDistanceSqToEntity(Entity entityIn) {
+        return getSettler().getDistanceSqToEntity(entityIn);
+    }
+
+    @Override
+    public void onCollideWithPlayer(EntityPlayer entityIn) {
+        getSettler().onCollideWithPlayer(entityIn);
+    }
+
+    @Override
+    public void addVelocity(double x, double y, double z) {
+        getSettler().addVelocity(x, y, z);
+    }
+
+    @Override
+    public void moveRelative(float strafe, float forward, float friction) {
+        getSettler().moveRelative(strafe, forward, friction);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Vec3d getPositionEyes(float partialTicks) {
+        return getSettler().getPositionEyes(partialTicks);
+    }
+
+    @Override
+    @Nullable
+    @SideOnly(Side.CLIENT)
+    public RayTraceResult rayTrace(double blockReachDistance, float partialTicks) {
+        return getSettler().rayTrace(blockReachDistance, partialTicks);
+    }
+
+    @Override
+    @Nullable
+    public AxisAlignedBB getCollisionBoundingBox() {
+        return getSettler().getCollisionBoundingBox();
     }
 
     @Override
@@ -602,6 +759,84 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     public void updateRidden() {
         getSettler().updateRidden();
+    }
+
+    @Override
+    public void updatePassenger(Entity passenger) {
+        getSettler().updatePassenger(passenger);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void applyOrientationToEntity(Entity entityToUpdate) {
+        getSettler().applyOrientationToEntity(entityToUpdate);
+    }
+
+    @Override
+    public double getMountedYOffset() {
+        return getSettler().getMountedYOffset();
+    }
+
+    @Override
+    public boolean startRiding(Entity entityIn) {
+        return getSettler().startRiding(entityIn);
+    }
+
+    @Override
+    public boolean startRiding(Entity entityIn, boolean force) {
+        return getSettler().startRiding(entityIn, force);
+    }
+
+    @Override
+    protected boolean canBeRidden(Entity entityIn) {
+        return getSettler().canBeRidden(entityIn);
+    }
+
+    @Override
+    public void removePassengers() {
+        getSettler().removePassengers();
+    }
+
+    @Override
+    protected void addPassenger(Entity passenger) {
+        getSettler().addPassenger(passenger);
+    }
+
+    @Override
+    protected void removePassenger(Entity passenger) {
+        getSettler().removePassenger(passenger);
+    }
+
+    @Override
+    protected boolean canFitPassenger(Entity passenger) {
+        return getSettler().canFitPassenger(passenger);
+    }
+
+    @Override
+    public float getCollisionBorderSize() {
+        return getSettler().getCollisionBorderSize();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Vec2f func_189653_aC() {
+        return getSettler().func_189653_aC();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Vec3d func_189651_aD() {
+        return getSettler().func_189651_aD();
+    }
+
+    @Override
+    public void setPortal(BlockPos pos) {
+        getSettler().setPortal(pos);
+    }
+
+    @Override
+    public void setVelocity(double x, double y, double z) {
+        getSettler().setVelocity(x, y, z);
     }
 
     @Override
@@ -748,6 +983,18 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRender3d(double x, double y, double z) {
+        return getSettler().isInRangeToRender3d(x, y, z);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance) {
+        return getSettler().isInRangeToRenderDist(distance);
+    }
+
+    @Override
     @Nullable
     public EntityItem dropItem(boolean dropAll) {
         return getSettler().dropItem(dropAll);
@@ -756,7 +1003,7 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     @Nullable
     public EntityItem dropItem(@Nullable ItemStack stack, boolean unused) {
-        return getSettler().dropItem(stack, unused);
+        return getSettler().dropItem(stack);
     }
 
     @Override
@@ -773,7 +1020,7 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public float getDigSpeed(IBlockState state, BlockPos pos) {
-        return getSettler().getDigSpeed(state, pos);
+        return getSettler().getDigSpeed(state);
     }
 
     @Override
@@ -783,12 +1030,73 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
-        //not relevant
+        getSettler().readEntityFromNBT(compound);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
-        //not relevant
+        getSettler().writeEntityToNBT(compound);
+    }
+
+    @Override
+    public boolean writeToNBTAtomically(NBTTagCompound compound) {
+        return getSettler().writeToNBTAtomically(compound);
+    }
+
+    @Override
+    public boolean writeToNBTOptional(NBTTagCompound compound) {
+        return getSettler().writeToNBTOptional(compound);
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        return getSettler().writeToNBT(compound);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        getSettler().readFromNBT(compound);
+    }
+
+    @Override
+    protected boolean shouldSetPosAfterLoading() {
+        return getSettler().shouldSetPosAfterLoading();
+    }
+
+    @Override
+    protected NBTTagList newDoubleNBTList(double... numbers) {
+        return getSettler().newDoubleNBTList(numbers);
+    }
+
+    @Override
+    protected NBTTagList newFloatNBTList(float... numbers) {
+        return getSettler().newFloatNBTList(numbers);
+    }
+
+    @Override
+    public EntityItem dropItem(Item itemIn, int size) {
+        return getSettler().dropItem(itemIn, size);
+    }
+
+    @Override
+    public EntityItem dropItemWithOffset(Item itemIn, int size, float offsetY) {
+        return getSettler().dropItemWithOffset(itemIn, size, offsetY);
+    }
+
+    @Override
+    public EntityItem entityDropItem(ItemStack stack, float offsetY) {
+        return getSettler().entityDropItem(stack, offsetY);
+    }
+
+    @Override
+    public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand) {
+        return getSettler().processInitialInteract(player, stack, hand);
+    }
+
+    @Override
+    @Nullable
+    public AxisAlignedBB getCollisionBox(Entity entityIn) {
+        return getSettler().getCollisionBox(entityIn);
     }
 
     @Override
@@ -919,7 +1227,7 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public GameProfile getGameProfile() {
-        return PROFILE;
+        return profile;
     }
 
     @Override
@@ -1037,7 +1345,7 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void addMovementStat(double x, double y, double z) {
-        //TODO: ???
+        getSettler().addMovementStat(x, y, z);
     }
 
     @Override
@@ -1203,6 +1511,57 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public Iterable<ItemStack> getEquipmentAndArmor() {
+        return getSettler().getEquipmentAndArmor();
+    }
+
+
+    @Override
+    public boolean isBurning() {
+        return getSettler().isBurning();
+    }
+
+    @Override
+    public boolean isRiding() {
+        return getSettler().isRiding();
+    }
+
+    @Override
+    public boolean isBeingRidden() {
+        return getSettler().isBeingRidden();
+    }
+
+    @Override
+    public boolean isSneaking() {
+        return getSettler().isSneaking();
+    }
+
+    @Override
+    public void setSneaking(boolean sneaking) {
+        getSettler().setSneaking(sneaking);
+    }
+
+    @Override
+    public boolean isSprinting() {
+        return getSettler().isSprinting();
+    }
+
+    @Override
+    public boolean isGlowing() {
+        return getSettler().isGlowing();
+    }
+
+    @Override
+    public void setGlowing(boolean glowingIn) {
+        getSettler().setGlowing(glowingIn);
+    }
+
+    @Override
+    public boolean isInvisible() {
+        return getSettler().isInvisible();
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean isInvisibleToPlayer(EntityPlayer player) {
         return getSettler().isInvisibleToPlayer(player);
@@ -1237,13 +1596,313 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public boolean isOnSameTeam(Entity entityIn) {
+        return getSettler().isOnSameTeam(entityIn);
+    }
+
+    @Override
+    public boolean isOnScoreboardTeam(Team teamIn) {
+        return getSettler().isOnScoreboardTeam(teamIn);
+    }
+
+    @Override
+    public void setInvisible(boolean invisible) {
+        getSettler().setInvisible(invisible);
+    }
+
+    @Override
+    protected boolean getFlag(int flag) {
+        return getSettler().getFlag(flag);
+    }
+
+    @Override
+    protected void setFlag(int flag, boolean set) {
+        getSettler().setFlag(flag, set);
+    }
+
+    @Override
+    public int getAir() {
+        return getSettler().getAir();
+    }
+
+    @Override
+    public void setAir(int air) {
+        getSettler().setAir(air);
+    }
+
+    @Override
+    public void onStruckByLightning(EntityLightningBolt lightningBolt) {
+        getSettler().onStruckByLightning(lightningBolt);
+    }
+
+    @Override
+    protected boolean pushOutOfBlocks(double x, double y, double z) {
+        return getSettler().pushOutOfBlocks(x, y, z);
+    }
+
+    @Override
+    public Entity[] getParts() {
+        return getSettler().getParts();
+    }
+
+    @Override
+    public boolean isEntityEqual(Entity entityIn) {
+        return getSettler().isEntityEqual(entityIn);
+    }
+
+    @Override
+    public boolean canBeAttackedWithItem() {
+        return getSettler().canBeAttackedWithItem();
+    }
+
+    @Override
+    public boolean hitByEntity(Entity entityIn) {
+        return getSettler().hitByEntity(entityIn);
+    }
+
+    @Override
+    public String toString() {
+        return getSettler().toString();
+    }
+
+    @Override
+    public boolean isEntityInvulnerable(DamageSource source) {
+        return getSettler().isEntityInvulnerable(source);
+    }
+
+    @Override
+    public void setEntityInvulnerable(boolean isInvulnerable) {
+        getSettler().setEntityInvulnerable(isInvulnerable);
+    }
+
+    @Override
+    public void copyLocationAndAnglesFrom(Entity entityIn) {
+        getSettler().copyLocationAndAnglesFrom(entityIn);
+    }
+
+    @Override
+    public Entity changeDimension(int dimensionIn) {
+        return getSettler().changeDimension(dimensionIn);
+    }
+
+    @Override
+    public boolean isNonBoss()
+    {
+        return true;
+    }
+
+    @Override
+    public float getExplosionResistance(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn) {
+        return getSettler().getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
+    }
+
+    @Override
+    public boolean verifyExplosion(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn, float f) {
+        return getSettler().verifyExplosion(explosionIn, worldIn, pos, blockStateIn, f);
+    }
+
+    @Override
+    public int getMaxFallHeight() {
+        return getSettler().getMaxFallHeight();
+    }
+
+    @Override
+    public Vec3d getLastPortalVec() {
+        return getSettler().getLastPortalVec();
+    }
+
+    @Override
+    public EnumFacing getTeleportDirection() {
+        return getSettler().getTeleportDirection();
+    }
+
+    @Override
+    public boolean doesEntityNotTriggerPressurePlate() {
+        return getSettler().doesEntityNotTriggerPressurePlate();
+    }
+
+    @Override
+    public void addEntityCrashInfo(CrashReportCategory category) {
+        category.setDetail("wrapped EntitySettler player entity", () -> "");
+        getSettler().addEntityCrashInfo(category);
+    }
+
+    @Override
+    public void setUniqueId(UUID uniqueIdIn) {
+        getSettler().setUniqueId(uniqueIdIn);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean canRenderOnFire() {
+        return getSettler().canRenderOnFire();
+    }
+
+    @Override
+    public UUID getUniqueID() {
+        return getSettler().getUniqueID();
+    }
+
+    @Override
+    public String getCachedUniqueIdString() {
+        return getSettler().getCachedUniqueIdString();
+    }
+
+    @Override
     public ITextComponent getDisplayName() {
         return getSettler().getDisplayName();
     }
 
     @Override
+    public void setCustomNameTag(String name) {
+        getSettler().setCustomNameTag(name);
+    }
+
+    @Override
+    public String getCustomNameTag() {
+        return getSettler().getCustomNameTag();
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return getSettler().hasCustomName();
+    }
+
+    @Override
+    public void setAlwaysRenderNameTag(boolean alwaysRenderNameTag) {
+        getSettler().setAlwaysRenderNameTag(alwaysRenderNameTag);
+    }
+
+    @Override
+    public boolean getAlwaysRenderNameTag() {
+        return getSettler().getAlwaysRenderNameTag();
+    }
+
+    @Override
+    public void setPositionAndUpdate(double x, double y, double z) {
+        getSettler().setPositionAndUpdate(x, y, z);
+    }
+
+    @Override
+    public EnumFacing getHorizontalFacing() {
+        return getSettler().getHorizontalFacing();
+    }
+
+    @Override
+    public EnumFacing getAdjustedHorizontalFacing() {
+        return getSettler().getAdjustedHorizontalFacing();
+    }
+
+    @Override
+    protected HoverEvent getHoverEvent() {
+        return getSettler().getHoverEvent();
+    }
+
+    @Override
+    public boolean isSpectatedByPlayer(EntityPlayerMP player) {
+        return getSettler().isSpectatedByPlayer(player);
+    }
+
+    @Override
+    public AxisAlignedBB getEntityBoundingBox() {
+        return getSettler().getEntityBoundingBox();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox() {
+        return getSettler().getRenderBoundingBox();
+    }
+
+    @Override
+    public void setEntityBoundingBox(AxisAlignedBB bb) {
+        getSettler().setEntityBoundingBox(bb);
+    }
+
+    @Override
     public float getEyeHeight() {
         return getSettler().getEyeHeight();
+    }
+
+    @Override
+    public boolean isOutsideBorder() {
+        return getSettler().isOutsideBorder();
+    }
+
+    @Override
+    public void setOutsideBorder(boolean outsideBorder) {
+        this.getSettler().setOutsideBorder(outsideBorder);
+    }
+
+    @Override
+    public void addChatMessage(ITextComponent component) {
+        getSettler().addChatMessage(component);
+    }
+
+    @Override
+    public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+        return getSettler().canCommandSenderUseCommand(permLevel, commandName);
+    }
+
+    @Override
+    public BlockPos getPosition() {
+        return getSettler().getPosition();
+    }
+
+    @Override
+    public Vec3d getPositionVector() {
+        return getSettler().getPositionVector();
+    }
+
+    @Override
+    public World getEntityWorld() {
+        return getSettler().getEntityWorld();
+    }
+
+    @Override
+    public Entity getCommandSenderEntity() {
+        return getSettler().getCommandSenderEntity();
+    }
+
+    @Override
+    public boolean sendCommandFeedback() {
+        return getSettler().sendCommandFeedback();
+    }
+
+    @Override
+    public void setCommandStat(CommandResultStats.Type type, int amount) {
+        getSettler().setCommandStat(type, amount);
+    }
+
+    @Override
+    @Nullable
+    public MinecraftServer getServer() {
+        return getSettler().getServer();
+    }
+
+    @Override
+    public CommandResultStats getCommandStats() {
+        return getSettler().getCommandStats();
+    }
+
+    @Override
+    public void setCommandStats(Entity entityIn) {
+        getSettler().setCommandStats(entityIn);
+    }
+
+    @Override
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, @Nullable ItemStack stack, EnumHand hand) {
+        return getSettler().applyPlayerInteraction(player, vec, stack, hand);
+    }
+
+    @Override
+    public boolean isImmuneToExplosions() {
+        return getSettler().isImmuneToExplosions();
+    }
+
+    @Override
+    protected void applyEnchantments(EntityLivingBase entityLivingBaseIn, Entity entityIn) {
+        getSettler().applyEnchantments(entityLivingBaseIn, entityIn);
     }
 
     @Override
@@ -1265,12 +1924,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isWearing(EnumPlayerModelParts part) {
-        //not relevant
-        return false;
-    }
-
-    @Override
-    public boolean sendCommandFeedback() {
         //not relevant
         return false;
     }
@@ -1624,6 +2277,47 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public NBTTagCompound getEntityData() {
+        return getSettler().getEntityData();
+    }
+
+    @Override
+    public boolean shouldRiderSit() {
+        return getSettler().shouldRiderSit();
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return getSettler().getPickedResult(target);
+    }
+
+    @Override
+    public UUID getPersistentID()
+    {
+        return entityUniqueID;
+    }
+
+    @Override
+    public boolean shouldRenderInPass(int pass) {
+        return getSettler().shouldRenderInPass(pass);
+    }
+
+    @Override
+    public boolean isCreatureType(EnumCreatureType type, boolean forSpawnCount) {
+        return getSettler().isCreatureType(type, forSpawnCount);
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return getSettler().canRiderInteract();
+    }
+
+    @Override
+    public boolean shouldDismountInWater(Entity rider) {
+        return getSettler().shouldDismountInWater(rider);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
         return getSettler().getCapability(capability, facing);
@@ -1632,5 +2326,102 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
         return getSettler().hasCapability(capability, facing);
+    }
+
+    @Override
+    public void deserializeNBT(NBTTagCompound nbt) {
+        getSettler().deserializeNBT(nbt);
+    }
+
+    @Override
+    public NBTTagCompound serializeNBT() {
+        return getSettler().serializeNBT();
+    }
+
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player) {
+        getSettler().addTrackingPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+        getSettler().removeTrackingPlayer(player);
+    }
+
+    @Override
+    public float getRotatedYaw(Rotation transformRotation) {
+        return getSettler().getRotatedYaw(transformRotation);
+    }
+
+    @Override
+    public float getMirroredYaw(Mirror transformMirror) {
+        return getSettler().getMirroredYaw(transformMirror);
+    }
+
+    @Override
+    public boolean ignoreItemEntityData() {
+        return getSettler().ignoreItemEntityData();
+    }
+
+    @Override
+    public boolean setPositionNonDirty() {
+        return getSettler().setPositionNonDirty();
+    }
+
+    @Override
+    @Nullable
+    public Entity getControllingPassenger() {
+        return getSettler().getControllingPassenger();
+    }
+
+    @Override
+    public List<Entity> getPassengers() {
+        return getSettler().getPassengers();
+    }
+
+    @Override
+    public boolean isPassenger(Entity entityIn) {
+        return getSettler().isPassenger(entityIn);
+    }
+
+    @Override
+    public Collection<Entity> getRecursivePassengers() {
+        return getSettler().getRecursivePassengers();
+    }
+
+    @Override
+    public <T extends Entity> Collection<T> getRecursivePassengersByType(Class<T> entityClass) {
+        return getSettler().getRecursivePassengersByType(entityClass);
+    }
+
+    @Override
+    public Entity getLowestRidingEntity() {
+        return getSettler().getLowestRidingEntity();
+    }
+
+    @Override
+    public boolean isRidingSameEntity(Entity entityIn) {
+        return getSettler().isRidingSameEntity(entityIn);
+    }
+
+    @Override
+    public boolean isRidingOrBeingRiddenBy(Entity entityIn) {
+        return getSettler().isRidingOrBeingRiddenBy(entityIn);
+    }
+
+    @Override
+    public boolean canPassengerSteer() {
+        return getSettler().canPassengerSteer();
+    }
+
+    @Override
+    @Nullable
+    public Entity getRidingEntity() {
+        return getSettler().getRidingEntity();
+    }
+
+    @Override
+    public EnumPushReaction getPushReaction() {
+        return getSettler().getPushReaction();
     }
 }
