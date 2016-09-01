@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Interface to perform tasks, this is interface is used in a wrapped EntityAI class.
  * It can be used to control the settler's behaviour when he is performing its task.
+ *
+ * Tasks are only ran on the server thread
  */
 public interface ITask {
     /**
@@ -41,7 +43,7 @@ public interface ITask {
     void updateTask();
 
     /**
-     * Called when this task is cancelled, for example when another task is assigned before this task was finished
+     * Called when this task is cancelled, a cancelled task will never be resumed again
      */
     void cancelTask();
 
@@ -62,7 +64,7 @@ public interface ITask {
     boolean isInterrupted();
 
     /**
-     * Checks if this task is complete, if the task is complete, the settler will look for a new task
+     * Checks if this task is complete, if the task is complete, the settler will start or resume its next task
      * @return true if this task is complete, false if not
      */
     boolean isCompleted();
