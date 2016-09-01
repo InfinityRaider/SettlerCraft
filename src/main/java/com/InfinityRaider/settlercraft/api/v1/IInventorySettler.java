@@ -22,6 +22,12 @@ public interface IInventorySettler extends IInventorySerializable {
     ISettler getSettler();
 
     /**
+     * Gets the item equipped in the main hand of the settler
+     * @return the currently equipped stack
+     */
+    ItemStack getCurrentItem();
+
+    /**
      * Gets the item equipped in the hand of the settler
      * @param hand the hand to retrieve the item from
      * @return item stack held in the hand
@@ -59,6 +65,16 @@ public interface IInventorySettler extends IInventorySerializable {
      * @return a list holding the settler's equipment
      */
     List<ItemStack> getEquipmentList();
+
+    /**
+     * @return The settler's main inventory as an ItemStack array
+     */
+    ItemStack[] getMainInventory();
+
+    /**
+     * @return The settler's armor inventory as an ItemStack array
+     */
+    ItemStack[] getArmorInventory();
 
     /**
      * Tries to add a stack to the inventory, in the first possible slot

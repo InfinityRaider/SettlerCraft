@@ -1,8 +1,8 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.reference.Names;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -39,7 +39,7 @@ public class InventorySettler implements IInventorySettler {
     }
 
     @Override
-    public ISettler getSettler() {
+    public EntitySettler getSettler() {
         return settler;
     }
 
@@ -125,6 +125,16 @@ public class InventorySettler implements IInventorySettler {
             }
         }
         return list;
+    }
+
+    @Override
+    public ItemStack[] getMainInventory() {
+        return mainInventory;
+    }
+
+    @Override
+    public ItemStack[] getArmorInventory() {
+        return armorInventory;
     }
 
     @Override
@@ -263,6 +273,11 @@ public class InventorySettler implements IInventorySettler {
     @Override
     public int getSizeInventory() {
         return 2 + armorInventory.length + mainInventory.length;
+    }
+
+    @Override
+    public ItemStack getCurrentItem() {
+        return getStackInSlot(0);
     }
 
     @Override
@@ -422,5 +437,45 @@ public class InventorySettler implements IInventorySettler {
 
     private boolean isSameItem(ItemStack a, ItemStack b) {
         return ItemStack.areItemsEqual(a, b) && ItemStack.areItemStackTagsEqual(a, b);
+    }
+
+    public void decrementAnimations() {
+        for (int i = 0; i < getSizeInventory(); i++) {
+            ItemStack stack = getStackInSlot(i);
+            if (stack != null) {
+                stack.updateAnimation(getSettler().getWorld(), getSettler(), i, i == 0);
+            }
+        }
+    }
+
+    public float getStrVsBlock(IBlockState state) {
+        float f = 1.0F;
+        if (active != null) {
+            f *= active.getStrVsBlock(state);
+        }
+        return f;
+    }
+
+    public boolean canHarvestBlock(IBlockState state) {
+        if (state.getMaterial().isToolNotRequired()) {
+            return true;
+        } else {
+            return active != null && active.canHarvestBlock(state);
+        }
+    }
+
+    public void damageArmor(float damage) {
+        damage = damage / 4.0F;
+        if (damage < 1.0F) {
+            damage = 1.0F;
+        }
+        for (int i = 0; i < this.armorInventory.length; ++i) {
+            if (this.armorInventory[i] != null && this.armorInventory[i].getItem() instanceof ItemArmor) {
+                this.armorInventory[i].damageItem((int)damage, this.getSettler());
+                if (this.armorInventory[i].stackSize == 0) {
+                    this.armorInventory[i] = null;
+                }
+            }
+        }
     }
 }

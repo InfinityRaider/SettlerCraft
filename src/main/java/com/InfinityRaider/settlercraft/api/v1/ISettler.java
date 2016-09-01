@@ -1,13 +1,14 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.CooldownTracker;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 
 /**
  * This interface is used to interact with settlers and should not be implemented by you
@@ -99,10 +100,9 @@ public interface ISettler extends INpc {
 
     /**
      * A FakePlayer object for this settler, can be used when the settler performs actions which are usually done by a player.
-     * This will return null on the client thread.
-     * @return A FakePlayer object representing the settler if called on the server thread, or null on the client thread
+     * @return A fake EntityPlayer object representing the settler
      */
-    FakePlayer getFakePlayerImplementation();
+    EntityPlayer getFakePlayerImplementation();
 
     /**
      * Some settlers have achieved more than others, some settlers are allowed more than others.
@@ -208,25 +208,6 @@ public interface ISettler extends INpc {
     SettlerStatus getSettlerStatus();
 
     /**
-     * Gets the settler's hunger level, the hunger level goes from 0 to 10 and defines the hunger status.
-     * See HungerStatus for more details on this
-     * @return the hunger level
-     */
-    int getHungerLevel();
-
-    /**
-     * @return the settler's hunger status
-     */
-    HungerStatus getHungerStatus();
-
-    /**
-     * Tries to eat a food item, returns true if successful. Only one piece of food is eaten at a time
-     * @param food an ItemStack holding a food item
-     * @return if the settler has eaten a piece of food
-     */
-    boolean eatFood(ItemStack food);
-
-    /**
      * @return true if the settler is asleep
      */
     boolean isSleeping();
@@ -237,7 +218,41 @@ public interface ISettler extends INpc {
      * @param pos position of the bed
      * @return if the settler went to bed with success
      */
-    boolean goSleepInBed(BlockPos pos);
+    EntityPlayer.SleepResult trySleepInBed(BlockPos pos);
+
+    /**
+     * @return A damage source for this settler's attacks
+     */
+    DamageSource getDamageSource();
+
+    /**
+     * @return the settler's cooldown tracker
+     */
+    CooldownTracker getCooldownTracker();
+
+    /**
+     * @return The settler's food stats
+     */
+    FoodStats getFoodStats();
+
+    /**
+     * Checks if the settler can eat
+     * @param ignoreHunger if hunger should be ignored
+     * @return if the settler can eat the food
+     */
+    boolean canEat(boolean ignoreHunger);
+
+    /**
+     * @return the settler's hunger status
+     */
+    HungerStatus getHungerStatus();
+
+    /**
+     * Tries to eat a food item, returns true if successful. Only one piece of food is eaten at a time
+     * @param food an ItemStack holding a food item
+     * @return the remaining Item Stack
+     */
+    ItemStack eatFood(ItemStack food);
 
     /**
      * An enum with al the possible states a settler can have, used to determine settler behaviour.
@@ -259,22 +274,21 @@ public interface ISettler extends INpc {
      * STARVING: the settler's stomach is empty and the settler is steadily losing health, he will die if he does not eat something
      */
     enum HungerStatus {
-        STUFFED(10, true, false),
-        FINE(9, true, false),
-        HUNGRY(3, false, false),
-        STARVING(0, false, true);
-        private final int level;
-        private final boolean heal;
-        private final boolean hurt;
+        STUFFED(20, false),
+        FINE(18,  false),
+        HUNGRY(6, true),
+        STARVING(0, true);
 
-        HungerStatus(int level, boolean heal, boolean hurt) {
+        private final int level;
+        private final boolean shouldEat;
+
+        HungerStatus(int level, boolean shouldEat) {
             this.level = level;
-            this.heal = heal;
-            this.hurt = hurt;
+            this.shouldEat = shouldEat;
         }
 
         /**
-         * This number defines which status the settler's hunger level is. The hunger level goes from 0 to 10,
+         * This number defines which status the settler's hunger level is. The hunger level is identical to vanilla player's hunger logic
          * if the settler's hunger level is higher or equal to this number, then the settler has this status.
          */
         public int getHungerLevel() {
@@ -282,17 +296,10 @@ public interface ISettler extends INpc {
         }
 
         /**
-         * This defines if the settler should regen when he has this hunger status
+         * This defines if the settler should go looking for food
          */
-        public boolean shouldHeal() {
-            return this.heal;
-        }
-
-        /**
-         * This defines if the settler should lose health when he has this hunger status
-         */
-        public boolean shouldHurt() {
-            return this.hurt;
+        public boolean shouldEat() {
+            return this.shouldEat;
         }
 
         public static HungerStatus fromLevel(int level) {

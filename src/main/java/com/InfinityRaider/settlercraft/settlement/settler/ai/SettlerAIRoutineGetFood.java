@@ -15,7 +15,7 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
 
     @Override
     public boolean shouldExecuteRoutine() {
-        return !getSettler().getHungerStatus().shouldHeal();
+        return getSettler().getHungerStatus().shouldEat();
     }
 
     @Override
@@ -28,15 +28,8 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
     public void updateRoutine() {
         if(hasFood()) {
             ItemStack food = getSettler().getSettlerInventory().getStackInSlot(foodSlot);
-            if(getSettler().eatFood(food)) {
-                int remaining = food.stackSize - 1;
-                if(remaining <= 0) {
-                    getSettler().getSettlerInventory().setInventorySlotContents(foodSlot, null);
-                    this.foodSlot = -1;
-                } else {
-                    getSettler().getSettlerInventory().decrStackSize(foodSlot, 1);
-                }
-            }
+            ItemStack remaining = getSettler().eatFood(food);
+            getSettler().getSettlerInventory().setInventorySlotContents(foodSlot, remaining);
         } else {
             super.updateRoutine();
         }

@@ -73,7 +73,7 @@ public class SettlerAIRoutineGoToBed extends SettlerAIRoutine {
                 }
                 //If the settler has reached its home, find a bed to sleep in
                 if(isHome()) {
-                    if(!getSettler().goSleepInBed(target) && (beds.size() > bedIndex + 1)) {
+                    if(!getSettler().trySleepInBed(target) && (beds.size() > bedIndex + 1)) {
                         bedIndex = bedIndex + 1;
                     }
                 }

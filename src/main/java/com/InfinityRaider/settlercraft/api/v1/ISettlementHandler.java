@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.List;
 
@@ -73,12 +72,4 @@ public interface ISettlementHandler {
      * @return the newly created ISettlement object, or null if the player can't make a settlement here.
      */
     ISettlement startNewSettlement(EntityPlayer player, IBuildingStyle style);
-
-    /**
-     * Sometimes a settler has to perform actions which usually only players can do,
-     * it is possible with this method to get a fake player implementation for the settler
-     * @param settler settler to get a fake player implementation for
-     * @return fake player for the settler
-     */
-    FakePlayer getFakePlayerForSettler(ISettler settler);
 }

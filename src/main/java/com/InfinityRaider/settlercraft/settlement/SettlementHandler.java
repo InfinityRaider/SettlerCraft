@@ -3,20 +3,14 @@ package com.InfinityRaider.settlercraft.settlement;
 import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementHandler;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
-import com.InfinityRaider.settlercraft.settlement.settler.EntitySettlerFakePlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class SettlementHandler implements ISettlementHandler {
     private static SettlementHandlerServer INSTANCE_SERVER;
@@ -42,13 +36,9 @@ public abstract class SettlementHandler implements ISettlementHandler {
         return INSTANCE_CLIENT;
     }
 
-    private Map<ISettler, FakePlayer> fakePlayers;
-
     protected abstract SettlementWorldData getSettlementData(World world);
 
-    protected SettlementHandler() {
-        this.fakePlayers = new HashMap<>();
-    }
+    protected SettlementHandler() {}
 
     @Override
     public ISettlement getSettlement(World world, int id) {
@@ -107,13 +97,5 @@ public abstract class SettlementHandler implements ISettlementHandler {
             }
         }
         return true;
-    }
-
-    @Override
-    public FakePlayer getFakePlayerForSettler(ISettler settler) {
-        if((settler.getWorld() instanceof WorldServer) && !fakePlayers.containsKey(settler)) {
-            fakePlayers.put(settler, new EntitySettlerFakePlayer((WorldServer) settler.getWorld(), settler));
-        }
-        return fakePlayers.get(settler);
     }
 }
