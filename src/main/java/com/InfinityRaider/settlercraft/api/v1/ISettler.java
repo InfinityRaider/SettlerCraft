@@ -10,7 +10,9 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This interface is used to interact with settlers and should not be implemented by you
@@ -221,19 +223,21 @@ public interface ISettler extends INpc {
      * If the settler needs a certain resource to perform a task, it will be returned from this method.
      * When in need of a resource, the settler will search the settlement for it.
      * If it can not find it anywhere, the settler will run to the town hall to speak to the mayor.
-     * This can return null if the settler is not missing a resource.
-     * @return an itemstack the settler needs but does not have
+     * The missing resource only exists on the server thread and will always be absent on the client thread
+     *
+     * @return a resource the settler needs but does not have
      */
-    ItemStack getMissingResource();
+    Optional<IMissingResource> getMissingResource();
 
      /**
      * If the settler needs a certain resource to perform a task, it will be returned from this method.
      * When in need of a resource, the settler will search the settlement for it.
      * If it can not find it anywhere, the settler will run to the town hall to speak to the mayor.
-     * This method will accept null.
-     * @param stack itemstack the settler needs
+     * The missing resource only exists on the server thread, calling this method on the client thread will do nothing
+      *
+     * @param resource the resource settler needs
      */
-    void setMissingResource(ItemStack stack);
+    void setMissingResource(@Nullable IMissingResource resource);
 
     /**
      * @return The status of the settler, gives an idea what the settler is currently doing.
@@ -288,14 +292,24 @@ public interface ISettler extends INpc {
     ItemStack eatFood(ItemStack food);
 
     /**
+     * Call this method to make the settler left click this tick
+     */
+    void useLeftClick();
+
+    /**
+     * Call this method to make the settler right click this tick
+     */
+    void useRightClick();
+
+    /**
      * An enum with al the possible states a settler can have, used to determine settler behaviour.
      */
     enum SettlerStatus {
-        IDLE,
         FOLLOWING_PLAYER,
-        FINDING_RESOURCE,
-        GETTING_FOOD,
         GOING_TO_BED,
+        GETTING_FOOD,
+        FINDING_RESOURCE,
+        IDLE,
         PERFORMING_TASK
     }
 

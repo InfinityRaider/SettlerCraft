@@ -1416,16 +1416,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public HungerStatus getHungerStatus() {
-        return null;
-    }
-
-    @Override
-    public ItemStack eatFood(ItemStack food) {
-        return null;
-    }
-
-    @Override
     public boolean shouldHeal() {
         return getSettler().shouldHeal();
     }
@@ -2411,13 +2401,13 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public ItemStack getMissingResource() {
+    public Optional<IMissingResource> getMissingResource() {
         return getSettler().getMissingResource();
     }
 
     @Override
-    public void setMissingResource(ItemStack stack) {
-        getSettler().setMissingResource(stack);
+    public void setMissingResource(IMissingResource resource) {
+        getSettler().setMissingResource(resource);
     }
 
     @Override
@@ -2443,5 +2433,25 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     public CooldownTracker getCooldownTracker() {
         return getSettler().getCooldownTracker();
+    }
+
+    @Override
+    public HungerStatus getHungerStatus() {
+        return getSettler().getHungerStatus();
+    }
+
+    @Override
+    public ItemStack eatFood(ItemStack food) {
+        return getSettler().eatFood(food);
+    }
+
+    @Override
+    public void useLeftClick() {
+        getSettler().useLeftClick();
+    }
+
+    @Override
+    public void useRightClick() {
+        getSettler().useRightClick();
     }
 }

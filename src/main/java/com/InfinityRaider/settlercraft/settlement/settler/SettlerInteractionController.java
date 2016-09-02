@@ -4,6 +4,7 @@ import com.InfinityRaider.settlercraft.network.MessageSettlerInteractWithEntity;
 import com.InfinityRaider.settlercraft.network.MessageSettlerRightClickAir;
 import com.InfinityRaider.settlercraft.network.MessageSettlerRightClickItem;
 import com.infinityraider.infinitylib.network.NetworkWrapper;
+import com.infinityraider.infinitylib.utility.RayTraceHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -21,21 +22,32 @@ import net.minecraftforge.event.ForgeEventFactory;
 /**
  * Class to simulate a player's right or left clicking with and without items for settlers
  */
-public abstract class SettlerInteractionController {
+public class SettlerInteractionController {
     private final EntitySettler settler;
+
+    private boolean rightClickThisTick = false;
+    private boolean leftClickThisTick = false;
 
     private int rightClickDelayTimer;
 
-    public SettlerInteractionController(EntitySettler settler) {
+    protected SettlerInteractionController(EntitySettler settler) {
         this.settler = settler;
     }
 
-    public EntitySettler getSettler() {
+    protected EntitySettler getSettler() {
         return settler;
     }
 
-    public World getWorld() {
+    protected World getWorld() {
         return getSettler().getWorld();
+    }
+
+    public void rightClick() {
+        this.rightClickThisTick = true;
+    }
+
+    public void leftClick() {
+        this.leftClickThisTick = true;
     }
 
     public void update() {
@@ -49,19 +61,21 @@ public abstract class SettlerInteractionController {
         }
         //clicking & holding logic
         if (this.settler.isHandActive()) {
-            if(!isRightClickDown()) {
+            if(!rightClickThisTick) {
                 onStopUsingItem();
             }
-        } else if(hasRightClicked()) {
+        } else if(rightClickThisTick) {
             this.onRightClick();
         }
+        leftClickThisTick = false;
+        rightClickThisTick = false;
     }
 
-    public void onStopUsingItem() {
+    protected void onStopUsingItem() {
 
     }
 
-    private void onRightClick() {
+    protected void onRightClick() {
         if (!isHittingBlock()) {
             this.rightClickDelayTimer = 4;
             for (EnumHand hand : EnumHand.values()) {
@@ -177,17 +191,17 @@ public abstract class SettlerInteractionController {
         }
     }
 
-    //TODO
-    protected abstract RayTraceResult raytrace();
+    protected RayTraceResult raytrace() {
+        return RayTraceHelper.getTargetEntityOrBlock(getSettler(), 64);
+    }
 
-    protected abstract boolean hasRightClicked();
+    protected boolean isHittingBlock() {
+        //TODO
+        return false;
+    }
 
-    protected abstract boolean isRightClickDown();
-
-    //TODO
-    protected abstract boolean isHittingBlock();
-
-    //TODO
-    protected abstract void resetEquipProgress(EnumHand hand);
+    protected void resetEquipProgress(EnumHand hand) {
+        //TODO
+    }
 
 }

@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.building.StructureBuildProgress;
+import com.InfinityRaider.settlercraft.settlement.settler.MissingResourceStack;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskBuildingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -68,7 +69,7 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
                     pathFinding = true;
                 }
             } else {
-                getSettler().setMissingResource(stack);
+                getSettler().setMissingResource(new MissingResourceStack(stack));
             }
         }
     }

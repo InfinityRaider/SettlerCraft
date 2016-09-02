@@ -7,7 +7,6 @@ import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -57,6 +56,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     public static final IRenderFactory<EntitySettler> RENDER_FACTORY = new RenderFactory();
@@ -65,8 +65,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     private static final DataParameter<Integer> DATA_SETTLEMENT = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_SETTLER_STATUS = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
-    private static final DataParameter<Optional<ItemStack>> DATA_NEEDED_RESOURCE = EntityDataManager.createKey(EntitySettler.class, DataSerializers.OPTIONAL_ITEM_STACK);
-    private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
+   private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
 
@@ -85,6 +84,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     private FoodStats foodStats;
     private CooldownTracker cooldownTracker;
+    private Optional<IMissingResource> missingResource;
 
     /** used for player logic */
     private final EntityPlayerWrappedSettler fakePlayer;
@@ -113,7 +113,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.foodStats = new FoodStats();
         this.cooldownTracker = new CooldownTracker();
         this.fakePlayer = new EntityPlayerWrappedSettler(this);
-        this.interactionController = null; //TODO
+        this.interactionController = new SettlerInteractionController(this);
     }
 
     @Override
@@ -122,7 +122,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.inventory = new InventorySettler(this);
         this.getDataManager().register(DATA_SETTLER_STATUS, 0);
         this.getDataManager().register(DATA_SETTLEMENT, -1);
-        this.getDataManager().register(DATA_NEEDED_RESOURCE, Optional.absent());
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_SLEEPING, false);
@@ -164,6 +163,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     public void onUpdate() {
         super.onUpdate();
         if(!this.getWorld().isRemote) {
+            //update interactions
+            this.getInteractionController().update();
             //update hunger level
             this.getFoodStats().onUpdate(getFakePlayerImplementation());
             //update cooldowns
@@ -422,14 +423,19 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public ItemStack getMissingResource() {
-        Optional<ItemStack> optional = this.getDataManager().get(DATA_NEEDED_RESOURCE);
-        return optional.isPresent() ? optional.get() : null;
+    public Optional<IMissingResource> getMissingResource() {
+        return missingResource;
     }
 
     @Override
-    public void setMissingResource(ItemStack stack) {
-        this.getDataManager().set(DATA_NEEDED_RESOURCE, Optional.fromNullable(stack));
+    public void setMissingResource(IMissingResource resource) {
+        if(!getWorld().isRemote) {
+            if (resource == null) {
+                this.missingResource = Optional.empty();
+            } else {
+                this.missingResource = Optional.of(resource);
+            }
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -532,6 +538,20 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             }
         }
         return stack;
+    }
+
+    @Override
+    public void useLeftClick() {
+        if(!getWorld().isRemote) {
+            getInteractionController().leftClick();
+        }
+    }
+
+    @Override
+    public void useRightClick() {
+        if(!getWorld().isRemote) {
+            getInteractionController().rightClick();
+        }
     }
 
     @Override

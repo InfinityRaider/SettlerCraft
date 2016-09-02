@@ -1,17 +1,18 @@
 package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
+import com.InfinityRaider.settlercraft.api.v1.IMissingResource;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DialogueOptionDescribeTask extends DialogueOptionBase {
     private final IDialogueOption previous;
@@ -36,6 +37,10 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 break;
             }
         }
+        Optional<IMissingResource> resource = settler.getMissingResource();
+        if(resource.isPresent()) {
+            list.addAll(resource.get().getDialogueOptions(settler, player));
+        }
         if(index >= 0) {
             list.remove(index);
         }
@@ -55,55 +60,48 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
         List<ITextComponent> list = new ArrayList<>();
         ITask task = getSettler().getCurrentTask();
         ISettler.SettlerStatus status = getSettler().getSettlerStatus();
-        if(task == null) {
-            list.add(new TextComponentTranslation(getDiscriminator() + "task.noTask"));
-        }
         switch (status) {
             case IDLE:
-                if(task != null) {
+                if (task != null) {
                     LogHelper.debug("settler is idle but still has a task");
                     list.addAll(task.getTaskDescription());
                 }
+                list.add(new TextComponentTranslation(getDiscriminator() + "task.noTask"));
                 break;
             case FOLLOWING_PLAYER:
                 EntityPlayer player = getSettler().getCurrentlyFollowingPlayer();
-                if (player != null) {
-                    //Data watcher is slow :s
-                    list.add(new TextComponentTranslation(getDiscriminator() + "task.followingPlayer")
-                            .appendSibling(new TextComponentString(" ")
-                            .appendSibling(player.getDisplayName())
-                            .appendSibling(new TextComponentString("."))));
-                }
+                list.add(new TextComponentTranslation(getDiscriminator() + "task.followingPlayer")
+                        .appendSibling(new TextComponentString(" "))
+                        .appendSibling(player.getDisplayName())
+                        .appendSibling(new TextComponentString(".")));
                 break;
             case GETTING_FOOD:
-                if(task != null) {
+                if (task != null) {
                     list.addAll(task.getTaskDescription());
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.gettingFoodWithTask"));
+                } else {
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.gettingFood"));
                 }
-                list.add(new TextComponentTranslation(getDiscriminator() + "task.gettingFood"));
                 break;
             case GOING_TO_BED:
-                if(task != null) {
+                if (task != null) {
                     list.addAll(task.getTaskDescription());
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBedWithTask"));
                 }
                 list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBed"));
                 break;
             case PERFORMING_TASK:
-                if(task != null) {
-                    list.addAll(task.getTaskDescription());
-                }
+                list.addAll(task.getTaskDescription());
                 break;
             case FINDING_RESOURCE:
-                if(task != null) {
+                if (task != null) {
                     list.addAll(task.getTaskDescription());
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.needResourceWithTask"));
                 }
-                ItemStack missing = getSettler().getMissingResource();
-                if (missing != null) {
-                    list.add(new TextComponentTranslation(getDiscriminator() + "task.needResource"));
-                    list.add(new TextComponentTranslation(getDiscriminator() + "task.findingResource")
-                            .appendSibling(new TextComponentString(missing.getDisplayName())));
-                }
+                IMissingResource missing = getSettler().getMissingResource().get();
+                list.add(new TextComponentTranslation(getDiscriminator() + "task.needResource"));
+                list.addAll(missing.getDescription(getSettler()));
                 break;
-
         }
         return list;
     }
