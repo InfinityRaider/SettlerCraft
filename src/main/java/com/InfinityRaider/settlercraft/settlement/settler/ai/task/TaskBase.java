@@ -39,12 +39,12 @@ public abstract class TaskBase implements ITask {
     }
 
     @Override
-    public final void interruptTask() {
+    public final void interruptTask(ITask interrupt) {
         this.interrupted = true;
-        this.onTaskInterrupted();
+        this.onTaskInterrupted(interrupt);
     }
 
-    protected void onTaskInterrupted() {}
+    protected void onTaskInterrupted(ITask interrupt) {}
 
     @Override
     public void resumeTask() {

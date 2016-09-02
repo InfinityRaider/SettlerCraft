@@ -49,8 +49,9 @@ public interface ITask {
 
     /**
      * Called when this task is interrupted, for example to do another task first. Interrupted tasks will be continued later
+     * @param interrupt the task which interrupted this task, can be null if this task was interrupt by a different AI routine
      */
-    void interruptTask();
+    void interruptTask(ITask interrupt);
 
     /**
      * Called when this task was interrupted but is resumed again

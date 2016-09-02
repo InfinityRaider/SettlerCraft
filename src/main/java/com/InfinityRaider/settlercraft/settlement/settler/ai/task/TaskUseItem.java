@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 
@@ -59,7 +60,7 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    protected void onTaskInterrupted() {
+    protected void onTaskInterrupted(ITask interrupt) {
         this.swapAndReset();
     }
 

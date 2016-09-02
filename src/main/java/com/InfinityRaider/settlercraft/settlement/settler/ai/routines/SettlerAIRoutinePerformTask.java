@@ -31,7 +31,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     }
 
     public ITask addTask(ITask task) {
-        getCurrentTask().interruptTask();
+        getCurrentTask().interruptTask(task);
         tasks.push(task);
         updateCachedList();
         return task;
