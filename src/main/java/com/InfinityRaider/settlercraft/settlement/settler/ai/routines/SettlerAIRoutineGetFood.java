@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
+import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskUseItem;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
@@ -28,8 +29,7 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
     public void updateRoutine() {
         if(hasFood()) {
             ItemStack food = getSettler().getSettlerInventory().getStackInSlot(foodSlot);
-            ItemStack remaining = getSettler().eatFood(food);
-            getSettler().getSettlerInventory().setInventorySlotContents(foodSlot, remaining);
+            getSettler().assignTask(new TaskUseItem("eatFood", getSettler(), foodSlot, 2, food.getMaxItemUseDuration()));
         } else {
             super.updateRoutine();
         }

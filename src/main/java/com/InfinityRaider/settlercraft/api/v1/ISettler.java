@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.api.v1;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
@@ -283,13 +282,6 @@ public interface ISettler extends INpc {
      * @return the settler's hunger status
      */
     HungerStatus getHungerStatus();
-
-    /**
-     * Tries to eat a food item, returns true if successful. Only one piece of food is eaten at a time
-     * @param food an ItemStack holding a food item
-     * @return the remaining Item Stack
-     */
-    ItemStack eatFood(ItemStack food);
 
     /**
      * Call this method to make the settler left click this tick

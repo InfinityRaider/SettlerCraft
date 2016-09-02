@@ -2441,11 +2441,6 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public ItemStack eatFood(ItemStack food) {
-        return getSettler().eatFood(food);
-    }
-
-    @Override
     public void useLeftClick() {
         getSettler().useLeftClick();
     }

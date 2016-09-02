@@ -28,7 +28,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
@@ -520,24 +519,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public HungerStatus getHungerStatus() {
         return HungerStatus.fromLevel(getFoodStats().getFoodLevel());
-    }
-
-    @Override
-    public ItemStack eatFood(ItemStack stack) {
-        if(!canEat(false) || stack == null || !(stack.getItem() instanceof ItemFood)) {
-            return stack;
-        }
-        if(!this.getWorld().isRemote) {
-            ItemFood food = (ItemFood) stack.getItem();
-            this.getFoodStats().addStats(food, stack);
-            getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, getWorld().rand.nextFloat() * 0.1F + 0.9F);
-            //TODO: potion effect
-            stack.stackSize = stack.stackSize - 1;
-            if(stack.stackSize <= 0) {
-                return null;
-            }
-        }
-        return stack;
     }
 
     @Override
