@@ -33,7 +33,7 @@ public class SettlerAIRoutineGoToBed extends SettlerAIRoutine {
     }
 
     @Override
-    public void resetRoutine() {
+    public void interruptRoutine() {
         pathFinding = false;
         target = null;
         bedIndex = -1;

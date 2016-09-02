@@ -39,7 +39,7 @@ public abstract class SettlerAIRoutine {
     /**
      * Resets the task
      */
-    public abstract void resetRoutine();
+    public abstract void interruptRoutine();
 
     /**
      * Updates the task

@@ -66,7 +66,7 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
     }
 
     @Override
-    public void resetRoutine() {
+    public void interruptRoutine() {
         this.buildingsToCheck = new ArrayList<>();
         this.current = null;
         this.target = null;
@@ -112,7 +112,7 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
                         } else {
                             inventory.decrStackSize(index, inInventory.stackSize - remaining.stackSize);
                         }
-                        this.resetRoutine();
+                        this.interruptRoutine();
                     }
                 }
             }

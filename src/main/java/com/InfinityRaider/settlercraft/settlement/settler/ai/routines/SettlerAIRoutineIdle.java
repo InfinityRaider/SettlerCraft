@@ -31,7 +31,7 @@ public class SettlerAIRoutineIdle extends SettlerAIRoutine {
     public void startExecutingRoutine() {}
 
     @Override
-    public void resetRoutine() {}
+    public void interruptRoutine() {}
 
     @Override
     public void updateRoutine() {

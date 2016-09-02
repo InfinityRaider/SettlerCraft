@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.List;
 
 public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
@@ -31,7 +30,10 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     }
 
     public ITask addTask(ITask task) {
-        getCurrentTask().interruptTask(task);
+        ITask current = getCurrentTask();
+        if(current != null) {
+            current.interruptTask(task);
+        }
         tasks.push(task);
         updateCachedList();
         return task;
@@ -71,12 +73,11 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     }
 
     @Override
-    public void resetRoutine() {
+    public void interruptRoutine() {
         this.startedTask = false;
-        Iterator<ITask> iterator = tasks.iterator();
-        while(iterator.hasNext()) {
-            iterator.next().cancelTask();
-            iterator.remove();
+        ITask task = this.getCurrentTask();
+        if(task != null) {
+            task.interruptTask(null);
         }
     }
 

@@ -22,7 +22,7 @@ public class MissingResourceStack implements IMissingResource {
 
     @Override
     public boolean matches(ItemStack stack) {
-        return ItemStack.areItemStacksEqual(stack, this.stack) && ItemStack.areItemStackTagsEqual(stack, this.stack);
+        return ItemStack.areItemsEqual(stack, this.stack) && ItemStack.areItemStackTagsEqual(stack, this.stack);
     }
 
     @Override

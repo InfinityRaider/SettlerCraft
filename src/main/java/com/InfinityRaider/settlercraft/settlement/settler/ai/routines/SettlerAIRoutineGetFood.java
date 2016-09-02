@@ -20,8 +20,8 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
     }
 
     @Override
-    public void resetRoutine() {
-        super.resetRoutine();
+    public void interruptRoutine() {
+        super.interruptRoutine();
         this.checkSettlerForFoodSlot();
     }
 

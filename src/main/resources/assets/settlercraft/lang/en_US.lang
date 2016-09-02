@@ -102,7 +102,6 @@ settlercraft.dialogue.task.goingToBedWithTask=But its getting dark, so I'm going
 settlercraft.dialogue.task.goingToBed=Its getting dark, so I'm going to bed.
 settlercraft.dialogue.task.buildBuilding=I'm currently building a new building.
 settlercraft.dialogue.task.needResourceWithTask=But I'm missing a necessary resource,
-settlercraft.dialogue.task.needResource=I'm looking for a specific resource:
 settlercraft.dialogue.task.findingResource=I need some
 settlercraft.dialogue.task.builder=What building are you constructing?
 settlercraft.dialogue.task.building=I'm currently building a new

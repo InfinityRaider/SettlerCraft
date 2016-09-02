@@ -21,7 +21,7 @@ public class EntityAISettler extends EntityAIBase {
     private int activeRoutine;
 
     public EntityAISettler(EntitySettler settler) {
-        this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 8, 3);
+        this.routineFollowPlayer = new SettlerAIRoutineFollowPlayer(settler, 1, 6, 3);
         this.routineGoToBed = new SettlerAIRoutineGoToBed(settler);
         this.routineGetFood = new SettlerAIRoutineGetFood(settler);
         this.routineFindResource = new SettlerAIRoutineFindMissingResource(settler);
@@ -159,7 +159,7 @@ public class EntityAISettler extends EntityAIBase {
      */
     @Override
     public void resetTask() {
-        getActiveRoutine().resetRoutine();
+        getActiveRoutine().interruptRoutine();
     }
 
     /**

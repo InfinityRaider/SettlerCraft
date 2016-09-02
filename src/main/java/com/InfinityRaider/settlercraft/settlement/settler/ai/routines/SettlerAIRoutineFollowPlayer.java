@@ -70,7 +70,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
      * Resets the task
      */
     @Override
-    public void resetRoutine() {
+    public void interruptRoutine() {
         this.theOwner = null;
         this.petPathfinder.clearPathEntity();
         this.getSettler().setPathPriority(PathNodeType.WATER, this.waterPriority);

@@ -16,12 +16,15 @@ public class SettlerAIRoutineFindMissingResource extends SettlerAIRoutineFindRes
 
     @Override
     protected boolean isValidStack(ItemStack stack) {
-        return getSettler().getMissingResource().get().matches(stack);
+        if(getSettler().getMissingResource().isPresent()) {
+            return getSettler().getMissingResource().get().matches(stack);
+        }
+        return false;
     }
 
     @Override
     public void onInventorySlotChange(ISettler settler, int slot, ItemStack stack) {
-        if(settler == getSettler() && isValidStack(stack)) {
+        if(settler == getSettler() && settler.getMissingResource().isPresent() && isValidStack(stack)) {
             if(getSettler().getMissingResource().get().onResourceAcquired(settler, slot, stack)) {
                 getSettler().setMissingResource(null);
             }

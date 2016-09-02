@@ -87,8 +87,9 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 if (task != null) {
                     list.addAll(task.getTaskDescription());
                     list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBedWithTask"));
+                } else {
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBed"));
                 }
-                list.add(new TextComponentTranslation(getDiscriminator() + "task.goingToBed"));
                 break;
             case PERFORMING_TASK:
                 list.addAll(task.getTaskDescription());
@@ -97,9 +98,10 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
                 if (task != null) {
                     list.addAll(task.getTaskDescription());
                     list.add(new TextComponentTranslation(getDiscriminator() + "task.needResourceWithTask"));
+                } else {
+                    list.add(new TextComponentTranslation(getDiscriminator() + "task.needResource"));
                 }
                 IMissingResource missing = getSettler().getMissingResource().get();
-                list.add(new TextComponentTranslation(getDiscriminator() + "task.needResource"));
                 list.addAll(missing.getDescription(getSettler()));
                 break;
         }
