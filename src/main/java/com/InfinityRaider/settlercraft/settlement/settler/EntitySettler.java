@@ -145,14 +145,18 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    protected PathNavigate getNewNavigator(World worldIn) {
-        return new PathNavigateGround(this, worldIn);
-    }
-
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.10000000149011612D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.LUCK);
+    }
+
+    @Override
+    protected PathNavigate getNewNavigator(World worldIn) {
+        return new PathNavigateGround(this, worldIn);
     }
 
     public SettlerInteractionController getInteractionController() {
