@@ -10,6 +10,7 @@ import net.minecraft.command.CommandResultStats;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
+import net.minecraft.entity.ai.attributes.AttributeMap;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -133,7 +134,10 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void setPosition(double x, double y, double z) {
-        getSettler().setPosition(x, y, z);
+        //null check because super constructor calls this method
+        if(getSettler() != null) {
+            getSettler().setPosition(x, y, z);
+        }
     }
 
     @Override
@@ -326,7 +330,10 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void setHealth(float health) {
-        getSettler().setHealth(health);
+        //null check because super constructor calls this method
+        if(getSettler() != null) {
+            getSettler().setHealth(health);
+        }
     }
 
     @Override
@@ -440,12 +447,24 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public IAttributeInstance getEntityAttribute(IAttribute attribute) {
-        return getSettler().getEntityAttribute(attribute);
+        //null check because super constructor calls this method
+        if(getSettler() == null) {
+            return super.getEntityAttribute(attribute);
+        } else {
+            return getSettler().getEntityAttribute(attribute);
+        }
     }
 
     @Override
     public AbstractAttributeMap getAttributeMap() {
-        return getSettler().getAttributeMap();
+        //null check because super constructor calls this method
+        if(getSettler() == null) {
+            AbstractAttributeMap map = new AttributeMap();
+            map.registerAttribute(SharedMonsterAttributes.MAX_HEALTH);
+            return map;
+        } else {
+            return getSettler().getAttributeMap();
+        }
     }
 
     @Override
@@ -673,7 +692,10 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch) {
-        getSettler().setLocationAndAngles(x, y, z, yaw, pitch);
+        //null check because super constructor calls this method
+        if(getSettler() != null) {
+            getSettler().setLocationAndAngles(x, y, z, yaw, pitch);
+        }
     }
 
     @Override
@@ -1719,7 +1741,10 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
 
     @Override
     public void setUniqueId(UUID uniqueIdIn) {
-        getSettler().setUniqueId(uniqueIdIn);
+        //null check because super constructor calls this method
+        if(getSettler() != null) {
+            getSettler().setUniqueId(uniqueIdIn);
+        }
     }
 
     @Override

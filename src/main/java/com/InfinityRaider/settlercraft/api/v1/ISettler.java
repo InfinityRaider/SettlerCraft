@@ -239,7 +239,7 @@ public interface ISettler extends INpc {
     void setMissingResource(@Nullable IMissingResource resource);
 
     /**
-     * @return The status of the settler, gives an idea what the settler is currently doing.
+     * @return The status of the settler, gives an idea of what the settler is currently doing.
      */
     SettlerStatus getSettlerStatus();
 
@@ -285,11 +285,13 @@ public interface ISettler extends INpc {
 
     /**
      * Call this method to make the settler left click this tick
+     * Calling this method over consecutive ticks will mimic holding down the left mouse button
      */
     void useLeftClick();
 
     /**
      * Call this method to make the settler right click this tick
+     * Calling this method over consecutive ticks will mimic holding down the right mouse button
      */
     void useRightClick();
 

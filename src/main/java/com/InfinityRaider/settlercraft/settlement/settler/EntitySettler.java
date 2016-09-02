@@ -111,6 +111,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.profession = ProfessionRegistry.getInstance().professionBuilder();
         this.foodStats = new FoodStats();
         this.cooldownTracker = new CooldownTracker();
+        this.missingResource = Optional.empty();
         this.fakePlayer = new EntityPlayerWrappedSettler(this);
         this.interactionController = new SettlerInteractionController(this);
     }
