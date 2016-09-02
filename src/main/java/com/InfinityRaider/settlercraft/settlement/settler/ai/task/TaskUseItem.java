@@ -78,6 +78,10 @@ public class TaskUseItem extends TaskBase {
         if(slot != 0) {
             getSettler().getSettlerInventory().switchStacksInSlots(0, slot);
         }
+        resetTimer();
+    }
+
+    protected void resetTimer() {
         this.tickCounter = 0;
     }
 }
