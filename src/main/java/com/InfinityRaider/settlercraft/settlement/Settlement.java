@@ -116,7 +116,7 @@ public class Settlement implements ISettlement {
 
     @Override
     public ISettlementBuilding getBuildingFromId(int id) {
-        return buildings.get(id);
+        return id < 0 || id >= buildings.size() ? null : buildings.get(id);
     }
 
     @Override

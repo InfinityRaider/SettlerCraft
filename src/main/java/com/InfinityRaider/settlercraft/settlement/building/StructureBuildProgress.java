@@ -1,23 +1,20 @@
 package com.InfinityRaider.settlercraft.settlement.building;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
+import com.InfinityRaider.settlercraft.api.v1.ITask;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskBuildBuilding;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskPlaceBlockForBuilding;
+import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskRemoveBlockForBuilding;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
-import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidBlock;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StructureBuildProgress {
     private ISettlementBuilding building;
@@ -90,21 +87,10 @@ public class StructureBuildProgress {
         return work;
     }
 
-    public boolean validateJob(Work job) {
-        return currentWork.contains(job);
-    }
-
-    public void cancelJob(Work job) {
-        if(job != null) {
-            currentWork.remove(job);
-        }
-    }
-
-    public void doJob(Work work) {
+    public void cancelJob(Work work) {
         if(work != null) {
-            work.doJob();
             currentWork.remove(work);
-            needsCompletenessCheck = true;
+            work.cancelWork();
         }
     }
 
@@ -142,16 +128,15 @@ public class StructureBuildProgress {
             return;
         }
         if(clearingWork[x][y][z] != null) {
-            Work work = clearingWork[x][y][z];
-            currentWork.remove(work);
+            this.cancelJob(clearingWork[x][y][z]);
             clearingWork[x][y][z] = null;
             needsCompletenessCheck = true;
         } else if(blocksToBuild[x][y][z] != null){
-            buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
+            buildingWork[x][y][z] = new Work.PlaceBlock(blocksToBuild[x][y][z]);
             complete = false;
             needsCompletenessCheck = false;
         } else if(finalBlocksToBuild[x][y][z] != null){
-            buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
+            buildingWork[x][y][z] = new Work.PlaceBlock(finalBlocksToBuild[x][y][z]);
             complete = false;
             needsCompletenessCheck = false;
         }
@@ -166,35 +151,15 @@ public class StructureBuildProgress {
         }
         if(isAllowedState(state, blocksToBuild[x][y][z]) || isAllowedState(state, finalBlocksToBuild[x][y][z])) {
             if(buildingWork[x][y][z] != null) {
-                currentWork.remove(buildingWork[x][y][z]);
+                this.cancelJob(buildingWork[x][y][z]);
                 buildingWork[x][y][z] = null;
                 needsCompletenessCheck = true;
             }
         } else if(clearingWork[x][y][z] == null) {
-            clearingWork[x][y][z] = new Work.ClearBlock(this, pos);
+            clearingWork[x][y][z] = new Work.ClearBlock(pos);
             complete = false;
             needsCompletenessCheck = false;
         }
-    }
-
-    protected void clearBlock(BlockPos pos) {
-        int x = pos.getX() - origin.getX();
-        int y = pos.getY() - origin.getY();
-        int z = pos.getZ() - origin.getZ();
-        if(clearingWork[x][y][z] != null) {
-            getWorld().setBlockToAir(pos);
-        }
-        clearingWork[x][y][z] = null;
-        needsCompletenessCheck = true;
-    }
-
-    protected void placeBlock(StructureBuildPosition position) {
-        int x = position.getPos().getX() - origin.getX();
-        int y = position.getPos().getY() - origin.getY();
-        int z = position.getPos().getZ() - origin.getZ();
-        position.build();
-        buildingWork[x][y][z] = null;
-        needsCompletenessCheck = true;
     }
 
     private void init(BlockPos clicked, int rotation) {
@@ -241,15 +206,15 @@ public class StructureBuildProgress {
                     Block block = state.getBlock();
                     boolean base = isAllowedState(state, blocksToBuild[x][y][z]);
                     boolean last = isAllowedState(state, finalBlocksToBuild[x][y][z]);
-                    if(block == null || state.getMaterial() == Material.AIR || block instanceof BlockLiquid || block instanceof IFluidBlock) {
+                    if(state.getMaterial() == Material.AIR || block instanceof BlockLiquid || block instanceof IFluidBlock) {
                         if(blocksToBuild[x][y][z] != null) {
                             if(!base) {
-                                buildingWork[x][y][z] = new Work.PlaceBlock(this, blocksToBuild[x][y][z]);
+                                buildingWork[x][y][z] = new Work.PlaceBlock(blocksToBuild[x][y][z]);
                                 complete = false;
                             }
                         } else if(finalBlocksToBuild[x][y][z] != null) {
                             if(!last) {
-                                buildingWork[x][y][z] = new Work.PlaceBlock(this, finalBlocksToBuild[x][y][z]);
+                                buildingWork[x][y][z] = new Work.PlaceBlock(finalBlocksToBuild[x][y][z]);
                                 complete = false;
                             }
                         }
@@ -257,11 +222,11 @@ public class StructureBuildProgress {
                     if(base || last) {
                         continue;
                     }
-                    if(block != null && block.getBlockHardness(state, getWorld(), pos) < 0) {
+                    if(block.getBlockHardness(state, getWorld(), pos) < 0) {
                         //block is unbreakable
                         continue;
                     }
-                    clearingWork[x][y][z] = new Work.ClearBlock(this, pos);
+                    clearingWork[x][y][z] = new Work.ClearBlock(pos);
                     complete = false;
                 }
             }
@@ -276,94 +241,75 @@ public class StructureBuildProgress {
     }
 
     public static abstract class Work {
-        private StructureBuildProgress progress;
+        private Map<ITask, ITask> scheduledTasksPerParent;
 
-        private Work(StructureBuildProgress progress) {
-            this.progress = progress;
+        private Work() {
+            this.scheduledTasksPerParent = new IdentityHashMap<>();
         }
 
-        public StructureBuildProgress getJob() {
-            return progress;
+        public void onSubTaskCancelled(ITask parentTask) {
+            this.scheduledTasksPerParent.remove(parentTask);
         }
 
-        public abstract BlockPos getWorkPos();
+        public void onSubTaskCompleted(ITask parentTask) {
+            this.scheduledTasksPerParent.remove(parentTask);
+        }
 
-        protected abstract void doJob();
+        public final ITask getTask(TaskBuildBuilding mainTask) {
+            if(scheduledTasksPerParent.containsKey(mainTask)) {
+                ITask task = this.getTaskForWork(mainTask);
+                this.scheduledTasksPerParent.put(mainTask, task);
+            }
+            return scheduledTasksPerParent.get(mainTask);
+        }
 
-        public abstract ItemStack getResource();
+        protected abstract ITask getTaskForWork(TaskBuildBuilding mainTask);
 
-        public abstract List<ItemStack> getGainedResources();
+        public void cancelWork() {
+            Iterator<Map.Entry<ITask, ITask>> iterator = this.scheduledTasksPerParent.entrySet().iterator();
+            while(iterator.hasNext()) {
+                Map.Entry<ITask, ITask> entry = iterator.next();
+                iterator.remove();
+                //remove from the map first to avoid CME:
+                //cancelling the task calls onSubTaskCancelled() which also removes the entry
+                //onSubTaskCancelled() has to remove the entry because it might be called from other places too
+                entry.getValue().getSettler().cancelTask(entry.getValue());
+            }
+        }
 
         public static class PlaceBlock extends Work {
             private StructureBuildPosition work;
 
-            private PlaceBlock(StructureBuildProgress progress, StructureBuildPosition work) {
-                super(progress);
+            private PlaceBlock(StructureBuildPosition work) {
+                super();
                 this.work = work;
             }
 
-            @Override
             public BlockPos getWorkPos() {
                 return work.getPos();
             }
 
             @Override
-            protected void doJob() {
-                getJob().placeBlock(work);
-            }
-
-            @Override
-            public ItemStack getResource() {
-                return work.getResource();
-            }
-
-            @Override
-            public List<ItemStack> getGainedResources() {
-                ItemStack resource = getResource();
-                if(resource != null && resource.getItem() != null && !(resource.getItem() instanceof ItemBlock)) {
-                    Item item = resource.getItem();
-                    if(item instanceof ItemBucket) {
-                        List<ItemStack> list = new ArrayList<>();
-                        list.add(new ItemStack(Items.BUCKET));
-                        return list;
-                    } /*else if(item instanceof IFluidContainerItem) {
-                        //TODO
-                    }
-                    */
-                }
-                return ImmutableList.of();
+            protected ITask getTaskForWork(TaskBuildBuilding mainTask) {
+                return new TaskPlaceBlockForBuilding(mainTask, getWorkPos());
             }
         }
 
         public static class ClearBlock extends Work {
             private BlockPos pos;
 
-            private ClearBlock(StructureBuildProgress progress, BlockPos pos) {
-                super(progress);
+            private ClearBlock(BlockPos pos) {
+                super();
                 this.pos = pos;
             }
 
-            @Override
             public BlockPos getWorkPos() {
                 return pos;
             }
 
             @Override
-            protected void doJob() {
-                getJob().clearBlock(pos);
-            }
-
-            @Override
-            public ItemStack getResource() {
-                return null;
-            }
-
-            @Override
-            public List<ItemStack> getGainedResources() {
-                List<ItemStack> list = new ArrayList<>();
-                IBlockState state = getJob().getWorld().getBlockState(pos);
-                list.add(state.getBlock().getPickBlock(state, null, getJob().getWorld(), pos, null));
-                return list;
+            protected ITask getTaskForWork(TaskBuildBuilding mainTask) {
+                return new TaskRemoveBlockForBuilding(mainTask, getWorkPos());
             }
         }
     }

@@ -104,16 +104,20 @@ public class SettlementBuilding implements ISettlementBuilding {
     public void removeWorker(ISettler settler) {
         if(!getWorld().isRemote && doesSettlerWorkHere(settler)) {
             Iterator<Integer> iterator = workers.iterator();
+            boolean flag = false;
             while(iterator.hasNext()) {
                 int id = iterator.next();
                 if(id == settler.getEntityImplementation().getEntityId()) {
+                    flag = true;
                     iterator.remove();
                     break;
                 }
             }
-            settler.setWorkPlace(null);
-            this.markDirty();
-            this.syncToClient();
+            if(flag) {
+                settler.setWorkPlace(null);
+                this.markDirty();
+                this.syncToClient();
+            }
         }
     }
 
@@ -284,14 +288,6 @@ public class SettlementBuilding implements ISettlementBuilding {
                     this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
                 }
             }
-            this.workers().stream().filter(settler -> settler.profession() == ProfessionRegistry.getInstance().professionBuilder()).forEach(settler -> {
-                List<ITask> tasks = settler.getTasks(4);
-                for(ITask task : tasks) {
-                    settler.cancelTask(task);
-                }
-                settler.setMissingResource(null);
-                settler.setWorkPlace(null);
-            });
             this.building().onBuildingCompleted(this);
             this.markDirty();
             this.syncToClient();

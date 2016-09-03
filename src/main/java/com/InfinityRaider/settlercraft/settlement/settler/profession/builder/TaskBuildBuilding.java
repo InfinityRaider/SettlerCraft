@@ -3,13 +3,8 @@ package com.InfinityRaider.settlercraft.settlement.settler.profession.builder;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.settlement.SettlementBuilding;
 import com.InfinityRaider.settlercraft.settlement.building.StructureBuildProgress;
-import com.InfinityRaider.settlercraft.settlement.settler.MissingResourceStack;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.task.TaskBuildingBase;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
@@ -19,11 +14,24 @@ import java.util.List;
 public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     private final StructureBuildProgress buildProgress;
     private StructureBuildProgress.Work job;
-    private boolean pathFinding;
+    private boolean taskAssigned;
 
     public TaskBuildBuilding(ISettlement settlement, ISettler settler, SettlementBuilding building, StructureBuildProgress buildProgress) {
         super("buildBuilding", settler, settlement, building, building.building());
         this.buildProgress = buildProgress;
+        this.taskAssigned = false;
+    }
+
+    public void onSubTaskCancelled() {
+        this.job.onSubTaskCancelled(this);
+        this.job = null;
+        this.taskAssigned = false;
+    }
+
+    public void onSubTaskCompleted() {
+        this.job.onSubTaskCompleted(this);
+        this.job = null;
+        this.taskAssigned = false;
     }
 
     @Override
@@ -37,48 +45,17 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     public void updateTask() {
         if(job == null) {
             job = buildProgress.getNextJob();
-            if(job == null) {
-                getSettler().setWorkPlace(null);
-            }
         } else {
-            if(!buildProgress.validateJob(job)) {
-                job = null;
-                pathFinding = false;
-                return;
-            }
-            ItemStack stack = job.getResource();
-            if(getSettler().getSettlerInventory().hasStack(stack)) {
-                BlockPos target = job.getWorkPos();
-                double reach = 2.5;
-                double distance = getDistanceFromPositionSquared(target);
-                if(distance <= reach * reach) {
-                    getSettler().getSettlerInventory().consumeStack(stack);
-                    for(ItemStack gained : job.getGainedResources()) {
-                        ItemStack remaining = getSettler().getSettlerInventory().addStackToInventory(gained);
-                        if(remaining != null) {
-                            EntityLivingBase entity = getEntitySettler();
-                            EntityItem item = new EntityItem(getSettler().getWorld(), entity.posX, entity.posY, entity.posZ, remaining);
-                            getSettler().getWorld().spawnEntityInWorld(item);
-                        }
-                    }
-                    buildProgress.doJob(job);
-                    job = null;
-                    pathFinding = false;
-                } else if(!pathFinding || this.getEntitySettler().getNavigator().noPath()){
-                    getEntitySettler().getNavigator().tryMoveToXYZ(target.getX() + 0.5D, target.getY(), target.getZ() + 0.5D, 1.1F);
-                    pathFinding = true;
-                }
-            } else {
-                getSettler().setMissingResource(new MissingResourceStack(stack));
+            if(!taskAssigned) {
+                this.getSettler().assignTask(this.job.getTask(this));
             }
         }
     }
 
     @Override
     public void cancelTask() {
-        if(job != null) {
-            buildProgress.cancelJob(job);
-            job = null;
+        if(this.job != null) {
+            this.buildProgress.cancelJob(this.job);
         }
     }
 
@@ -100,7 +77,7 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     }
 
     public ITextComponent describeJob() {
-        return new TextComponentTranslation("settlercraft.dialogue.task.building")
+        return new TextComponentTranslation("settlercraft.dialogue.job.building")
                 .appendText(" ")
                 .appendSibling(new TextComponentTranslation(getBuilding().name()));
     }
