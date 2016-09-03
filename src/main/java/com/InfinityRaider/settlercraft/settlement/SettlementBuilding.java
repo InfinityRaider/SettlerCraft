@@ -284,6 +284,14 @@ public class SettlementBuilding implements ISettlementBuilding {
                     this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
                 }
             }
+            this.workers().stream().filter(settler -> settler.profession() == ProfessionRegistry.getInstance().professionBuilder()).forEach(settler -> {
+                List<ITask> tasks = settler.getTasks(4);
+                for(ITask task : tasks) {
+                    settler.cancelTask(task);
+                }
+                settler.setMissingResource(null);
+                settler.setWorkPlace(null);
+            });
             this.building().onBuildingCompleted(this);
             this.markDirty();
             this.syncToClient();

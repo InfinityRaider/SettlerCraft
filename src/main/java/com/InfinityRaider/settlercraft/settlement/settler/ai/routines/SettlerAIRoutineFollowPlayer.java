@@ -18,7 +18,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
     World theWorld;
     private double followSpeed;
     private PathNavigate petPathfinder;
-    private int field_75343_h;
+    private int pathingTimer;
     private float waterPriority;
     float maxDist;
     float minDist;
@@ -61,7 +61,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
      */
     @Override
     public void startExecutingRoutine() {
-        this.field_75343_h = 0;
+        this.pathingTimer = 0;
         this.waterPriority = getSettler().getPathPriority(PathNodeType.WATER);
         this.getSettler().setPathPriority(PathNodeType.WATER, 0.0F);
     }
@@ -94,8 +94,8 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
             return;
         }
         this.getSettler().getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float) this.getSettler().getVerticalFaceSpeed());
-        if (--this.field_75343_h <= 0) {
-            this.field_75343_h = 10;
+        if (--this.pathingTimer <= 0) {
+            this.pathingTimer = 10;
             if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.followSpeed)) {
                 if (!this.getSettler().getLeashed()) {
                     if (this.getSettler().getDistanceSqToEntity(this.theOwner) >= 144.0D) {

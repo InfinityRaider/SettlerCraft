@@ -2391,6 +2391,16 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public ISettler setLookTarget(Vec3d target) {
+        return getSettler().setLookTarget(target);
+    }
+
+    @Override
+    public Vec3d getLookTarget() {
+        return getSettler().getLookTarget();
+    }
+
+    @Override
     public boolean followPlayer(EntityPlayer player) {
         return getSettler().followPlayer(player);
     }

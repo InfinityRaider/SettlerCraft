@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
 import com.InfinityRaider.settlercraft.api.v1.*;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -65,4 +66,7 @@ public abstract class TaskBase implements ITask {
         text.add(new TextComponentTranslation("settlercraft.dialogue.task." + name));
         return text;
     }
+
+    @Override
+    public void onSettlerInventorySlotChanged(ISettler settler, int slot, ItemStack stack) {}
 }

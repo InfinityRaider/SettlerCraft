@@ -7,7 +7,6 @@ import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
-import com.google.common.collect.ImmutableList;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -53,9 +52,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdditionalSpawnData {
     public static final IRenderFactory<EntitySettler> RENDER_FACTORY = new RenderFactory();
@@ -79,6 +76,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private InventorySettler inventory;
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
+    private EntityAIAimAtTarget aimAI;
     private EntityAISettler settlerAI;
 
     private FoodStats foodStats;
@@ -130,18 +128,54 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @SuppressWarnings("unchecked")
     protected void initEntityAI() {
         ((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
-        this.tasks.addTask(1, new EntityAITalkToPlayer(this));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+
+        EntityAIBase aiSwim = new EntityAISwimming(this);
+        aiSwim.setMutexBits(4);
+        this.tasks.addTask(0, aiSwim);
+
+        EntityAIAvoidEntity aiAvoidEntity = new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D);
+        aiAvoidEntity.setMutexBits(1);
+        this.tasks.addTask(1, aiAvoidEntity);
+
+        EntityAITalkToPlayer aiTalkToPlayer = new EntityAITalkToPlayer(this);
+        aiTalkToPlayer.setMutexBits(5);
+        this.tasks.addTask(2, aiTalkToPlayer);
+
+        EntityAIMoveIndoors aiMoveIndoors = new EntityAIMoveIndoors(this);
+        aiMoveIndoors.setMutexBits(1);
+        this.tasks.addTask(3, aiMoveIndoors);
+
+        EntityAIRestrictOpenDoor aiRestrictOpenDoor = new EntityAIRestrictOpenDoor(this);
+        aiRestrictOpenDoor.setMutexBits(0);
+        this.tasks.addTask(4, aiRestrictOpenDoor);
+
+        EntityAIOpenDoor aiOpenDoor = new EntityAIOpenDoor(this, true);
+        aiOpenDoor.setMutexBits(0);
+        this.tasks.addTask(5, aiOpenDoor);
+
+        EntityAIMoveTowardsRestriction aiMoveTowardsRestriction = new EntityAIMoveTowardsRestriction(this, 0.6D);
+        aiMoveTowardsRestriction.setMutexBits(17);
+        this.tasks.addTask(6, aiMoveTowardsRestriction);
+
+        this.aimAI = new EntityAIAimAtTarget(this, 0.6, 2);
+        aimAI.setMutexBits(28);
+        this.tasks.addTask(7, aimAI);
+
         this.settlerAI = new EntityAISettler(this);
-        this.tasks.addTask(6, this.settlerAI);
-        this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-        this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+        this.settlerAI.setMutexBits(3);
+        this.tasks.addTask(8, this.settlerAI);
+
+        EntityAIWatchClosest2 aiWatchClosest2 =  new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F);
+        aiWatchClosest2.setMutexBits(11);
+        this.tasks.addTask(9, aiWatchClosest2);
+
+        EntityAIWander aiWander = new EntityAIWander(this, 0.6D);
+        aiWander.setMutexBits(9);
+        this.tasks.addTask(10, aiWander);
+
+        EntityAIWatchClosest aiWatchClosest =  new EntityAIWatchClosest(this, EntityLiving.class, 8.0F);
+        aiWatchClosest.setMutexBits(10);
+        this.tasks.addTask(11, aiWatchClosest);
     }
 
     @Override
@@ -149,7 +183,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.10000000149011612D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.LUCK);
     }
@@ -266,7 +299,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             }
             if(building == null) {
                 ISettlementBuilding workplace = workPlace();
-                workplace.removeWorker(this);
+                if(workplace != null) {
+                    workplace.removeWorker(this);
+                }
             }
             int id = building == null ? -1 : building.id();
             getDataManager().set(DATA_WORK_PLACE_ID, id);
@@ -358,6 +393,22 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public EntityPlayer getCurrentlyFollowingPlayer() {
         return following;
+    }
+
+    @Override
+    public ISettler setLookTarget(Vec3d target) {
+        if(!getWorld().isRemote) {
+            this.aimAI.setTarget(target);
+        }
+        return this;
+    }
+
+    @Override
+    public Vec3d getLookTarget() {
+        if(!getWorld().isRemote) {
+            return this.aimAI.getTarget();
+        }
+        return null;
     }
 
     @Override
@@ -730,12 +781,12 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public Iterable<ItemStack> getHeldEquipment() {
-        return ImmutableList.of(inventory.getEquippedItem(EnumHand.MAIN_HAND), inventory.getEquippedItem(EnumHand.OFF_HAND));
+        return Arrays.asList(inventory.getEquippedItem(EnumHand.MAIN_HAND), inventory.getEquippedItem(EnumHand.OFF_HAND));
     }
 
     @Override
     public Iterable<ItemStack> getArmorInventoryList() {
-        return ImmutableList.copyOf(inventory.getArmorInventory());
+        return Arrays.asList(inventory.getArmorInventory());
     }
 
     @Override

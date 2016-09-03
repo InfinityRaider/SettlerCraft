@@ -7,6 +7,7 @@ import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -165,6 +166,18 @@ public interface ISettler extends INpc {
      * @return the player which the settler is currently following
      */
     EntityPlayer getCurrentlyFollowingPlayer();
+
+    /**
+     * Sets the settlers look target, the settler will move towards this point and look at it
+     * @param target the target object to look at, pass null to clear the look target
+     * @return this
+     */
+    ISettler setLookTarget(Vec3d target);
+
+    /**
+     * @return the settler's current look target
+     */
+    Vec3d getLookTarget();
 
     /***
      * Commands the settler to follow a player, a settler can only follow one player at a time.

@@ -1,15 +1,17 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai.routines;
 
+import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.item.ItemStack;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
-public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
+public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IInventorySettler.IListener {
     private final Deque<ITask> tasks;
     private List<ITask> cachedTaskList;
     private boolean startedTask;
@@ -19,6 +21,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
         this.tasks = new ArrayDeque<>();
         this.startedTask = false;
         this.updateCachedList();
+        settler.getSettlerInventory().registerInventoryListener(this);
     }
 
     public List<ITask> getTasks() {
@@ -31,7 +34,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     public ITask addTask(ITask task) {
         ITask current = getCurrentTask();
-        if(current != null) {
+        if(current != null && !current.isInterrupted()) {
             current.interruptTask(task);
         }
         tasks.push(task);
@@ -76,7 +79,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
     public void interruptRoutine() {
         this.startedTask = false;
         ITask task = this.getCurrentTask();
-        if(task != null) {
+        if(task != null && !task.isInterrupted()) {
             task.interruptTask(null);
         }
     }
@@ -103,5 +106,12 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine {
 
     private void updateCachedList() {
         this.cachedTaskList = ImmutableList.copyOf(tasks);
+    }
+
+    @Override
+    public void onInventorySlotChange(ISettler settler, int slot, ItemStack stack) {
+        for(ITask task : this.getTasks()) {
+            task.onSettlerInventorySlotChanged(settler, slot, stack);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
@@ -91,4 +92,12 @@ public interface ITask {
      * @return a list containing dialogue options specific to this task, can be empty, but should never be null.
      */
     List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player);
+
+    /**
+     * Called when a slot in the settler's inventory changes
+     * @param settler settler who is executing this task
+     * @param slot the index of the slot which has changed
+     * @param stack the new stack in the slot
+     */
+    void onSettlerInventorySlotChanged(ISettler settler, int slot, ItemStack stack);
 }
