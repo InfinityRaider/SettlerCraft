@@ -34,6 +34,11 @@ public interface ITask {
     }
 
     /**
+     * @return The settler performing this task
+     */
+    ISettler getSettler();
+
+    /**
      * Called when the settler starts on this task
      */
     void startTask();
@@ -95,9 +100,8 @@ public interface ITask {
 
     /**
      * Called when a slot in the settler's inventory changes
-     * @param settler settler who is executing this task
      * @param slot the index of the slot which has changed
      * @param stack the new stack in the slot
      */
-    void onSettlerInventorySlotChanged(ISettler settler, int slot, ItemStack stack);
+    void onSettlerInventorySlotChanged(int slot, ItemStack stack);
 }

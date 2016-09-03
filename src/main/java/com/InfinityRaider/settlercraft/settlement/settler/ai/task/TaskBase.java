@@ -21,6 +21,7 @@ public abstract class TaskBase implements ITask {
         this.interrupted = false;
     }
 
+    @Override
     public ISettler getSettler() {
         return this.settler;
     }
@@ -68,5 +69,5 @@ public abstract class TaskBase implements ITask {
     }
 
     @Override
-    public void onSettlerInventorySlotChanged(ISettler settler, int slot, ItemStack stack) {}
+    public void onSettlerInventorySlotChanged(int slot, ItemStack stack) {}
 }

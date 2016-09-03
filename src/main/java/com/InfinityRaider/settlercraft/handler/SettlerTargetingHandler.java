@@ -3,8 +3,7 @@ package com.InfinityRaider.settlercraft.handler;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -24,10 +23,7 @@ public class SettlerTargetingHandler {
             return;
         }
         EntityCreature entity = (EntityCreature) event.getEntity();
-        if(entity instanceof EntityZombie) {
-            entity.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entity, EntitySettler.class, true));
-        }
-        else if(entity instanceof EntitySkeleton) {
+        if(entity instanceof EntityMob) {
             entity.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entity, EntitySettler.class, true));
         }
     }

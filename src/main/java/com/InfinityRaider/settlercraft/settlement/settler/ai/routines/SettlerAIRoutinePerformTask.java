@@ -111,7 +111,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IIn
     @Override
     public void onInventorySlotChange(ISettler settler, int slot, ItemStack stack) {
         for(ITask task : this.getTasks()) {
-            task.onSettlerInventorySlotChanged(settler, slot, stack);
+            task.onSettlerInventorySlotChanged(slot, stack);
         }
     }
 }
