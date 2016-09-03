@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.api.v1;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.DamageSource;
@@ -166,6 +167,14 @@ public interface ISettler extends INpc {
      * @return the player which the settler is currently following
      */
     EntityPlayer getCurrentlyFollowingPlayer();
+
+    /**
+     * Retrieves the entity attribute for interactions,
+     * this is the maximum distance from which a settler can interact with blocks and/or entities.
+     * In vanilla, for players in survival this is 4.5, for players in creative this is 5.
+     * @return IAttributeInstance for the settler's interaction range
+     */
+    IAttributeInstance getInteractionRangeAttribute();
 
     /**
      * Sets the settlers look target, the settler will move towards this point and look at it

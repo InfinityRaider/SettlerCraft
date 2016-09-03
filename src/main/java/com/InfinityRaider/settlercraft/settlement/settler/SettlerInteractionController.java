@@ -192,7 +192,7 @@ public class SettlerInteractionController {
     }
 
     protected RayTraceResult raytrace() {
-        return RayTraceHelper.getTargetEntityOrBlock(getSettler(), 64);
+        return RayTraceHelper.getTargetEntityOrBlock(getSettler(), getSettler().getInteractionRangeAttribute().getAttributeValue());
     }
 
     protected boolean isHittingBlock() {

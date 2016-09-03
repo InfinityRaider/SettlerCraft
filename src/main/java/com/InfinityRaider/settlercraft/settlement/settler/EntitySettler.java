@@ -17,6 +17,9 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityZombie;
@@ -64,6 +67,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
+
+    public static final IAttribute ATTRIBUTE_REACH = new RangedAttribute(null, "settlercraft:settler.reach", 4.5, 2, 8);
 
     private ISettlement settlement;
     private IProfession profession;
@@ -182,6 +187,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+        this.getAttributeMap().registerAttribute(ATTRIBUTE_REACH);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.LUCK);
@@ -393,6 +399,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public EntityPlayer getCurrentlyFollowingPlayer() {
         return following;
+    }
+
+    @Override
+    public IAttributeInstance getInteractionRangeAttribute() {
+        return this.getAttributeMap().getAttributeInstance(ATTRIBUTE_REACH);
     }
 
     @Override

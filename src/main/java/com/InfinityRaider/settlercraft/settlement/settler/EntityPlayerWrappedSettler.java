@@ -2391,6 +2391,11 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
+    public IAttributeInstance getInteractionRangeAttribute() {
+        return getSettler().getInteractionRangeAttribute();
+    }
+
+    @Override
     public ISettler setLookTarget(Vec3d target) {
         return getSettler().setLookTarget(target);
     }
