@@ -34,18 +34,18 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    public void startTask() {
+    public void onTaskStarted() {
         this.swapAndReset();
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
         this.getSettler().useRightClick();
         this.tickCounter++;
     }
 
     @Override
-    public void cancelTask() {
+    public void onTaskCancelled() {
         this.swapAndReset();
     }
 
@@ -60,12 +60,12 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    protected void onTaskInterrupted(ITask interrupt) {
+    protected void onTaskInterrupt(ITask interrupt) {
         this.swapAndReset();
     }
 
     @Override
-    protected void onTaskResumed() {
+    protected void onTaskResume() {
         this.swapAndReset();
     }
 

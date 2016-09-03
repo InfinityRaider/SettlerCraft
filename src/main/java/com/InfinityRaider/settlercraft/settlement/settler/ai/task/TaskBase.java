@@ -41,20 +41,20 @@ public abstract class TaskBase implements ITask {
     }
 
     @Override
-    public final void interruptTask(ITask interrupt) {
+    public final void onTaskInterrupted(ITask interrupt) {
         this.interrupted = true;
-        this.onTaskInterrupted(interrupt);
+        this.onTaskInterrupt(interrupt);
     }
 
-    protected void onTaskInterrupted(ITask interrupt) {}
+    protected void onTaskInterrupt(ITask interrupt) {}
 
     @Override
-    public void resumeTask() {
+    public void onTaskResumed() {
         this.interrupted = false;
-        this.onTaskResumed();
+        this.onTaskResume();
     }
 
-    protected void onTaskResumed() {}
+    protected void onTaskResume() {}
 
     @Override
     public boolean isInterrupted() {

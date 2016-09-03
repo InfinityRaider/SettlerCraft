@@ -35,14 +35,14 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     }
 
     @Override
-    public void startTask() {
+    public void onTaskStarted() {
         if(job == null) {
             job = buildProgress.getNextJob();
         }
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
         if(job == null) {
             job = buildProgress.getNextJob();
         } else {
@@ -53,7 +53,7 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     }
 
     @Override
-    public void cancelTask() {
+    public void onTaskCancelled() {
         if(this.job != null) {
             this.buildProgress.cancelJob(this.job);
         }

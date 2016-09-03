@@ -41,31 +41,31 @@ public interface ITask {
     /**
      * Called when the settler starts on this task
      */
-    void startTask();
+    void onTaskStarted();
 
     /**
      * Called each tick when the settler is performing this task
      */
-    void updateTask();
+    void onTaskUpdated();
 
     /**
      * Called when this task is cancelled, a cancelled task will never be resumed again
      */
-    void cancelTask();
+    void onTaskCancelled();
 
     /**
      * Called when this task is interrupted, for example to do another task first. Interrupted tasks will be continued later
      * @param interrupt the task which interrupted this task, can be null if this task was interrupt by a different AI routine
      */
-    void interruptTask(ITask interrupt);
+    void onTaskInterrupted(ITask interrupt);
 
     /**
      * Called when this task was interrupted but is resumed again
      */
-    void resumeTask();
+    void onTaskResumed();
 
     /**
-     * Checks if this task has been interrupted, this should return true in between interruptTask() and resumeTask() calls and false any other time.
+     * Checks if this task has been interrupted, this should return true in between onTaskInterrupted() and onTaskResumed() calls and false any other time.
      * @return true if this task is currently interrupted
      */
     boolean isInterrupted();

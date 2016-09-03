@@ -16,17 +16,17 @@ public class TaskFarmPlants extends TaskBuildingBase<BuildingCropFarm> {
     }
 
     @Override
-    public void startTask() {
+    public void onTaskStarted() {
 
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
 
     }
 
     @Override
-    public void cancelTask() {
+    public void onTaskCancelled() {
 
     }
 

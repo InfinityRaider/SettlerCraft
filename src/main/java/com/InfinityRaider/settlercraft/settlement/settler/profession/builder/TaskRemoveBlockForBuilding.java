@@ -13,17 +13,17 @@ public class TaskRemoveBlockForBuilding extends TaskWithParentBase<TaskBuildBuil
         }
 
         @Override
-        public void startTask() {
+        public void onTaskStarted() {
             //TODO
         }
 
         @Override
-        public void updateTask() {
+        public void onTaskUpdated() {
             //TODO
         }
 
         @Override
-        public void cancelTask() {
+        public void onTaskCancelled() {
             this.getParentTask().onSubTaskCancelled();
         }
 

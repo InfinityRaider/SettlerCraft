@@ -35,7 +35,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IIn
     public ITask addTask(ITask task) {
         ITask current = getCurrentTask();
         if(current != null && !current.isInterrupted()) {
-            current.interruptTask(task);
+            current.onTaskInterrupted(task);
         }
         tasks.push(task);
         updateCachedList();
@@ -54,7 +54,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IIn
             if(getCurrentTask() == task) {
                 startedTask = false;
             }
-            task.cancelTask();
+            task.onTaskCancelled();
             tasks.remove(task);
             updateCachedList();
         }
@@ -80,7 +80,7 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IIn
         this.startedTask = false;
         ITask task = this.getCurrentTask();
         if(task != null && !task.isInterrupted()) {
-            task.interruptTask(null);
+            task.onTaskInterrupted(null);
         }
     }
 
@@ -90,12 +90,12 @@ public class SettlerAIRoutinePerformTask extends SettlerAIRoutine implements IIn
         if(!startedTask) {
             startedTask = true;
             if(task.isInterrupted()) {
-                task.resumeTask();
+                task.onTaskResumed();
             } else {
-                task.startTask();
+                task.onTaskStarted();
             }
         }
-        task.updateTask();
+        task.onTaskUpdated();
         if(task.isCompleted()) {
             task.onTaskCompleted();
             tasks.pop();

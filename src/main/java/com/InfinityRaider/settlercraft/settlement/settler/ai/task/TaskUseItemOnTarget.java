@@ -16,9 +16,9 @@ public class TaskUseItemOnTarget extends TaskUseItem {
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
         if(isInReach()) {
-            super.updateTask();
+            super.onTaskUpdated();
         } else {
             this.resetTimer();
             this.moveToPosition();

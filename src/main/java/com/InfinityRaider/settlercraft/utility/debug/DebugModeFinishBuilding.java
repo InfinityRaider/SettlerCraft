@@ -33,10 +33,6 @@ public class DebugModeFinishBuilding extends DebugMode {
             return;
         }
         StructureBuildProgress progress = ((SettlementBuilding) building).getBuildProgress();
-        StructureBuildProgress.Work work = progress.getNextJob();
-        while(work != null) {
-            progress.doJob(work);
-            work = progress.getNextJob();
-        }
+        progress.autoComplete();
     }
 }

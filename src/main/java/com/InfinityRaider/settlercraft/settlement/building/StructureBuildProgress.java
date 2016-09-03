@@ -162,6 +162,10 @@ public class StructureBuildProgress {
         }
     }
 
+    public void autoComplete() {
+        //TODO
+    }
+
     private void init(BlockPos clicked, int rotation) {
         List<StructureBuildPosition> blocks = new ArrayList<>();
         List<StructureBuildPosition> finalBlocks = new ArrayList<>();
