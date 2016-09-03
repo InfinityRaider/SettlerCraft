@@ -128,9 +128,9 @@ public class StructureBuildProgress {
             return;
         }
         if(clearingWork[x][y][z] != null) {
+            needsCompletenessCheck = true;
             this.cancelJob(clearingWork[x][y][z]);
             clearingWork[x][y][z] = null;
-            needsCompletenessCheck = true;
         } else if(blocksToBuild[x][y][z] != null){
             buildingWork[x][y][z] = new Work.PlaceBlock(blocksToBuild[x][y][z]);
             complete = false;
@@ -151,9 +151,9 @@ public class StructureBuildProgress {
         }
         if(isAllowedState(state, blocksToBuild[x][y][z]) || isAllowedState(state, finalBlocksToBuild[x][y][z])) {
             if(buildingWork[x][y][z] != null) {
+                needsCompletenessCheck = true;
                 this.cancelJob(buildingWork[x][y][z]);
                 buildingWork[x][y][z] = null;
-                needsCompletenessCheck = true;
             }
         } else if(clearingWork[x][y][z] == null) {
             clearingWork[x][y][z] = new Work.ClearBlock(pos);
@@ -285,13 +285,9 @@ public class StructureBuildProgress {
                 this.work = work;
             }
 
-            public BlockPos getWorkPos() {
-                return work.getPos();
-            }
-
             @Override
             protected ITask getTaskForWork(TaskBuildBuilding mainTask) {
-                return new TaskPlaceBlockForBuilding(mainTask, getWorkPos());
+                return new TaskPlaceBlockForBuilding(mainTask, this.work);
             }
         }
 
@@ -303,13 +299,9 @@ public class StructureBuildProgress {
                 this.pos = pos;
             }
 
-            public BlockPos getWorkPos() {
-                return pos;
-            }
-
             @Override
             protected ITask getTaskForWork(TaskBuildBuilding mainTask) {
-                return new TaskRemoveBlockForBuilding(mainTask, getWorkPos());
+                return new TaskRemoveBlockForBuilding(mainTask, pos);
             }
         }
     }
