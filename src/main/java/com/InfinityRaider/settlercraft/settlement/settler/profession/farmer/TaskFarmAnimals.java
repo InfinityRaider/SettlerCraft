@@ -27,7 +27,7 @@ public class TaskFarmAnimals extends TaskBuildingBase<BuildingAnimalFarm> {
     }
 
     @Override
-    public void onTaskCancelled() {
+    public void onTaskCancel() {
 
     }
 

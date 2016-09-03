@@ -26,7 +26,7 @@ public class TaskFarmPlants extends TaskBuildingBase<BuildingCropFarm> {
     }
 
     @Override
-    public void onTaskCancelled() {
+    public void onTaskCancel() {
 
     }
 

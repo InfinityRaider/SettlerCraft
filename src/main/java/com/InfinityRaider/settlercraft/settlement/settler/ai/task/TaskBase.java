@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
@@ -14,11 +13,13 @@ public abstract class TaskBase implements ITask {
     private final String name;
     private final ISettler settler;
     private boolean interrupted;
+    private boolean cancelled;
 
     public TaskBase(String taskName, ISettler settler) {
         this.name = taskName;
         this.settler = settler;
         this.interrupted = false;
+        this.cancelled = false;
     }
 
     @Override
@@ -30,15 +31,13 @@ public abstract class TaskBase implements ITask {
         return getSettler().getEntityImplementation();
     }
 
-    public double getDistanceFromPositionSquared(BlockPos pos) {
-        if(pos == null) {
-            return -1;
-        }
-        double dx = (getEntitySettler().posX - (pos.getX() + 0.5D));
-        double dy = (getEntitySettler().posY + getEntitySettler().getEyeHeight() - (pos.getY() + 0.5D));
-        double dz = (getEntitySettler().posZ - (pos.getZ() + 0.5D));
-        return  dx*dx + dy*dy + dz*dz;
+    @Override
+    public final void onTaskCancelled() {
+        this.cancelled = true;
+        this.onTaskCancel();
     }
+
+    protected void onTaskCancel() {}
 
     @Override
     public final void onTaskInterrupted(ITask interrupt) {
@@ -58,7 +57,12 @@ public abstract class TaskBase implements ITask {
 
     @Override
     public boolean isInterrupted() {
-        return interrupted;
+        return this.interrupted;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return this.cancelled;
     }
 
     @Override

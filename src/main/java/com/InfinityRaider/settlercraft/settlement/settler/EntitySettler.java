@@ -143,7 +143,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(1, aiAvoidEntity);
 
         EntityAITalkToPlayer aiTalkToPlayer = new EntityAITalkToPlayer(this);
-        aiTalkToPlayer.setMutexBits(5);
+        aiTalkToPlayer.setMutexBits(13);
         this.tasks.addTask(2, aiTalkToPlayer);
 
         EntityAIMoveIndoors aiMoveIndoors = new EntityAIMoveIndoors(this);
@@ -159,11 +159,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(5, aiOpenDoor);
 
         EntityAIMoveTowardsRestriction aiMoveTowardsRestriction = new EntityAIMoveTowardsRestriction(this, 0.6D);
-        aiMoveTowardsRestriction.setMutexBits(17);
+        aiMoveTowardsRestriction.setMutexBits(1);
         this.tasks.addTask(6, aiMoveTowardsRestriction);
 
-        this.aimAI = new EntityAIAimAtTarget(this, 0.6, 2);
-        aimAI.setMutexBits(28);
+        this.aimAI = new EntityAIAimAtTarget(this);
+        aimAI.setMutexBits(8);
         this.tasks.addTask(7, aimAI);
 
         this.settlerAI = new EntityAISettler(this);
@@ -175,7 +175,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(9, aiWatchClosest2);
 
         EntityAIWander aiWander = new EntityAIWander(this, 0.6D);
-        aiWander.setMutexBits(9);
+        aiWander.setMutexBits(1);
         this.tasks.addTask(10, aiWander);
 
         EntityAIWatchClosest aiWatchClosest =  new EntityAIWatchClosest(this, EntityLiving.class, 8.0F);

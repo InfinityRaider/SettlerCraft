@@ -24,7 +24,9 @@ public abstract class TaskWithParentBase<T extends ITask> extends TaskBase {
     @Override
     public List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player) {
         List<IDialogueOption> list = new ArrayList<>();
-        list.addAll(getParentTask().getTaskSpecificDialogueOptions(player));
+        if(getParentTask() != null) {
+            list.addAll(getParentTask().getTaskSpecificDialogueOptions(player));
+        }
         list.addAll(this.getChildTaskDialogueOptions(player));
         return list;
     }
@@ -36,7 +38,9 @@ public abstract class TaskWithParentBase<T extends ITask> extends TaskBase {
     @Override
     public List<ITextComponent> getTaskDescription() {
         List<ITextComponent> list = new ArrayList<>();
-        list.addAll(getParentTask().getTaskDescription());
+        if(getParentTask() != null) {
+            list.addAll(getParentTask().getTaskDescription());
+        }
         list.addAll(this.getChildTaskDescription());
         return list;
     }

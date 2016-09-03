@@ -177,7 +177,7 @@ public interface ISettler extends INpc {
     IAttributeInstance getInteractionRangeAttribute();
 
     /**
-     * Sets the settlers look target, the settler will move towards this point and look at it
+     * Sets the settlers look target, the settler will look at this point
      * @param target the target object to look at, pass null to clear the look target
      * @return this
      */

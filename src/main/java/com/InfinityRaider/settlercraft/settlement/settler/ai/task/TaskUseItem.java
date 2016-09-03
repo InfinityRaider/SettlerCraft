@@ -1,28 +1,22 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
-import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Collections;
-import java.util.List;
-
-public class TaskUseItem extends TaskBase {
+public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
     private final int slot;
     private final int priority;
     private final int usageTicks;
 
     private int tickCounter;
 
-    public TaskUseItem(String taskName, ISettler settler, int slot, int priority) {
-        this(taskName, settler, slot, priority, 0);
+    public TaskUseItem(T task, int slot, int priority) {
+        this(task, slot, priority, 0);
     }
 
-    public TaskUseItem(String taskName, ISettler settler, int slot, int priority, int usageTicks) {
-        super(taskName, settler);
-        this.slot = MathHelper.clamp_int(slot, 0, settler.getSettlerInventory().getSizeInventory());
+    public TaskUseItem(T task, int slot, int priority, int usageTicks) {
+        super(task);
+        this.slot = MathHelper.clamp_int(slot, 0, this.getSettler().getSettlerInventory().getSizeInventory());
         this.priority = priority;
         this.usageTicks = usageTicks;
         this.tickCounter = 0;
@@ -45,7 +39,7 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    public void onTaskCancelled() {
+    public void onTaskCancel() {
         this.swapAndReset();
     }
 
@@ -67,11 +61,6 @@ public class TaskUseItem extends TaskBase {
     @Override
     protected void onTaskResume() {
         this.swapAndReset();
-    }
-
-    @Override
-    public List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player) {
-        return Collections.emptyList();
     }
 
     private void swapAndReset() {

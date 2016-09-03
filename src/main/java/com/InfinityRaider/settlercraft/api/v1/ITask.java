@@ -65,6 +65,11 @@ public interface ITask {
     void onTaskResumed();
 
     /**
+     * Gets called when the settler completes this task
+     */
+    void onTaskCompleted();
+
+    /**
      * Checks if this task has been interrupted, this should return true in between onTaskInterrupted() and onTaskResumed() calls and false any other time.
      * @return true if this task is currently interrupted
      */
@@ -77,9 +82,10 @@ public interface ITask {
     boolean isCompleted();
 
     /**
-     * Gets called when the settler completes this task
+     * Checks if this task is cancelled
+     * @return true if this task is cancelled
      */
-    void onTaskCompleted();
+    boolean isCancelled();
 
     /**
      * Gets a list of text components describing this task, used in dialogues.

@@ -26,7 +26,7 @@ public class TaskMine extends TaskBuildingBase<BuildingQuarry> {
     }
 
     @Override
-    public void onTaskCancelled() {
+    public void onTaskCancel() {
 
     }
 

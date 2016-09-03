@@ -53,7 +53,7 @@ public class TaskBuildBuilding extends TaskBuildingBase<IBuilding> {
     }
 
     @Override
-    public void onTaskCancelled() {
+    public void onTaskCancel() {
         if(this.job != null) {
             this.buildProgress.cancelJob(this.job);
         }
