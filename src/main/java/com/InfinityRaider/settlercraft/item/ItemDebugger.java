@@ -30,7 +30,8 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel, II
             new DebugModeFinishBuilding(),
             new DebugModeSettlementInfo(),
             new DebugModeResetBuilding(),
-            new DebugModePathfinding()
+            new DebugModePathfinding(),
+            new DebugModeSettlerPathing()
     };
 
     public ItemDebugger() {
@@ -56,7 +57,7 @@ public class ItemDebugger extends ItemDebuggerBase implements IItemWithModel, II
     @Override
     public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!player.isSneaking()) {
-            this.getDebugMode(stack).debugAction(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
+            this.getDebugMode(stack).debugActionBlockClicked(stack, player, world, pos, hand, side, hitX, hitY, hitZ);
         }
         return EnumActionResult.PASS;
     }

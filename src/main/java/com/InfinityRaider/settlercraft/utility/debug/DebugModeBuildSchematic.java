@@ -2,6 +2,7 @@ package com.InfinityRaider.settlercraft.utility.debug;
 
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +17,7 @@ public class DebugModeBuildSchematic extends DebugMode {
     }
 
     @Override
-    public void debugAction(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public void debugActionBlockClicked(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!world.isRemote) {
             int rotation;
             if (player.posX < hitX + pos.getX()) {
@@ -35,4 +36,10 @@ public class DebugModeBuildSchematic extends DebugMode {
             SchematicReader.getInstance().buildStoredSchematic(world, pos.add(side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ()), rotation);
         }
     }
+
+    @Override
+    public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {}
+
+    @Override
+    public void debugActionEntityClicked(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {}
 }

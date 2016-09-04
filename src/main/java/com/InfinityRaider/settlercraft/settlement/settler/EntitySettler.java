@@ -22,6 +22,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -40,6 +41,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketAnimation;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateClimber;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.*;
@@ -67,6 +69,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Byte> DATA_CLIMBING = EntityDataManager.createKey(EntitySpider.class, DataSerializers.BYTE);
 
     public static final IAttribute ATTRIBUTE_REACH = new RangedAttribute(null, "settlercraft:settler.reach", 4.5, 2, 8);
 
@@ -128,6 +131,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_SLEEPING, false);
+        this.getDataManager().register(DATA_CLIMBING, (byte) 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -195,7 +199,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     protected PathNavigate getNewNavigator(World worldIn) {
-        return new PathNavigateGround(this, worldIn);
+        return new PathNavigateClimber(this, worldIn);
     }
 
     public SettlerInteractionController getInteractionController() {
@@ -212,8 +216,44 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             this.getFoodStats().onUpdate(getFakePlayerImplementation());
             //update cooldowns
             this.getCooldownTracker().tick();
+            //used for climbing logic
+            this.setBesideClimbableBlock(this.isCollidedHorizontally);
         }
         //TODO: copy position data to the wrapped player
+    }
+
+    @Override
+    public boolean isOnLadder() {
+        if((this.dataManager.get(DATA_CLIMBING) & 1) == 0) {
+            return false;
+        }
+        BlockPos pos = this.getPosition();
+        IBlockState state = this.getWorld().getBlockState(pos);
+        if(state.getBlock().isLadder(state, this.getWorld(), pos, this)) {
+            return true;
+        }
+        for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+            BlockPos posAt = pos.offset(facing);
+            state = this.getWorld().getBlockState(posAt);
+            if(state.getBlock().isLadder(state, this.getWorld(), pos, this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
+     * false.
+     */
+    public void setBesideClimbableBlock(boolean climbing) {
+        byte b0 = this.dataManager.get(DATA_CLIMBING);
+        if (climbing) {
+            b0 = (byte)(b0 | 1);
+        } else {
+            b0 = (byte)(b0 & -2);
+        }
+        this.dataManager.set(DATA_CLIMBING, b0);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.utility.debug;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.pathfinding.astar.AStarTest;
 import com.infinityraider.infinitylib.utility.debug.DebugMode;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -17,7 +18,7 @@ public class DebugModePathfinding extends DebugMode {
     }
 
     @Override
-    public void debugAction(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public void debugActionBlockClicked(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(world.isRemote) {
             if (player.isSneaking()) {
                 AStarTest.getInstance().reset();
@@ -26,4 +27,10 @@ public class DebugModePathfinding extends DebugMode {
             }
         }
     }
+
+    @Override
+    public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {}
+
+    @Override
+    public void debugActionEntityClicked(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {}
 }
