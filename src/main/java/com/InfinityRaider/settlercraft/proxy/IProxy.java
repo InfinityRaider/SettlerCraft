@@ -30,7 +30,6 @@ public interface IProxy extends IProxyBase {
     }
 
     default void registerEventHandlers() {
-        registerEventHandler(SettlerTargetingHandler.getInstance());
         registerEventHandler(BlockEventHandler.getInstance());
         registerEventHandler(PlayerTickHandler.getInstance());
         registerEventHandler(SettlementHandler.getInstanceServer());
