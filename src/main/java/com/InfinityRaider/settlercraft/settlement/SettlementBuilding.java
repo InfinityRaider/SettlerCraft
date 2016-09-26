@@ -284,8 +284,11 @@ public class SettlementBuilding implements ISettlementBuilding {
                 if ((state.getBlock() instanceof BlockBed) && (state.getValue(BlockBed.PART) == BlockBed.EnumPartType.HEAD)) {
                     this.beds.add(new BlockPos(pos));
                 }
-                if (tile != null && (tile instanceof IInventory)) {
-                    this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
+                if(tile != null) {
+                    if (tile instanceof IInventory) {
+                        this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
+                    }
+                    //TODO: IItemHandler support
                 }
             }
             this.building().onBuildingCompleted(this);
