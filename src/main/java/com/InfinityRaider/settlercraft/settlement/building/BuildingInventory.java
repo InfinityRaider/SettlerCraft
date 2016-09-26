@@ -3,6 +3,7 @@ package com.InfinityRaider.settlercraft.settlement.building;
 import com.InfinityRaider.settlercraft.api.v1.IInventoryBuilding;
 import com.InfinityRaider.settlercraft.api.v1.ISettlementBuilding;
 import com.InfinityRaider.settlercraft.reference.Names;
+import com.infinityraider.infinitylib.utility.inventory.IInventorySerializableItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ import net.minecraft.util.text.translation.I18n;
 
 import java.util.*;
 
-public class BuildingInventory implements IInventoryBuilding {
+public class BuildingInventory implements IInventoryBuilding, IInventorySerializableItemHandler {
     private ISettlementBuilding building;
 
     private int size;
@@ -171,20 +172,34 @@ public class BuildingInventory implements IInventoryBuilding {
 
     @Override
     public NBTTagCompound writeToNBT() {
+        return this.writeInventoryToNBT(new NBTTagCompound());
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        this.readInventoryFromNBT(tag);
+    }
+
+    @Override
+    public ISettlementBuilding getBuilding() {
+        return this.building;
+    }
+
+    @Override
+    public NBTTagCompound writeInventoryToNBT(NBTTagCompound tag) {
         NBTTagList tagList = new NBTTagList();
         for (IInventory inventory : inventories) {
             BlockPos pos = this.getPositionForInventory(inventory);
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setIntArray(Names.NBT.INVENTORY, new int[]{pos.getX(), pos.getY(), pos.getZ()});
-            tagList.appendTag(tag);
+            NBTTagCompound subTag = new NBTTagCompound();
+            subTag.setIntArray(Names.NBT.INVENTORY, new int[]{pos.getX(), pos.getY(), pos.getZ()});
+            tagList.appendTag(subTag);
         }
-        NBTTagCompound tag = new NBTTagCompound();
         tag.setTag(Names.NBT.INVENTORY, tagList);
         return tag;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public NBTTagCompound readInventoryFromNBT(NBTTagCompound tag) {
         this.reset();
         NBTTagList list = tag.hasKey(Names.NBT.INVENTORY) ? tag.getTagList(Names.NBT.INVENTORY, 10) : null;
         if(list != null) {
@@ -208,10 +223,6 @@ public class BuildingInventory implements IInventoryBuilding {
                 this.inventoryToPos.put(inventory, pos);
             }
         }
-    }
-
-    @Override
-    public ISettlementBuilding getBuilding() {
-        return this.building;
+        return tag;
     }
 }

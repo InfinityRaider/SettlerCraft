@@ -49,11 +49,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.*;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -1592,6 +1594,20 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         super.applyEnchantments(entityLivingBaseIn, entityIn);
     }
 
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) this.getSettlerInventory();
+        } else {
+            return super.getCapability(capability, facing);
+        }
+    }
 
     /**
      * Render factory
