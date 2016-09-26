@@ -22,7 +22,6 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -69,7 +68,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Byte> DATA_CLIMBING = EntityDataManager.createKey(EntitySpider.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> DATA_CLIMBING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BYTE);
 
     public static final IAttribute ATTRIBUTE_REACH = new RangedAttribute(null, "settlercraft:settler.reach", 4.5, 2, 8);
 
@@ -219,7 +218,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             //used for climbing logic
             this.setBesideClimbableBlock(this.isCollidedHorizontally);
         }
-        //TODO: copy position data to the wrapped player
+        this.getFakePlayerImplementation().copyFieldsFromSettler();
     }
 
     @Override
@@ -376,17 +375,17 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public IInventorySettler getSettlerInventory() {
+    public InventorySettler getSettlerInventory() {
         return this.inventory;
     }
 
     @Override
-    public EntityAgeable getEntityImplementation() {
+    public EntitySettler getEntityImplementation() {
         return this;
     }
 
     @Override
-    public EntityPlayer getFakePlayerImplementation() {
+    public EntityPlayerWrappedSettler getFakePlayerImplementation() {
         return fakePlayer;
     }
 
