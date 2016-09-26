@@ -5,12 +5,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
 public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
-    private final int slot;
+    private int slot;
     private final int priority;
     private final int usageTicks;
 
+    private boolean swapping;
     private ItemStack activeStack;
-    private ItemStack useStack;
 
     private int tickCounter;
 
@@ -25,7 +25,6 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
         this.usageTicks = usageTicks;
         this.tickCounter = 0;
         this.activeStack = getSettler().getSettlerInventory().getStackInSlot(0);
-        this.useStack = getSettler().getSettlerInventory().getStackInSlot(this.slot);
     }
 
     @Override
@@ -70,9 +69,11 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
     }
 
     private void swapAndReset() {
+        this.swapping = true;
         if(slot != 0) {
             getSettler().getSettlerInventory().switchStacksInSlots(0, slot);
         }
+        this.swapping = false;
         resetTimer();
     }
 
@@ -82,36 +83,38 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
 
     @Override
     public void onSettlerInventorySlotChanged(int slot, ItemStack stack) {
+        if(!this.swapping) {
+            //Potentially not thread safe, find something better
+            return;
+        }
         if(this.isInterrupted() || this.isCancelled()) {
             //previous active item should be in slot '0'
             //item to use should be in slot 'slot'
+            if(slot == this.slot) {
+                if(!isSameItem(stack, this.activeStack)) {
+                    int index = this.getSettler().getSettlerInventory().getSlotForStack(this.activeStack);
+                    if(index >= 0) {
+                        this.slot = index;
+                    } else {
+                        this.getSettler().cancelTask(this);
+                    }
+                }
+            }
         } else {
             //previous active item is in slot '0'
             //item to use is in slot 'slot'
-        }
-        /*
-        if(slot == 0) {
-            if(this.isInterrupted() || this.isCancelled()) {
-                if(!this.isSameItem(stack, this.activeStack)) {
-                    this.getSettler().cancelTask(this);
-                }
-            } else {
-                if(!this.isSameItem(stack, this.useStack)) {
-                    this.getSettler().cancelTask(this);
-                }
-            }
-        } else if(slot == this.slot) {
-            if(this.isInterrupted() || this.isCancelled()) {
-                if(!this.isSameItem(stack, this.useStack)) {
-                    this.getSettler().cancelTask(this);
-                }
-            } else {
-                if(!this.isSameItem(stack, this.activeStack)) {
-                    this.getSettler().cancelTask(this);
+            if(slot == 0) {
+                if(!isSameItem(stack, this.activeStack)) {
+                    int index = this.getSettler().getSettlerInventory().getSlotForStack(this.activeStack);
+                    if(index >= 0) {
+                        this.slot = index;
+                        this.swapAndReset();
+                    } else {
+                        this.getSettler().cancelTask(this);
+                    }
                 }
             }
         }
-        */
     }
 
     protected boolean isSameItem(ItemStack a, ItemStack b) {

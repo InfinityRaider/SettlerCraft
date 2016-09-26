@@ -7,9 +7,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.util.List;
 
 public class TaskDummy extends TaskBase {
-    public TaskDummy(String taskName, ISettler settler) {
+    private final int priority;
+
+    public TaskDummy(int priority, String taskName, ISettler settler) {
         super(taskName, settler);
+        this.priority = priority;
     }
+
+    @Override
+    public int priority() {
+        return this.priority;
+    }
+
 
     @Override
     public void onTaskStarted() {

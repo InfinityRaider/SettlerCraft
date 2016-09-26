@@ -22,6 +22,11 @@ public abstract class TaskWithParentBase<T extends ITask> extends TaskBase {
     }
 
     @Override
+    public int priority() {
+        return this.getParentTask().priority();
+    }
+
+    @Override
     public List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player) {
         List<IDialogueOption> list = new ArrayList<>();
         list.addAll(getParentTask().getTaskSpecificDialogueOptions(player));
