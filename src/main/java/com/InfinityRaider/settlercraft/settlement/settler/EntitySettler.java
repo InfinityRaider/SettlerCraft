@@ -88,6 +88,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private EntityAIAimAtTarget aimAI;
     private EntityAISettler settlerAI;
 
+    private ISettlerActionTarget target;
+
     private FoodStats foodStats;
     private CooldownTracker cooldownTracker;
     private Optional<IMissingResource> missingResource;

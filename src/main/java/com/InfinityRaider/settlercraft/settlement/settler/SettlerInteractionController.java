@@ -25,6 +25,9 @@ import net.minecraftforge.event.ForgeEventFactory;
 public class SettlerInteractionController {
     private final EntitySettler settler;
 
+    private BlockPos blockTarget;
+    private Entity entityTarget;
+
     private boolean rightClickThisTick = false;
     private boolean leftClickThisTick = false;
 
