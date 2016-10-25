@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.api.v1.IItemBuildingPlanner;
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftItemRegistry;
 import com.InfinityRaider.settlercraft.item.*;
 import com.InfinityRaider.settlercraft.reference.Reference;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -48,12 +47,6 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
 
         itemBuildingPlanner = new ItemBuildingPlanner();
         settlerCraftItems.add(itemBuildingPlanner);
-
-
-        LogHelper.debug("Registered items:");
-        for(Item item : settlerCraftItems()) {
-            LogHelper.debug(" - " + item.getRegistryName());
-        }
     }
 
     @Override

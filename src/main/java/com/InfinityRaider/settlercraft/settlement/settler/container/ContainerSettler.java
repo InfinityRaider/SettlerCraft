@@ -1,9 +1,9 @@
 package com.InfinityRaider.settlercraft.settlement.settler.container;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.handler.PlayerTickHandler;
 import com.InfinityRaider.settlercraft.network.MessageCloseContainer;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -29,7 +29,7 @@ public abstract class ContainerSettler extends Container {
         //Really important to close container from client side, else weird bugs happen
         if(!player.worldObj.isRemote) {
             if(player instanceof EntityPlayerMP) {
-                NetworkWrapper.getInstance().sendTo(new MessageCloseContainer(), (EntityPlayerMP) player);
+                SettlerCraft.instance.getNetworkWrapper().sendTo(new MessageCloseContainer(), (EntityPlayerMP) player);
             }
         } else {
             player.closeScreen();

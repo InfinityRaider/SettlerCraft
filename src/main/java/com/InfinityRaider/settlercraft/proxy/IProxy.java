@@ -25,10 +25,15 @@ public interface IProxy extends IProxyBase {
         BuildingTypeRegistry.getInstance().postInit();
     }
 
+    @Override
     default void initConfiguration(FMLPreInitializationEvent event) {
         ConfigurationHandler.getInstance().init(event);
     }
 
+    @Override
+    default void registerCapabilities() {}
+
+    @Override
     default void registerEventHandlers() {
         registerEventHandler(BlockEventHandler.getInstance());
         registerEventHandler(PlayerTickHandler.getInstance());

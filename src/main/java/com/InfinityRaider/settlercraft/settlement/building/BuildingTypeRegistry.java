@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.building;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IBuilding;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingType;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingTypeRegistry;
@@ -15,7 +16,6 @@ import com.InfinityRaider.settlercraft.settlement.building.utility.BuildingTypeU
 import com.InfinityRaider.settlercraft.settlement.building.wall.BuildingTypeWall;
 import com.InfinityRaider.settlercraft.settlement.building.warehouse.BuildingTypeWareHouse;
 import com.InfinityRaider.settlercraft.settlement.building.workshop.BuildingTypeWorkshop;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 
 import java.lang.reflect.Field;
@@ -171,7 +171,7 @@ public final class BuildingTypeRegistry implements IBuildingTypeRegistry {
                     IBuildingType type = (IBuildingType) field.get(this);
                     TYPES.put(type.name(), type);
                 } catch (IllegalAccessException e) {
-                    LogHelper.printStackTrace(e);
+                    SettlerCraft.instance.getLogger().printStackTrace(e);
                 }
             }
         }

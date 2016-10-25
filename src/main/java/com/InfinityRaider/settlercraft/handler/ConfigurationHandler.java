@@ -1,7 +1,7 @@
 package com.InfinityRaider.settlercraft.handler;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.utility.BiomeHelper;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -38,7 +38,7 @@ public class ConfigurationHandler {
         if(config.hasChanged()) {
             config.save();
         }
-        LogHelper.debug("Configuration Loaded");
+        SettlerCraft.instance.getLogger().debug("Configuration Loaded");
     }
 
     @SideOnly(Side.CLIENT)
@@ -50,7 +50,7 @@ public class ConfigurationHandler {
         if(config.hasChanged()) {
             config.save();
         }
-        LogHelper.debug("Client configuration Loaded");
+        SettlerCraft.instance.getLogger().debug("Client configuration Loaded");
     }
 
     private void loadConfiguration() {
