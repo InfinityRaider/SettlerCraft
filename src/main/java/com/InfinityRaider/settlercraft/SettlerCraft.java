@@ -11,7 +11,6 @@ import com.infinityraider.infinitylib.network.INetworkWrapper;
 import com.infinityraider.infinitylib.proxy.base.IProxyBase;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
 
 @Mod(
         modid = Reference.MOD_ID,
@@ -62,23 +61,5 @@ public class SettlerCraft extends InfinityMod {
         wrapper.registerMessage(MessageSyncBuildingsToClient.class);
         wrapper.registerMessage(MessageSyncDialogueText.class);
         wrapper.registerMessage(MessageSyncSettlementsToClient.class);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void onPreInit(FMLPreInitializationEvent event) {
-        super.preInit(event);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void onInit(FMLInitializationEvent event) {
-        super.init(event);
-    }
-
-    @Mod.EventHandler
-    @SuppressWarnings("unused")
-    public void onPostInit(FMLPostInitializationEvent event) {
-        super.postInit(event);
     }
 }
