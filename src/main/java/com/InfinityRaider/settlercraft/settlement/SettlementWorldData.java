@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
@@ -88,8 +87,7 @@ public class SettlementWorldData extends WorldSavedData {
 
     public void syncSettlementToClient(ISettlement settlement) {
         if(!getWorld().isRemote) {
-            MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(settlement);
-            SettlerCraft.instance.getNetworkWrapper().sendToDimension(msg, this.getWorld());
+            new MessageSyncSettlementsToClient(settlement).sendToDimension(this.getWorld());
         }
     }
 

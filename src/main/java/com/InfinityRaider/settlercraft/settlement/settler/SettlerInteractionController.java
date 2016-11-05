@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.network.MessageSettlerInteractWithEntity;
 import com.InfinityRaider.settlercraft.network.MessageSettlerRightClickAir;
 import com.InfinityRaider.settlercraft.network.MessageSettlerRightClickItem;
@@ -89,13 +88,13 @@ public class SettlerInteractionController {
                         case ENTITY:
                             //handle right clicking the entity for the entity
                             Vec3d dir = target.hitVec.subtract(target.entityHit.getPositionVector());
-                            SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerInteractWithEntity(getSettler(), target.entityHit, hand, dir));
+                            new MessageSettlerInteractWithEntity(getSettler(), target.entityHit, hand, dir).sendToAll();
                             EnumActionResult resultInteract = this.interactWithEntity(target.entityHit, dir, this.getSettler().getHeldItem(hand), hand);
                             if (resultInteract == EnumActionResult.SUCCESS) {
                                 return;
                             }
                             //handle right clicking the entity for the settler
-                            SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerInteractWithEntity(getSettler(), target.entityHit, hand));
+                            new MessageSettlerInteractWithEntity(getSettler(), target.entityHit, hand).sendToAll();
                             if (this.interactWithEntity(target.entityHit, this.getSettler().getHeldItem(hand), hand) == EnumActionResult.SUCCESS) {
                                 return;
                             }
@@ -120,9 +119,9 @@ public class SettlerInteractionController {
                     }
                 }
                 ItemStack updatedStack = this.getSettler().getHeldItem(hand);
-                SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerRightClickItem(getSettler(), hand));
+                new MessageSettlerRightClickItem(getSettler(), hand).sendToAll();
                 if (updatedStack == null && (target == null || target.typeOfHit == RayTraceResult.Type.MISS)) {
-                    SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerRightClickAir(getSettler(), hand));
+                    new MessageSettlerRightClickAir(getSettler(), hand).sendToAll();
                 }
                 EnumActionResult result = this.processRightClick(updatedStack, hand);
                 if (updatedStack != null && result == EnumActionResult.SUCCESS) {

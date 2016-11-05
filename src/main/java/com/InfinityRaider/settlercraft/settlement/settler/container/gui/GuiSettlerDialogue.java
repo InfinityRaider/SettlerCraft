@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement.settler.container.gui;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.network.MessageDialogueOptionSelected;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettlerDialogue;
@@ -146,7 +145,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
         if(this.options != null) {
             for (GuiComponent<List<ITextComponent>> component : options) {
                 if (component.isOverComponent(mouseX, mouseY)) {
-                    SettlerCraft.instance.getNetworkWrapper().sendToServer(new MessageDialogueOptionSelected(component.getIndex()));
+                    new MessageDialogueOptionSelected(component.getIndex()).sendToServer();
                     this.initGui();
                     return;
                 }

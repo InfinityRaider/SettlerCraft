@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.handler;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.network.MessageSettlerSleeping;
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import net.minecraft.block.BlockBed;
@@ -44,7 +43,7 @@ public class SleepHandler {
             list.add(head);
         }
         if(!world.isRemote) {
-            SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerSleeping(settler, pos, true));
+            new MessageSettlerSleeping(settler, pos, true).sendToAll();
         }
         return true;
     }
@@ -56,7 +55,7 @@ public class SleepHandler {
         BlockPos pos = settler.getPosition();
         occupiedBeds.get(settler.getWorld()).remove(pos);
         if(!settler.getWorld().isRemote) {
-            SettlerCraft.instance.getNetworkWrapper().sendToAll(new MessageSettlerSleeping(settler, pos, false));
+            new MessageSettlerSleeping(settler, pos, false).sendToAll();
         }
     }
 

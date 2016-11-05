@@ -1,6 +1,5 @@
 package com.InfinityRaider.settlercraft.settlement;
 
-import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IBuildingStyle;
 import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
@@ -46,22 +45,19 @@ public class SettlementHandlerServer extends SettlementHandler {
         int z = (int) player.posZ;
         ISettlement settlement =  getSettlementData(world).getNewSettlement(
                 world, player, new BlockPos(x, y, z), player.getDisplayName().getFormattedText() + "'s Settlement", style);
-        MessageSyncSettlementsToClient message = new MessageSyncSettlementsToClient(settlement);
-        SettlerCraft.instance.getNetworkWrapper().sendToDimension(message, world);
+        new MessageSyncSettlementsToClient(settlement).sendToDimension(world);
         return settlement;
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onPlayerJoined(PlayerEvent.PlayerLoggedInEvent event) {
-        MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
-        SettlerCraft.instance.getNetworkWrapper().sendTo(msg, (EntityPlayerMP) event.player);
+        new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld())).sendTo((EntityPlayerMP) event.player);
     }
 
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void onPlayerDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
-        MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld()));
-        SettlerCraft.instance.getNetworkWrapper().sendTo(msg, (EntityPlayerMP) event.player);
+        new MessageSyncSettlementsToClient(this.getSettlementsForWorld(event.player.getEntityWorld())).sendTo((EntityPlayerMP) event.player);
     }
 }

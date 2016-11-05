@@ -1,14 +1,14 @@
 package com.InfinityRaider.settlercraft.network;
 
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
-import io.netty.buffer.ByteBuf;
+import com.infinityraider.infinitylib.network.MessageBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class MessageSettlerRightClickItem extends MessageBaseSettler<IMessage> {
+public class MessageSettlerRightClickItem extends MessageBase<IMessage> {
     private EntitySettler settler;
     private EnumHand hand;
 
@@ -29,7 +29,7 @@ public class MessageSettlerRightClickItem extends MessageBaseSettler<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(ctx.side == Side.CLIENT && settler != null) {
+        if(settler != null) {
             ItemStack stack = settler.getHeldItem(hand);
             if(stack != null) {
                 settler.getInteractionController().processRightClick(stack, hand);
@@ -40,17 +40,5 @@ public class MessageSettlerRightClickItem extends MessageBaseSettler<IMessage> {
     @Override
     protected IMessage getReply(MessageContext ctx) {
         return null;
-    }
-
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        this.settler = this.readSettlerFromByteBuf(buf);
-        this.hand = EnumHand.values()[buf.readInt()];
-    }
-
-    @Override
-    public void toBytes(ByteBuf buf) {
-        this.writeSettlerToByteBuf(buf, settler);
-        buf.writeInt(hand.ordinal());
     }
 }

@@ -338,8 +338,7 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public void syncToClient() {
-        MessageSyncBuildingsToClient msg = new MessageSyncBuildingsToClient(this);
-        SettlerCraft.instance.getNetworkWrapper().sendToDimension(msg, this.getWorld());
+        new MessageSyncBuildingsToClient(this).sendToDimension(this.getWorld());
     }
 
     @Override
