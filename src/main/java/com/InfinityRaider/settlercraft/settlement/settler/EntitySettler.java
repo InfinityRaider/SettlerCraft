@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
+import com.InfinityRaider.settlercraft.settlement.settler.interaction.SettlerInteractionController;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -85,7 +86,6 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private InventorySettler inventory;
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
-    private EntityAIAimAtTarget aimAI;
     private EntityAISettler settlerAI;
 
     private ISettlerActionTarget target;
@@ -169,7 +169,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         aiMoveTowardsRestriction.setMutexBits(1);
         this.tasks.addTask(6, aiMoveTowardsRestriction);
 
-        this.aimAI = new EntityAIAimAtTarget(this);
+        EntityAIAimAtTarget aimAI = new EntityAIAimAtTarget(this);
         aimAI.setMutexBits(8);
         this.tasks.addTask(7, aimAI);
 
@@ -448,19 +448,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public ISettler setLookTarget(Vec3d target) {
+    public ISettler setLookTarget(ISettlerActionTarget target) {
         if(!getWorld().isRemote) {
-            this.aimAI.setTarget(target);
+            this.target = target;
         }
         return this;
     }
 
     @Override
-    public Vec3d getLookTarget() {
-        if(!getWorld().isRemote) {
-            return this.aimAI.getTarget();
-        }
-        return null;
+    public ISettlerActionTarget getLookTarget() {
+        return this.target;
     }
 
     @Override
@@ -620,6 +617,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         return this.foodStats;
     }
 
+    @Override
     public boolean canEat(boolean ignoreHunger) {
         return (ignoreHunger || this.foodStats.needFood());
     }
@@ -630,16 +628,30 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void useLeftClick() {
-        if(!getWorld().isRemote) {
-            getInteractionController().leftClick();
+    public void interactWithItem(EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithItem(hand, leftClick, sneak, usageTicks);
         }
     }
 
     @Override
-    public void useRightClick() {
-        if(!getWorld().isRemote) {
-            getInteractionController().rightClick();
+    public void interactWithBlock(BlockPos target, EnumFacing side, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithBlock(target, side, hit, hand, leftClick, sneak, usageTicks);
+        }
+    }
+
+    @Override
+    public void interactWithEntity(Entity target, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithEntity(target, hit, hand, leftClick, sneak, usageTicks);
+        }
+    }
+
+    @Override
+    public void cancelInteraction() {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().cancelInteraction();
         }
     }
 

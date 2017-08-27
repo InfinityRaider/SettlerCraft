@@ -2483,12 +2483,12 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public ISettler setLookTarget(Vec3d target) {
+    public ISettler setLookTarget(ISettlerActionTarget target) {
         return getSettler().setLookTarget(target);
     }
 
     @Override
-    public Vec3d getLookTarget() {
+    public ISettlerActionTarget getLookTarget() {
         return getSettler().getLookTarget();
     }
 
@@ -2568,12 +2568,22 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public void useLeftClick() {
-        getSettler().useLeftClick();
+    public void interactWithItem(EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithItem(hand, leftClick, sneak, usageTicks);
     }
 
     @Override
-    public void useRightClick() {
-        getSettler().useRightClick();
+    public void interactWithBlock(BlockPos target, EnumFacing side, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithBlock(target, side, hit, hand, leftClick, sneak, usageTicks);
+    }
+
+    @Override
+    public void interactWithEntity(Entity target, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithEntity(target, hit, hand, leftClick, sneak, usageTicks);
+    }
+
+    @Override
+    public void cancelInteraction() {
+        getSettler().cancelInteraction();
     }
 }

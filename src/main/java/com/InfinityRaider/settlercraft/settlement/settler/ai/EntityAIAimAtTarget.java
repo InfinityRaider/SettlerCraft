@@ -1,29 +1,20 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai;
 
+import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.math.Vec3d;
 
 public class EntityAIAimAtTarget extends EntityAIBase {
-    private final EntityLiving entity;
+    private final ISettler settler;
 
-    private Vec3d target;
-
-    public EntityAIAimAtTarget(EntityLiving entity) {
-        this.entity = entity;
+    public EntityAIAimAtTarget(ISettler entity) {
+        this.settler = entity;
         this.setMutexBits(4);
     }
 
     public EntityLiving getEntity() {
-        return this.entity;
-    }
-
-    public void setTarget(Vec3d target) {
-        this.target = target;
-    }
-
-    public Vec3d getTarget() {
-        return this.target;
+        return this.settler.getEntityImplementation();
     }
 
     /**
@@ -31,7 +22,7 @@ public class EntityAIAimAtTarget extends EntityAIBase {
      */
     @Override
     public boolean shouldExecute() {
-        return target != null;
+        return settler.getLookTarget() != null;
     }
 
     /**
@@ -67,10 +58,11 @@ public class EntityAIAimAtTarget extends EntityAIBase {
      */
     @Override
     public void updateTask() {
-        if (this.getTarget() == null) {
+        if (this.settler.getLookTarget() == null) {
             return;
         }
-        this.getEntity().getLookHelper().setLookPosition(this.getTarget().xCoord, this.getTarget().yCoord, this.getTarget().zCoord,
+        Vec3d target = this.settler.getLookTarget().getTarget(this.settler);
+        this.getEntity().getLookHelper().setLookPosition(target.xCoord, target.yCoord, target.zCoord,
                 (float) this.getEntity().getHorizontalFaceSpeed(), (float) this.getEntity().getVerticalFaceSpeed());
     }
 }

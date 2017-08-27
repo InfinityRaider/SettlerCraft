@@ -55,6 +55,7 @@ public class SettlerCraft extends InfinityMod {
         wrapper.registerMessage(MessageCloseContainer.class);
         wrapper.registerMessage(MessageDialogueOptionSelected.class);
         wrapper.registerMessage(MessageSettlerInteractWithEntity.class);
+        wrapper.registerMessage(MessageSettlerLeftClickEntity.class);
         wrapper.registerMessage(MessageSettlerRightClickAir.class);
         wrapper.registerMessage(MessageSettlerRightClickItem.class);
         wrapper.registerMessage(MessageSettlerSleeping.class);
