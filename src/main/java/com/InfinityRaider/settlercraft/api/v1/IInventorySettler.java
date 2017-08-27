@@ -10,10 +10,9 @@ import java.util.Map;
 /**
  * Interface for the settler's inventory, this is used to interact with the settler's inventory and should not be implemented by you
  * A settler's inventory consists of the following slots:
- *  - 1 main hand slot (id: 0)
- *  - 1 off hand slot (id: 1)
- *  - 4 armor slots (ids: 2 - 5)
- *  - 36 inventory slots (ids: 6 - 41)
+ *  - 36 inventory slots (ids: 0 - 35)
+ *  - 1 off hand slot (id: 36)
+ *  - 4 armor slots (ids: 37 - 40)
  */
 public interface IInventorySettler extends IInventorySerializable {
     /**

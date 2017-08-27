@@ -1,31 +1,30 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
-import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
-import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Collections;
-import java.util.List;
-
-public class TaskUseItem extends TaskBase {
-    private final int slot;
+public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
+    private int slot;
     private final int priority;
     private final int usageTicks;
 
+    private boolean swapping;
+    private ItemStack activeStack;
+
     private int tickCounter;
 
-    public TaskUseItem(String taskName, ISettler settler, int slot, int priority) {
-        this(taskName, settler, slot, priority, 0);
+    public TaskUseItem(T task, int slot, int priority) {
+        this(task, slot, priority, 0);
     }
 
-    public TaskUseItem(String taskName, ISettler settler, int slot, int priority, int usageTicks) {
-        super(taskName, settler);
-        this.slot = MathHelper.clamp_int(slot, 0, settler.getSettlerInventory().getSizeInventory());
+    public TaskUseItem(T task, int slot, int priority, int usageTicks) {
+        super(task);
+        this.slot = MathHelper.clamp_int(slot, 0, this.getSettler().getSettlerInventory().getSizeInventory());
         this.priority = priority;
         this.usageTicks = usageTicks;
         this.tickCounter = 0;
+        this.activeStack = getSettler().getSettlerInventory().getStackInSlot(0);
     }
 
     @Override
@@ -34,18 +33,18 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    public void startTask() {
+    public void onTaskStarted() {
         this.swapAndReset();
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
         this.getSettler().useRightClick();
         this.tickCounter++;
     }
 
     @Override
-    public void cancelTask() {
+    public void onTaskCancel() {
         this.swapAndReset();
     }
 
@@ -60,28 +59,65 @@ public class TaskUseItem extends TaskBase {
     }
 
     @Override
-    protected void onTaskInterrupted(ITask interrupt) {
+    protected void onTaskInterrupt(ITask interrupt) {
         this.swapAndReset();
     }
 
     @Override
-    protected void onTaskResumed() {
+    protected void onTaskResume() {
         this.swapAndReset();
-    }
-
-    @Override
-    public List<IDialogueOption> getTaskSpecificDialogueOptions(EntityPlayer player) {
-        return Collections.emptyList();
     }
 
     private void swapAndReset() {
+        this.swapping = true;
         if(slot != 0) {
             getSettler().getSettlerInventory().switchStacksInSlots(0, slot);
         }
+        this.swapping = false;
         resetTimer();
     }
 
     protected void resetTimer() {
         this.tickCounter = 0;
+    }
+
+    @Override
+    public void onSettlerInventorySlotChanged(int slot, ItemStack stack) {
+        if(!this.swapping) {
+            //Potentially not thread safe, find something better
+            return;
+        }
+        if(this.isInterrupted() || this.isCancelled()) {
+            //previous active item should be in slot '0'
+            //item to use should be in slot 'slot'
+            if(slot == this.slot) {
+                if(!isSameItem(stack, this.activeStack)) {
+                    int index = this.getSettler().getSettlerInventory().getSlotForStack(this.activeStack);
+                    if(index >= 0) {
+                        this.slot = index;
+                    } else {
+                        this.getSettler().cancelTask(this);
+                    }
+                }
+            }
+        } else {
+            //previous active item is in slot '0'
+            //item to use is in slot 'slot'
+            if(slot == 0) {
+                if(!isSameItem(stack, this.activeStack)) {
+                    int index = this.getSettler().getSettlerInventory().getSlotForStack(this.activeStack);
+                    if(index >= 0) {
+                        this.slot = index;
+                        this.swapAndReset();
+                    } else {
+                        this.getSettler().cancelTask(this);
+                    }
+                }
+            }
+        }
+    }
+
+    protected boolean isSameItem(ItemStack a, ItemStack b) {
+        return ItemStack.areItemsEqual(a, b) && ItemStack.areItemStackTagsEqual(a, b);
     }
 }

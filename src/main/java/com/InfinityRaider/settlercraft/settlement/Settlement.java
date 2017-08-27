@@ -1,11 +1,11 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingStyleRegistry;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingTypeRegistry;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.google.common.collect.ImmutableList;
@@ -116,7 +116,7 @@ public class Settlement implements ISettlement {
 
     @Override
     public ISettlementBuilding getBuildingFromId(int id) {
-        return buildings.get(id);
+        return id < 0 || id >= buildings.size() ? null : buildings.get(id);
     }
 
     @Override
@@ -202,7 +202,7 @@ public class Settlement implements ISettlement {
         try {
             schematic = SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building, this.getBuildingStyle()));
         } catch (IOException e) {
-            LogHelper.printStackTrace(e);
+            SettlerCraft.instance.getLogger().printStackTrace(e);
             return null;
         }
         IBoundingBox box = schematic.getBoundingBox(pos, rotation);

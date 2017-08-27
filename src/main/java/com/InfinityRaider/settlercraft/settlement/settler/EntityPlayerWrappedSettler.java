@@ -61,6 +61,7 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
         this.profile = super.getGameProfile();
         //set this object's data manager to be the same as the settler's data manager
         this.dataManager = getSettler().getDataManager();
+        this.inventory = getSettler().getSettlerInventory();
     }
 
     public EntitySettler getSettler() {
@@ -75,6 +76,92 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     @Override
     protected void entityInit() {
         //not relevant
+    }
+
+    protected void copyFieldsFromSettler() {
+        this.preventEntitySpawning = getSettler().preventEntitySpawning;
+        this.forceSpawn = getSettler().forceSpawn;
+        this.worldObj = getSettler().worldObj;
+        this.posX = getSettler().posX;
+        this.posY = getSettler().posY;
+        this.posZ = getSettler().posZ;
+        this.prevPosX = getSettler().prevPosX;
+        this.prevPosY = getSettler().prevPosY;
+        this.prevPosZ = getSettler().prevPosZ;
+        this.motionX = getSettler().motionX;
+        this.motionY = getSettler().motionY;
+        this.motionZ = getSettler().motionZ;
+        this.onGround = getSettler().onGround;
+        this.isCollidedHorizontally = getSettler().isCollidedHorizontally;
+        this.isCollidedVertically = getSettler().isCollidedVertically;
+        this.isCollided = getSettler().isCollided;
+        this.velocityChanged = getSettler().velocityChanged;
+        this.isDead = getSettler().isDead;
+        this.width = getSettler().width;
+        this.height = getSettler().height;
+        this.prevDistanceWalkedModified = getSettler().prevDistanceWalkedModified;
+        this.distanceWalkedModified = getSettler().distanceWalkedModified;
+        this.distanceWalkedOnStepModified = getSettler().distanceWalkedOnStepModified;
+        this.fallDistance = getSettler().fallDistance;
+        this.lastTickPosX = getSettler().lastTickPosX;
+        this.lastTickPosY = getSettler().lastTickPosY;
+        this.lastTickPosZ = getSettler().lastTickPosZ;
+        this.stepHeight = getSettler().stepHeight;
+        this.noClip = getSettler().noClip;
+        this.entityCollisionReduction = getSettler().entityCollisionReduction;
+        this.ticksExisted = getSettler().ticksExisted;
+        this.fireResistance = getSettler().fireResistance;
+        this.hurtResistantTime = getSettler().hurtResistantTime;
+        this.addedToChunk = getSettler().addedToChunk;
+        this.chunkCoordX = getSettler().chunkCoordX;
+        this.chunkCoordY = getSettler().chunkCoordY;
+        this.chunkCoordZ = getSettler().chunkCoordZ;
+        this.ignoreFrustumCheck = getSettler().ignoreFrustumCheck;
+        this.isAirBorne = getSettler().isAirBorne;
+        this.timeUntilPortal = getSettler().timeUntilPortal;
+        this.dimension = getSettler().dimension;
+        this.rotationPitch = getSettler().rotationPitch;
+        this.rotationYaw = getSettler().rotationYaw;
+        this.prevRotationPitch = getSettler().prevRotationPitch;
+        this.prevRotationYaw = getSettler().prevRotationYaw;
+        this.isSwingInProgress = getSettler().isSwingInProgress;
+        this.swingingHand = getSettler().swingingHand;
+        this.swingProgressInt = getSettler().swingProgressInt;
+        this.arrowHitTimer = getSettler().arrowHitTimer;
+        this.hurtTime = getSettler().hurtTime;
+        this.maxHurtTime = getSettler().maxHurtTime;
+        this.attackedAtYaw = getSettler().attackedAtYaw;
+        this.deathTime = getSettler().deathTime;
+        this.prevSwingProgress = getSettler().prevSwingProgress;
+        this.swingProgress = getSettler().swingProgress;
+        this.prevLimbSwingAmount = getSettler().prevLimbSwingAmount;
+        this.limbSwingAmount = getSettler().limbSwingAmount;
+        this.limbSwing = getSettler().limbSwing;
+        this.maxHurtResistantTime = getSettler().maxHurtResistantTime;
+        this.prevCameraPitch = getSettler().prevCameraPitch;
+        this.cameraPitch = getSettler().cameraPitch;
+        this.randomUnused2 = getSettler().randomUnused2;
+        this.randomUnused1 = getSettler().randomUnused1;
+        this.renderYawOffset = getSettler().renderYawOffset;
+        this.prevRenderYawOffset = getSettler().prevRenderYawOffset;
+        this.rotationYawHead = getSettler().rotationYawHead;
+        this.prevRotationYawHead = getSettler().prevRotationYawHead;
+        this.jumpMovementFactor = getSettler().jumpMovementFactor;
+        this.moveStrafing = getSettler().moveStrafing;
+        this.moveForward = getSettler().moveForward;
+        this.randomYawVelocity = getSettler().randomYawVelocity;
+        this.eyeHeight = getEyeHeight();
+        this.inventory.currentItem = 0;
+        if(this.getEntityWorld().isRemote) {
+            this.copyFieldsFromSettlerClient();
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    protected void copyFieldsFromSettlerClient() {
+        this.serverPosX = getSettler().serverPosX;
+        this.serverPosY = getSettler().serverPosY;
+        this.serverPosZ = getSettler().serverPosZ;
     }
 
     @Override
@@ -2396,12 +2483,12 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public ISettler setLookTarget(Vec3d target) {
+    public ISettler setLookTarget(ISettlerActionTarget target) {
         return getSettler().setLookTarget(target);
     }
 
     @Override
-    public Vec3d getLookTarget() {
+    public ISettlerActionTarget getLookTarget() {
         return getSettler().getLookTarget();
     }
 
@@ -2481,12 +2568,22 @@ public class EntityPlayerWrappedSettler extends EntityPlayer implements ISettler
     }
 
     @Override
-    public void useLeftClick() {
-        getSettler().useLeftClick();
+    public void interactWithItem(EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithItem(hand, leftClick, sneak, usageTicks);
     }
 
     @Override
-    public void useRightClick() {
-        getSettler().useRightClick();
+    public void interactWithBlock(BlockPos target, EnumFacing side, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithBlock(target, side, hit, hand, leftClick, sneak, usageTicks);
+    }
+
+    @Override
+    public void interactWithEntity(Entity target, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        getSettler().interactWithEntity(target, hit, hand, leftClick, sneak, usageTicks);
+    }
+
+    @Override
+    public void cancelInteraction() {
+        getSettler().cancelInteraction();
     }
 }

@@ -4,7 +4,6 @@ import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.network.MessageSyncDialogueText;
 import com.InfinityRaider.settlercraft.settlement.settler.dialogue.DialogueOptionDefault;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
@@ -52,7 +51,7 @@ public class ContainerSettlerDialogue extends ContainerSettler {
                 current = new DialogueOptionDefault(getPlayer(), getSettler());
             }
             dialogueOptions = current.getDialogueOptions(getPlayer(), getSettler());
-            NetworkWrapper.getInstance().sendTo(new MessageSyncDialogueText(this), (EntityPlayerMP) getPlayer());
+            new MessageSyncDialogueText(this).sendTo((EntityPlayerMP) getPlayer());
         }
     }
 }

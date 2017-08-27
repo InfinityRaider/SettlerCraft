@@ -1,12 +1,11 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.FoodStats;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -177,16 +176,16 @@ public interface ISettler extends INpc {
     IAttributeInstance getInteractionRangeAttribute();
 
     /**
-     * Sets the settlers look target, the settler will move towards this point and look at it
+     * Sets the settlers look target, the settler will look at this point
      * @param target the target object to look at, pass null to clear the look target
      * @return this
      */
-    ISettler setLookTarget(Vec3d target);
+    ISettler setLookTarget(ISettlerActionTarget target);
 
     /**
-     * @return the settler's current look target
+     * @return the point the settler is currently looking at
      */
-    Vec3d getLookTarget();
+    ISettlerActionTarget getLookTarget();
 
     /***
      * Commands the settler to follow a player, a settler can only follow one player at a time.
@@ -309,13 +308,13 @@ public interface ISettler extends INpc {
      * Call this method to make the settler left click this tick
      * Calling this method over consecutive ticks will mimic holding down the left mouse button
      */
-    void useLeftClick();
+    void interactWithItem(EnumHand hand, boolean leftClick, boolean sneak, int usageTicks);
 
-    /**
-     * Call this method to make the settler right click this tick
-     * Calling this method over consecutive ticks will mimic holding down the right mouse button
-     */
-    void useRightClick();
+    void interactWithBlock(BlockPos target, EnumFacing side, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks);
+
+    void interactWithEntity(Entity target, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks);
+
+    void cancelInteraction();
 
     /**
      * An enum with al the possible states a settler can have, used to determine settler behaviour.

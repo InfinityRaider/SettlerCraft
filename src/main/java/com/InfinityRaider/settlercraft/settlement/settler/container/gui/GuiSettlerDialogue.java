@@ -3,7 +3,6 @@ package com.InfinityRaider.settlercraft.settlement.settler.container.gui;
 import com.InfinityRaider.settlercraft.network.MessageDialogueOptionSelected;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.settler.container.ContainerSettlerDialogue;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import com.infinityraider.infinitylib.utility.GuiComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -146,7 +145,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
         if(this.options != null) {
             for (GuiComponent<List<ITextComponent>> component : options) {
                 if (component.isOverComponent(mouseX, mouseY)) {
-                    NetworkWrapper.getInstance().sendToServer(new MessageDialogueOptionSelected(component.getIndex()));
+                    new MessageDialogueOptionSelected(component.getIndex()).sendToServer();
                     this.initGui();
                     return;
                 }

@@ -5,7 +5,6 @@ import com.InfinityRaider.settlercraft.api.v1.ISettlement;
 import com.InfinityRaider.settlercraft.network.MessageSyncSettlementsToClient;
 import com.InfinityRaider.settlercraft.reference.Names;
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -88,8 +87,7 @@ public class SettlementWorldData extends WorldSavedData {
 
     public void syncSettlementToClient(ISettlement settlement) {
         if(!getWorld().isRemote) {
-            MessageSyncSettlementsToClient msg = new MessageSyncSettlementsToClient(settlement);
-            NetworkWrapper.getInstance().sendToDimension(msg, this.getWorld());
+            new MessageSyncSettlementsToClient(settlement).sendToDimension(this.getWorld());
         }
     }
 

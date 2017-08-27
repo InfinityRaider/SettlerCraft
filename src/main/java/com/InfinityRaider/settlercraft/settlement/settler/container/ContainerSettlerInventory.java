@@ -31,48 +31,58 @@ public class ContainerSettlerInventory extends ContainerSettler {
     }
 
     private void addSlotsToContainer() {
+        //SETTLER INVENTORY
         int xOffset = INVENTORY_SETTLER_X;
         int yOffset = INVENTORY_SETTLER_Y;
-        //add settlers equipped item to the container
-        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 0, 8, 82, EntityEquipmentSlot.MAINHAND));
-        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 1, 26, 82, EntityEquipmentSlot.OFFHAND));
-        //add settlers armor to the container
-        for(int i = 0; i < 4; i++) {
-            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 2, 8, 8 + i * 18, EntityEquipmentSlot.values()[(3-i)+2]));
-        }
-        //add settler inventory to the container
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 9; j++) {
-                //new Slot(inventory, slot index, x coordinate, y coordinate)
-                this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, j + i*9 + 6 + 9, xOffset + j*18, yOffset + i*18));
-            }
-        }
+
         //add settler hot bar to the container
         for(int i = 0; i < 9; i++) {
             //new Slot(inventory, slot index, x coordinate, y coordinate)
-            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i + 6, xOffset + i*18, 58 + yOffset));
+            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, i, xOffset + i*18, 58 + yOffset));
+        }
+
+        //add settler main inventory to the container
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 9; j++) {
+                //new Slot(inventory, slot index, x coordinate, y coordinate)
+                this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, j + 9*(i + 1), xOffset + j*18, yOffset + i*18));
+            }
+        }
+
+        //add settlers armor to the container
+        for(int i = 0; i < 4; i++) {
+            this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 3 - i + 36, 8, 8 + i * 18, EntityEquipmentSlot.values()[(3-i)+2]));
+        }
+
+        //add settlers off hand item to the container
+        this.addSlotToContainer(new SettlerInventorySlot(settlerInventory, 40, 26, 82, EntityEquipmentSlot.OFFHAND));
+
+
+        //PLAYER INVENTORY
+        xOffset = INVENTORY_PLAYER_X;
+        yOffset = INVENTORY_PLAYER_Y;
+
+        //add player's hot bar to the container
+        for(int i = 0; i < 9; i++) {
+            //new Slot(inventory, slot index, x coordinate, y coordinate)
+            this.addSlotToContainer(new SettlerInventorySlot(playerInventory, i, xOffset + i*18, 58 + yOffset));
+        }
+
+        //add player's inventory to the container
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 9; j++) {
+                //new Slot(inventory, slot index, x coordinate, y coordinate)
+                this.addSlotToContainer(new SettlerInventorySlot(playerInventory, j + 9*(i + 1), xOffset + j*18, yOffset + i*18));
+            }
         }
 
         //add player's armor to the container
         for(int i = 0; i < 4; i++) {
             this.addSlotToContainer(new SettlerInventorySlot(playerInventory, 3 - i + 36, 8, 102 + i * 18, EntityEquipmentSlot.values()[(3-i)+2]));
         }
+
         //add player's off hand to the container
         this.addSlotToContainer(new SettlerInventorySlot(playerInventory, 40, 62, 82, EntityEquipmentSlot.OFFHAND));
-        //add player's inventory to the container
-        xOffset = INVENTORY_PLAYER_X;
-        yOffset = INVENTORY_PLAYER_Y;
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 9; j++) {
-                //new Slot(inventory, slot index, x coordinate, y coordinate)
-                this.addSlotToContainer(new SettlerInventorySlot(playerInventory, j + i*9 + 9, xOffset + j*18, yOffset + i*18));
-            }
-        }
-        //add player's hot bar to the container
-        for(int i = 0; i < 9; i++) {
-            //new Slot(inventory, slot index, x coordinate, y coordinate)
-            this.addSlotToContainer(new SettlerInventorySlot(playerInventory, i, xOffset + i*18, 58 + yOffset));
-        }
     }
 
     @Override
@@ -139,7 +149,7 @@ public class ContainerSettlerInventory extends ContainerSettler {
             if(stack == null || stack.getItem() == null) {
                 return true;
             }
-            if(this.inventory instanceof InventoryPlayer && this.getSlotIndex()  >= 36 && this.getSlotIndex() < 40) {
+            if(!(this.inventory instanceof IInventorySettler) && this.getSlotIndex()  >= 36 && this.getSlotIndex() < 40) {
                 return (stack.getItem() instanceof ItemArmor) && ((ItemArmor) stack.getItem()).armorType.ordinal() - 2 ==  (this.getSlotIndex() - 36);
             }
             return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);

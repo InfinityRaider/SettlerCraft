@@ -1,5 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.*;
 import com.InfinityRaider.settlercraft.network.MessageSyncBuildingsToClient;
 import com.InfinityRaider.settlercraft.reference.Names;
@@ -11,12 +12,10 @@ import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.builder.TaskBuildBuilding;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicRotationTransformer;
 import com.google.common.collect.ImmutableList;
-import com.infinityraider.infinitylib.network.NetworkWrapper;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -104,16 +103,20 @@ public class SettlementBuilding implements ISettlementBuilding {
     public void removeWorker(ISettler settler) {
         if(!getWorld().isRemote && doesSettlerWorkHere(settler)) {
             Iterator<Integer> iterator = workers.iterator();
+            boolean flag = false;
             while(iterator.hasNext()) {
                 int id = iterator.next();
                 if(id == settler.getEntityImplementation().getEntityId()) {
+                    flag = true;
                     iterator.remove();
                     break;
                 }
             }
-            settler.setWorkPlace(null);
-            this.markDirty();
-            this.syncToClient();
+            if(flag) {
+                settler.setWorkPlace(null);
+                this.markDirty();
+                this.syncToClient();
+            }
         }
     }
 
@@ -280,18 +283,13 @@ public class SettlementBuilding implements ISettlementBuilding {
                 if ((state.getBlock() instanceof BlockBed) && (state.getValue(BlockBed.PART) == BlockBed.EnumPartType.HEAD)) {
                     this.beds.add(new BlockPos(pos));
                 }
-                if (tile != null && (tile instanceof IInventory)) {
-                    this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
+                if(tile != null) {
+                    if (tile instanceof IInventory) {
+                        this.inventory().registerInventory(new BlockPos(pos), (IInventory) tile);
+                    }
+                    //TODO: IItemHandler support
                 }
             }
-            this.workers().stream().filter(settler -> settler.profession() == ProfessionRegistry.getInstance().professionBuilder()).forEach(settler -> {
-                List<ITask> tasks = settler.getTasks(4);
-                for(ITask task : tasks) {
-                    settler.cancelTask(task);
-                }
-                settler.setMissingResource(null);
-                settler.setWorkPlace(null);
-            });
             this.building().onBuildingCompleted(this);
             this.markDirty();
             this.syncToClient();
@@ -312,8 +310,8 @@ public class SettlementBuilding implements ISettlementBuilding {
         if(buildProgress == null) {
             if(building() == null) {
                 //should never happen
-                LogHelper.info("[ERROR] SETTLEMENT BUILDING WITHOUT BUILDING DETECTED, WORLD DAMAGE PREVENTED");
-                LogHelper.info("[ERROR] THIS IS A SERIOUS BUG, CONTACT THE MOD AUTHOR");
+                SettlerCraft.instance.getLogger().info("[ERROR] SETTLEMENT BUILDING WITHOUT BUILDING DETECTED, WORLD DAMAGE PREVENTED");
+                SettlerCraft.instance.getLogger().info("[ERROR] THIS IS A SERIOUS BUG, CONTACT THE MOD AUTHOR");
                 return null;
             }
             Schematic schematic = deserializeSchematic();
@@ -328,7 +326,7 @@ public class SettlementBuilding implements ISettlementBuilding {
         try {
             return SchematicReader.getInstance().deserialize(BuildingStyleRegistry.getInstance().getSchematicLocation(building(), settlement().getBuildingStyle()));
         } catch (IOException e) {
-            LogHelper.printStackTrace(e);
+            SettlerCraft.instance.getLogger().printStackTrace(e);
             return null;
         }
     }
@@ -340,8 +338,7 @@ public class SettlementBuilding implements ISettlementBuilding {
 
     @Override
     public void syncToClient() {
-        MessageSyncBuildingsToClient msg = new MessageSyncBuildingsToClient(this);
-        NetworkWrapper.getInstance().sendToDimension(msg, this.getWorld());
+        new MessageSyncBuildingsToClient(this).sendToDimension(this.getWorld());
     }
 
     @Override

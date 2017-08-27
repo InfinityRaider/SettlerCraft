@@ -29,7 +29,7 @@ public class SettlerAIRoutineGetFood extends SettlerAIRoutineFindResourceAbstrac
     public void updateRoutine() {
         if(hasFood()) {
             ItemStack food = getSettler().getSettlerInventory().getStackInSlot(foodSlot);
-            getSettler().assignTask(new TaskUseItem("eatFood", getSettler(), foodSlot, 2, food.getMaxItemUseDuration()));
+            getSettler().assignTask(new TaskUseItem<>(getSettler().getCurrentTask(), foodSlot, 2, food.getMaxItemUseDuration()));
         } else {
             super.updateRoutine();
         }

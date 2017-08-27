@@ -8,6 +8,7 @@ import com.InfinityRaider.settlercraft.utility.BiomeHelper;
 import com.infinityraider.infinitylib.entity.EntityRegistryEntry;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntityMob;
 
 public class EntityRegistry implements ISettlerCraftEntityRegistry {
     private static final EntityRegistry INSTANCE = new EntityRegistry();
@@ -18,6 +19,7 @@ public class EntityRegistry implements ISettlerCraftEntityRegistry {
 
     public static final String SETTLER = "entity.settler";
 
+    @SuppressWarnings("unchecked")
     private EntityRegistry() {
         this.settlerEntityRegistryEntry = new EntityRegistryEntry<>(EntitySettler.class, SETTLER)
                 .setTrackingDistance(64)
@@ -26,7 +28,8 @@ public class EntityRegistry implements ISettlerCraftEntityRegistry {
                 .setSpawnEgg(8, 8, 255, 51, 255, 247)
                 .setCreatureSpawn(1, 2, ConfigurationHandler.getInstance().settlerSpawnWeight, EnumCreatureType.CREATURE,
                         BiomeHelper.getInstance().convertBiomeNamesList(ConfigurationHandler.getInstance().settlerSpawnBiomes))
-                .setRenderFactory(EntitySettler.RENDER_FACTORY);
+                .setRenderFactory(EntitySettler.RENDER_FACTORY)
+                .setEntityTargetedBy(EntityMob.class);
     }
 
     public final EntityRegistryEntry<EntitySettler> settlerEntityRegistryEntry;

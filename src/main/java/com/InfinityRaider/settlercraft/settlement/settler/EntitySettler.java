@@ -6,6 +6,7 @@ import com.InfinityRaider.settlercraft.reference.Names;
 import com.InfinityRaider.settlercraft.render.entity.RenderSettler;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.settler.ai.*;
+import com.InfinityRaider.settlercraft.settlement.settler.interaction.SettlerInteractionController;
 import com.InfinityRaider.settlercraft.settlement.settler.profession.ProfessionRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -40,6 +41,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketAnimation;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateClimber;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.*;
@@ -48,11 +50,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.*;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -67,6 +71,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Integer> DATA_HOME_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_WORK_PLACE_ID = EntityDataManager.createKey(EntitySettler.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_SLEEPING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Byte> DATA_CLIMBING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BYTE);
 
     public static final IAttribute ATTRIBUTE_REACH = new RangedAttribute(null, "settlercraft:settler.reach", 4.5, 2, 8);
 
@@ -81,8 +86,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private InventorySettler inventory;
     private EntityPlayer following;
     private EntityPlayer conversationPartner;
-    private EntityAIAimAtTarget aimAI;
     private EntityAISettler settlerAI;
+
+    private ISettlerActionTarget target;
 
     private FoodStats foodStats;
     private CooldownTracker cooldownTracker;
@@ -128,6 +134,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.getDataManager().register(DATA_HOME_ID, -1);
         this.getDataManager().register(DATA_WORK_PLACE_ID, -1);
         this.getDataManager().register(DATA_SLEEPING, false);
+        this.getDataManager().register(DATA_CLIMBING, (byte) 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -143,7 +150,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(1, aiAvoidEntity);
 
         EntityAITalkToPlayer aiTalkToPlayer = new EntityAITalkToPlayer(this);
-        aiTalkToPlayer.setMutexBits(5);
+        aiTalkToPlayer.setMutexBits(13);
         this.tasks.addTask(2, aiTalkToPlayer);
 
         EntityAIMoveIndoors aiMoveIndoors = new EntityAIMoveIndoors(this);
@@ -159,11 +166,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(5, aiOpenDoor);
 
         EntityAIMoveTowardsRestriction aiMoveTowardsRestriction = new EntityAIMoveTowardsRestriction(this, 0.6D);
-        aiMoveTowardsRestriction.setMutexBits(17);
+        aiMoveTowardsRestriction.setMutexBits(1);
         this.tasks.addTask(6, aiMoveTowardsRestriction);
 
-        this.aimAI = new EntityAIAimAtTarget(this, 0.6, 2);
-        aimAI.setMutexBits(28);
+        EntityAIAimAtTarget aimAI = new EntityAIAimAtTarget(this);
+        aimAI.setMutexBits(8);
         this.tasks.addTask(7, aimAI);
 
         this.settlerAI = new EntityAISettler(this);
@@ -175,7 +182,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         this.tasks.addTask(9, aiWatchClosest2);
 
         EntityAIWander aiWander = new EntityAIWander(this, 0.6D);
-        aiWander.setMutexBits(9);
+        aiWander.setMutexBits(1);
         this.tasks.addTask(10, aiWander);
 
         EntityAIWatchClosest aiWatchClosest =  new EntityAIWatchClosest(this, EntityLiving.class, 8.0F);
@@ -195,7 +202,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     protected PathNavigate getNewNavigator(World worldIn) {
-        return new PathNavigateGround(this, worldIn);
+        return new PathNavigateClimber(this, worldIn);
     }
 
     public SettlerInteractionController getInteractionController() {
@@ -212,8 +219,44 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             this.getFoodStats().onUpdate(getFakePlayerImplementation());
             //update cooldowns
             this.getCooldownTracker().tick();
+            //used for climbing logic
+            this.setBesideClimbableBlock(this.isCollidedHorizontally);
         }
-        //TODO: copy position data to the wrapped player
+        this.getFakePlayerImplementation().copyFieldsFromSettler();
+    }
+
+    @Override
+    public boolean isOnLadder() {
+        if((this.dataManager.get(DATA_CLIMBING) & 1) == 0) {
+            return false;
+        }
+        BlockPos pos = this.getPosition();
+        IBlockState state = this.getWorld().getBlockState(pos);
+        if(state.getBlock().isLadder(state, this.getWorld(), pos, this)) {
+            return true;
+        }
+        for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+            BlockPos posAt = pos.offset(facing);
+            state = this.getWorld().getBlockState(posAt);
+            if(state.getBlock().isLadder(state, this.getWorld(), pos, this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
+     * false.
+     */
+    public void setBesideClimbableBlock(boolean climbing) {
+        byte b0 = this.dataManager.get(DATA_CLIMBING);
+        if (climbing) {
+            b0 = (byte)(b0 | 1);
+        } else {
+            b0 = (byte)(b0 & -2);
+        }
+        this.dataManager.set(DATA_CLIMBING, b0);
     }
 
     @Override
@@ -303,18 +346,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             if (settlement() == null || (building != null && building.settlement() != settlement())) {
                 return;
             }
-            if(building == null) {
-                ISettlementBuilding workplace = workPlace();
-                if(workplace != null) {
-                    workplace.removeWorker(this);
-                }
-            }
+            ISettlementBuilding workplace = workPlace();
             int id = building == null ? -1 : building.id();
             getDataManager().set(DATA_WORK_PLACE_ID, id);
             if(building != null) {
                 if(building.doesSettlerWorkHere(this)) {
                     building.addWorker(this);
                 }
+            }
+            if(workplace != null) {
+                workplace.removeWorker(this);
             }
         }
     }
@@ -338,17 +379,17 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public IInventorySettler getSettlerInventory() {
+    public InventorySettler getSettlerInventory() {
         return this.inventory;
     }
 
     @Override
-    public EntityAgeable getEntityImplementation() {
+    public EntitySettler getEntityImplementation() {
         return this;
     }
 
     @Override
-    public EntityPlayer getFakePlayerImplementation() {
+    public EntityPlayerWrappedSettler getFakePlayerImplementation() {
         return fakePlayer;
     }
 
@@ -407,19 +448,16 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public ISettler setLookTarget(Vec3d target) {
+    public ISettler setLookTarget(ISettlerActionTarget target) {
         if(!getWorld().isRemote) {
-            this.aimAI.setTarget(target);
+            this.target = target;
         }
         return this;
     }
 
     @Override
-    public Vec3d getLookTarget() {
-        if(!getWorld().isRemote) {
-            return this.aimAI.getTarget();
-        }
-        return null;
+    public ISettlerActionTarget getLookTarget() {
+        return this.target;
     }
 
     @Override
@@ -579,6 +617,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         return this.foodStats;
     }
 
+    @Override
     public boolean canEat(boolean ignoreHunger) {
         return (ignoreHunger || this.foodStats.needFood());
     }
@@ -589,16 +628,30 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void useLeftClick() {
-        if(!getWorld().isRemote) {
-            getInteractionController().leftClick();
+    public void interactWithItem(EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithItem(hand, leftClick, sneak, usageTicks);
         }
     }
 
     @Override
-    public void useRightClick() {
-        if(!getWorld().isRemote) {
-            getInteractionController().rightClick();
+    public void interactWithBlock(BlockPos target, EnumFacing side, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithBlock(target, side, hit, hand, leftClick, sneak, usageTicks);
+        }
+    }
+
+    @Override
+    public void interactWithEntity(Entity target, Vec3d hit, EnumHand hand, boolean leftClick, boolean sneak, int usageTicks) {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().interactWithEntity(target, hit, hand, leftClick, sneak, usageTicks);
+        }
+    }
+
+    @Override
+    public void cancelInteraction() {
+        if(!this.getEntityWorld().isRemote) {
+            this.getInteractionController().cancelInteraction();
         }
     }
 
@@ -1555,6 +1608,20 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         super.applyEnchantments(entityLivingBaseIn, entityIn);
     }
 
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) this.getSettlerInventory();
+        } else {
+            return super.getCapability(capability, facing);
+        }
+    }
 
     /**
      * Render factory

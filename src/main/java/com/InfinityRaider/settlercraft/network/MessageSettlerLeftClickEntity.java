@@ -2,27 +2,23 @@ package com.InfinityRaider.settlercraft.network;
 
 import com.InfinityRaider.settlercraft.settlement.settler.EntitySettler;
 import com.infinityraider.infinitylib.network.MessageBase;
-import net.minecraft.util.EnumHand;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-/**
- * Message to fire the forge event when a settler right clicks in air with an item
- */
-public class MessageSettlerRightClickAir extends MessageBase<IMessage> {
+public class MessageSettlerLeftClickEntity extends MessageBase<IMessage> {
     private EntitySettler settler;
-    private EnumHand hand;
+    private Entity target;
 
-    public MessageSettlerRightClickAir() {
+    public MessageSettlerLeftClickEntity() {
         super();
     }
 
-    public MessageSettlerRightClickAir(EntitySettler settler, EnumHand hand) {
+    public MessageSettlerLeftClickEntity(EntitySettler settler, Entity target) {
         this();
         this.settler = settler;
-        this.hand = hand;
+        this.target = target;
     }
 
     @Override
@@ -32,8 +28,8 @@ public class MessageSettlerRightClickAir extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        if(this.settler != null) {
-            ForgeHooks.onEmptyClick(settler.getFakePlayerImplementation(), hand);
+        if(this.settler != null && this.target != null) {
+            this.settler.attackTargetEntityWithCurrentItem(this.target);
         }
     }
 

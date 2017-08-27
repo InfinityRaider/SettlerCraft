@@ -1,8 +1,8 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.handler.ConfigurationHandler;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.gson.Gson;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -38,7 +38,7 @@ public class SchematicReader {
             }
             schematic = deserialize(new FileReader(schematicFile));
         } catch (IOException e) {
-            LogHelper.printStackTrace(e);
+            SettlerCraft.instance.getLogger().printStackTrace(e);
             return;
         }
         List<Schematic.BlockPosition> list = schematic.blocks;
@@ -102,7 +102,7 @@ public class SchematicReader {
 
     public Schematic deserialize(ResourceLocation location) throws IOException {
         String filePath = getFilePath(location);
-        LogHelper.debug("Parsing file for "+filePath);
+        SettlerCraft.instance.getLogger().debug("Parsing file for "+filePath);
         Reader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filePath), "UTF-8"));
         return deserialize(reader);
     }

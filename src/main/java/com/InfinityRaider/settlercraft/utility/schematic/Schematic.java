@@ -1,6 +1,6 @@
 package com.InfinityRaider.settlercraft.utility.schematic;
 
-import com.InfinityRaider.settlercraft.utility.LogHelper;
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -181,7 +181,7 @@ public class Schematic {
             try {
                 return JsonToNBT.getTagFromJson(nbtString);
             } catch (NBTException e) {
-                LogHelper.printStackTrace(e);
+                SettlerCraft.instance.getLogger().printStackTrace(e);
             }
             return null;
         }

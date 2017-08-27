@@ -1,10 +1,10 @@
 package com.InfinityRaider.settlercraft.settlement.settler.dialogue;
 
+import com.InfinityRaider.settlercraft.SettlerCraft;
 import com.InfinityRaider.settlercraft.api.v1.IDialogueOption;
 import com.InfinityRaider.settlercraft.api.v1.IMissingResource;
 import com.InfinityRaider.settlercraft.api.v1.ISettler;
 import com.InfinityRaider.settlercraft.api.v1.ITask;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -63,7 +63,7 @@ public class DialogueOptionDescribeTask extends DialogueOptionBase {
         switch (status) {
             case IDLE:
                 if (task != null) {
-                    LogHelper.debug("settler is idle but still has a task");
+                    SettlerCraft.instance.getLogger().debug("settler is idle but still has a task");
                     list.addAll(task.getTaskDescription());
                 }
                 list.add(new TextComponentTranslation(getDiscriminator() + "task.noTask"));

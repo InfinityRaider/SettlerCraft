@@ -17,17 +17,17 @@ public class TaskFarmAnimals extends TaskBuildingBase<BuildingAnimalFarm> {
     }
 
     @Override
-    public void startTask() {
+    public void onTaskStarted() {
 
     }
 
     @Override
-    public void updateTask() {
+    public void onTaskUpdated() {
 
     }
 
     @Override
-    public void cancelTask() {
+    public void onTaskCancel() {
 
     }
 

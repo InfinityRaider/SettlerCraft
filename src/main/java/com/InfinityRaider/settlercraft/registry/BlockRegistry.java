@@ -2,7 +2,6 @@ package com.InfinityRaider.settlercraft.registry;
 
 import com.InfinityRaider.settlercraft.api.v1.ISettlerCraftBlockRegistry;
 import com.InfinityRaider.settlercraft.block.BlockTest;
-import com.InfinityRaider.settlercraft.utility.LogHelper;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,11 +30,6 @@ public class BlockRegistry implements ISettlerCraftBlockRegistry {
     private void init() {
         testBlock = new BlockTest().setCreativeTab(creativeTabSettlerCraft());
         settlerCraftBlocks.add(testBlock);
-
-        LogHelper.debug("Registered blocks:");
-        for(Block block : settlerCraftBlocks()) {
-            LogHelper.debug(" - "+block.getRegistryName());
-        }
     }
 
     @Override
