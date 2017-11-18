@@ -23,9 +23,9 @@ public abstract class NodeProcessor
         this.world = world;
         this.entity = entity;
         this.pointMap.clearMap();
-        this.entitySizeX = MathHelper.floor_float(entity.width + 1.0F);
-        this.entitySizeY = MathHelper.floor_float(entity.height + 1.0F);
-        this.entitySizeZ = MathHelper.floor_float(entity.width + 1.0F);
+        this.entitySizeX = MathHelper.floor(entity.width + 1.0F);
+        this.entitySizeY = MathHelper.floor(entity.height + 1.0F);
+        this.entitySizeZ = MathHelper.floor(entity.width + 1.0F);
     }
 
     /**

@@ -4,9 +4,9 @@ import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.infinityraider.infinitylib.render.RenderUtilBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,7 +29,7 @@ public class RenderPath extends RenderUtilBase {
     private RenderPath() {}
 
     public void renderPath(RenderWorldLastEvent event) {
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
         if(player == null) {
             return;
         }
@@ -58,7 +58,7 @@ public class RenderPath extends RenderUtilBase {
         List<Node> path = AStarTest.getInstance().getPath();
         if(path != null) {
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer buffer = tessellator.getBuffer();
+            BufferBuilder buffer = tessellator.getBuffer();
             Color color = Color.black;
 
             int red = color.getRed();
@@ -98,7 +98,7 @@ public class RenderPath extends RenderUtilBase {
             color = Color.red;
         }
 
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
 
         new BoundingBox(node.getPosition(), node.getPosition()).renderWireFrame(tessellator, color);
 

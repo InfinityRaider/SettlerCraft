@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,9 +34,14 @@ public class RenderBlockTest extends RenderBlockWithTileBase<BlockTest, TileEnti
     }
 
     @Override
-    public void renderWorldBlock(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z, IBlockState state, BlockTest block,
-                                 @Nullable TileEntityTest tile, boolean dynamicRender, float partialTick, int destroyStage) {
-        this.doRender(tessellator, dynamicRender);
+    public void renderWorldBlockStatic(ITessellator tessellator, IBlockState state, BlockTest block, EnumFacing side) {
+        this.doRender(tessellator, false);
+    }
+
+    @Override
+    public void renderWorldBlockDynamic(ITessellator tessellator, World world, BlockPos pos, double x, double y, double z,
+                                        BlockTest block, TileEntityTest tile, float partialTick, int destroyStage, float alpha) {
+        this.doRender(tessellator, true);
     }
 
     @Override

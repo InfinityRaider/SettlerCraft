@@ -26,7 +26,7 @@ public abstract class ContainerSettler extends Container {
     
     public final void closeContainer() {
         //Really important to close container from client side, else weird bugs happen
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             if(player instanceof EntityPlayerMP) {
                 new MessageCloseContainer().sendTo((EntityPlayerMP) player);
             }

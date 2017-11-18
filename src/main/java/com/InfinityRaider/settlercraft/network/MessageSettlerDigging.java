@@ -36,6 +36,8 @@ public class MessageSettlerDigging extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
+        //TODO
+        /*
         double x = this.settler.posX - ((double) this.pos.getX() + 0.5D);
         double y = this.settler.posY - ((double) this.pos.getY() + 0.5D) + 1.5D;
         double z = this.settler.posZ - ((double) this.pos.getZ() + 0.5D);
@@ -65,6 +67,7 @@ public class MessageSettlerDigging extends MessageBase<IMessage> {
 
             return;
         }
+        */
     }
 
     @Override

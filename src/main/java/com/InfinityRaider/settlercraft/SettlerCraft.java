@@ -46,8 +46,38 @@ public class SettlerCraft extends InfinityMod {
     }
 
     @Override
+    public Object getModBiomeRegistry() {
+        return this;
+    }
+
+    @Override
+    public Object getModEnchantmentRegistry() {
+        return this;
+    }
+
+    @Override
     public Object getModEntityRegistry() {
         return EntityRegistry.getInstance();
+    }
+
+    @Override
+    public Object getModPotionRegistry() {
+        return this;
+    }
+
+    @Override
+    public Object getModPotionTypeRegistry() {
+        return this;
+    }
+
+    @Override
+    public Object getModSoundRegistry() {
+        return this;
+    }
+
+    @Override
+    public Object getModVillagerProfessionRegistry() {
+        return this;
     }
 
     @Override

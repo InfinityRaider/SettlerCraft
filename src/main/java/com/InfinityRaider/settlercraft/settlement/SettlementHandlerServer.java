@@ -39,7 +39,7 @@ public class SettlementHandlerServer extends SettlementHandler {
         if(style == null) {
             style = BuildingStyleRegistry.getInstance().defaultStyle();
         }
-        World world = player.worldObj;
+        World world = player.getEntityWorld();
         int x = (int) player.posX;
         int y = (int) player.posY;
         int z = (int) player.posZ;

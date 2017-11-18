@@ -68,12 +68,12 @@ public interface IInventorySettler extends IInventorySerializable {
     /**
      * @return The settler's main inventory as an ItemStack array
      */
-    ItemStack[] getMainInventory();
+    List<ItemStack> getMainInventory();
 
     /**
      * @return The settler's armor inventory as an ItemStack array
      */
-    ItemStack[] getArmorInventory();
+    List<ItemStack> getArmorInventory();
 
     /**
      * Tries to add a stack to the inventory, in the first possible slot
@@ -125,7 +125,7 @@ public interface IInventorySettler extends IInventorySerializable {
      * Converts the inventory to an array, where the index in the array corresponds to the index in the inventory
      * @return array representation of the inventory
      */
-    ItemStack[] toArray();
+    List<ItemStack> toList();
 
     /**
      * Register an inventory listener for this settler's inventory,

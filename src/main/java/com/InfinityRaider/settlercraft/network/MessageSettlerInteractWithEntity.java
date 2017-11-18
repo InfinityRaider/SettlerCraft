@@ -49,10 +49,7 @@ public class MessageSettlerInteractWithEntity extends MessageBase<IMessage> {
                 ItemStack stack = settler.getHeldItem(hand);
                 settler.getInteractionController().interactWithEntity(target, dir, stack, hand);
             } else if(hand != null) {
-                ItemStack stack = settler.getHeldItem(hand);
-                settler.getInteractionController().interactWithEntity(target, stack, hand);
-            } else {
-                settler.getInteractionController().attackEntity(target);
+                settler.getInteractionController().interactWithEntity(target, hand);
             }
         }
     }

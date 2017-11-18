@@ -44,7 +44,7 @@ public class RenderSettlement extends RenderUtilBase {
     public void renderSchematicOverlay(RenderWorldLastEvent event) {
         RenderPath.getInstance().renderPath(event);
 
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
         if(player == null) {
             return;
         }
@@ -72,9 +72,9 @@ public class RenderSettlement extends RenderUtilBase {
         GL11.glTranslated(-posX, -posY, -posZ);
 
         ISettlementHandler handler = SettlementHandler.getInstance();
-        List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().theWorld);
+        List<ISettlement> settlementList = handler.getSettlementsForWorld(Minecraft.getMinecraft().world);
 
-        SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().theWorld).stream().filter(
+        SettlementHandler.getInstance().getSettlementsForWorld(Minecraft.getMinecraft().world).stream().filter(
                 settlement -> item.shouldRenderSettlementBoxes(settlement, player, finalStack)).forEach(
                 settlement -> renderSettlementBoundingBoxes(tessellator, settlement));
 

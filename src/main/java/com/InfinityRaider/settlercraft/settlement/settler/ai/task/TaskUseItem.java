@@ -20,7 +20,7 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
 
     public TaskUseItem(T task, int slot, int priority, int usageTicks) {
         super(task);
-        this.slot = MathHelper.clamp_int(slot, 0, this.getSettler().getSettlerInventory().getSizeInventory());
+        this.slot = MathHelper.clamp(slot, 0, this.getSettler().getSettlerInventory().getSizeInventory());
         this.priority = priority;
         this.usageTicks = usageTicks;
         this.tickCounter = 0;
@@ -39,7 +39,8 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
 
     @Override
     public void onTaskUpdated() {
-        this.getSettler().useRightClick();
+        //this.getSettler().useRightClick();
+        //TODO
         this.tickCounter++;
     }
 

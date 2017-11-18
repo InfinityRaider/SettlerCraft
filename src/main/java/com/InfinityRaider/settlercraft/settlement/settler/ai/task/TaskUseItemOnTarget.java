@@ -33,7 +33,7 @@ public class TaskUseItemOnTarget<T extends ITask> extends TaskUseItem<T> {
 
     protected boolean isInReach() {
         double reach = this.getSettler().getInteractionRangeAttribute().getAttributeValue();
-        return this.getSettler().getEntityImplementation().getDistanceSq(this.target.xCoord, this.target.yCoord, this.target.zCoord) <= reach * reach;
+        return this.getSettler().getEntityImplementation().getDistanceSq(this.target.x, this.target.y, this.target.z) <= reach * reach;
     }
 
     protected void moveToPosition() {
@@ -44,7 +44,7 @@ public class TaskUseItemOnTarget<T extends ITask> extends TaskUseItem<T> {
     }
 
     protected void lookAtTarget() {
-        getSettler().setLookTarget(this.target);
+        getSettler().setLookTarget(t -> this.target);
     }
 
     protected boolean isLookingAtTarget() {

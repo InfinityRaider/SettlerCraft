@@ -8,7 +8,7 @@ public class DamageSourceSettler extends EntityDamageSource {
     }
 
     @Override
-    public EntitySettler getEntity() {
-        return (EntitySettler) super.getEntity();
+    public EntitySettler getTrueSource() {
+        return (EntitySettler) super.getTrueSource();
     }
 }

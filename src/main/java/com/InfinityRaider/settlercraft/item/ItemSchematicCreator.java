@@ -3,7 +3,9 @@ package com.InfinityRaider.settlercraft.item;
 import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicWriter;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
+import com.infinityraider.infinitylib.utility.TranslationHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +30,7 @@ public class ItemSchematicCreator extends ItemWithModelBase {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!world.isRemote) {
             SchematicWriter.getInstance().onBlockClicked(world, pos);
         }
@@ -36,11 +39,11 @@ public class ItemSchematicCreator extends ItemWithModelBase {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_schematicCreator_L1"));
-        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L2"));
-        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L3"));
-        tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L4"));
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag) {
+        tooltip.add(TranslationHelper.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_schematicCreator_L1"));
+        tooltip.add(TranslationHelper.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L2"));
+        tooltip.add(TranslationHelper.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L3"));
+        tooltip.add(TranslationHelper.translateToLocal(Reference.MOD_ID.toLowerCase()+".tooltip_schematicCreator_L4"));
     }
 
     @Override

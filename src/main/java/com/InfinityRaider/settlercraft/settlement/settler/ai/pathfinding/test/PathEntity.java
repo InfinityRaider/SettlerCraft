@@ -139,7 +139,7 @@ public class PathEntity {
     public boolean isDestinationSame(Vec3d vec)
     {
         PathPoint pathpoint = this.getFinalPathPoint();
-        return pathpoint == null ? false : pathpoint.xCoord == (int)vec.xCoord && pathpoint.zCoord == (int)vec.zCoord;
+        return pathpoint == null ? false : pathpoint.xCoord == (int)vec.x && pathpoint.zCoord == (int)vec.z;
     }
 
     @SideOnly(Side.CLIENT)

@@ -163,7 +163,7 @@ public class GuiSettlerDialogue extends GuiSettler<ContainerSettlerDialogue> {
     }
 
     private void drawCenteredString(ITextComponent text, int x, int y) {
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
         String formattedText = text.getFormattedText();
         int width = fontRenderer.getStringWidth(formattedText);
         fontRenderer.drawString(formattedText, x - this.guiLeft - width/2, y - this.guiTop, TEXT_COLOR.getRGB(), false);

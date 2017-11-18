@@ -7,7 +7,9 @@ import com.InfinityRaider.settlercraft.reference.Reference;
 import com.InfinityRaider.settlercraft.settlement.SettlementHandler;
 import com.InfinityRaider.settlercraft.settlement.building.BuildingRegistry;
 import com.infinityraider.infinitylib.item.ItemWithModelBase;
+import com.infinityraider.infinitylib.utility.TranslationHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,16 +34,20 @@ public class ItemBuildingPlanner extends ItemWithModelBase implements IItemBuild
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(player.isSneaking()) {
             return EnumActionResult.PASS;
         }
+        ItemStack stack = player.getHeldItem(hand);
         if(!world.isRemote && side == EnumFacing.UP && isValidStack(stack)) {
             BlockPos origin = pos.offset(side);
             ISettlement settlement = SettlementHandler.getInstance().getNearestSettlement(world, origin);
             if(settlement != null) {
                 if(buildStructure(stack, player, settlement, origin)) {
-                    player.inventory.getCurrentItem().stackSize = player.inventory.getCurrentItem().stackSize - 1;
+                    stack.setCount(player.inventory.getCurrentItem().getCount() - 1);
+                    if(stack.isEmpty()) {
+                        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+                    }
                 }
             }
         }
@@ -81,7 +88,8 @@ public class ItemBuildingPlanner extends ItemWithModelBase implements IItemBuild
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
         if(player.isSneaking()) {
             rotate(stack);
         }
@@ -90,19 +98,19 @@ public class ItemBuildingPlanner extends ItemWithModelBase implements IItemBuild
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flag) {
         ISettlement settlement = getSettlement(SettlerCraft.proxy.getClientWorld(), stack);
-        if(settlement == null || !settlement.isMayor(player)) {
+        if(settlement == null || !settlement.isMayor(SettlerCraft.proxy.getClientPlayer())) {
             tooltip.add(I18n.translateToLocal(Reference.MOD_ID.toLowerCase() + ".tooltip_planner.invalidMayor"));
         } else {
             IBuilding building = getBuilding(stack);
             if(building != null) {
-                tooltip.add(I18n.translateToLocal(
+                tooltip.add(TranslationHelper.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L1") +
-                        I18n.translateToLocal(building.name()));
-                tooltip.add(I18n.translateToLocal(
+                        TranslationHelper.translateToLocal(building.name()));
+                tooltip.add(TranslationHelper.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L2"));
-                tooltip.add(I18n.translateToLocal(
+                tooltip.add(TranslationHelper.translateToLocal(
                         Reference.MOD_ID.toLowerCase() + ".tooltip_planner.building_L3"));
             }
         }

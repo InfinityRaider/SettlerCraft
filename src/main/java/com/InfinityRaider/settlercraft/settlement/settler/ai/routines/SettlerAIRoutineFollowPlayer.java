@@ -25,7 +25,7 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
 
     public SettlerAIRoutineFollowPlayer(EntitySettler settler, double followSpeedIn, float minDistIn, float maxDistIn) {
         super(settler, ISettler.SettlerStatus.FOLLOWING_PLAYER);
-        this.theWorld = settler.worldObj;
+        this.theWorld = settler.getWorld();
         this.followSpeed = followSpeedIn;
         this.petPathfinder = settler.getNavigator();
         this.minDist = minDistIn;
@@ -99,12 +99,12 @@ public class SettlerAIRoutineFollowPlayer extends SettlerAIRoutine {
             if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.followSpeed)) {
                 if (!this.getSettler().getLeashed()) {
                     if (this.getSettler().getDistanceSqToEntity(this.theOwner) >= 144.0D) {
-                        int i = MathHelper.floor_double(this.theOwner.posX) - 2;
-                        int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-                        int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
+                        int i = MathHelper.floor(this.theOwner.posX) - 2;
+                        int j = MathHelper.floor(this.theOwner.posZ) - 2;
+                        int k = MathHelper.floor(this.theOwner.getEntityBoundingBox().minY);
                         for (int l = 0; l <= 4; ++l) {
                             for (int i1 = 0; i1 <= 4; ++i1) {
-                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.func_181065_a(new BlockPos(i + l, k, j + i1)) && this.func_181065_a(new BlockPos(i + l, k + 1, j + i1))) {
+                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.theWorld.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isOpaqueCube() && this.func_181065_a(new BlockPos(i + l, k, j + i1)) && this.func_181065_a(new BlockPos(i + l, k + 1, j + i1))) {
                                     this.getSettler().setLocationAndAngles((double) ((float) (i + l) + 0.5F), (double) k, (double) ((float) (j + i1) + 0.5F), this.getSettler().rotationYaw, this.getSettler().rotationPitch);
                                     this.petPathfinder.clearPathEntity();
                                     return;

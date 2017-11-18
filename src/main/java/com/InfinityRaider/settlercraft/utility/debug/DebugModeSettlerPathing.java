@@ -48,7 +48,7 @@ public class DebugModeSettlerPathing extends DebugMode {
                 }
             }
             if(this.settler != null) {
-                player.addChatComponentMessage(new TextComponentString("Set settler to " + this.settler.toString()));
+                player.sendMessage(new TextComponentString("Set settler to " + this.settler.toString()));
             }
         }
     }

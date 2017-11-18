@@ -1,6 +1,7 @@
 package com.InfinityRaider.settlercraft.settlement.settler;
 
 import com.InfinityRaider.settlercraft.api.v1.IInventorySettler;
+import com.google.common.collect.Lists;
 import com.infinityraider.infinitylib.utility.inventory.IInventorySerializableItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -28,7 +29,7 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     protected InventorySettler(EntitySettler settler) {
         super(settler.getFakePlayerImplementation());
         this.settler = settler;
-        if(!settler.worldObj.isRemote) {
+        if(!settler.getWorld().isRemote) {
             this.listeners = new ArrayList<>();
         }
     }
@@ -39,11 +40,11 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     }
 
     public ItemStack getMainHandStack() {
-        return this.mainInventory[0];
+        return this.mainInventory.get(0);
     }
 
     public ItemStack getOffHandStack() {
-        return this.offHandInventory[0];
+        return this.offHandInventory.get(0);
     }
 
     @Override
@@ -58,8 +59,8 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     @Override
     public void setEquippedItem(EnumHand hand, ItemStack stack) {
         switch(hand) {
-            case MAIN_HAND: this.mainInventory[0] = stack; break;
-            case OFF_HAND: this.offHandInventory[0] = stack; break;
+            case MAIN_HAND: this.mainInventory.set(0, stack); break;
+            case OFF_HAND: this.offHandInventory.set(0, stack); break;
         }
     }
 
@@ -68,10 +69,10 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
         switch(slot) {
             case MAINHAND: return this.getMainHandStack();
             case OFFHAND: return this.getOffHandStack();
-            case FEET: return armorInventory[0];
-            case LEGS: return armorInventory[1];
-            case CHEST: return armorInventory[2];
-            case HEAD: return armorInventory[3];
+            case FEET: return armorInventory.get(0);
+            case LEGS: return armorInventory.get(1);
+            case CHEST: return armorInventory.get(2);
+            case HEAD: return armorInventory.get(3);
             default: return null;
         }
     }
@@ -79,26 +80,26 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     @Override
     public void setEquipmentInSlot(EntityEquipmentSlot slot, ItemStack stack) {
         switch(slot) {
-            case MAINHAND: this.mainInventory[0] = stack; break;
-            case OFFHAND: this.offHandInventory[0] = stack; break;
+            case MAINHAND: this.mainInventory.set(0, stack); break;
+            case OFFHAND: this.offHandInventory.set(0, stack); break;
             case FEET:
                 if(isItemValidForSlot(2, stack)) {
-                    armorInventory[0] = stack;
+                    armorInventory.set(0, stack);
                 }
                 break;
             case LEGS:
                 if(isItemValidForSlot(3, stack)) {
-                    armorInventory[1] = stack;
+                    armorInventory.set(1, stack);
                 }
                 break;
             case CHEST:
                 if(isItemValidForSlot(4, stack)) {
-                    armorInventory[2] = stack;
+                    armorInventory.set(2, stack);
                 }
                 break;
             case HEAD:
                 if(isItemValidForSlot(5, stack)) {
-                    armorInventory[3] = stack;
+                    armorInventory.set(3, stack);
                 }
                 break;
         }
@@ -131,47 +132,47 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     }
 
     @Override
-    public ItemStack[] getMainInventory() {
+    public List<ItemStack> getMainInventory() {
         return mainInventory;
     }
 
     @Override
-    public ItemStack[] getArmorInventory() {
+    public List<ItemStack> getArmorInventory() {
         return armorInventory;
     }
 
     @Override
     public ItemStack addStackToInventory(ItemStack stack) {
-        if(stack == null || stack.stackSize == 0) {
+        if(stack.isEmpty()) {
             return stack;
         }
         ItemStack remaining = stack.copy();
         //try to merge with existing stacks
-        for(int i = 0; i < this.getSizeInventory() && remaining.stackSize > 0; i++) {
+        for(int i = 0; i < this.getSizeInventory() && remaining.getCount() > 0; i++) {
             if(!isItemValidForSlot(i, remaining)) {
                 continue;
             }
             ItemStack stackInSlot = getStackInSlot(i);
-            if(stackInSlot != null && isSameItem(remaining, stackInSlot)) {
-                int room = Math.max(0, stackInSlot.getMaxStackSize() - stackInSlot.stackSize);
-                int amount = Math.min(room, remaining.stackSize);
+            if(!stackInSlot.isEmpty() && isSameItem(remaining, stackInSlot)) {
+                int room = Math.max(0, stackInSlot.getMaxStackSize() - stackInSlot.getCount());
+                int amount = Math.min(room, remaining.getCount());
                 if(amount > 0) {
-                    remaining.stackSize = remaining.stackSize - amount;
-                    stackInSlot.stackSize = stackInSlot.stackSize + amount;
+                    remaining.setCount(remaining.getCount() - amount);
+                    stackInSlot.setCount(stackInSlot.getCount() + amount);
                 }
             }
         }
         //put in first free slot
-        if(remaining.stackSize <= 0) {
-            remaining = null;
+        if(remaining.isEmpty()) {
+            remaining = ItemStack.EMPTY;
         } else {
-            for (int i = 0; i < this.getSizeInventory() && remaining != null; i++) {
+            for (int i = 0; i < this.getSizeInventory() && !remaining.isEmpty(); i++) {
                 if (!isItemValidForSlot(i, remaining)) {
                     continue;
                 }
-                if (getStackInSlot(i) == null) {
+                if (getStackInSlot(i).isEmpty()) {
                     this.setInventorySlotContents(i, remaining.copy());
-                    remaining = null;
+                    remaining = ItemStack.EMPTY;
                 }
             }
         }
@@ -188,19 +189,19 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
         if (stack == null) {
             return -1;
         }
-        for (int i = 0; i < mainInventory.length; i++) {
+        for (int i = 0; i < mainInventory.size(); i++) {
             ItemStack inSlot = this.getStackInSlot(i);
             if (isSameItem(stack, inSlot)) {
                 n = n - 1;
                 if (n <= 0) {
-                    return i + 2 + armorInventory.length;
+                    return i + 2 + armorInventory.size();
                 }
             }
         }
         if (isSameItem(stack, this.getOffHandStack())) {
             n = n - 1;
             if (n <= 0) {
-                return mainInventory.length + armorInventory.length;
+                return mainInventory.size() + armorInventory.size();
             }
         }
         return - 1;
@@ -215,7 +216,7 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     public void consumeStack(ItemStack stack) {
         if(stack != null) {
             int index = getSlotForStack(stack);
-            this.decrStackSize(index, stack.stackSize);
+            this.decrStackSize(index, stack.getCount());
         }
     }
 
@@ -232,12 +233,12 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     }
 
     @Override
-    public ItemStack[] toArray() {
-        ItemStack[] inv = new ItemStack[this.getSizeInventory()];
-        System.arraycopy(mainInventory, 0, inv, 0, mainInventory.length);
-        System.arraycopy(armorInventory, 0, inv, mainInventory.length, armorInventory.length);
-        System.arraycopy(offHandInventory, 0, inv, mainInventory.length + mainInventory.length, offHandInventory.length);
-        return inv;
+    public List<ItemStack> toList() {
+        List<ItemStack> list = Lists.newArrayList();
+        list.addAll(this.mainInventory);
+        list.addAll(this.armorInventory);
+        list.addAll(this.offHandInventory);
+        return list;
     }
 
     @Override
@@ -265,15 +266,15 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     @Override
     public ItemStack decrStackSize(int index, int count) {
         ItemStack stack = getStackInSlot(index);
-        if (stack == null) {
-            return null;
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
         }
         ItemStack result = stack.copy();
-        if(count >= stack.stackSize) {
-            setInventorySlotContents(index, null);
+        if(count >= stack.getCount()) {
+            setInventorySlotContents(index, ItemStack.EMPTY);
         } else {
-            stack.stackSize = stack.stackSize - count;
-            result.stackSize = count;
+            stack.setCount(stack.getCount() - count);
+            result.setCount(count);
             setInventorySlotContents(index, stack);
         }
         return result;
@@ -282,10 +283,10 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack stack = getStackInSlot(index);
-        if(stack == null) {
-            return null;
+        if(stack .isEmpty()) {
+            return ItemStack.EMPTY;
         }
-        setInventorySlotContents(index, null);
+        setInventorySlotContents(index, ItemStack.EMPTY);
         return stack;
     }
 
@@ -307,7 +308,7 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(EntityPlayer player) {
         return settler.settlement().isMayor(player);
     }
 
@@ -322,19 +323,19 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
         if(stack == null) {
             return true;
         }
-        if(index < this.mainInventory.length) {
+        if(index < this.mainInventory.size()) {
             return true;
         }
-        index = index - mainInventory.length;
-        if(index < this.armorInventory.length) {
+        index = index - mainInventory.size();
+        if(index < this.armorInventory.size()) {
             if (stack.getItem() instanceof ItemArmor) {
                 ItemArmor item = (ItemArmor) stack.getItem();
                 return item.armorType.ordinal() - 2 == index;
             }
             return false;
         }
-        index = index - armorInventory.length;
-        return index < offHandInventory.length;
+        index = index - armorInventory.size();
+        return index < offHandInventory.size();
     }
 
     @Override
@@ -364,7 +365,7 @@ public class InventorySettler extends InventoryPlayer implements IInventorySettl
     public void decrementAnimations() {
         for (int i = 0; i < getSizeInventory(); i++) {
             ItemStack stack = getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 stack.updateAnimation(getSettler().getWorld(), getSettler(), i, i == 0);
             }
         }

@@ -27,10 +27,10 @@ public class MissingResourceStack implements IMissingResource {
 
     @Override
     public boolean onResourceAcquired(ISettler settler, int slot, ItemStack stack) {
-        if(this.stack.stackSize <= stack.stackSize) {
+        if(this.stack.getCount() <= stack.getCount()) {
             return true;
         }
-        this.stack.stackSize -= stack.stackSize;
+        this.stack.setCount(this.stack.getCount() - stack.getCount());
         return false;
     }
 

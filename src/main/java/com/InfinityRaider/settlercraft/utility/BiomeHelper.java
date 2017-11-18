@@ -17,7 +17,8 @@ public class BiomeHelper {
     private BiomeHelper() {}
 
     public String[] getBiomeList() {
-        List<String> list = Biome.EXPLORATION_BIOMES_LIST.stream().map(Biome::getBiomeName).collect(Collectors.toList());
+        Biome.registerBiomes();
+        List<String> list = Biome.REGISTRY.getKeys().stream().map(ResourceLocation::toString).collect(Collectors.toList());
         return list.toArray(new String[list.size()]);
     }
 

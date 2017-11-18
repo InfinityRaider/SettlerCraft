@@ -10,8 +10,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -51,7 +51,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
     @SubscribeEvent
     @SuppressWarnings("unused")
     public void renderSchematicOverlay(RenderWorldLastEvent event) {
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
         World world = SettlerCraft.proxy.getClientWorld();
         if(player == null) {
             return;
@@ -82,7 +82,7 @@ public class SchematicInWorldPlannerRenderer extends RenderUtilBase {
         renderer.setSchematicFromStack(stack, planner);
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         GL11.glPushMatrix();
 
         int rotation = planner.getRotation(stack);

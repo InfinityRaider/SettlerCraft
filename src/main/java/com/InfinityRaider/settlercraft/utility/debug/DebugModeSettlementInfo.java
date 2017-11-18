@@ -27,33 +27,33 @@ public class DebugModeSettlementInfo extends DebugMode {
     public void debugActionClicked(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
         int amount = SettlementHandler.getInstance().getSettlementsForWorld(world).size();
         String server = world.isRemote ? "CLIENT" : "SERVER";
-        player.addChatComponentMessage(new TextComponentString("Settlement debug mode for side: " + server));
-        player.addChatComponentMessage(new TextComponentString("There are " + amount + " settlements in this world"));
+        player.sendMessage(new TextComponentString("Settlement debug mode for side: " + server));
+        player.sendMessage(new TextComponentString("There are " + amount + " settlements in this world"));
         ISettlement settlement = SettlementHandler.getInstance().getSettlementForPosition(world, player.posX, player.posY + player.getEyeHeight(), player.posZ);
         if(settlement == null) {
-            player.addChatComponentMessage(new TextComponentString("There is no settlement on this position"));
+            player.sendMessage(new TextComponentString("There is no settlement on this position"));
         } else {
-            player.addChatComponentMessage(new TextComponentString("Current settlement is: " + settlement.name()));
-            player.addChatComponentMessage(new TextComponentString("The mayor is: " + (settlement.mayor() == null ? "NULL" : settlement.mayor().getDisplayNameString())));
-            player.addChatComponentMessage(new TextComponentString("There are " + settlement.population() + " inhabitants"));
-            player.addChatComponentMessage(new TextComponentString("There are " + settlement.getBuildings().size() + " buildings"));
-            player.addChatComponentMessage(new TextComponentString("The settlement is currently tier " + settlement.tier()));
+            player.sendMessage(new TextComponentString("Current settlement is: " + settlement.name()));
+            player.sendMessage(new TextComponentString("The mayor is: " + (settlement.mayor() == null ? "NULL" : settlement.mayor().getDisplayNameString())));
+            player.sendMessage(new TextComponentString("There are " + settlement.population() + " inhabitants"));
+            player.sendMessage(new TextComponentString("There are " + settlement.getBuildings().size() + " buildings"));
+            player.sendMessage(new TextComponentString("The settlement is currently tier " + settlement.tier()));
             IBoundingBox box = settlement.getBoundingBox();
-            player.addChatComponentMessage(new TextComponentString("The settlement boundaries range from ("
+            player.sendMessage(new TextComponentString("The settlement boundaries range from ("
                     + box.minX() + ", " + box.minY() + ", " + box.minZ() + ") to ("
                     + box.maxX() + ", " + box.maxY() + ", " + box.maxZ() + ")"));
             ISettlementBuilding building = settlement.getBuildingForLocation(player.posX, player.posY + player.getEyeHeight(), player.posZ);
             if(building == null) {
-                player.addChatComponentMessage(new TextComponentString("There is no building on this position"));
+                player.sendMessage(new TextComponentString("There is no building on this position"));
             } else {
-                player.addChatComponentMessage(new TextComponentString("Building at this position is: " + building.building().name()));
+                player.sendMessage(new TextComponentString("Building at this position is: " + building.building().name()));
                 if(building.isComplete()) {
-                    player.addChatComponentMessage(new TextComponentString("The building is completed"));
+                    player.sendMessage(new TextComponentString("The building is completed"));
                 } else {
-                    player.addChatComponentMessage(new TextComponentString("The building is under construction"));
+                    player.sendMessage(new TextComponentString("The building is under construction"));
                 }
-                player.addChatComponentMessage(new TextComponentString("There are " + building.inhabitantCount() + " settlers living in this building"));
-                player.addChatComponentMessage(new TextComponentString("There are " + building.workerCount() + " settlers working in this building"));
+                player.sendMessage(new TextComponentString("There are " + building.inhabitantCount() + " settlers living in this building"));
+                player.sendMessage(new TextComponentString("There are " + building.workerCount() + " settlers working in this building"));
             }
         }
     }

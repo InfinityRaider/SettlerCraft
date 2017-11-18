@@ -106,7 +106,7 @@ public class NodeCreator {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        int sizeX = MathHelper.ceiling_float_int(settings.getEntity().width);
+        int sizeX = MathHelper.ceil(settings.getEntity().width);
         int sizeY = (int) settings.getEntity().height + 1;
         int i = x - sizeX / 2;
         int j = z - sizeX / 2;
@@ -160,7 +160,7 @@ public class NodeCreator {
                     if (j > y && pathNodeType1 != PathNodeType.OPEN) {
                         AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) i - d0 + 0.5D, (double) y + 0.001D, (double) k - d0 + 0.5D,
                                 (double) i + d0 + 0.5D, (double) ((float) y + settings.getEntity().height), (double) k + d0 + 0.5D);
-                        if (!settings.getEntity().worldObj.collidesWithAnyBlock(axisalignedbb)) {
+                        if (!settings.getEntity().getEntityWorld().collidesWithAnyBlock(axisalignedbb)) {
                             pathNodeType1 = PathNodeType.OPEN;
                         }
                     }
@@ -189,9 +189,9 @@ public class NodeCreator {
     }
 
     private boolean isPositionClear(IBlockAccess world, int x, int y, int z, PathFinderSettings settings) {
-        int sizeX = MathHelper.ceiling_float_int(settings.getEntity().width);
+        int sizeX = MathHelper.ceil(settings.getEntity().width);
         int sizeY = (int) settings.getEntity().height + 1;
-        int sizeZ = MathHelper.ceiling_float_int(settings.getEntity().width);
+        int sizeZ = MathHelper.ceil(settings.getEntity().width);
         for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(x, y, z), new BlockPos(x + sizeX - 1, y + sizeY - 1, z + sizeZ - 1))) {
             Block block = world.getBlockState(blockpos).getBlock();
             if (!block.isPassable(world, blockpos)) {

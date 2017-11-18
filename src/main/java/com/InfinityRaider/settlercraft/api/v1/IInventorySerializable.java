@@ -1,12 +1,13 @@
 package com.InfinityRaider.settlercraft.api.v1;
 
+import com.infinityraider.infinitylib.utility.inventory.IInventoryItemHandler;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * IInventory extended with methods to read/write to/from nbt
  */
-public interface IInventorySerializable extends IInventory {
+public interface IInventorySerializable extends IInventory, IInventoryItemHandler {
     /**
      * Write this inventory's data to a new NBT tag
      * @return a new NBT tag holding the data for this inventory

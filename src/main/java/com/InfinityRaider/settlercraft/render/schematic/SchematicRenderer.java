@@ -10,7 +10,7 @@ import com.InfinityRaider.settlercraft.utility.BoundingBox;
 import com.InfinityRaider.settlercraft.utility.schematic.Schematic;
 import com.InfinityRaider.settlercraft.utility.schematic.SchematicReader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
@@ -31,7 +31,7 @@ public class SchematicRenderer {
 
     private SchematicRenderer() {}
 
-    public void doRender(VertexBuffer buffer) {
+    public void doRender(BufferBuilder buffer) {
         if(this.hasSchematic()) {
             for(int x = 0; x < currentSchematic.sizeX(); x++) {
                 for(int y = 0; y < currentSchematic.sizeY(); y++) {
@@ -52,7 +52,7 @@ public class SchematicRenderer {
             return;
         }
         ISettlement settlement = planner.getSettlement(SettlerCraft.proxy.getClientWorld(), stack);
-        if(settlement == null || !settlement.isMayor(Minecraft.getMinecraft().thePlayer)) {
+        if(settlement == null || !settlement.isMayor(Minecraft.getMinecraft().player)) {
             this.currentSchematic = null;
             this.name = "";
             return;
@@ -71,7 +71,7 @@ public class SchematicRenderer {
             SettlerCraft.instance.getLogger().printStackTrace(e);
             return;
         }
-        this.currentSchematic = new SchematicWorld(Minecraft.getMinecraft().theWorld, new BlockPos(0, 0, 0), schematic, 0);
+        this.currentSchematic = new SchematicWorld(Minecraft.getMinecraft().world, new BlockPos(0, 0, 0), schematic, 0);
         this.name = building.name();
     }
 

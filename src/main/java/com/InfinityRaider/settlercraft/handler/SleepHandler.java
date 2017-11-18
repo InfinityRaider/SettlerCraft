@@ -92,7 +92,7 @@ public class SleepHandler {
             event.setCanceled(true);
             event.setUseBlock(Event.Result.DENY);
             event.setUseItem(Event.Result.DENY);
-            event.getEntityPlayer().addChatComponentMessage(new TextComponentString("Occupied"));
+            event.getEntityPlayer().sendMessage(new TextComponentString("Occupied"));
         }
     }
 }

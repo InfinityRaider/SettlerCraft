@@ -129,7 +129,7 @@ public class SettlerInteractionController {
         }
         //handle right clicking the entity for the settler
         new MessageSettlerInteractWithEntity(getSettler(), target, hand).sendToAll();
-        if (this.interactWithEntity(target, this.getSettler().getHeldItem(hand), hand) == EnumActionResult.SUCCESS) {
+        if (this.interactWithEntity(target, hand) == EnumActionResult.SUCCESS) {
             return true;
         }
         this.afterRightClick(hand, false);
@@ -155,7 +155,7 @@ public class SettlerInteractionController {
                 }
                 if (event.getUseItem() == Event.Result.DENY) return true;
                 if (flag && state.getPlayerRelativeBlockHardness(this.getFakePlayer(), this.getWorld(), pos) >= 1.0F) {
-                    this.onPlayerDestroyBlock(loc);
+                    this.onPlayerDestroyBlock();
                 } else {
                     this.isHittingBlock = true;
                     this.currentBlock = pos;
@@ -169,6 +169,8 @@ public class SettlerInteractionController {
         }
     }
 
+    private void onPlayerDestroyBlock() {}
+
     private boolean isHittingPosition(BlockPos pos) {
         ItemStack itemstack = this.getSettler().getHeldItemMainhand();
         boolean flag = this.currentItemHittingBlock == null && itemstack == null;
@@ -181,16 +183,14 @@ public class SettlerInteractionController {
     public boolean rightClickBlock(BlockPos pos, EnumFacing side, Vec3d hit, EnumHand hand) {
         ItemStack stack = getSettler().getHeldItem(hand);
         if (this.getWorld().getBlockState(pos).getMaterial() != Material.AIR) {
-            int stackSize = stack != null ? stack.stackSize : 0;
+            int stackSize = stack.getCount();
             EnumActionResult result = this.processRightClickBlock(stack, pos, side, hit, hand);
             if (result == EnumActionResult.SUCCESS) {
                 this.getSettler().swingArm(hand);
-                if (stack != null) {
-                    if (stack.stackSize == 0) {
-                        this.getSettler().setHeldItem(hand, null);
-                    } else if (stack.stackSize != stackSize) {
-                        this.resetEquipProgress(hand);
-                    }
+                if(stack.isEmpty()) {
+                    this.getSettler().setHeldItem(hand, ItemStack.EMPTY);
+                } else if(stack.getCount() != stackSize) {
+                    this.resetEquipProgress(hand);
                 }
                 return true;
             }
@@ -216,18 +216,15 @@ public class SettlerInteractionController {
      */
     public EnumActionResult interactWithEntity(Entity entity, Vec3d dir, ItemStack stack, EnumHand hand) {
         //syncCurrentPlayItem();
-        if(ForgeHooks.onInteractEntityAt(getSettler().getFakePlayerImplementation(), entity, dir, stack, hand)) {
-            return EnumActionResult.PASS;
-        }
-        return entity.applyPlayerInteraction(getSettler().getFakePlayerImplementation(), dir, stack, hand);
+        return ForgeHooks.onInteractEntityAt(getSettler().getFakePlayerImplementation(), entity, dir, hand);
     }
 
     /**
      * Handles right clicking an entity for the settler
      */
-    public EnumActionResult interactWithEntity(Entity entity, ItemStack stack, EnumHand hand) {
+    public EnumActionResult interactWithEntity(Entity entity, EnumHand hand) {
         //syncCurrentPlayItem();
-        return getSettler().interact(entity, stack, hand);
+        return getSettler().interact(entity, hand);
     }
 
     /**
@@ -245,19 +242,20 @@ public class SettlerInteractionController {
         if (getSettler().getCooldownTracker().hasCooldown(stack.getItem())) {
             return EnumActionResult.PASS;
         } else {
-            if (ForgeHooks.onItemRightClick(getSettler().getFakePlayerImplementation(), hand, stack)) {
-                return net.minecraft.util.EnumActionResult.PASS;
+            EnumActionResult eventResult = ForgeHooks.onItemRightClick(getSettler().getFakePlayerImplementation(), hand);
+            if (eventResult != null) {
+                return eventResult;
             }
-            int stackSize = stack.stackSize;
+            int stackSize = stack.getCount();
             int meta = stack.getMetadata();
             ActionResult<ItemStack> result = stack.useItemRightClick(getWorld(), getSettler().getFakePlayerImplementation(), hand);
             ItemStack newStack = result.getResult();
-            if (newStack == stack && newStack.stackSize == stackSize && newStack.getMaxItemUseDuration() <= 0 && newStack.getMetadata() == meta) {
+            if (newStack == stack && newStack.getCount() == stackSize && newStack.getMaxItemUseDuration() <= 0 && newStack.getMetadata() == meta) {
                 return result.getType();
             } else {
                 getSettler().setHeldItem(hand, newStack);
-                if (newStack.stackSize <= 0) {
-                    getSettler().setHeldItem(hand, null);
+                if (newStack.isEmpty()) {
+                    getSettler().setHeldItem(hand, ItemStack.EMPTY);
                     ForgeEventFactory.onPlayerDestroyItem(getSettler().getFakePlayerImplementation(), newStack, hand);
                 }
             }

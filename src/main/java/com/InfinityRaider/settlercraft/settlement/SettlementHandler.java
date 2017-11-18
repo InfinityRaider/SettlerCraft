@@ -90,7 +90,7 @@ public abstract class SettlementHandler implements ISettlementHandler {
         Chunk chunk = player.getEntityWorld().getChunkFromBlockCoords(pos);
         for(int x = -8; x <= 8; x++) {
             for(int z = -8; z <= 8; z++) {
-                Chunk chunkAt = player.getEntityWorld().getChunkFromChunkCoords(chunk.xPosition + x, chunk.zPosition + z);
+                Chunk chunkAt = player.getEntityWorld().getChunkFromChunkCoords(chunk.x + x, chunk.z + z);
                 if(getSettlementForChunk(chunkAt) != null) {
                     return false;
                 }

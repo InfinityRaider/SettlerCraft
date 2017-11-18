@@ -62,7 +62,7 @@ public class EntityAIAimAtTarget extends EntityAIBase {
             return;
         }
         Vec3d target = this.settler.getLookTarget().getTarget(this.settler);
-        this.getEntity().getLookHelper().setLookPosition(target.xCoord, target.yCoord, target.zCoord,
+        this.getEntity().getLookHelper().setLookPosition(target.x, target.y, target.z,
                 (float) this.getEntity().getHorizontalFaceSpeed(), (float) this.getEntity().getVerticalFaceSpeed());
     }
 }

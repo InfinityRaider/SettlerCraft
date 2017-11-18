@@ -33,7 +33,7 @@ public class DialogueOptionSelectBuildingStyle extends DialogueOptionBase {
 
     @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             ISettlement settlement = SettlementHandler.getInstance().startNewSettlement(player, style);
             if(settlement != null) {
                 settlement.addInhabitant(settler);

@@ -165,7 +165,7 @@ public class Schematic {
                     return new ItemStack(getBlock(), 1, stackMeta);
                 }
                 if(tag != null) {
-                    ItemStack stack = ItemStack.loadItemStackFromNBT(tag);
+                    ItemStack stack = new ItemStack(tag);
                     if(stack != null) {
                         return stack;
                     }

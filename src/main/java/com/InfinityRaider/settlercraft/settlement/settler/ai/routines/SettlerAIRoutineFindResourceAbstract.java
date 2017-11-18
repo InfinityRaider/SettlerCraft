@@ -107,10 +107,10 @@ public abstract class SettlerAIRoutineFindResourceAbstract extends SettlerAIRout
                     } else {
                         ItemStack inInventory = inventory.getStackInSlot(index);
                         ItemStack remaining = this.getSettler().getSettlerInventory().addStackToInventory(inInventory.copy());
-                        if(remaining == null || remaining.stackSize <= 0) {
-                            inventory.setInventorySlotContents(index, null);
+                        if(remaining.isEmpty()) {
+                            inventory.setInventorySlotContents(index, ItemStack.EMPTY);
                         } else {
-                            inventory.decrStackSize(index, inInventory.stackSize - remaining.stackSize);
+                            inventory.decrStackSize(index, inInventory.getCount() - remaining.getCount());
                         }
                         this.interruptRoutine();
                     }

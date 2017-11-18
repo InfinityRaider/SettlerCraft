@@ -27,7 +27,7 @@ public class MessageDialogueOptionSelected extends MessageBase<IMessage> {
 
     @Override
     protected void processMessage(MessageContext ctx) {
-        EntityPlayer player = ctx.getServerHandler().playerEntity;
+        EntityPlayer player = ctx.getServerHandler().player;
         Container container = player.openContainer;
         if (container instanceof ContainerSettlerDialogue) {
             ((ContainerSettlerDialogue) container).onDialogueOptionClicked(this.id);

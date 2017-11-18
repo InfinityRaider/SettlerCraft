@@ -21,11 +21,11 @@ import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -74,6 +74,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     private static final DataParameter<Byte> DATA_CLIMBING = EntityDataManager.createKey(EntitySettler.class, DataSerializers.BYTE);
 
     public static final IAttribute ATTRIBUTE_REACH = new RangedAttribute(null, "settlercraft:settler.reach", 4.5, 2, 8);
+    private PlayerCapabilities capabilities = new PlayerCapabilities(); //TODO
 
     private ISettlement settlement;
     private IProfession profession;
@@ -201,7 +202,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    protected PathNavigate getNewNavigator(World worldIn) {
+    protected PathNavigate createNavigator(World worldIn) {
         return new PathNavigateClimber(this, worldIn);
     }
 
@@ -264,7 +265,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         //super call
         super.onLivingUpdate();
         //natural regen
-        if (this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && this.worldObj.getGameRules().getBoolean("naturalRegeneration")) {
+        if (this.getWorld().getDifficulty() == EnumDifficulty.PEACEFUL && this.getWorld().getGameRules().getBoolean("naturalRegeneration")) {
             if (this.getHealth() < this.getMaxHealth() && this.ticksExisted % 20 == 0) {
                 this.heal(1.0F);
             }
@@ -290,7 +291,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public World getWorld() {
-        return worldObj;
+        return this.getEntityWorld();
     }
 
     @Override
@@ -320,7 +321,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setHome(ISettlementBuilding building) {
-        if(!worldObj.isRemote) {
+        if(!getWorld().isRemote) {
             if (settlement() == null || (building != null && building.settlement() != settlement())) {
                 return;
             }
@@ -342,7 +343,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void setWorkPlace(ISettlementBuilding building) {
-        if(!worldObj.isRemote) {
+        if(!getWorld().isRemote) {
             if (settlement() == null || (building != null && building.settlement() != settlement())) {
                 return;
             }
@@ -507,21 +508,21 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public void assignTask(ITask task) {
-        if (!this.worldObj.isRemote && task != null) {
+        if (!this.getWorld().isRemote && task != null) {
             this.settlerAI.addTask(task);
         }
     }
 
     @Override
     public void queueTask(ITask task) {
-        if (!this.worldObj.isRemote && task != null) {
+        if (!this.getWorld().isRemote && task != null) {
             this.settlerAI.queueTask(task);
         }
     }
 
     @Override
     public void cancelTask(ITask task) {
-        if (!this.worldObj.isRemote && task != null) {
+        if (!this.getWorld().isRemote && task != null) {
             this.settlerAI.cancelTask(task);
         }
     }
@@ -559,14 +560,14 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public EntityPlayer.SleepResult trySleepInBed(BlockPos bed) {
-        if (!this.worldObj.isRemote) {
+        if (!this.getWorld().isRemote) {
             if (this.isSleeping() || !this.isEntityAlive()) {
                 return EntityPlayer.SleepResult.OTHER_PROBLEM;
             }
-            if (!this.worldObj.provider.isSurfaceWorld()) {
+            if (!this.getWorld().provider.isSurfaceWorld()) {
                 return EntityPlayer.SleepResult.NOT_POSSIBLE_HERE;
             }
-            if (this.worldObj.isDaytime()) {
+            if (this.getWorld().isDaytime()) {
                 return EntityPlayer.SleepResult.NOT_POSSIBLE_NOW;
             }
             if (Math.abs(this.posX - (double) bed.getX()) > 3.0D || Math.abs(this.posY - (double) bed.getY()) > 2.0D || Math.abs(this.posZ - (double) bed.getZ()) > 3.0D) {
@@ -578,9 +579,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         }
         this.setSize(0.2F, 0.2F);
         IBlockState state = null;
-        if (this.worldObj.isBlockLoaded(bed)) state = this.worldObj.getBlockState(bed);
-        if (state != null && state.getBlock().isBed(state, this.worldObj, bed, this)) {
-            EnumFacing enumfacing = state.getBlock().getBedDirection(state, this.worldObj, bed);
+        if (this.getWorld().isBlockLoaded(bed)) state = this.getWorld().getBlockState(bed);
+        if (state != null && state.getBlock().isBed(state, this.getWorld(), bed, this)) {
+            EnumFacing enumfacing = state.getBlock().getBedDirection(state, this.getWorld(), bed);
             float f = 0.5F;
             float f1 = 0.5F;
             switch (enumfacing) {
@@ -755,7 +756,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             return null;
         }
         if (stack.getItem().onDroppedByPlayer(stack, getFakePlayerImplementation())) {
-            int count = dropAll && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().stackSize : 1;
+            int count = dropAll && this.inventory.getCurrentItem() != null ? this.inventory.getCurrentItem().getCount() : 1;
             return dropItem(inventory.decrStackSize(0, count), false, true);
         }
         return null;
@@ -770,11 +771,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     public EntityItem dropItem(@Nullable ItemStack droppedItem, boolean dropAround, boolean traceItem) {
         if (droppedItem == null) {
             return null;
-        } else if (droppedItem.stackSize == 0) {
+        } else if (droppedItem.isEmpty()) {
             return null;
         } else {
             double d0 = this.posY - 0.30000001192092896D + (double) this.getEyeHeight();
-            EntityItem entityitem = new EntityItem(this.worldObj, this.posX, d0, this.posZ, droppedItem);
+            EntityItem entityitem = new EntityItem(this.getWorld(), this.posX, d0, this.posZ, droppedItem);
             entityitem.setPickupDelay(40);
             if (traceItem) {
                 entityitem.setThrower(this.getName());
@@ -806,9 +807,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         if (captureDrops){
             capturedDrops.add(item);
         } else {
-            this.worldObj.spawnEntityInWorld(item);
+            this.getWorld().spawnEntity(item);
         }
-        return item.getEntityItem();
+        return item.getItem();
     }
 
     @Override
@@ -850,7 +851,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     public Iterable<ItemStack> getArmorInventoryList() {
-        return Arrays.asList(inventory.getArmorInventory());
+        return inventory.getArmorInventory();
     }
 
     @Override
@@ -874,9 +875,9 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     @Override
     public void damageShield(float damage) {
         if (damage >= 3.0F && this.activeItemStack != null && this.activeItemStack.getItem() == Items.SHIELD) {
-            int i = 1 + MathHelper.floor_float(damage);
+            int i = 1 + MathHelper.floor(damage);
             this.activeItemStack.damageItem(i, this);
-            if (this.activeItemStack.stackSize <= 0) {
+            if (this.activeItemStack.getCount() <= 0) {
                 EnumHand enumhand = this.getActiveHand();
                 if (enumhand == EnumHand.MAIN_HAND) {
                     this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
@@ -884,7 +885,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                     this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, null);
                 }
                 this.activeItemStack = null;
-                this.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + this.worldObj.rand.nextFloat() * 0.4F);
+                this.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + this.getWorld().rand.nextFloat() * 0.4F);
             }
         }
     }
@@ -897,11 +898,11 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
      */
 
     @Override
-    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, ItemStack stack, EnumHand hand) {
+    public EnumActionResult applyPlayerInteraction(EntityPlayer player, Vec3d vec, EnumHand hand) {
         if(this.conversationPartner == null) {
             this.conversationPartner = player;
         }
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             GuiHandlerSettler.getInstance().openSettlerDialogueContainer(player, this);
         }
         return EnumActionResult.SUCCESS;
@@ -959,7 +960,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                     knockBack = knockBack + EnchantmentHelper.getKnockbackModifier(this);
                     //knockback
                     if (this.isSprinting() && doDmg) {
-                        this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, this.getSoundCategory(), 1.0F, 1.0F);
+                        this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, this.getSoundCategory(), 1.0F, 1.0F);
                         ++knockBack;
                         doKnockBack = true;
                     }
@@ -1004,13 +1005,13 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                             this.setSprinting(false);
                         }
                         if (withSword) {
-                            this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, targetEntity.getEntityBoundingBox().expand(1.0D, 0.25D, 1.0D)).stream()
+                            this.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, targetEntity.getEntityBoundingBox().expand(1.0D, 0.25D, 1.0D)).stream()
                                     .filter(entity -> entity != this && entity != targetEntity && !this.isOnSameTeam(entity) && this.getDistanceSqToEntity(entity) < 9.0D)
                                     .forEach(entity -> {
                                         entity.knockBack(this, 0.4F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
                                         entity.attackEntityFrom(this.getDamageSource(), 1.0F);
                                     });
-                            this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, this.getSoundCategory(), 1.0F, 1.0F);
+                            this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, this.getSoundCategory(), 1.0F, 1.0F);
                             this.spawnSweepParticles();
                         }
                         if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged) {
@@ -1021,20 +1022,20 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                             targetEntity.motionZ = vZ;
                         }
                         if (crit) {
-                            this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, this.getSoundCategory(), 1.0F, 1.0F);
+                            this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, this.getSoundCategory(), 1.0F, 1.0F);
                             this.onCriticalHit(targetEntity);
                         }
                         if (!crit && !withSword) {
                             if (doDmg) {
-                                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, this.getSoundCategory(), 1.0F, 1.0F);
+                                this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, this.getSoundCategory(), 1.0F, 1.0F);
                             } else {
-                                this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, this.getSoundCategory(), 1.0F, 1.0F);
+                                this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, this.getSoundCategory(), 1.0F, 1.0F);
                             }
                         }
                         if (atkModifier > 0.0F) {
                             this.onEnchantmentCritical(targetEntity);
                         }
-                        if (!this.worldObj.isRemote && targetEntity instanceof EntityPlayer) {
+                        if (!this.getWorld().isRemote && targetEntity instanceof EntityPlayer) {
                             EntityPlayer player = (EntityPlayer) targetEntity;
                             ItemStack main = this.getHeldItemMainhand();
                             ItemStack offhand = player.isHandActive() ? player.getActiveItemStack() : null;
@@ -1045,26 +1046,26 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                                 }
                                 if (this.rand.nextFloat() < efficiency) {
                                     player.getCooldownTracker().setCooldown(Items.SHIELD, 100);
-                                    this.worldObj.setEntityState(player, (byte) 30);
+                                    this.getWorld().setEntityState(player, (byte) 30);
                                 }
                             }
                         }
-                        this.setLastAttacker(targetEntity);
+                        this.setLastAttackedEntity(targetEntity);
                         if (targetEntity instanceof EntityLivingBase) {
                             EnchantmentHelper.applyThornEnchantments((EntityLivingBase) targetEntity, this);
                         }
                         EnchantmentHelper.applyArthropodEnchantments(this, targetEntity);
                         ItemStack mainHand = this.getHeldItemMainhand();
                         Entity entity = targetEntity;
-                        if (targetEntity instanceof EntityDragonPart) {
-                            IEntityMultiPart entityMultiPart = ((EntityDragonPart) targetEntity).entityDragonObj;
+                        if (targetEntity instanceof MultiPartEntityPart) {
+                            IEntityMultiPart entityMultiPart = ((MultiPartEntityPart) targetEntity).parent;
                             if (entityMultiPart instanceof EntityLivingBase) {
                                 entity = (EntityLivingBase) entityMultiPart;
                             }
                         }
                         if (mainHand != null && entity instanceof EntityLivingBase) {
-                            if (mainHand.stackSize <= 0) {
-                                this.setHeldItem(EnumHand.MAIN_HAND, null);
+                            if (mainHand.isEmpty()) {
+                                this.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
                             }
                         }
                         if (targetEntity instanceof EntityLivingBase) {
@@ -1072,14 +1073,14 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                             if (fireAspect > 0) {
                                 targetEntity.setFire(fireAspect * 4);
                             }
-                            if (this.worldObj instanceof WorldServer && remainingHp > 2.0F) {
+                            if (this.getWorld() instanceof WorldServer && remainingHp > 2.0F) {
                                 int k = (int) ((double) remainingHp * 0.5D);
-                                ((WorldServer) this.worldObj).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX, targetEntity.posY + (double) (targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D);
+                                ((WorldServer) this.getWorld()).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX, targetEntity.posY + (double) (targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D);
                             }
                         }
                         this.addExhaustion(0.3F);
                     } else {
-                        this.worldObj.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, this.getSoundCategory(), 1.0F, 1.0F);
+                        this.getWorld().playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, this.getSoundCategory(), 1.0F, 1.0F);
                         if (setFire) {
                             targetEntity.extinguish();
                         }
@@ -1149,17 +1150,17 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
                 ++i;
             }
         }
-        return (float)i / (float)this.inventory.getArmorInventory().length;
+        return (float)i / (float)this.inventory.getArmorInventory().size();
     }
 
     public void addExhaustion(float exhaustion) {
-        if (!this.worldObj.isRemote) {
+        if (!this.getWorld().isRemote) {
             this.foodStats.addExhaustion(exhaustion);
         }
     }
 
     public float getCooledAttackStrength(float adjustTicks) {
-        return MathHelper.clamp_float(((float)this.ticksSinceLastSwing + adjustTicks) / this.getCooldownPeriod(), 0.0F, 1.0F);
+        return MathHelper.clamp(((float)this.ticksSinceLastSwing + adjustTicks) / this.getCooldownPeriod(), 0.0F, 1.0F);
     }
 
     public float getCooldownPeriod() {
@@ -1171,10 +1172,10 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     public void spawnSweepParticles() {
-        if (this.worldObj instanceof WorldServer) {
+        if (this.getWorld() instanceof WorldServer) {
             double d0 = (double)(-MathHelper.sin(this.rotationYaw * 0.017453292F));
             double d1 = (double)MathHelper.cos(this.rotationYaw * 0.017453292F);
-            ((WorldServer)this.worldObj).spawnParticle(
+            ((WorldServer)this.getWorld()).spawnParticle(
                     EnumParticleTypes.SWEEP_ATTACK, this.posX + d0, this.posY + (double)this.height * 0.5D, this.posZ + d1, 0, d0, 0.0D, d1, 0.0D);
         }
     }
@@ -1205,7 +1206,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         if(this.getWorld().isRemote) {
             return null;
         } else {
-            return (WorldServer) this.worldObj;
+            return (WorldServer) this.getWorld();
         }
     }
 
@@ -1214,7 +1215,7 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             return false;
         } else {
             BlockPos blockpos = pos.offset(facing.getOpposite());
-            Block block = this.worldObj.getBlockState(blockpos).getBlock();
+            Block block = this.getWorld().getBlockState(blockpos).getBlock();
             return stack.canPlaceOn(block) || stack.canEditBlocks();
         }
     }
@@ -1224,28 +1225,39 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void moveEntityWithHeading(float strafe, float forward) {
+    public void travel(float x, float y, float z) {
         double x0 = this.posX;
         double y0 = this.posY;
         double z0 = this.posZ;
-        super.moveEntityWithHeading(strafe, forward);
+        if (this.capabilities.isFlying && !this.isRiding()) {
+            double d3 = this.motionY;
+            float f = this.jumpMovementFactor;
+            this.jumpMovementFactor = this.capabilities.getFlySpeed() * (float)(this.isSprinting() ? 2 : 1);
+            super.travel(x, y, z);
+            this.motionY = d3 * 0.6D;
+            this.jumpMovementFactor = f;
+            this.fallDistance = 0.0F;
+            this.setFlag(7, false);
+        } else {
+            super.travel(x, y, z);
+        }
         this.addMovementStat(this.posX - x0, this.posY - y0, this.posZ - z0);
     }
 
     public void addMovementStat(double x, double y, double z) {
         if (!this.isRiding()) {
             if (this.isInsideOfMaterial(Material.WATER)) {
-                int i = Math.round(MathHelper.sqrt_double(x * x + y * y + z * z) * 100.0F);
+                int i = Math.round(MathHelper.sqrt(x * x + y * y + z * z) * 100.0F);
                 if (i > 0) {
                     this.addExhaustion(0.015F * (float)i * 0.01F);
                 }
             } else if (this.isInWater()) {
-                int j = Math.round(MathHelper.sqrt_double(x * x + z * z) * 100.0F);
+                int j = Math.round(MathHelper.sqrt(x * x + z * z) * 100.0F);
                 if (j > 0) {
                     this.addExhaustion(0.015F * (float)j * 0.01F);
                 }
             } else if (this.onGround) {
-                int k = Math.round(MathHelper.sqrt_double(x * x + z * z) * 100.0F);
+                int k = Math.round(MathHelper.sqrt(x * x + z * z) * 100.0F);
                 if (k > 0) {
                     if (this.isSprinting()) {
                         this.addExhaustion(0.099999994F * (float)k * 0.01F);
@@ -1259,12 +1271,13 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
         }
     }
 
-    public EnumActionResult interact(Entity entity, @Nullable ItemStack stack, EnumHand hand) {
-        if (!entity.processInitialInteract(getFakePlayerImplementation(), stack, hand)) {
+    public EnumActionResult interact(Entity entity,EnumHand hand) {
+        ItemStack stack = this.getHeldItem(hand);
+        if (!entity.processInitialInteract(getFakePlayerImplementation(), hand)) {
             if (stack != null && entity instanceof EntityLivingBase) {
                 if (stack.interactWithEntity(getFakePlayerImplementation(), (EntityLivingBase) entity, hand)) {
-                    if (stack.stackSize <= 0) {
-                        this.setHeldItem(hand, null);
+                    if (stack.isEmpty()) {
+                        this.setHeldItem(hand, ItemStack.EMPTY);
                     }
                     return EnumActionResult.SUCCESS;
                 }
@@ -1272,8 +1285,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
             return EnumActionResult.PASS;
         } else {
             if (stack != null && stack == this.getHeldItem(hand)) {
-                if (stack.stackSize <= 0) {
-                    this.setHeldItem(hand, null);
+                if (stack.isEmpty()) {
+                    this.setHeldItem(hand, ItemStack.EMPTY);
                 }
             }
             return EnumActionResult.SUCCESS;
@@ -1399,13 +1412,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public float func_189749_co() {
-        return super.func_189749_co();
-    }
-
-    @Override
-    public void resetHeight() {
-        super.resetHeight();
+    public float getWaterSlowDown() {
+        return super.getWaterSlowDown();
     }
 
     @Override
@@ -1512,8 +1520,8 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
     }
 
     @Override
-    public void kill() {
-        super.kill();
+    public void outOfWorld() {
+        super.outOfWorld();
     }
 
     @Override
@@ -1563,8 +1571,12 @@ public class EntitySettler extends EntityAgeable implements ISettler, IEntityAdd
 
     @Override
     @Nullable
-    public SoundEvent getHurtSound() {
-        return SoundEvents.ENTITY_PLAYER_HURT;
+    public SoundEvent getHurtSound(DamageSource Source) {
+        if (Source == DamageSource.ON_FIRE) {
+            return SoundEvents.ENTITY_PLAYER_HURT_ON_FIRE;
+        } else {
+            return Source == DamageSource.DROWN ? SoundEvents.ENTITY_PLAYER_HURT_DROWN : SoundEvents.ENTITY_PLAYER_HURT;
+        }
     }
 
     @Override

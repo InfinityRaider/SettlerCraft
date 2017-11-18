@@ -123,7 +123,7 @@ public class BuildingInventory implements IInventoryBuilding, IInventorySerializ
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(EntityPlayer player) {
         return true;
     }
 
