@@ -40,7 +40,7 @@ public class TaskUseItem<T extends ITask> extends TaskWithParentBase<T> {
     public void onTaskUpdated() {
         if( ItemStack.areItemsEqual(this.getSettler().getSettlerInventory().getStackInSlot(this.slot), this.stack)) {
             if(this.slot == 0) {
-                this.getSettler().useRightClick();
+                //this.getSettler().useRightClick(); //TODO
                 this.tickCounter++;
             } else {
 

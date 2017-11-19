@@ -32,7 +32,7 @@ public class DialogueOptionShowInventory extends DialogueOptionBase {
 
     @Override
     public void onContainerClosed(EntityPlayer player, ISettler settler) {
-        if(!player.worldObj.isRemote) {
+        if(!player.getEntityWorld().isRemote) {
             GuiHandlerSettler.getInstance().openSettlerInventoryContainer(player, settler);
         }
     }

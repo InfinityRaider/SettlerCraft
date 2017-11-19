@@ -37,10 +37,10 @@ public class WalkNodeProcessor extends NodeProcessor {
         int y;
         if (this.getCanSwim() && this.entity.isInWater()) {
             y = (int)this.entity.getEntityBoundingBox().minY;
-            BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(MathHelper.floor_double(this.entity.posX), y, MathHelper.floor_double(this.entity.posZ));
+            BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(MathHelper.floor(this.entity.posX), y, MathHelper.floor(this.entity.posZ));
             for (Block block = this.world.getBlockState(pos).getBlock(); block == Blocks.FLOWING_WATER || block == Blocks.WATER; block = this.world.getBlockState(pos).getBlock()) {
                 ++y;
-                pos.setPos(MathHelper.floor_double(this.entity.posX), y, MathHelper.floor_double(this.entity.posZ));
+                pos.setPos(MathHelper.floor(this.entity.posX), y, MathHelper.floor(this.entity.posZ));
             }
         }
         else if (!this.entity.onGround) {
@@ -48,7 +48,7 @@ public class WalkNodeProcessor extends NodeProcessor {
             for (blockpos = new BlockPos(this.entity); (this.world.getBlockState(blockpos).getMaterial() == Material.AIR || this.world.getBlockState(blockpos).getBlock().isPassable(this.world, blockpos)) && blockpos.getY() > 0; blockpos = blockpos.down()) {}
             y = blockpos.up().getY();
         } else {
-            y = MathHelper.floor_double(this.entity.getEntityBoundingBox().minY + 0.5D);
+            y = MathHelper.floor(this.entity.getEntityBoundingBox().minY + 0.5D);
         }
         BlockPos pos = new BlockPos(this.entity);
         PathNodeType pathNodeType = this.getPathNodeType(this.entity, pos.getX(), y, pos.getZ());
@@ -71,7 +71,7 @@ public class WalkNodeProcessor extends NodeProcessor {
 
     public PathPoint getEndPoint(double x, double y, double z)
     {
-        return this.openPoint(MathHelper.floor_double(x - (double)(this.entity.width / 2.0F)), MathHelper.floor_double(y), MathHelper.floor_double(z - (double)(this.entity.width / 2.0F)));
+        return this.openPoint(MathHelper.floor(x - (double)(this.entity.width / 2.0F)), MathHelper.floor(y), MathHelper.floor(z - (double)(this.entity.width / 2.0F)));
     }
 
     /**
@@ -166,15 +166,15 @@ public class WalkNodeProcessor extends NodeProcessor {
                         double deltaZ = (double)(z - direction.getFrontOffsetZ()) + 0.5D;
                         AxisAlignedBB entityBox = new AxisAlignedBB(deltaX - halfWidth, (double)y + 0.001D, deltaZ - halfWidth, deltaX + halfWidth, (double)((float)y + this.entity.height), deltaZ + halfWidth);
                         AxisAlignedBB blockBox = this.world.getBlockState(pos).getBoundingBox(this.world, pos);
-                        entityBox = entityBox.addCoord(0.0D, blockBox.maxY - 0.002D, 0.0D);
-                        if (this.entity.worldObj.collidesWithAnyBlock(entityBox)) {
+                        entityBox = entityBox.expand(0.0D, blockBox.maxY - 0.002D, 0.0D);
+                        if (this.entity.getEntityWorld().collidesWithAnyBlock(entityBox)) {
                             point = null;
                         }
                     }
                 }
                 if (type == PathNodeType.OPEN) {
                     AxisAlignedBB entityBox = new AxisAlignedBB((double)x - halfWidth + 0.5D, (double)y + 0.001D, (double)z - halfWidth + 0.5D, (double)x + halfWidth + 0.5D, (double)((float)y + this.entity.height), (double)z + halfWidth + 0.5D);
-                    if (this.entity.worldObj.collidesWithAnyBlock(entityBox)) {
+                    if (this.entity.getEntityWorld().collidesWithAnyBlock(entityBox)) {
                         return null;
                     }
                     int i = 0;
@@ -225,7 +225,7 @@ public class WalkNodeProcessor extends NodeProcessor {
                     }
                     if (indexY > y && type != PathNodeType.OPEN) {
                         AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)indexX - halfWidth + 0.5D, (double)y + 0.001D, (double)indexZ - halfWidth + 0.5D, (double)indexX + halfWidth + 0.5D, (double)((float)y + entity.height), (double)indexZ + halfWidth + 0.5D);
-                        if (!entity.worldObj.collidesWithAnyBlock(axisalignedbb)) {
+                        if (!entity.getEntityWorld().collidesWithAnyBlock(axisalignedbb)) {
                             type = PathNodeType.OPEN;
                         }
                     }

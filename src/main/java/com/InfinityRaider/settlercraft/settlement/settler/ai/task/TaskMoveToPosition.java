@@ -1,7 +1,6 @@
 package com.InfinityRaider.settlercraft.settlement.settler.ai.task;
 
 import com.InfinityRaider.settlercraft.api.v1.ITask;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNodeType;
@@ -34,7 +33,7 @@ public class TaskMoveToPosition<T extends ITask> extends TaskWithParentBase<T> {
             this.pathingTimer = 60;
             if (!this.getEntitySettler().getLeashed()) {
                 double moveSpeed = getSettler().getEntityImplementation().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
-                this.petPathfinder.tryMoveToXYZ(this.target.xCoord, this.target.yCoord, this.target.zCoord, moveSpeed);
+                this.petPathfinder.tryMoveToXYZ(this.target.x, this.target.y, this.target.z, moveSpeed);
             }
         }
     }
@@ -67,7 +66,7 @@ public class TaskMoveToPosition<T extends ITask> extends TaskWithParentBase<T> {
     public boolean isCompleted() {
         double reach = this.getSettler().getInteractionRangeAttribute().getAttributeValue()/2;
         return this.target == null ||
-                this.getEntitySettler().getDistanceSq(this.target.xCoord, this.target.yCoord, this.target.zCoord) <= reach * reach;
+                this.getEntitySettler().getDistanceSq(this.target.x, this.target.y, this.target.z) <= reach * reach;
     }
 
     @Override

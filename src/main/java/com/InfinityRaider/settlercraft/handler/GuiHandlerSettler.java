@@ -33,7 +33,7 @@ public class GuiHandlerSettler implements IGuiHandler {
     }
 
     private void openContainer(EntityPlayer player, ISettler settler, int id) {
-        player.openGui(SettlerCraft.instance, id, player.worldObj, settler.getEntityImplementation().getEntityId(), 0, 0);
+        player.openGui(SettlerCraft.instance, id, player.getEntityWorld(), settler.getEntityImplementation().getEntityId(), 0, 0);
     }
 
     @Override

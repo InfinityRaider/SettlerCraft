@@ -8,12 +8,15 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemRegistry implements ISettlerCraftItemRegistry {
     private static final ItemRegistry INSTANCE = new ItemRegistry();
+
+    public static final ItemStack LOGO_STACK = new ItemStack(Items.BED);
 
     public static ItemRegistry getInstance() {
         return INSTANCE;
@@ -22,8 +25,8 @@ public class ItemRegistry implements ISettlerCraftItemRegistry {
     private ItemRegistry() {
         settlerCraftTab = new CreativeTabs(Reference.MOD_ID.toLowerCase()+".creativeTab") {
             @Override
-            public Item getTabIconItem() {
-                return Items.BED;
+            public ItemStack getTabIconItem() {
+                return LOGO_STACK;
             }
         };
         settlerCraftItems = new ArrayList<>();

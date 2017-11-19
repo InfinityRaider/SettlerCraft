@@ -334,7 +334,7 @@ public class Settlement implements ISettlement {
         tag.setInteger(Names.NBT.SLOT, id);
         tag.setString(Names.NBT.FIRST_NAME, name);
         tag.setString(Names.NBT.SURNAME, this.mayorId.toString());
-        tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.xPosition, homeChunk.zPosition});
+        tag.setIntArray(Names.NBT.HOME, new int[]{homeChunk.x, homeChunk.z});
         BlockPos pos = boundingBox.getMinimumPosition();
         tag.setInteger(Names.NBT.X, pos.getX());
         tag.setInteger(Names.NBT.Y, pos.getY());

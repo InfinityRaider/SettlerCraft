@@ -288,7 +288,7 @@ public class AStar {
         if(world.getBlockState(new BlockPos(x, y -1, z)).getMaterial() == Material.AIR) {
             return false;
         }
-        int sizeX = MathHelper.ceiling_float_int(entity.width);
+        int sizeX = MathHelper.ceil(entity.width);
         int sizeY = (int) entity.height + 1;
         int i = x - sizeX / 2;
         int j = z - sizeX / 2;
@@ -342,7 +342,7 @@ public class AStar {
                     if (j > y && pathNodeType1 != PathNodeType.OPEN) {
                         AxisAlignedBB axisalignedbb = new AxisAlignedBB((double) i - d0 + 0.5D, (double) y + 0.001D, (double) k - d0 + 0.5D,
                                 (double) i + d0 + 0.5D, (double) ((float) y + entity.height), (double) k + d0 + 0.5D);
-                        if (!entity.worldObj.collidesWithAnyBlock(axisalignedbb)) {
+                        if (!entity.getEntityWorld().collidesWithAnyBlock(axisalignedbb)) {
                             pathNodeType1 = PathNodeType.OPEN;
                         }
                     }
@@ -379,9 +379,9 @@ public class AStar {
     }
 
     private boolean isPositionClear(int x, int y, int z) {
-        int sizeX = MathHelper.ceiling_float_int(entity.width);
+        int sizeX = MathHelper.ceil(entity.width);
         int sizeY = (int) entity.height + 1;
-        int sizeZ = MathHelper.ceiling_float_int(entity.width);
+        int sizeZ = MathHelper.ceil(entity.width);
         for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(x, y, z), new BlockPos(x + sizeX - 1, y + sizeY - 1, z + sizeZ - 1))) {
             Block block = world.getBlockState(blockpos).getBlock();
             if (!block.isPassable(world, blockpos)) {

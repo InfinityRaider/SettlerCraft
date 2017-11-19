@@ -76,11 +76,11 @@ public class PathNavigateGround extends PathNavigate {
     private int getPathablePosY() {
         if (this.theEntity.isInWater() && this.getCanSwim()) {
             int y = (int)this.theEntity.getEntityBoundingBox().minY;
-            Block block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), y, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
+            Block block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), y, MathHelper.floor(this.theEntity.posZ))).getBlock();
             int j = 0;
             while (block == Blocks.FLOWING_LAVA || block == Blocks.WATER) {
                 ++y;
-                block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), y, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
+                block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor(this.theEntity.posX), y, MathHelper.floor(this.theEntity.posZ))).getBlock();
                 ++j;
                 if (j > 16) {
                     return (int)this.theEntity.getEntityBoundingBox().minY;
@@ -110,7 +110,7 @@ public class PathNavigateGround extends PathNavigate {
             }
         }
         if (this.shouldAvoidSun) {
-            if (this.worldObj.canSeeSky(new BlockPos(MathHelper.floor_double(this.theEntity.posX), (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor_double(this.theEntity.posZ)))) {
+            if (this.worldObj.canSeeSky(new BlockPos(MathHelper.floor(this.theEntity.posX), (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor(this.theEntity.posZ)))) {
                 return;
             }
             for (int j = 0; j < this.currentPath.getCurrentPathLength(); ++j) {
@@ -128,10 +128,10 @@ public class PathNavigateGround extends PathNavigate {
      * pos1, pos2, entityXSize, entityYSize, entityZSize
      */
     protected boolean isDirectPathBetweenPoints(Vec3d posVec31, Vec3d posVec32, int sizeX, int sizeY, int sizeZ) {
-        int i = MathHelper.floor_double(posVec31.xCoord);
-        int j = MathHelper.floor_double(posVec31.zCoord);
-        double d0 = posVec32.xCoord - posVec31.xCoord;
-        double d1 = posVec32.zCoord - posVec31.zCoord;
+        int i = MathHelper.floor(posVec31.x);
+        int j = MathHelper.floor(posVec31.z);
+        double d0 = posVec32.x - posVec31.x;
+        double d1 = posVec32.z - posVec31.z;
         double d2 = d0 * d0 + d1 * d1;
 
         if (d2 < 1.0E-8D) {
@@ -142,15 +142,15 @@ public class PathNavigateGround extends PathNavigate {
             d1 = d1 * d3;
             sizeX = sizeX + 2;
             sizeZ = sizeZ + 2;
-            if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+            if (!this.isSafeToStandAt(i, (int)posVec31.y, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
                 return false;
             } else {
                 sizeX = sizeX - 2;
                 sizeZ = sizeZ - 2;
                 double d4 = 1.0D / Math.abs(d0);
                 double d5 = 1.0D / Math.abs(d1);
-                double d6 = (double)i - posVec31.xCoord;
-                double d7 = (double)j - posVec31.zCoord;
+                double d6 = (double)i - posVec31.x;
+                double d7 = (double)j - posVec31.z;
                 if (d0 >= 0.0D) {
                     ++d6;
                 }
@@ -161,8 +161,8 @@ public class PathNavigateGround extends PathNavigate {
                 d7 = d7 / d1;
                 int k = d0 < 0.0D ? -1 : 1;
                 int l = d1 < 0.0D ? -1 : 1;
-                int i1 = MathHelper.floor_double(posVec32.xCoord);
-                int j1 = MathHelper.floor_double(posVec32.zCoord);
+                int i1 = MathHelper.floor(posVec32.x);
+                int j1 = MathHelper.floor(posVec32.z);
                 int k1 = i1 - i;
                 int l1 = j1 - j;
                 while (k1 * k > 0 || l1 * l > 0) {
@@ -175,7 +175,7 @@ public class PathNavigateGround extends PathNavigate {
                         j += l;
                         l1 = j1 - j;
                     }
-                    if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+                    if (!this.isSafeToStandAt(i, (int)posVec31.y, j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
                         return false;
                     }
                 }
@@ -195,8 +195,8 @@ public class PathNavigateGround extends PathNavigate {
         } else {
             for (int k = i; k < i + sizeX; ++k) {
                 for (int l = j; l < j + sizeZ; ++l) {
-                    double d0 = (double)k + 0.5D - vec31.xCoord;
-                    double d1 = (double)l + 0.5D - vec31.zCoord;
+                    double d0 = (double)k + 0.5D - vec31.x;
+                    double d1 = (double)l + 0.5D - vec31.z;
                     if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D) {
                         PathNodeType pathnodetype = this.getNodeProcessor().getPathNodeType(this.worldObj, k, y - 1, l, this.theEntity, sizeX, sizeY, sizeZ, true, true);
                         if (pathnodetype == PathNodeType.WATER) {
@@ -226,11 +226,11 @@ public class PathNavigateGround extends PathNavigate {
     /**
      * Returns true if an entity does not collide with any solid blocks at the position.
      */
-    private boolean isPositionClear(int p_179692_1_, int p_179692_2_, int p_179692_3_, int p_179692_4_, int p_179692_5_, int p_179692_6_, Vec3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
-        for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(p_179692_1_, p_179692_2_, p_179692_3_), new BlockPos(p_179692_1_ + p_179692_4_ - 1, p_179692_2_ + p_179692_5_ - 1, p_179692_3_ + p_179692_6_ - 1))) {
-            double d0 = (double)blockpos.getX() + 0.5D - p_179692_7_.xCoord;
-            double d1 = (double)blockpos.getZ() + 0.5D - p_179692_7_.zCoord;
-            if (d0 * p_179692_8_ + d1 * p_179692_10_ >= 0.0D) {
+    private boolean isPositionClear(int x, int y, int z, int dX, int dY, int dZ, Vec3d dir, double arg0, double arg1) {
+        for (BlockPos blockpos : BlockPos.getAllInBox(new BlockPos(x, y, z), new BlockPos(x + dX - 1, y + dY - 1, z + dZ - 1))) {
+            double d0 = (double)blockpos.getX() + 0.5D - dir.x;
+            double d1 = (double)blockpos.getZ() + 0.5D - dir.z;
+            if (d0 * arg0 + d1 * arg1 >= 0.0D) {
                 Block block = this.worldObj.getBlockState(blockpos).getBlock();
                 if (!block.isPassable(this.worldObj, blockpos)) {
                     return false;
