@@ -1,0 +1,85 @@
+package com.infinityraide.settlercraft.handler;
+
+import com.infinityraide.settlercraft.SettlerCraft;
+import com.infinityraide.settlercraft.utility.BiomeHelper;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+public class ConfigurationHandler {
+    private static final ConfigurationHandler INSTANCE = new ConfigurationHandler();
+
+    private ConfigurationHandler() {}
+
+    public static ConfigurationHandler getInstance() {
+        return INSTANCE;
+    }
+
+    private Configuration config;
+
+    //settlers
+    public String[] settlerSpawnBiomes;
+    public int settlerSpawnWeight;
+    public float settlerFoodMultiplier;
+
+    //debug
+    public boolean debug;
+
+    //client
+    @SideOnly(Side.CLIENT)
+    public String schematicOutput;
+
+    public void init(FMLPreInitializationEvent event) {
+        if(config == null) {
+            config = new Configuration(event.getSuggestedConfigurationFile());
+        }
+        loadConfiguration();
+        if(config.hasChanged()) {
+            config.save();
+        }
+        SettlerCraft.instance.getLogger().debug("Configuration Loaded");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void initClientConfigs(FMLPreInitializationEvent event) {
+        if(config == null) {
+            config = new Configuration(event.getSuggestedConfigurationFile());
+        }
+        loadClientConfiguration(event);
+        if(config.hasChanged()) {
+            config.save();
+        }
+        SettlerCraft.instance.getLogger().debug("Client configuration Loaded");
+    }
+
+    private void loadConfiguration() {
+        //settlers
+        settlerSpawnBiomes = config.getStringList("settler spawn biomes", Categories.SETTLERS.getName(), BiomeHelper.getInstance().getBiomeList(), "Biomes where settlers can spawn");
+        settlerSpawnWeight = config.getInt("settler spawn weight", Categories.SETTLERS.getName(), 1, 1, 20, "The spawn weight for spawning settlers in the world");
+        settlerFoodMultiplier = config.getFloat("settler food multiplier", Categories.SETTLERS.getName(), 2.0F, 0.5F, 5F, "The multiplier used on a food's saturation to replenish a settler's hunger level");
+        //debug
+        debug = config.getBoolean("debug", Categories.DEBUG.getName(), false, "Set to true if you wish to enable debug mode");
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void loadClientConfiguration(FMLPreInitializationEvent event) {
+        schematicOutput = config.getString("Schematic output file", Categories.CLIENT.getName(), event.getModConfigurationDirectory().getAbsolutePath() + "\\schematics\\", "The location to the file where schematics will be saved");
+    }
+
+    public enum Categories {
+        SETTLERS("settlers"),
+        DEBUG("debug"),
+        CLIENT("client");
+
+        private final String name;
+
+        Categories(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+}
